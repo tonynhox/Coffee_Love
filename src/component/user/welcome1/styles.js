@@ -15,7 +15,7 @@ export const styles = StyleSheet.create({
         color: "black",
         textAlign: "right",
         fontFamily: "Inter",
-        fontsize: 18,
+        fontSize: 18,
         fontStyle: "normal",
         lineHeight: 21,
         fontWeight: "700",
