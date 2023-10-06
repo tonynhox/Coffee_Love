@@ -1,16 +1,17 @@
-import { View, Text, Image, Pressable, TextInput } from 'react-native'
+import { View, Text, Image, Pressable, TextInput, ScrollView } from 'react-native'
 import React from 'react'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { styles } from './styles'
-const Login = () => {
+
+const SignUp = () => {
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
 
       <View style={styles.container2}>
 
         <View style={styles.hd}>
           <Icon name='chevron-left' style={styles.icon} />
-          <Text style={styles.thd}>Đăng Nhập</Text>
+          <Text style={styles.thd}>Đăng Ký</Text>
           <View></View>
         </View>
 
@@ -21,7 +22,13 @@ const Login = () => {
 
       <View style={styles.v3}>
         <View>
-          <Text style={styles.t1}>Số Điện Thoại</Text>
+          <Text style={styles.t1}>Họ Tên</Text>
+          <TextInput placeholder='Jane Cooper'
+            style={styles.tip1} />
+        </View>
+
+        <View>
+          <Text style={styles.t2}>Số Điện Thoại</Text>
           <TextInput placeholder='0783800000'
             style={styles.tip1} />
         </View>
@@ -39,7 +46,7 @@ const Login = () => {
 
         <Pressable style={styles.btn} >
           <Text style={styles.txtbtn} >
-            Đăng Nhập </Text>
+            Đăng Ký </Text>
         </Pressable>
 
         <Text style={styles.t4}>Hoặc</Text>
@@ -51,16 +58,16 @@ const Login = () => {
         </View>
 
         <View style={styles.txtlg} >
-                    <Text style={styles.t5} >Bạn chưa có tài khoản? </Text>
+                    <Text style={styles.t5} >Bạn đã có tài khoản? </Text>
                     <Pressable>
-                        <Text style={styles.tlg} > Đăng ký</Text>
+                        <Text style={styles.tlg} > Đăng nhập</Text>
                     </Pressable>
                 </View>
 
       </View>
 
-    </View>
+    </ScrollView>
   )
 }
 
-export default Login
+export default SignUp

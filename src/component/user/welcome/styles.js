@@ -46,7 +46,7 @@ export const styles = StyleSheet.create({
         top: 210,
         width: "100%",
         height: 34,
-        color: "#291505",
+        color: '#000',
         textAlign: 'center',
         fontFamily: "Inter",
         fontStyle: "normal",
@@ -77,6 +77,7 @@ export const styles = StyleSheet.create({
         fontStyle: "normal",
         lineHeight: 21,
         letterSpacing: 0.16,
+        fontWeight: "700"
     },
     
 })
