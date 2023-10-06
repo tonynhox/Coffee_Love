@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image} from 'react-native'
+import { StyleSheet, Text, View, Image,Pressable} from 'react-native'
 import React from 'react'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { styles } from './styles'
