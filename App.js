@@ -8,15 +8,15 @@ import Favourite from './src/component/main/Favourite/Favourite'
 import Cart from './src/component/main/Cart/Cart'
 import Notification from './src/component/main/Notification/Notification'
 import Forgotpassword from './src/component/main/Forgotpassword/Forgotpassword'
-
-
-
-
+import Otp from './src/component/main/Otp/Otp'
+import Newpassword from './src/component/main/Newpassword/Newpassword'
+import Changepassword from './src/component/main/Changepassword/Changepassword'
+import Profile from './src/component/main/profile/Profile'
 
 const App = () => {
   return (
     <View>
-      <Forgotpassword/>
+      <Profile/>
     </View>
   )
 }
