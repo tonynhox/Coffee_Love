@@ -26,7 +26,7 @@ export const myAddressStyle = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderColor: '#9F580A',
-    borderWidth: 0.8,
+    borderWidth: 1,
     width: '90%',
     height: 50,
     bottom: 20,

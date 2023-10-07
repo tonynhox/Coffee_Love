@@ -3,11 +3,14 @@ import React from 'react';
 import Detail from './src/component/main/product/Detail';
 import EditProfile from './src/component/main/profile/EditProfile';
 import MyAddress from './src/component/main/profile/MyAddress';
+import AddAddress from './src/component/main/profile/AddAddress';
+import ChoXacNhanItem from './src/component/main/order/ChoXacNhanItem';
+import OrderView from './src/component/main/order/OrderView';
 
 const App = () => {
   return (
     <View style={styles.container}>
-      <MyAddress />
+      <OrderView />
     </View>
   );
 };

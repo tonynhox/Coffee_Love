@@ -1,6 +1,6 @@
 import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
-import {myAddressStyle} from './styles/myProfileStyle';
+import {myAddressStyle} from './styles/myAddressStyle';
 import Icon from 'react-native-vector-icons/FontAwesome6';
 
 const MyAddress = () => {

@@ -2,6 +2,7 @@ import {StyleSheet, Text, View, Image, TextInput, TouchableOpacity} from 'react-
 import React from 'react';
 import {editProfileStyle} from './styles/editProfileStyle';
 import Icon from 'react-native-vector-icons/FontAwesome6';
+import { BACKGROUND_BUTTON_COLOR } from '../product/contanst';
 
 const EditProfile = () => {
   return (
@@ -42,7 +43,7 @@ const EditProfile = () => {
           <Icon
             name="envelope"
             size={20}
-            color="#999"
+            color={BACKGROUND_BUTTON_COLOR}
             style={editProfileStyle.icon}
           />
         </View>
