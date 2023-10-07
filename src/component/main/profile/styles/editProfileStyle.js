@@ -18,7 +18,7 @@ export const editProfileStyle = StyleSheet.create({
     width: '95%',
     flexDirection: 'row',
     alignItems: 'center',
-    borderColor: '#999',
+    borderColor: BACKGROUND_BUTTON_COLOR,
     borderWidth: 1,
     borderRadius: 8,
     paddingHorizontal: 10,

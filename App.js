@@ -11,7 +11,7 @@ import Payment from './src/component/main/home/card/Payment';
 const App = () => {
   return (
     <View style={styles.container}>
-      <Payment />
+      <OrderView />
     </View>
   );
 };
