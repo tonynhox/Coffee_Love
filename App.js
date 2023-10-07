@@ -6,11 +6,12 @@ import MyAddress from './src/component/main/profile/MyAddress';
 import AddAddress from './src/component/main/profile/AddAddress';
 import ChoXacNhanItem from './src/component/main/order/ChoXacNhanItem';
 import OrderView from './src/component/main/order/OrderView';
+import Payment from './src/component/main/home/card/Payment';
 
 const App = () => {
   return (
     <View style={styles.container}>
-      <OrderView />
+      <Payment />
     </View>
   );
 };
