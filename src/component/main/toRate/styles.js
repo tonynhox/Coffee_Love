@@ -53,7 +53,7 @@ export const styles = StyleSheet.create({
         marginVertical:8,
         marginHorizontal:14,
         borderRadius:10,
-        padding:15,
+        padding:16,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
