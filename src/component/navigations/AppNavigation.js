@@ -1,21 +1,38 @@
-// import React, { useContext, useEffect } from 'react';
-// import { NavigationContainer } from '@react-navigation/native';
-// import UserNavigation from '../user/navigations/UserNavigation';
-// import MainNavigation from '../main/navigations/MainNavigation';
-// import { useSelector } from 'react-redux';
-// import { SafeAreaView, StatusBar, View } from 'react-native';
+import React from 'react';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { NavigationContainer } from '@react-navigation/native';
 
-// const AppNavigation = () => {
-//   // Get the user's login status from Redux state
-//   const isLoggedIn = useSelector(state => state.users.isLogin);
+import MainNavigation from '../main/navigations/MainNavigation';
+import UserNavigation from '../user/navigations/UserNavigation';
+const Stack = createNativeStackNavigator();
 
-//   // Set up the translucent StatusBar
-//   useEffect(() => {
-//     StatusBar.setTranslucent(true);
-//     StatusBar.setBackgroundColor('transparent');
-//   }, []);
+const AppNavigation = () => {
+  return (
+    <NavigationContainer>
+        <Stack.Navigator
+        screenOptions={{
+            headerShown: false,
+        }}
+        >
+            <Stack.Screen name="UserNavigation" component={UserNavigation}           
+                options={{
+                    presentation: 'modal',
+                    animationTypeForReplace: 'push',
+                    animation:'slide_from_right'
+                    }}
+            />
+            <Stack.Screen name="MainNavigation" component={MainNavigation}           
+                options={{
+                    presentation: 'modal',
+                    animationTypeForReplace: 'push',
+                    animation:'slide_from_right'
+                    }}
+            />
+            
 
-//   return isLoggedIn ? <MainNavigation /> : <UserNavigation />;
-// };
+        </Stack.Navigator>
+    </NavigationContainer>
+  );
+};
 
-// export default AppNavigation;
+export default AppNavigation;
