@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native'
+import { View, Text, StyleSheet } from 'react-native'
 import React from 'react'
 import WheelOfFortune from './src/component/main/wheelOfFortune/WheelOfFortune'
 
@@ -8,7 +8,13 @@ const App = () => {
       {/* <Text>App</Text> */}
       <WheelOfFortune />
     </View>
-  )
-}
+  );
+};
 
-export default App
+export default App;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
