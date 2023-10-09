@@ -25,9 +25,12 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import {Provider} from 'react-redux';
 import AppNavigation from './src/component/navigations/AppNavigation';
 import {store} from './src/redux/store';
+import SignUp from './src/component/user/SignUp/SignUp';
 
 const App = () => {
   return (
+    // <SignUp/>
+
     <Provider store={store}>
       <AppNavigation />
     </Provider>

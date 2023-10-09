@@ -1,209 +1,103 @@
 import { StyleSheet } from 'react-native'
-
+import {Dimensions} from 'react-native'
 export const styles = StyleSheet.create({
-    container: {
-        height: "100%",
-        backgroundColor: "#A78964",
+    marginTopInput:{
+        marginTop:20
     },
-    container2: {
-        padding: 24,
-
-    },
-    hd: {
-        display: "flex",
-        justifyContent: "space-between",
-        flexDirection: 'row'
-    },
-    thd: {
-        display: "flex",
-        width: 175,
-        height: 35,
-        flexDirection: "column",
-        justifyContent: "center",
-        color: '#000',
-        textAlign: "center",
-        fontFamily: "Inter",
-        fontSize: 30,
-        fontStyle: "normal",
-        fontWeight: "700",
-        lineHeight: 35,
-        letterSpacing: 0.16,
-    },
-    icon: {
-        fontSize: 35,
-        color: 'black',
-    },
-    img: {
-        width: 235,
-        height: 206,
-        alignSelf: "center",
-        marginTop: 27,
-    },
-    v3: {
-        width: "100%",
-        height: 638,
-        flexShrink: 0,
-        borderRadius: 40,
-        backgroundColor: '#E9C08E',
-        padding: 24,
-    },
-    t1: {
-        marginTop: 42,
-        display: "flex",
-        width: 139,
-        height: 35,
-        flexDirection: "column",
-        justifyContent: "center",
-        flexShrink: 0,
-        color: '#000',
-        fontFamily: "Inter",
-        fontSize: 20,
-        fontStyle: "normal",
-        fontWeight: "700",
-        lineHeight: 21,
-        letterSpacing: 0.16,
-    },
-    tip1: {
-        padding: 10,
-        display: "flex",
-        width: "100%",
-        height: 40,
-        flexDirection: "column",
-        justifyContent: "center",
-        color: "#5B5B5B",
-        fontFamily: "Inter",
+    tlg:{
+        color:'#844800',
         fontSize: 16,
-        fontStyle: "normal",
-        fontWeight: "400",
-        lineHeight: 21,
-        letterSpacing: 0.16,
-        backgroundColor: '#FFFFFF',
-        borderRadius: 10,
+        fontWeight:'700',
+    
+    },
+    t5:{
+        color:'#000000',
+        fontSize: 16,
+        fontWeight:'700',
+    },
+    txtlg:{
+        flexDirection:'row',
+        justifyContent:'center',
+        marginTop: 10,
+    },
+    icon:{
+        fontSize: 40,
+    },
 
+    vic:{
+        flexDirection:'row',
+        justifyContent:'space-evenly',
+        marginTop: 10,
+        // paddingHorizontal: 50,
     },
-    vp: {
-        position: 'relative'
+    t4:{
+        color:'#000',
+        fontSize: 16,
+        fontWeight:'700',
+        textAlign:'center',
+        marginTop: 10,
     },
-    t2: {
-        marginTop: 23,
-        display: "flex",
-        width: 139,
-        height: 35,
-        flexDirection: "column",
-        justifyContent: "center",
-        flexShrink: 0,
-        color: '#000',
-        fontFamily: "Inter",
-        fontSize: 20,
-        fontStyle: "normal",
-        fontWeight: "700",
-        lineHeight: 21,
-        letterSpacing: 0.16,
-    },
-    icon2: {
-        display: "flex",
-        position: 'absolute',
-        alignSelf: "flex-end",
-        margin: 5,
-        right: 5,
-        fontSize: 30,
-    },
-    t3: {
-        display: "flex",
-        width: 127,
-        height: 25,
-        flexDirection: "column",
-        alignSelf: "flex-end",
-        flexShrink: 0,
-        color: "#263238",
-        textAlign: "center",
-        fontFamily: "Inter",
-        fontSize: 13,
-        fontStyle: "normal",
-        fontWeight: "700",
-        lineHeight: 24,
-        letterSpacing: 0.16,
-    },
-    btn: {
-        backgroundColor: "#D97700",
-        display: "flex",
-        width: 296,
-        height: 70,
-        flexDirection: "column",
-        justifyContent: "center",
-        borderRadius: 10,
-        alignSelf: "center",
-        marginTop: 37,
-    },
-    txtbtn: {
-        color: "#FDFDFD",
-        textAlign: "center",
-        fontFamily: "Inter",
-        fontSize: 20,
-        fontStyle: "normal",
-        fontWeight: "700",
-        lineHeight: 21,
-        letterSpacing: 0.16,
-    },
-    t4: {
-        margin: 10,
-        color: '#000',
-        textAlign: "center",
-        fontFamily: "Inter",
-        fontSize: 20,
-        fontStyle: "normal",
-        fontWeight: "700",
-        lineHeight: 21,
-        letterSpacing: 0.16,
-    },
-    vic: {
-        display: "flex",
-        justifyContent: "space-around",
-        flexDirection: 'row',
-        width: "70%",
-        alignSelf:"center",
-    },
-    icongg: {
-        fontSize: 35,
-        flexShrink: 0,
-        color:"red"
-    },
-    iconap: {
-        fontSize: 35,
-        flexShrink: 0,
-        color:'#000'
-    },
-    iconfb: {
-        fontSize: 35,
-        flexShrink: 0,
-        color:"#1877F2"
-    },
-    txtlg: {
-        display: "flex",
-        justifyContent: "center",
-        flexDirection: 'row',
-        marginTop: 15,
-
-    },
-    t5: {
-        color: '#000',
-        textAlign: "center",
-        fontFamily: "Inter",
+    txtbtn:{
+        
+        color:'#ffffff',
         fontSize: 18,
-        fontStyle: "normal",
-        fontWeight: "700",
-        lineHeight: 21,
-        letterSpacing: 0.16,
+        fontWeight:'700',
     },
-    tlg: {
-        color: "#733F00",
-        fontFamily: "Inter",
-        fontSize: 18,
-        fontStyle: "normal",
-        fontWeight: "700",
-        lineHeight: 21,
-        letterSpacing: 0.16,
+    btn:{
+        width:'100%',
+        backgroundColor:'#C67C4E',
+        height:50,
+        alignItems:'center',
+        justifyContent:'center',
+        borderRadius:10,
+        marginTop: 30,
     },
+    iconEyes:{
+        position:'absolute',
+        top:10,
+        right:8,
 
+    },
+    icon2:{
+        fontSize: 20,
+        color:'#000000',
+
+    },
+    tip1:{
+        backgroundColor:'#ffffff',
+        borderRadius: 10,
+        height:30,
+        textAlignVertical:'center',
+        justifyContent: 'center',
+        fontSize: 16,
+        paddingVertical:0,
+        paddingHorizontal: 8,
+        marginTop: 6,
+        marginLeft: 4,
+    },
+    t1:{
+        color:'#000000',
+        fontSize: 18,
+        fontWeight:'700',
+    },
+    v3:{
+        backgroundColor:'#E9C08E',
+        paddingHorizontal: 50,
+        paddingTop: 40,
+        borderTopLeftRadius:45,
+        borderTopRightRadius:45,
+        flex:1,
+    },
+    img:{
+        width: 190,
+        height: 190,
+        resizeMode: 'cover',
+        alignSelf: 'center',
+        marginTop: 10,
+    },
+    container:{
+        flex:1,
+        backgroundColor:'#A98B67',
+    }
 })
 
