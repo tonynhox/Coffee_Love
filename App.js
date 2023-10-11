@@ -29,13 +29,14 @@ import SignUp from './src/component/user/SignUp/SignUp';
 import TheoDoiDonHang from './src/component/main/newOrderDetail/TheoDoiDonHang';
 import OrderDetail from './src/component/main/newOrderDetail/OrderDetail';
 import RenderOrderItem from './src/component/main/newOrderDetail/RenderOrderItem';
+import ProductDetail from './src/component/main/newProduct/ProductDetail';
 
 const App = () => {
   return (
     // <SignUp/>
 
     <Provider store={store}>
-      < OrderDetail/>
+      < ProductDetail/>
     </Provider>
   );
 };
