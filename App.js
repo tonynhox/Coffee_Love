@@ -11,7 +11,7 @@ import ListPayment from './src/component/main/listPayment/ListPayment';
 import Newpassword from './src/component/main/Newpassword/Newpassword';
 import Notification from './src/component/main/Notification/Notification';
 import OrderView from './src/component/main/order/OrderView';
-import OrdersDetail from './src/component/main/ordersDetail/OrdersDetail';
+
 import Otp from './src/component/main/Otp/Otp';
 import Profile from './src/component/main/profile/Profile';
 import AddAddress from './src/component/main/profile/AddAddress';
@@ -26,13 +26,16 @@ import {Provider} from 'react-redux';
 import AppNavigation from './src/component/navigations/AppNavigation';
 import {store} from './src/redux/store';
 import SignUp from './src/component/user/SignUp/SignUp';
+import TheoDoiDonHang from './src/component/main/newOrderDetail/TheoDoiDonHang';
+import OrderDetail from './src/component/main/newOrderDetail/OrderDetail';
+import RenderOrderItem from './src/component/main/newOrderDetail/RenderOrderItem';
 
 const App = () => {
   return (
     // <SignUp/>
 
     <Provider store={store}>
-      <AppNavigation />
+      < OrderDetail/>
     </Provider>
   );
 };
