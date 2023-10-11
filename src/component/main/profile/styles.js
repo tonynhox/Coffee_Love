@@ -2,6 +2,7 @@ import { StyleSheet, Text, View } from 'react-native'
 
 export const styles = StyleSheet.create({
   container: {
+    flex:1,
     padding: 24,
     backgroundColor: '#FFFFF',
   },
@@ -58,7 +59,7 @@ export const styles = StyleSheet.create({
     fontWeight: "700",
     lineHeight: 18,
     marginLeft: 10,
-    marginTop: 10,
+    paddingVertical:13
   },
   t1: {
     marginTop: 5,

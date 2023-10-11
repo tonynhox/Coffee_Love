@@ -3,6 +3,7 @@ import React from 'react'
 
 export const styles = StyleSheet.create({
     container: {
+        flex:1,
         padding: 24,
         backgroundColor: '#FFFFF',
     },
@@ -48,19 +49,18 @@ export const styles = StyleSheet.create({
         display: "flex",
         width: 50,
         height: 50,
-        padding: 15,
+        padding: 0,
         justifyContent: "center",
         alignItems: "center",
-        borderRadius: 33.1,
+        borderRadius: 33,
         borderWidth: 1,
         borderStyle: 'solid',
         borderColor:'#000',
         color: '#000',
         fontFamily: "Inter",
-        fontSize: 15.888,
+        fontSize: 15,
         fontStyle: "normal",
-        fontSeight: "600",
-        lineSeight: "normal",
+        fontWeight: "600",
         textAlign: "center",
 
     },
@@ -75,6 +75,7 @@ export const styles = StyleSheet.create({
         justifyContent: "space-around",
         flexDirection: 'row',
         alignSelf: "center",
+        color:'#000'
     },
     task:{
         color: 'rgba(0, 0, 0, 0.50)',

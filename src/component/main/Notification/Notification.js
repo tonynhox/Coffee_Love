@@ -50,6 +50,7 @@ const Notification = () => {
             <FlatList
                 data={data}
                 renderItem={data}
+                style={{flex:1,}}
             />
 
         </View>

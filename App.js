@@ -26,10 +26,11 @@ import {Provider} from 'react-redux';
 import AppNavigation from './src/component/navigations/AppNavigation';
 import {store} from './src/redux/store';
 import SignUp from './src/component/user/SignUp/SignUp';
+import Login from './src/component/user/login/Login';
 
 const App = () => {
   return (
-    <SignUp/>
+    <Otp/>
 
     // <Provider store={store}>
     //   <AppNavigation />

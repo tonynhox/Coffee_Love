@@ -35,11 +35,13 @@ export const styles = StyleSheet.create({
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
-            height: 0,
+            height: 2,
         },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5,
+        shadowOpacity: 0.23,
+        shadowRadius: 2.62,
+
+        elevation: 4,
+        backgroundColor: '#fff',
 
     },
     vtit: {
@@ -84,9 +86,9 @@ export const styles = StyleSheet.create({
         alignSelf: "center",
     },
     icon: {
-        marginTop:10,
+        marginTop: 10,
         marginLeft: 6,
-        marginRight:6,
+        marginRight: 6,
         fontSize: 30,
         flexShrink: 0,
         color: '#000'
@@ -110,6 +112,6 @@ export const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#000',
         marginTop: 15,
-        
+
     }
 })

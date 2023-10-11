@@ -3,7 +3,7 @@ import React from 'react'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { styles } from './styles'
 import Header from '../../../utils/Header'
-const Login = ({navigation}) => {
+const Login = ({ navigation }) => {
 
   const [showPassword, setShowPassword] = React.useState(false)
 
@@ -17,14 +17,14 @@ const Login = ({navigation}) => {
           <Text style={styles.thd}>Đăng Nhập</Text>
           <View></View>
         </View> */}
-        <Header
+        {/* <Header
           headerText={'Đăng Nhập'}
           headerStyle={{fontSize:28,fontWeight:'bold'}}
           rightComponent={
             <Text></Text>
           }
         
-        />
+        /> */}
 
         <Image source={require('../../../assets/images/lgimg.png')}
           style={styles.img} />
@@ -32,35 +32,37 @@ const Login = ({navigation}) => {
       </View>
 
       <View style={styles.v3}>
-        <View>
+        <View style={styles.marginTopInput}>
           <Text style={styles.t1}>Số Điện Thoại</Text>
           <TextInput placeholder='0783800000'
             style={styles.tip1} />
         </View>
 
-        <View>
+        <View style={styles.marginTopInput}>
           <Text style={styles.t1}>Mật Khẩu </Text>
           <View style={styles.vp}>
-            <TextInput placeholder='.............'
+            <TextInput
+              secureTextEntry={!showPassword}
+              placeholder='.............'
               style={styles.tip1} />
-            <TouchableOpacity 
-                style={styles.iconEyes}
-                onPress={() => setShowPassword(!showPassword)}>
-                <Icon 
-                name={showPassword ? 'eye' : 'eye-off'} 
+            <TouchableOpacity
+              style={styles.iconEyes}
+              onPress={() => setShowPassword(!showPassword)}>
+              <Icon
+                name={showPassword ? 'eye' : 'eye-off'}
                 style={styles.icon2} />
-              </TouchableOpacity>
+            </TouchableOpacity>
           </View>
         </View>
 
-          <TouchableOpacity
-            onPress={() => {navigation.navigate('ForgotPassword')}}
-          >
-            <Text style={styles.t3}>Quên mật khẩu ?</Text>
-          </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => { navigation.navigate('ForgotPassword') }}
+        >
+          <Text style={styles.t3}>Quên mật khẩu ?</Text>
+        </TouchableOpacity>
 
-        <TouchableOpacity 
-          onPress={() => {navigation.navigate('MainNavigation')}}
+        <TouchableOpacity
+          onPress={() => { navigation.navigate('MainNavigation') }}
           style={styles.btn} >
           <Text style={styles.txtbtn} >
             Đăng Nhập </Text>
@@ -69,17 +71,17 @@ const Login = ({navigation}) => {
         <Text style={styles.t4}>Hoặc</Text>
 
         <View style={styles.vic}>
-          <Icon name='google' style={[styles.icon,{color:'red'}]} />
-          <Icon name='apple' style={[styles.icon,{color:'#000'}]} />
-          <Icon name='facebook' style={[styles.icon,{color:'blue'}]} />
+          <Icon name='google' style={[styles.icon, { color: 'red' }]} />
+          <Icon name='apple' style={[styles.icon, { color: '#000' }]} />
+          <Icon name='facebook' style={[styles.icon, { color: 'blue' }]} />
         </View>
 
         <View style={styles.txtlg} >
-                    <Text style={styles.t5} >Bạn chưa có tài khoản? </Text>
-                    <Pressable>
-                        <Text style={styles.tlg} > Đăng ký</Text>
-                    </Pressable>
-                </View>
+          <Text style={styles.t5} >Bạn chưa có tài khoản? </Text>
+          <Pressable>
+            <Text style={styles.tlg} > Đăng ký</Text>
+          </Pressable>
+        </View>
 
       </View>
 
