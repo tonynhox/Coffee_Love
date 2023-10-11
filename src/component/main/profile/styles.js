@@ -86,7 +86,7 @@ export const styles = StyleSheet.create({
     color: 'black',
   },
   icon2: {
-    fontSize: 41,
+    fontSize: 37,
     color: 'black',
   },
   txt: {

@@ -32,9 +32,14 @@ export const styles = StyleSheet.create({
         padding: 24,
         width: "100%",
         height: 153,
-        borderRadius: 10,
-        borderWidth: 1,
-        borderColor: '#4E4B66',
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 0,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
 
     },
     vtit: {

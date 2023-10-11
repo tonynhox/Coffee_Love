@@ -14,16 +14,16 @@ const Otp = () => {
 
             <Text style={styles.tem}>Nhập OTP </Text>
             <View style={styles.containernum}>
-                <TextInput placeholder='1'
+                <TextInput 
                     style={styles.numOtp} />
 
-                <TextInput placeholder='1'
+                <TextInput 
                     style={styles.numOtp} />
 
-                <TextInput placeholder='1'
+                <TextInput 
                     style={styles.numOtp} />
 
-                <TextInput placeholder='1'
+                <TextInput 
                     style={styles.numOtp} />
             </View>
 

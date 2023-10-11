@@ -29,11 +29,11 @@ import SignUp from './src/component/user/SignUp/SignUp';
 
 const App = () => {
   return (
-    // <SignUp/>
+    <SignUp/>
 
-    <Provider store={store}>
-      <AppNavigation />
-    </Provider>
+    // <Provider store={store}>
+    //   <AppNavigation />
+    // </Provider>
   );
 };
 

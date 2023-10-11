@@ -4,10 +4,13 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { styles } from './styles'
 import Header from '../../../utils/Header'
 const Login = ({navigation}) => {
+
+  const [showPassword, setShowPassword] = React.useState(false)
+
   return (
     <View style={styles.container}>
 
-      <View style={styles.container2}>
+      <View >
 
         {/* <View style={styles.hd}>
           <Icon name='chevron-left' style={styles.icon} />
@@ -36,11 +39,17 @@ const Login = ({navigation}) => {
         </View>
 
         <View>
-          <Text style={styles.t2}>Mật Khẩu </Text>
+          <Text style={styles.t1}>Mật Khẩu </Text>
           <View style={styles.vp}>
             <TextInput placeholder='.............'
               style={styles.tip1} />
-            <Icon name='eye' style={styles.icon2} />
+            <TouchableOpacity 
+                style={styles.iconEyes}
+                onPress={() => setShowPassword(!showPassword)}>
+                <Icon 
+                name={showPassword ? 'eye' : 'eye-off'} 
+                style={styles.icon2} />
+              </TouchableOpacity>
           </View>
         </View>
 
@@ -60,9 +69,9 @@ const Login = ({navigation}) => {
         <Text style={styles.t4}>Hoặc</Text>
 
         <View style={styles.vic}>
-          <Icon name='google' style={styles.icongg} />
-          <Icon name='apple' style={styles.iconap} />
-          <Icon name='facebook' style={styles.iconfb} />
+          <Icon name='google' style={[styles.icon,{color:'red'}]} />
+          <Icon name='apple' style={[styles.icon,{color:'#000'}]} />
+          <Icon name='facebook' style={[styles.icon,{color:'blue'}]} />
         </View>
 
         <View style={styles.txtlg} >
