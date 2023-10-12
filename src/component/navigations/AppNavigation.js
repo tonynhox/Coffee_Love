@@ -4,6 +4,8 @@ import { NavigationContainer } from '@react-navigation/native';
 
 import MainNavigation from '../main/navigations/MainNavigation';
 import UserNavigation from '../user/navigations/UserNavigation';
+import OrderNavigation from '../main/order/navigation/OderNavigation';
+import OrderDetail from '../main/newOrderDetail/OrderDetail';
 const Stack = createNativeStackNavigator();
 
 const AppNavigation = () => {
@@ -29,8 +31,22 @@ const AppNavigation = () => {
                     animation:'slide_from_right'
                     }}
             />
-            
 
+            
+            <Stack.Screen name="OrderNavigations" component={OrderNavigation}           
+                options={{
+                    presentation: 'modal',
+                    // animationTypeForReplace: 'push',
+                    animation:'fade'
+                    }}
+            />
+            <Stack.Screen name="OrderDetail" component={OrderDetail}           
+                options={{
+                    presentation: 'modal',
+                    // animationTypeForReplace: 'push',
+                    animation:'fade'
+                    }}
+            />
         </Stack.Navigator>
     </NavigationContainer>
   );

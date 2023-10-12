@@ -45,6 +45,8 @@ const MainNavigation = () => {
               animation:'slide_from_right'
               }}
         />
+
+
         
 
     </Tab.Navigator>

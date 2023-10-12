@@ -27,46 +27,44 @@ import AppNavigation from './src/component/navigations/AppNavigation';
 import {store} from './src/redux/store';
 import SignUp from './src/component/user/SignUp/SignUp';
 import Login from './src/component/user/login/Login';
-
-const App = () => {
-  return (
-    // <SignUp/>
-    // <Home/>
-    <Provider store={store}>
-      <AppNavigation />
-      {/* <Profile/> */}
-    </Provider>
-
-    // <WheelOfFortune/>
-  );
-};
+import ChoGiaoHangView from './src/component/main/order/ChoGiaoHangView';
+import DaGiaoItem from './src/component/main/order/DaGiaoItem';
+import ProductDetail from './src/component/main/newProduct/ProductDetail';
 
 // const App = () => {
 //   return (
-//     <View style={{flex:1}}>
-//       {/* <Cart/> */}
-//       {/* <Changepassword/> */}
-//       {/* <Favourite/> */}
-//       {/* <Forgotpassword/> */}
-//       {/* <Home/> */}
-//       {/* <Payment/> */}
-//       {/* <ListPayment/> */}
-//       {/* <Newpassword/> */}
-//       {/* <Notification/> */}
-//       {/* <OrderView/> */}
-//       {/* <OrdersDetail/> */}
-//       {/* <Detail/> */}
 
-//       {/* <Otp/> */}
+//     <Provider store={store}>
+//       <AppNavigation />
 //       {/* <Profile/> */}
-//       {/* <AddAddress/> */}
-//       {/* <MyAddress/> */}
-//       {/* <EditProfile/> */}
-//       {/* <ToRate/> */}
-//       <Home/>
-//     </View>
+//     </Provider>
+
+//     // <WheelOfFortune/>
 //   );
 // };
+
+const App = () => {
+  return (
+    <View style={{flex:1}}>
+      {/* <Cart/> */}
+      {/* <Changepassword/> */}
+      {/* <Favourite/> */}
+      {/* <Payment/> */}
+      {/* <ListPayment/> */}
+      {/* <Newpassword/> */}
+      {/* <Notification/> */}
+      {/* <OrderView/> */}
+      {/* <ProductDetail/> */}
+      {/* <AddAddress/> */}
+      {/* <MyAddress/> */}
+      {/* <EditProfile/> */}
+      {/* <ToRate/> */}
+
+      {/* <ChoGiaoHangView/> */}
+      {/* <DaGiaoItem/> */}
+    </View>
+  );
+};
 
 export default App;
 

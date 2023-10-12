@@ -8,10 +8,14 @@ import {
 } from 'react-native';
 import React from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome6';
+import { useNavigation } from '@react-navigation/native';
 
-const ChoXacNhanItem = ({item, id}) => {
+const ChoXacNhanItem = ({item, id,}) => {
+  // const navigation = useNavigation();
   return (
-    <SafeAreaView style={styles.container}>
+    <TouchableOpacity 
+      // onPress={() => navigation.navigate('OrderDetail')}
+      style={styles.container}>
       {/* Hinh anh, ten, so luong, size, dia chi */}
       <View style={styles.imageAndDescribeContainer}>
         <Image
@@ -75,7 +79,7 @@ const ChoXacNhanItem = ({item, id}) => {
           <Text style={styles.textHuyDon}>Hủy đơn</Text>
         </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </TouchableOpacity>
   );
 };
 

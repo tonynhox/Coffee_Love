@@ -1,8 +1,9 @@
-import {StyleSheet, Text, View, FlatList} from 'react-native';
+import {StyleSheet, Text, View, FlatList,ScrollViewComponent} from 'react-native';
 import React from 'react';
 import RenderOrderItem from './RenderOrderItem';
 import TheoDoiDonHang from './TheoDoiDonHang';
 import {BACKGROUND_BUTTON_COLOR} from '../product/contanst';
+import { ScrollView } from 'react-native-virtualized-view';
 
 const OrderDetail = () => {
   const donhang = [
@@ -14,7 +15,8 @@ const OrderDetail = () => {
     {id: 33, tensanpham: 'Americano', soluong: 1, size: 'S', gia: 100000},
   ];
   return (
-    <View style={styles.container}>
+
+    <ScrollView style={styles.container}>
       <View style={styles.theoDoiDonHangContainer}>
         <TheoDoiDonHang />
       </View>
@@ -44,7 +46,7 @@ const OrderDetail = () => {
       <View>
         <Text style={styles.textDonHang}>Đơn hàng</Text>
         <FlatList
-          height={210}
+          // height={210}
           data={donhang}
           renderItem={({item}) => <RenderOrderItem item={item} />}
           keyExtractor={item => item.id}
@@ -99,7 +101,8 @@ const OrderDetail = () => {
           <Text style={styles.textLoiNhan}>Lời nhắn của khách hàng</Text>
         </View>
       </View>
-    </View>
+    </ScrollView>
+
   );
 };
 
@@ -110,8 +113,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     flexDirection: 'column',
-    justifyContent: 'flex-start',
-    paddingHorizontal: 10,
+    // justifyContent: 'flex-start',
+    paddingHorizontal: 12,
   },
   thongTinDiaChiContainer: {
     flexDirection: 'column',
