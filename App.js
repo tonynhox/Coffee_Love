@@ -11,7 +11,7 @@ import ListPayment from './src/component/main/listPayment/ListPayment';
 import Newpassword from './src/component/main/Newpassword/Newpassword';
 import Notification from './src/component/main/Notification/Notification';
 import OrderView from './src/component/main/order/OrderView';
-import OrdersDetail from './src/component/main/ordersDetail/OrdersDetail';
+
 import Otp from './src/component/main/Otp/Otp';
 import Profile from './src/component/main/profile/Profile';
 import AddAddress from './src/component/main/profile/AddAddress';
