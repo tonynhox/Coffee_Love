@@ -15,10 +15,10 @@ function* SignUp(action){
     const response = yield call(() => instance.post('users/dang-ky-username', payload));
     
 
-    if(response.data.result){
+    if(response.data.trang_thai){
       yield put(SignUpSuccess(response.data))
     }else{
-      yield put(getUserFail('Sai tài khoản hoặc mật khẩu'))
+      yield put(getUserFail(response.data.message))
     }
   } catch (error) {
     console.log('error', error);
@@ -28,7 +28,7 @@ function* SignUp(action){
 
 
 function* SignUpSaga(){
-  // yield takeLatest('users/getUserFetch', SignUp)
+  yield takeLatest('users/getRegister', SignUp)
 }
 
 export default SignUpSaga

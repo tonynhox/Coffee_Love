@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { styles } from './styles'
 import Header from '../../../utils/Header'
 import { useDispatch, useSelector } from 'react-redux'
-import { getUserFetch } from '../../../redux/reducers/slices/userSlice'
+import { getRegister } from '../../../redux/reducers/slices/userSlice'
 
 const SignUp = () => {
 
@@ -18,7 +18,7 @@ const SignUp = () => {
 
   const handleSignUp = () => {
 
-    dispatch(getUserFetch({ tai_khoan, mat_khau, ho_ten }));
+    dispatch(getRegister({ tai_khoan, mat_khau, ho_ten }));
   }
 
 

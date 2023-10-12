@@ -11,12 +11,12 @@ function* Login(action){
     };
 
     //api
-    const response = yield call(() => instance.post('/users/dang-nhap-username', payload));
+    const response = yield call(() => instance.post('users/dang-nhap-username', payload));
     
     if(response.data.trang_thai){
       yield put(LoginSuccess(response.data))
     }else{
-      yield put(getUserFail('Sai tài khoản hoặc mật khẩu'))
+      yield put(getUserFail(response.data.message))
     }
     
   } catch (error) {
