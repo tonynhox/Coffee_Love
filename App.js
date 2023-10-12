@@ -30,11 +30,11 @@ import Login from './src/component/user/login/Login';
 
 const App = () => {
   return (
-    <Otp/>
+    // <Otp/>
 
-    // <Provider store={store}>
-    //   <AppNavigation />
-    // </Provider>
+    <Provider store={store}>
+      <AppNavigation />
+    </Provider>
   );
 };
 

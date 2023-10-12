@@ -1,24 +1,28 @@
 import { call, put, takeEvery, takeLatest } from 'redux-saga/effects'
-import { getUserSuccess,getUserFail, } from '../../reducers/slices/userSlice'
+import { LoginSuccess,getUserFail, } from '../../reducers/slices/userSlice'
 import instance from '../../../axios/instance'
 
-function* workGetTokenFetch(action){
+function* Login(action){
   try {
-    const { username, password } = action.payload;
+    const { tai_khoan, mat_khau } = action.payload;
     const payload = {
-      username: username,
-      password: password,
+      tai_khoan: tai_khoan,
+      mat_khau: mat_khau,
     };
-    
+    console.log("ENDPOINT:", `${instance} /users/dang-nhap-username`)
+    console.log("USER:", payload)
     //api
-    const response = yield call(() => instance.post('xxx', payload));
+    const response = yield call(() => instance.post('/users/dang-nhap-username', payload));
     
-
     if(response.data.result){
-      yield put(getUserSuccess(response.data))
+      yield put(LoginSuccess(response.data))
     }else{
       yield put(getUserFail('Sai tài khoản hoặc mật khẩu'))
     }
+
+
+
+    
   } catch (error) {
     console.log('error', error);
     yield put(getUserFail('Lỗi kết nối'))
@@ -27,7 +31,7 @@ function* workGetTokenFetch(action){
 
 
 function* userSaga(){
-  yield takeLatest('users/getUserFetch', workGetTokenFetch)
+  yield takeLatest('users/getUserFetch', Login)
 }
 
 export default userSaga

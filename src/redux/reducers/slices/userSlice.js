@@ -17,12 +17,18 @@ export const userSlice =  createSlice({
       state.isLoading = true;
     },
     //action success
-    getUserSuccess: (state, action) => {
+    LoginSuccess: (state, action) => {
         state.user = action.payload.user;
         state.isLogin = true;
-        state.isLoading = false
+        state.isLoading = false;
         ToastAndroid.show("Đăng nhập thành công", ToastAndroid.SHORT);
 
+    },
+
+    SignUpSuccess:(state, action) => {
+      state.user = action.payload.user;
+        state.isLoading = false;
+        ToastAndroid.show("Đăng ký thành công", ToastAndroid.SHORT);
     },
     //error
     getUserFail: (state, action) => {
@@ -33,6 +39,6 @@ export const userSlice =  createSlice({
   },
 });
 
-export const {getUserFetch,getUserSuccess,getUserFail} = userSlice.actions;
+export const {getUserFetch,LoginSuccess,SignUpSuccess,getUserFail} = userSlice.actions;
 
 export default userSlice.reducer;
