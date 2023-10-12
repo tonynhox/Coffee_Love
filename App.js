@@ -27,13 +27,14 @@ import AppNavigation from './src/component/navigations/AppNavigation';
 import {store} from './src/redux/store';
 import SignUp from './src/component/user/SignUp/SignUp';
 import Login from './src/component/user/login/Login';
+import Search from './src/component/main/home/item/Search';
 
 const App = () => {
   return (
     // <SignUp/>
     // <Home/>
     <Provider store={store}>
-      <AppNavigation />
+      <Search />
       {/* <Profile/> */}
     </Provider>
 
