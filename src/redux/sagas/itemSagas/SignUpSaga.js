@@ -12,7 +12,7 @@ function* SignUp(action){
     };
     
     //api
-    const response = yield call(() => instance.post('http://tempcoffeelove.huyta.codes/users/dang-ky-username', payload));
+    const response = yield call(() => instance.post('users/dang-ky-username', payload));
     
 
     if(response.data.result){
@@ -28,7 +28,7 @@ function* SignUp(action){
 
 
 function* SignUpSaga(){
-  yield takeLatest('users/getUserFetch', SignUp)
+  // yield takeLatest('users/getUserFetch', SignUp)
 }
 
 export default SignUpSaga

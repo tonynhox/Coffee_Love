@@ -9,19 +9,15 @@ function* Login(action){
       tai_khoan: tai_khoan,
       mat_khau: mat_khau,
     };
-    console.log("ENDPOINT:", `${instance} /users/dang-nhap-username`)
-    console.log("USER:", payload)
+
     //api
     const response = yield call(() => instance.post('/users/dang-nhap-username', payload));
     
-    if(response.data.result){
+    if(response.data.trang_thai){
       yield put(LoginSuccess(response.data))
     }else{
       yield put(getUserFail('Sai tài khoản hoặc mật khẩu'))
     }
-
-
-
     
   } catch (error) {
     console.log('error', error);
