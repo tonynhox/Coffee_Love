@@ -1,6 +1,6 @@
-import { View, Text, StyleSheet, TextInput } from 'react-native'
-import React from 'react'
-import WheelOfFortune from './src/component/main/wheelOfFortune/WheelOfFortune'
+import {View, Text, StyleSheet, TextInput} from 'react-native';
+import React from 'react';
+import WheelOfFortune from './src/component/main/wheelOfFortune/WheelOfFortune';
 import Cart from './src/component/main/Cart/Cart';
 import Changepassword from './src/component/main/Changepassword/Changepassword';
 import Favourite from './src/component/main/Favourite/Favourite';
@@ -20,7 +20,7 @@ import EditProfile from './src/component/main/profile/EditProfile';
 import ToRate from './src/component/main/toRate/ToRate';
 import Detail from './src/component/main/product/Detail';
 import Header from './src/utils/Header';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import {Provider} from 'react-redux';
 import AppNavigation from './src/component/navigations/AppNavigation';
@@ -41,7 +41,6 @@ const App = () => {
   );
 };
 
-
 // const App = () => {
 //   return (
 //     <View style={{flex:1}}>
@@ -57,7 +56,7 @@ const App = () => {
 //       {/* <OrderView/> */}
 //       {/* <OrdersDetail/> */}
 //       {/* <Detail/> */}
-      
+
 //       {/* <Otp/> */}
 //       {/* <Profile/> */}
 //       {/* <AddAddress/> */}
