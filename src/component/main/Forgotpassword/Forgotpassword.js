@@ -28,7 +28,7 @@ const Forgotpassword = ({navigation}) => {
             </TouchableOpacity>
 
             <TouchableOpacity 
-                onPress={() => {navigation.navigate('Newpassword')}}
+                onPress={() => {navigation.navigate('Otp')}}
                 style={styles.btn1} >
                 <Text style={styles.txtbtn1} >
                 Xác nhận </Text>

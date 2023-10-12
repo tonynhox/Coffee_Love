@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View, TextInput, Pressable, Keyboard, } from 'react-native'
-import React, { useState } from 'react'
+import { StyleSheet, Text, View, TextInput, Pressable, } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { styles } from './styles'
 
@@ -66,11 +66,14 @@ const Otp = () => {
                     value={number3}
                     onChangeText={(value) => {
                         setNumber3(value)
+
                     }
                     }
                     keyboardType="numeric"
                     maxLength={1}
-                    ref={(ref) => (input4Ref = ref, Keyboard.dismiss())}
+                    ref={(ref) => {
+                        input4Ref = ref;
+                      }}
                     style={styles.numOtp} />
             </View>
 
