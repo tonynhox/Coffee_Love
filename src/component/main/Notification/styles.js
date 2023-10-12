@@ -3,6 +3,7 @@ import React from 'react'
 
 export const styles = StyleSheet.create({
     container: {
+        flex: 1,
         padding: 24,
         backgroundColor: '#FFFFF',
     },
@@ -30,11 +31,17 @@ export const styles = StyleSheet.create({
     it: {
         marginTop: 12,
         width: "100%",
-        height: "auto",
-        borderRadius: 10,
-        borderWidth: 1,
-        borderColor: '#4E4B66',
+        height: 80,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.23,
+        shadowRadius: 2.62,
 
+        elevation: 4,
+        backgroundColor: '#fff',
     },
     vtit: {
         display: "flex",
@@ -45,8 +52,8 @@ export const styles = StyleSheet.create({
         margin: 10,
     },
     imgit: {
-        width: 47,
-        height: 70,
+        width: 50,
+        height: 80,
         borderRadius: 10,
     },
     t: {
@@ -64,6 +71,6 @@ export const styles = StyleSheet.create({
         fontWeight: "400",
         lineHeight: 21,
         letterHpacing: 0.16,
-        flexWrap:"wrap",
+        flexWrap: "wrap",
     },
 })

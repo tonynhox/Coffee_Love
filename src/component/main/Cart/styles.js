@@ -32,9 +32,16 @@ export const styles = StyleSheet.create({
         padding: 24,
         width: "100%",
         height: 153,
-        borderRadius: 10,
-        borderWidth: 1,
-        borderColor: '#4E4B66',
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.23,
+        shadowRadius: 2.62,
+
+        elevation: 4,
+        backgroundColor: '#fff',
 
     },
     vtit: {
@@ -79,9 +86,9 @@ export const styles = StyleSheet.create({
         alignSelf: "center",
     },
     icon: {
-        marginTop:10,
+        marginTop: 10,
         marginLeft: 6,
-        marginRight:6,
+        marginRight: 6,
         fontSize: 30,
         flexShrink: 0,
         color: '#000'
@@ -105,6 +112,6 @@ export const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#000',
         marginTop: 15,
-        
+
     }
 })

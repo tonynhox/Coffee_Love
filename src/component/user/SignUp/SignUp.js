@@ -12,14 +12,14 @@ const SignUp = () => {
     <View style={styles.container}>
 
       {/* <View style={styles.container2}> */}
-      <Header
+      {/* <Header
           headerText={'Đăng ký'}
           headerStyle={{fontSize:28,fontWeight:'bold'}}
           rightComponent={
             <Text></Text>
           }
         
-        />
+        /> */}
         {/* <View style={styles.hd}>
           <Icon name='chevron-left' style={styles.icon} />
           <Text style={styles.thd}>Đăng Ký</Text>

@@ -1,9 +1,23 @@
-import { StyleSheet, Text, View, TextInput, Pressable } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View, TextInput, Pressable, Keyboard, } from 'react-native'
+import React, { useState } from 'react'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { styles } from './styles'
 
 const Otp = () => {
+
+    const [number, setNumber] = useState('');
+    const [number1, setNumber1] = useState('');
+    const [number2, setNumber2] = useState('');
+    const [number3, setNumber3] = useState('');
+
+    const handleInputChange = (value, nextInputRef) => {
+        // Kiểm tra nếu giá trị nhập vào là một số có độ dài 1
+        if (/^\d$/.test(value) && value.length === 1) {
+            // Nếu đúng, chuyển con trỏ đến ô nhập tiếp theo
+            nextInputRef.focus();
+        }
+    };
+
     return (
         <View style={styles.container}>
             {/* <View style={styles.navhd}>
@@ -14,16 +28,49 @@ const Otp = () => {
 
             <Text style={styles.tem}>Nhập OTP </Text>
             <View style={styles.containernum}>
-                <TextInput placeholder='1'
+                <TextInput
+                    value={number}
+                    onChangeText={(value) => {
+                        setNumber(value)
+                        handleInputChange(value, input2Ref)
+                    }
+                    }
+                    keyboardType="numeric"
+                    maxLength={1}
                     style={styles.numOtp} />
 
-                <TextInput placeholder='1'
+                <TextInput
+                    value={number1}
+                    onChangeText={(value) => {
+                        setNumber1(value)
+                        handleInputChange(value, input3Ref)
+                    }}
+                    keyboardType="numeric"
+                    maxLength={1}
+                    ref={(ref) => (input2Ref = ref)}
                     style={styles.numOtp} />
 
-                <TextInput placeholder='1'
+                <TextInput
+                    value={number2}
+                    onChangeText={(value) => {
+                        setNumber2(value)
+                        handleInputChange(value, input4Ref)
+                    }
+                    }
+                    keyboardType="numeric"
+                    maxLength={1}
+                    ref={(ref) => (input3Ref = ref)}
                     style={styles.numOtp} />
 
-                <TextInput placeholder='1'
+                <TextInput
+                    value={number3}
+                    onChangeText={(value) => {
+                        setNumber3(value)
+                    }
+                    }
+                    keyboardType="numeric"
+                    maxLength={1}
+                    ref={(ref) => (input4Ref = ref, Keyboard.dismiss())}
                     style={styles.numOtp} />
             </View>
 
