@@ -2,6 +2,47 @@ import { StyleSheet, Text, View } from 'react-native'
 
 export const styles = StyleSheet.create({
 
+    txtItem:{
+        color:'#000',
+        fontWeight:'500',
+        fontSize:12,
+        paddingTop:2,
+    },
+    itemExtention:{
+        alignItems:'center',
+        flexDirection:'column',
+    },
+    cardExtention:{
+        backgroundColor:'#fff',
+        borderRadius:10,
+        paddingVertical:10,
+        flexDirection:'row',
+        justifyContent:'space-around',
+        borderWidth:0.6,
+        borderColor:'lightgray',
+        marginVertical:20,
+    },
+    btnLogin:{
+        backgroundColor:'#C67C4E',
+        borderRadius:10,
+        padding:6,
+        width:'70%',
+        alignItems:'center',
+    },
+    cardUser:{
+        flex:1,
+        height:140,
+        backgroundColor:'#fff',
+        borderRadius:10,
+        paddingVertical:12,
+        paddingLeft:12,
+        paddingEnd:28,
+        flexDirection:'column',
+        justifyContent:'space-between',
+        borderWidth:0.6,
+        borderColor:'lightgray',
+        alignItems:'center',
+    },
     backgroundContainer: {
         position: 'absolute',
         top: 0,
@@ -100,14 +141,8 @@ export const styles = StyleSheet.create({
         flexDirection:'row',
         justifyContent:'space-between',
         alignItems:'center',
-        elevation:5,
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 10,
-        },
-        shadowOpacity: 2,
-        shadowRadius: 10,
+        borderWidth:0.6,
+        borderColor:'lightgray',
 
 
     },

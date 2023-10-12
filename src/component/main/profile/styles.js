@@ -1,101 +1,73 @@
 import { StyleSheet, Text, View } from 'react-native'
+import React from 'react'
 
 export const styles = StyleSheet.create({
-  container: {
-    padding: 24,
-    backgroundColor: '#FFFFF',
-  },
-  navhd: {
-    display: "flex",
-    justifyContent: "space-between",
-    flexDirection: 'row'
-  },
-  thd: {
-    color: '#000',
-    fontFamily: "Inter",
-    fontSize: 30,
-    fontStyle: "normal",
-    fontWeight: "700",
-    lineHeight: 31,
-    letterSpacing: 0.16,
-  },
-  iconhd: {
-    fontSize: 35,
-    color: 'black',
-  },
-  container2: {
-    marginTop: 12,
-  },
-  v: {
-    display: "flex",
-    justifyContent: "space-between",
-    flexDirection: 'row',
-  },
-  v1: {
-    display: "flex",
-    justifyContent: "flex-start",
-    flexDirection: 'row',
-    margin: 10,
-  },
-  v2: {
-    display: "flex",
-    justifyContent: "flex-end",
-    flexDirection: 'row',
-    marginTop: 20,
-  },
-  avt: {
-    width: 43,
-    height: 39,
+  cardBoder:{
+    backgroundColor: '#ffff',
+    
     borderRadius: 8,
-    borderWidth: 1,
-    borderColor: '#000',
   },
-  t: {
+  txtExtention: {
+    fontSize: 13.5,
+    marginTop: 4,
     color: '#000',
-    fontFamily: "Inter",
-    fontSize: 18,
-    fontStyle: "normal",
-    fontWeight: "700",
-    lineHeight: 18,
-    marginLeft: 10,
-    marginTop: 10,
+    fontWeight: '500',
   },
-  t1: {
-    marginTop: 5,
-  },
-  t2: {
+  line:{
+    paddingLeft: 16,
+    backgroundColor:'#ffff',
+  },  
+  icLeft: {
+    position: 'absolute',
+    right: 0,
+    fontSize: 20,
     color: '#000',
-    fontFamily: "Inter",
-    fontSize: 18,
-    fontStyle: "normal",
-    fontWeight: "700",
-    lineHeight: 18,
-    marginLeft: 10,
+    top: 16,
   },
-  td: {
-    color: '#FF8C00',
-    fontFamily: "Inter",
+  CardSupport: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#ffff',
+    paddingVertical: 12,
+    borderBottomWidth: 0.6,
+    borderBottomColor: 'lightgray',
+  },
+  cardRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  cardExtention: {
+    backgroundColor: '#ffff',
+    padding: 16,
+    borderRadius: 8,
+    flexBasis: '49%',
+    marginBottom: 8,
+  },
+  txtItem: {
     fontSize: 14,
-    fontStyle: "normal",
-    fontWeight: "700",
-    lineHeight: 14,
-    marginLeft: 10,
+    marginTop: 4,
+    color: '#000',
+    fontWeight: '400',
   },
   icon: {
-    fontSize: 25,
-    color: 'black',
-  },
-  icon2: {
-    fontSize: 41,
-    color: 'black',
-  },
-  txt: {
-    marginTop: 25,
+    fontSize: 22,
     color: '#000',
-    fontFamily: "Inter",
+    marginRight: 12,
+  },
+  card: {
+    marginBottom: 24,
+  },
+  txtTitle: {
+    marginLeft: 8,
     fontSize: 18,
-    fontStyle: "normal",
-    fontWeight: "700",
-    lineHeight: 18,
+    fontWeight: 'bold',
+    marginBottom: 8,
+    color: '#000',
+  
+  },
+  container: {
+    flex: 1,
+    backgroundColor: '#f5f5f5',
+    padding: 16,
   },
 })

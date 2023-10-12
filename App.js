@@ -30,10 +30,13 @@ import SignUp from './src/component/user/SignUp/SignUp';
 const App = () => {
   return (
     // <SignUp/>
-
+    // <Home/>
     <Provider store={store}>
       <AppNavigation />
+      {/* <Profile/> */}
     </Provider>
+
+    // <WheelOfFortune/>
   );
 };
 
