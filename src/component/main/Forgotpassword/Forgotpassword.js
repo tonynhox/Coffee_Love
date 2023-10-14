@@ -1,14 +1,15 @@
-import { StyleSheet, Text, View, TextInput, Pressable ,TouchableOpacity} from 'react-native'
-import React, {useState} from 'react'
+import { StyleSheet, Text, View, TextInput, Pressable ,TouchableOpacity,ActivityIndicator} from 'react-native'
+import React, {useEffect, useState} from 'react'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { styles } from './styles'
 import Header from '../../../utils/Header'
 import { useDispatch, useSelector } from 'react-redux'
 import { getOtp } from '../../../redux/reducers/slices/userSlice'
+import { useNavigation } from '@react-navigation/native'
 
-const Forgotpassword = ({navigation}) => {
+const Forgotpassword = () => {
     const [email, setEmail] = useState('');
-  
+  const navigation = useNavigation();
     const isLoading = useSelector((state) => state.users.isLoading);
   
     const dispatch = useDispatch();
@@ -16,9 +17,13 @@ const Forgotpassword = ({navigation}) => {
     const handleSendOtp = () => {
   
       dispatch(getOtp({ email }));
+    //   navigation.navigate('Otp')
     }
 
     return (
+        isLoading ? 
+  <ActivityIndicator size="large" color="#0000ff" /> 
+  :
         <View style={styles.container}>
             {/* <View style={styles.navhd}>
                 <Icon name='chevron-left' style={styles.iconhd} />
@@ -34,7 +39,7 @@ const Forgotpassword = ({navigation}) => {
                 />
             <Text style={styles.tem}>Nhập Email</Text>
             <TextInput 
-                onChangeText={(test) => setEmail(test) }
+                onChangeText={(text) => setEmail(text) }
                 value={email}
                 style={styles.tip} />
 
@@ -43,7 +48,7 @@ const Forgotpassword = ({navigation}) => {
             </TouchableOpacity>
 
             <TouchableOpacity 
-                onPress={() => {navigation.navigate('Otp')}}
+                onPress={() => {handleSendOtp()}}
                 style={styles.btn1} >
                 <Text style={styles.txtbtn1} >
                 Xác nhận </Text>

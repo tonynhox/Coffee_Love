@@ -27,14 +27,15 @@ import AppNavigation from './src/component/navigations/AppNavigation';
 import {store} from './src/redux/store';
 import SignUp from './src/component/user/SignUp/SignUp';
 import Login from './src/component/user/login/Login';
+import ListVoucher from './src/component/main/listVoucher/ListVoucher';
 
 const App = () => {
   return (
-    // <Otp/>
+    <ListVoucher/>
 
-    <Provider store={store}>
-      <AppNavigation />
-    </Provider>
+    // <Provider store={store}>
+    //   <AppNavigation />
+    // </Provider>
   );
 };
 

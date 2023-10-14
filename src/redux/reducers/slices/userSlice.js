@@ -4,12 +4,16 @@ import { ToastAndroid } from 'react-native';
 //state
 const initialState = {
   user: {},
+  register: {},
+  sendOtp: {},
+  changePassOtp: {},
+  changePass: {},
   isLoading: false,
   isLogin: false,
 };
 
 export const userSlice = createSlice({
-  name: 'users',
+  name: 'users',//users/getUserFetch
   initialState,
   reducers: {
     //action user
@@ -18,7 +22,7 @@ export const userSlice = createSlice({
     },
     //action success
     LoginSuccess: (state, action) => {
-      state.user = action.payload.user;
+      state.user = action.payload.data;
       state.isLogin = true;
       state.isLoading = false;
       ToastAndroid.show("Đăng nhập thành công", ToastAndroid.SHORT);
@@ -30,7 +34,7 @@ export const userSlice = createSlice({
     },
 
     SignUpSuccess: (state, action) => {
-      state.user = action.payload.user;
+      state.register = action.payload;
       state.isLoading = false;
       ToastAndroid.show("Đăng ký thành công", ToastAndroid.SHORT);
     },
@@ -40,7 +44,7 @@ export const userSlice = createSlice({
     },
 
     getOtpSuccess: (state, action) => {
-      state.user = action.payload.user;
+      state.sendOtp = action.payload;
       state.isLoading = false;
       ToastAndroid.show("Send Otp ", ToastAndroid.SHORT);
     },
@@ -50,7 +54,7 @@ export const userSlice = createSlice({
     },
 
     changePassOtpSuccess: (state, action) => {
-      state.user = action.payload.user;
+      state.changePassOtp = action.payload;
       state.isLoading = false;
       ToastAndroid.show("Đổi mật khẩu thành công ", ToastAndroid.SHORT);
     },
@@ -60,7 +64,7 @@ export const userSlice = createSlice({
     },
 
     changePassSuccess: (state, action) => {
-      state.user = action.payload.user;
+      state.changePass = action.payload;
       state.isLoading = false;
       ToastAndroid.show("Đổi mật khẩu thành công ", ToastAndroid.SHORT);
     },

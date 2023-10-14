@@ -2,6 +2,9 @@ import { StyleSheet, Text, View, TextInput, Pressable, Keyboard, } from 'react-n
 import React, { useState } from 'react'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { styles } from './styles'
+import { useDispatch, useSelector } from 'react-redux'
+import { changePassOtp } from '../../../redux/reducers/slices/userSlice'
+import { TouchableOpacity } from 'react-native-gesture-handler'
 
 const Otp = () => {
 
@@ -17,6 +20,18 @@ const Otp = () => {
             nextInputRef.focus();
         }
     };
+
+
+    const isLoading = useSelector((state) => state.users.isLoading);
+
+    const dispatch = useDispatch();
+
+    const handleOtp = () => {
+        const otp = `${number}${number1}${number2}${number3}`
+        dispatch(changePassOtp({ otp }));
+    }
+
+
 
     return (
         <View style={styles.container}>
@@ -81,10 +96,12 @@ const Otp = () => {
             </View>
 
 
-            <Pressable style={styles.btn1} >
+            <TouchableOpacity 
+                onPress={handleOtp()}
+                style={styles.btn1} >
                 <Text style={styles.txtbtn1} >
                     Nhập OTP  </Text>
-            </Pressable>
+            </TouchableOpacity>
 
             <Text style={styles.tor}>Hoặc</Text>
 

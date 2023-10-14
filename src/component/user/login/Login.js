@@ -1,5 +1,5 @@
-import { View, Text, Image, Pressable, TextInput, TouchableOpacity } from 'react-native'
-import React, { useState } from 'react'
+import { View, Text, Image, Pressable, TextInput, TouchableOpacity, ActivityIndicator } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { styles } from './styles'
 import Header from '../../../utils/Header'
@@ -11,18 +11,28 @@ const Login = ({ navigation }) => {
   const [tai_khoan, setTai_khoan] = useState('hoa');
   const [mat_khau, setMat_khau] = useState('123');
 
-  const isLoading = useSelector((state) => state.users.isLoading);
+  const user = useSelector((state) => state.users);
 
   const dispatch = useDispatch();
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     console.log("USER: ", tai_khoan, mat_khau)
-    dispatch(getUserFetch({ tai_khoan, mat_khau }));
+    await dispatch(getUserFetch({ tai_khoan, mat_khau }));
+
   }
+
+  useEffect(()=>{
+    console.log('log',user)
+    if(user.user){
+      navigation.navigate('MainNavigation')
+    }
+  },[user.isLoading])
 
   const [showPassword, setShowPassword] = React.useState(false)
 
-  return (
+  return user.isLoading ? 
+  <ActivityIndicator size="large" color="#0000ff" /> 
+  :
     <View style={styles.container}>
 
       <View >
@@ -106,7 +116,7 @@ const Login = ({ navigation }) => {
       </View>
 
     </View>
-  )
+  
 }
 
 export default Login
