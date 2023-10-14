@@ -31,6 +31,8 @@ import ChoGiaoHangView from './src/component/main/order/ChoGiaoHangView';
 import DaGiaoItem from './src/component/main/order/DaGiaoItem';
 import ProductDetail from './src/component/main/newProduct/ProductDetail';
 import Categories from './src/component/main/categories/Categories';
+import Search from './src/component/main/home/item/Search';
+import BottomMuaSanPham from './src/component/main/newProduct/BottomMuaSanPham';
 
 const App = () => {
   return (
