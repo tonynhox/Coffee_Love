@@ -30,41 +30,43 @@ import Login from './src/component/user/login/Login';
 import ChoGiaoHangView from './src/component/main/order/ChoGiaoHangView';
 import DaGiaoItem from './src/component/main/order/DaGiaoItem';
 import ProductDetail from './src/component/main/newProduct/ProductDetail';
-
-// const App = () => {
-//   return (
-
-//     <Provider store={store}>
-//       <AppNavigation />
-//       {/* <Profile/> */}
-//     </Provider>
-
-//     // <WheelOfFortune/>
-//   );
-// };
+import Categories from './src/component/main/categories/Categories';
 
 const App = () => {
   return (
-    <View style={{flex:1}}>
-      {/* <Cart/> */}
-      {/* <Changepassword/> */}
-      {/* <Favourite/> */}
-      {/* <Payment/> */}
-      {/* <ListPayment/> */}
-      {/* <Newpassword/> */}
-      {/* <Notification/> */}
-      {/* <OrderView/> */}
-      {/* <ProductDetail/> */}
-      {/* <AddAddress/> */}
-      {/* <MyAddress/> */}
-      {/* <EditProfile/> */}
-      {/* <ToRate/> */}
 
-      {/* <ChoGiaoHangView/> */}
-      {/* <DaGiaoItem/> */}
-    </View>
+    <Provider store={store}>
+      <AppNavigation />
+      {/* <Categories/> */}
+      {/* <Profile/> */}
+    </Provider>
+
+    // <WheelOfFortune/>
   );
 };
+
+// const App = () => {
+//   return (
+//     <View style={{flex:1}}>
+//       {/* <Cart/> */}
+//       {/* <Changepassword/> */}
+//       {/* <Favourite/> */}
+//       {/* <Payment/> */}
+//       {/* <ListPayment/> */}
+//       {/* <Newpassword/> */}
+//       {/* <Notification/> */}
+//       {/* <OrderView/> */}
+//       {/* <ProductDetail/> */}
+//       {/* <AddAddress/> */}
+//       {/* <MyAddress/> */}
+//       {/* <EditProfile/> */}
+//       {/* <ToRate/> */}
+
+//       {/* <ChoGiaoHangView/> */}
+//       {/* <DaGiaoItem/> */}
+//     </View>
+//   );
+// };
 
 export default App;
 

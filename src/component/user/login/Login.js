@@ -1,9 +1,24 @@
 import { View, Text, Image, Pressable, TextInput, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { styles } from './styles'
 import Header from '../../../utils/Header'
+import { useDispatch, useSelector } from 'react-redux'
+import { getUserFetch } from '../../../redux/reducers/slices/userSlice'
+
 const Login = ({ navigation }) => {
+
+  const [tai_khoan, setTai_khoan] = useState('hoa');
+  const [mat_khau, setMat_khau] = useState('123');
+
+  const isLoading = useSelector((state) => state.users.isLoading);
+
+  const dispatch = useDispatch();
+
+  const handleLogin = () => {
+    console.log("USER: ", tai_khoan, mat_khau)
+    dispatch(getUserFetch({ tai_khoan, mat_khau }));
+  }
 
   const [showPassword, setShowPassword] = React.useState(false)
 
@@ -17,14 +32,14 @@ const Login = ({ navigation }) => {
           <Text style={styles.thd}>Đăng Nhập</Text>
           <View></View>
         </View> */}
-        {/* <Header
+        <Header
           headerText={'Đăng Nhập'}
-          headerStyle={{fontSize:28,fontWeight:'bold'}}
+          headerStyle={{ fontSize: 28, fontWeight: 'bold' }}
           rightComponent={
             <Text></Text>
           }
-        
-        /> */}
+
+        />
 
         <Image source={require('../../../assets/images/lgimg.png')}
           style={styles.img} />
@@ -33,8 +48,10 @@ const Login = ({ navigation }) => {
 
       <View style={styles.v3}>
         <View style={styles.marginTopInput}>
-          <Text style={styles.t1}>Số Điện Thoại</Text>
-          <TextInput placeholder='0783800000'
+          <Text style={styles.t1}>Tên Đăng Nhập</Text>
+          <TextInput
+            onChangeText={text => setTai_khoan(text)}
+            value={tai_khoan.toString()}
             style={styles.tip1} />
         </View>
 
@@ -43,7 +60,8 @@ const Login = ({ navigation }) => {
           <View style={styles.vp}>
             <TextInput
               secureTextEntry={!showPassword}
-              placeholder='.............'
+              onChangeText={text => setMat_khau(text)}
+              value={mat_khau}
               style={styles.tip1} />
             <TouchableOpacity
               style={styles.iconEyes}
@@ -62,7 +80,7 @@ const Login = ({ navigation }) => {
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={() => { navigation.navigate('MainNavigation') }}
+          onPress={() => { handleLogin() }}
           style={styles.btn} >
           <Text style={styles.txtbtn} >
             Đăng Nhập </Text>
@@ -78,9 +96,11 @@ const Login = ({ navigation }) => {
 
         <View style={styles.txtlg} >
           <Text style={styles.t5} >Bạn chưa có tài khoản? </Text>
-          <Pressable>
+          <TouchableOpacity
+            onPress={() => { navigation.navigate('SignUp') }}
+          >
             <Text style={styles.tlg} > Đăng ký</Text>
-          </Pressable>
+          </TouchableOpacity>
         </View>
 
       </View>
