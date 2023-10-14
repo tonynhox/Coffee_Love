@@ -28,13 +28,15 @@ import {store} from './src/redux/store';
 import SignUp from './src/component/user/SignUp/SignUp';
 import Login from './src/component/user/login/Login';
 import Search from './src/component/main/home/item/Search';
+import ProductDetail from './src/component/main/newProduct/ProductDetail';
+import BottomMuaSanPham from './src/component/main/newProduct/BottomMuaSanPham';
 
 const App = () => {
   return (
     // <SignUp/>
     // <Home/>
     <Provider store={store}>
-      <Search />
+      <ProductDetail />
       {/* <Profile/> */}
     </Provider>
 

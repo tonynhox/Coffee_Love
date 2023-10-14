@@ -66,7 +66,7 @@ const OrderView = () => {
       <FlatList
         style={{marginVertical: 10}}
         data={dataChoXacNhan}
-        renderItem={DanhGiaItem}
+        renderItem={ChoXacNhanItem}
         keyExtractor={item => item.id}
         ItemSeparatorComponent={() => <View style={{height: 10}} />}
       />
