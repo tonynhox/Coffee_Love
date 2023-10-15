@@ -1,15 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { ToastAndroid } from 'react-native';
-
+import Storage from '../../../utils/Storage';
 //state
 const initialState = {
-  user: {},
+  user: {
+    "id_user": '',
+    "token": ''
+},
   isLoading: false,
   isLogin: false,
 };
 
 export const userSlice = createSlice({
-  name: 'users',
+  name: 'users',//users/getUserFetch
   initialState,
   reducers: {
     //action user
@@ -18,7 +21,8 @@ export const userSlice = createSlice({
     },
     //action success
     LoginSuccess: (state, action) => {
-      state.user = action.payload.user;
+      state.user = action.payload.data;
+      Storage.setToken(action.payload.data.token);
       state.isLogin = true;
       state.isLoading = false;
       ToastAndroid.show("Đăng nhập thành công", ToastAndroid.SHORT);
@@ -29,8 +33,7 @@ export const userSlice = createSlice({
       state.isLoading = true;
     },
 
-    SignUpSuccess: (state, action) => {
-      state.user = action.payload.user;
+    SignUpSuccess: (state) => {
       state.isLoading = false;
       ToastAndroid.show("Đăng ký thành công", ToastAndroid.SHORT);
     },
@@ -39,8 +42,7 @@ export const userSlice = createSlice({
       state.isLoading = true;
     },
 
-    getOtpSuccess: (state, action) => {
-      state.user = action.payload.user;
+    getOtpSuccess: (state) => {
       state.isLoading = false;
       ToastAndroid.show("Send Otp ", ToastAndroid.SHORT);
     },
@@ -49,8 +51,7 @@ export const userSlice = createSlice({
       state.isLoading = true;
     },
 
-    changePassOtpSuccess: (state, action) => {
-      state.user = action.payload.user;
+    changePassOtpSuccess: (state) => {
       state.isLoading = false;
       ToastAndroid.show("Đổi mật khẩu thành công ", ToastAndroid.SHORT);
     },
@@ -59,8 +60,7 @@ export const userSlice = createSlice({
       state.isLoading = true;
     },
 
-    changePassSuccess: (state, action) => {
-      state.user = action.payload.user;
+    changePassSuccess: (state) => {
       state.isLoading = false;
       ToastAndroid.show("Đổi mật khẩu thành công ", ToastAndroid.SHORT);
     },

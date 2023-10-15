@@ -43,7 +43,7 @@ const Header = (props) => {
       return (
         <TouchableOpacity 
           style={{position:'absolute',right: 16}}
-          onPress={() => {}}>
+          onPress={() => {navigation.navigate('Notification')}}>
           <Icon name="bell-outline" style={[styleIconhdRight, { fontSize: 25,color:'black'}]} />
         </TouchableOpacity>
       );
