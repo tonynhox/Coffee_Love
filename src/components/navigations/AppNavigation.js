@@ -12,10 +12,10 @@ import Orders from '../others/oders/Orders';
 import WheelOfFortune from '../others/wheelOfFortune/WheelOfFortune';
 import OrderDetail from '../others/orderDetail/OrderDetail';
 import EditProfile from '../others/editProfile/EditProfile';
-import Changepassword from '../../backup(camdung)/main/Changepassword/Changepassword';
 import AddAddress from '../others/addAddress/AddAddress';
 import MyAddress from '../others/myAdddress/MyAddress';
 import ToRate from '../others/toRate/ToRate';
+import Changepassword from '../others/changepassword/Changepassword';
 const Stack = createNativeStackNavigator();
 
 const AppNavigation = () => {
