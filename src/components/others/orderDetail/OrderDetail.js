@@ -1,9 +1,9 @@
-import {StyleSheet, Text, View, FlatList,ScrollViewComponent} from 'react-native';
+import {StyleSheet, Text, View, FlatList,ScrollView} from 'react-native';
 import React from 'react';
 import RenderOrderItem from './RenderOrderItem';
 import TheoDoiDonHang from './TheoDoiDonHang';
 import {BACKGROUND_BUTTON_COLOR} from '../../../utils/contanst';
-import { ScrollView } from 'react-native-virtualized-view';
+// import { ScrollView } from 'react-native-virtualized-view';
 
 const OrderDetail = () => {
   const donhang = [
@@ -47,6 +47,7 @@ const OrderDetail = () => {
         <Text style={styles.textDonHang}>Đơn hàng</Text>
         <FlatList
           // height={210}
+          scrollEnabled={false} 
           data={donhang}
           renderItem={({item}) => <RenderOrderItem item={item} />}
           keyExtractor={item => item.id}

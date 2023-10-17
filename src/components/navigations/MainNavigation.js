@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from '../main/home/Home';
@@ -6,6 +6,7 @@ import Categories from '../main/categories/Categories';
 import ListVoucher from '../main/voucher/ListVoucher';
 import Profile from '../main/profile/Profile';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import ModalCartOrder from '../../utils/Modals/ModalCartOrder';
 
 const Tab = createBottomTabNavigator();
 
@@ -104,7 +105,7 @@ const MainNavigation = () => {
   );
 };
 
-const ExtraView = () => (
+const ExtraView = ({setModalVisible}) => (
   <Pressable
     style={{
       flex: 1,
@@ -130,6 +131,10 @@ const ExtraView = () => (
         <Text>184/88 tô ký, quận 12, TPHCM</Text>
       </View>
       <Pressable
+        onPress={() => {
+          setModalVisible(true)
+          console.log('click')
+        }}
         style={{
           flexDirection: 'row',
           justifyContent: 'space-between',
@@ -158,18 +163,32 @@ const ExtraView = () => (
   </Pressable>
 );
 
-const HomeWithExtraView = () => (
+const HomeWithExtraView = () => {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  console.log(isModalVisible)
+
+  return (
   <View style={{ flex: 1 }}>
     <Home />
-    <ExtraView />
-  </View>
-);
+    <ExtraView setModalVisible={setIsModalVisible}/>
+    <ModalCartOrder isVisible={isModalVisible} setIsVisible={setIsModalVisible} />
 
-const CategoriesWithExtraView = () => (
-  <View style={{ flex: 1 }}>
-    <Categories />
-    <ExtraView />
   </View>
-);
+  );
+  };
+
+const CategoriesWithExtraView = () => {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  return (
+    <View style={{ flex: 1 }}>
+      <Categories />
+      <ExtraView setModalVisible={setIsModalVisible}/>
+    <ModalCartOrder isVisible={isModalVisible} setIsVisible={setIsModalVisible} />
+
+    </View>
+  );
+};
+
 
 export default MainNavigation;

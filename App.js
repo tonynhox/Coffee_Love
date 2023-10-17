@@ -4,11 +4,13 @@ import React from 'react';
 import {Provider} from 'react-redux';
 import AppNavigation from './src/components/navigations/AppNavigation';
 import {store} from './src/redux/store';
+import ModalCartOrder from './src/utils/Modals/ModalCartOrder';
 
 const App = () => {
   return (
 
     <Provider store={store}>
+      {/* <ModalCartOrder/> */}
       {/* <Demo/> */}
       <AppNavigation />
       {/* <Otp/> */}
