@@ -72,7 +72,7 @@ const BottomMuaSanPham = ({isOpen, onChangeOpen}) => {
   const bottomSheetRef = useRef(null);
 
   // variables
-  const snapPoints = useMemo(() => ['75%'], []);
+  const snapPoints = useMemo(() => ['70%'], []);
 
   const renderSectionHeader = ({section}) => {
     return (
@@ -121,7 +121,7 @@ const BottomMuaSanPham = ({isOpen, onChangeOpen}) => {
           {/* separate line */}
           <View style={styles.separateLine} />
 
-          <View style={{width: '100%', height: 370}}>
+          <View style={{width: '100%', height: 400}}>
             <BottomSheetSectionList
               stickySectionHeadersEnabled
               sections={data}
@@ -130,20 +130,6 @@ const BottomMuaSanPham = ({isOpen, onChangeOpen}) => {
               renderItem={RenderTopping}
               contentContainerStyle={styles.contentContainer}
             />
-          </View>
-
-       
-
-          {/* Chu thich */}
-          <View style={styles.daHeaderContainer}>
-            <Text style={styles.textYeuCauThem}>Yêu cầu thêm</Text>
-            {/* view chu thich */}
-            <View style={styles.chuThichContainer}>
-              <TextInput
-                numberOfLines={2}
-                placeholder="Chú thích (ví dụ: cafe không cafe)"
-              />
-            </View>
           </View>
         </View>
 

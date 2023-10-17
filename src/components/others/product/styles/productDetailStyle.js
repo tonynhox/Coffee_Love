@@ -17,20 +17,22 @@ export const styles = StyleSheet.create({
     fontSize: 30,
     color: 'black',
     fontWeight: '500',
+    width: 300,
+    height:'auto',
   },
   thongTinSanPhamContainer: {
     flexDirection: 'column',
     justifyContent: 'space-evenly',
     alignItems: 'flex-start',
     width: '100%',
-    height: 130,
+    height: 'auto',
     paddingLeft: 10,
     borderBottomEndRadius: 10,
     borderBottomStartRadius: 10,
     paddingRight: 10,
     borderColor: '#F3962C',
     borderWidth: 1,
-
+    paddingVertical: 15,
     // backgroundColor: '#F3962C',
     backgroundColor: '#FCE0C0',
   },
@@ -38,6 +40,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
+    paddingLeft: 5,
   },
   danhMucContainer: {
     flexDirection: 'row',
@@ -74,6 +77,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     height: 'auto',
+    paddingTop: 10,
   },
   textMoTa: {
     fontSize: 18,
@@ -191,10 +195,6 @@ export const styles = StyleSheet.create({
   },
   giaTienContainer: {
     flexDirection: 'row',
-    marginTop: 10,
-    marginBottom: 2,
-    width: '100%',
-    marginLeft: 15,
   },
   dash: {
     fontSize: 16,
@@ -249,12 +249,9 @@ export const styles = StyleSheet.create({
     marginTop: 15,
   },
   buttonMuaSanPham: {
-    position: 'absolute',
-    bottom: 10,
-    right: 5,
     width: 'auto',
     height: 'auto',
-    paddingHorizontal: 15,
+    paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 50,
     backgroundColor: BACKGROUND_BUTTON_COLOR,
@@ -266,9 +263,9 @@ export const styles = StyleSheet.create({
     fontSize: 15,
     color: 'white',
     fontWeight: '600',
-    marginRight: 5,
+    marginRight: 8,
   },
-  backButton:{
+  backButton: {
     position: 'absolute',
     top: 5,
     left: 5,
@@ -281,5 +278,23 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  giaTienVaMuaContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 15,
+  },
+  yeuThichVaMuaHangContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    marginTop: 10,
+    marginBottom: 5,
+  },
+  buttonThemVaoYeuThich:{
+    position: 'absolute',
+    top: 12,
+    right: 15,
   }
 });

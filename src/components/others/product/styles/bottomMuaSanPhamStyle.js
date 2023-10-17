@@ -31,6 +31,7 @@ export const styles = StyleSheet.create({
       color: 'black',
       fontWeight: '500',
       marginLeft: 10,
+      width: '50%',
     },
     textGiaTien: {
       fontSize: 16,

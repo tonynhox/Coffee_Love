@@ -83,7 +83,9 @@ const ProductDetail = ({navigation}) => {
           style={styles.imageSanPham}
         />
 
-        <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => navigation.goBack()}>
           <Icon name="arrow-left" size={17} color={'black'} />
         </TouchableOpacity>
 
@@ -142,13 +144,30 @@ const ProductDetail = ({navigation}) => {
               <Text style={styles.textDanhMuc}>Milk Tea</Text>
             </View>
           </View>
+
+          <TouchableOpacity style={styles.buttonThemVaoYeuThich}>
+            <Icon name="heart" size={30} color={'#FC9702'} />
+          </TouchableOpacity>
         </View>
 
         {/* Gia */}
-        <View style={styles.giaTienContainer}>
-          <Text style={[styles.textTien, styles.amount]}>100.000₫</Text>
-          <Text style={styles.dash}>-</Text>
-          <Text style={styles.textSale}>100.000₫</Text>
+       
+        <View style={styles.giaTienVaMuaContainer}>
+          <View style={styles.giaTienContainer}>
+            <Text style={[styles.textTien, styles.amount]}>100.000₫</Text>
+            <Text style={styles.dash}>-</Text>
+            <Text style={styles.textSale}>100.00₫</Text>
+          </View>
+
+          <View style={styles.yeuThichVaMuaHangContainer}>
+            {/* <Icon name="heart" size={30} color={'#FC9702'} /> */}
+            <TouchableOpacity
+              style={styles.buttonMuaSanPham}
+              onPress={() => setIsOpen(true)}>
+              <Text style={styles.textMua}>Mua</Text>
+              <Icon name="cart-shopping" size={15} color={'white'} />
+            </TouchableOpacity>
+          </View>
         </View>
 
         {/* Mo ta container */}
@@ -163,27 +182,6 @@ const ProductDetail = ({navigation}) => {
 
         {/* separate line */}
         <View style={styles.separateLine} />
-
-        {/* chon size */}
-        <View style={styles.chonSizeContainer}>
-          <Text style={styles.textMoTa}>Chọn size</Text>
-          <View style={styles.baSizeContainer}>
-            {/* Size M */}
-            <View style={styles.sizeContainer}>
-              <Text style={styles.textSize}>M</Text>
-            </View>
-            {/* Size L */}
-            <View style={styles.sizeSelectedContainer}>
-              <Text style={styles.textSizeSelected}>L</Text>
-            </View>
-            {/* Size SL */}
-            <View style={styles.sizeContainer}>
-              <Text style={styles.textSize}>SL</Text>
-            </View>
-          </View>
-          <View />
-          <View />
-        </View>
 
         {/* Sản phẩm đề xuất */}
         <View style={styles.sanPhamDeXuatContainer}>
@@ -200,15 +198,9 @@ const ProductDetail = ({navigation}) => {
         <DanhSachDanhGia />
       </ScrollView>
 
-      {/* Bottom mua san pham */}
-      <TouchableOpacity
-        style={styles.buttonMuaSanPham}
-        onPress={() => setIsOpen(true)}>
-        <Text style={styles.textMua}>Mua</Text>
-        <Icon name="cart-shopping"  size={15} color={'white'} />
-      </TouchableOpacity>
+      
 
-      <BottomMuaSanPham isOpen={isOpen} onChangeOpen={()=> setIsOpen(false)}/>
+      <BottomMuaSanPham isOpen={isOpen} onChangeOpen={() => setIsOpen(false)} />
     </GestureHandlerRootView>
   );
 };
