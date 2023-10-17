@@ -1,68 +1,77 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { ToastAndroid } from 'react-native';
+import {createSlice} from '@reduxjs/toolkit';
+import {ToastAndroid} from 'react-native';
 import Storage from '../../../utils/Storage';
 //state
 const initialState = {
   user: {
-    "id_user": '',
-    "token": ''
-},
+    id_user: '',
+    token: '',
+  },
   isLoading: false,
   isLogin: false,
 };
 
 export const userSlice = createSlice({
-  name: 'users',//users/getUserFetch
+  name: 'users', //users/getUserFetch
   initialState,
   reducers: {
     //action user
-    getUserFetch: (state) => {
+    getUserFetch: state => {
       state.isLoading = true;
     },
     //action success
     LoginSuccess: (state, action) => {
       state.user = action.payload.data;
+      console.log("user: ", state.user)
       Storage.setToken(action.payload.data.token);
       state.isLogin = true;
       state.isLoading = false;
-      ToastAndroid.show("Đăng nhập thành công", ToastAndroid.SHORT);
-
+      ToastAndroid.show('Đăng nhập thành công', ToastAndroid.SHORT);
     },
 
-    getRegister: (state) => {
+    getRegister: state => {
       state.isLoading = true;
     },
 
-    SignUpSuccess: (state) => {
+    SignUpSuccess: state => {
       state.isLoading = false;
-      ToastAndroid.show("Đăng ký thành công", ToastAndroid.SHORT);
+      ToastAndroid.show('Đăng ký thành công', ToastAndroid.SHORT);
     },
 
-    getOtp: (state) => {
+    getOtp: state => {
       state.isLoading = true;
     },
 
-    getOtpSuccess: (state) => {
+    getOtpSuccess: state => {
       state.isLoading = false;
-      ToastAndroid.show("Send Otp ", ToastAndroid.SHORT);
+      ToastAndroid.show('Send Otp ', ToastAndroid.SHORT);
     },
 
-    changePassOtp: (state) => {
+    checkOtp: state => {
       state.isLoading = true;
     },
 
-    changePassOtpSuccess: (state) => {
+    checkOtpSuccess: state => {
       state.isLoading = false;
-      ToastAndroid.show("Đổi mật khẩu thành công ", ToastAndroid.SHORT);
+      ToastAndroid.show('Otp đúng', ToastAndroid.SHORT);
     },
 
-    changePass: (state) => {
+    changePassOtp: state => {
       state.isLoading = true;
     },
 
-    changePassSuccess: (state) => {
+    changePassOtpSuccess: state => {
       state.isLoading = false;
-      ToastAndroid.show("Đổi mật khẩu thành công ", ToastAndroid.SHORT);
+      ToastAndroid.show('Đổi mật khẩu thành công ', ToastAndroid.SHORT);
+    },
+
+    changePass: state => {
+      state.isLoading = true;
+    },
+
+    changePassSuccess: state => {
+      state.isLoading = false;
+      ToastAndroid.show('Đổi mật khẩu thành công ', ToastAndroid.SHORT);
     },
 
     //error
@@ -74,6 +83,20 @@ export const userSlice = createSlice({
   },
 });
 
-export const { getUserFetch, LoginSuccess, getRegister, SignUpSuccess, getOtp, getOtpSuccess, changePassOtp, changePassOtpSuccess, changePass, changePassSuccess, getUserFail } = userSlice.actions;
+export const {
+  getUserFetch,
+  LoginSuccess,
+  getRegister,
+  SignUpSuccess,
+  getOtp,
+  getOtpSuccess,
+  checkOtp,
+  checkOtpSuccess,
+  changePassOtp,
+  changePassOtpSuccess,
+  changePass,
+  changePassSuccess,
+  getUserFail,
+} = userSlice.actions;
 
 export default userSlice.reducer;

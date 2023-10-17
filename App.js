@@ -5,19 +5,24 @@ import {Provider} from 'react-redux';
 import AppNavigation from './src/components/navigations/AppNavigation';
 import {store} from './src/redux/store';
 import ModalCartOrder from './src/utils/Modals/ModalCartOrder';
+import AllVoucher from './src/components/others/allVoucher/AllVoucher';
+import AllCore from './src/components/others/allCore/AllCore';
+
 
 const App = () => {
   return (
 
-    <Provider store={store}>
-      {/* <ModalCartOrder/> */}
-      {/* <Demo/> */}
-      <AppNavigation />
-      {/* <Otp/> */}
-      {/* <QR/> */}
-      {/* <DanhGia/> */}
-      {/* <ToRate/> */}
-    </Provider>
+    <AllCore/>
+
+    // <Provider store={store}>
+    //   {/* <ModalCartOrder/> */}
+    //   {/* <Demo/> */}
+    //   <AppNavigation />
+    //   {/* <Otp/> */}
+    //   {/* <QR/> */}
+    //   {/* <DanhGia/> */}
+    //   {/* <ToRate/> */}
+    // </Provider>
 
   );
 };
