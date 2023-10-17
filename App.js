@@ -30,13 +30,15 @@ import Login from './src/component/user/login/Login';
 import Search from './src/component/main/home/item/Search';
 import ProductDetail from './src/component/main/newProduct/ProductDetail';
 import BottomMuaSanPham from './src/component/main/newProduct/BottomMuaSanPham';
+import History from './src/component/fileSua.js/History';
+import DanhGia from './src/component/fileSua.js/DanhGia';
 
 const App = () => {
   return (
     // <SignUp/>
     // <Home/>
     <Provider store={store}>
-      <ProductDetail />
+      <DanhGia />
       {/* <Profile/> */}
     </Provider>
 
