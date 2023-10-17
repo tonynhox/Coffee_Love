@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { styles } from './styles'
 import { useDispatch, useSelector } from 'react-redux'
 import { changePass } from '../../../redux/reducers/slices/userSlice'
+import { useNavigation } from '@react-navigation/native'
 
 const Changepassword = () => {
     const navigation = useNavigation();
