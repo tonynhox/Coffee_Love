@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { ToastAndroid } from 'react-native';
-import Storage from '../../../utils/Storage';
+import Storage from '../../../utils/storage'
 //state
 const initialState = {
   user: {

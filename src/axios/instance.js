@@ -1,5 +1,5 @@
 import axios from 'axios';
-import Storage from '../utils/Storage';
+import Storage from '../utils/storage';
 
 const instance = axios.create({
   baseURL: 'https://thaihoa.software/',

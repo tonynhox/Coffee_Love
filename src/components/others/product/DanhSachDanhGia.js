@@ -6,7 +6,7 @@ import moment from 'moment';
 
 const DanhSachDanhGia = () => {
   const dataDanhGia = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5}];
-  const dataHinhAnhDanhGia = [{id: 1}, {id: 2}, {id: 3}];
+  const dataHinhAnhDanhGia = [{id: 'sfasf'}, {id: 'asfasf'}, {id: 'svawse'}];
 
   const dataChiTietDanhGia = [
     {
@@ -57,7 +57,7 @@ const DanhSachDanhGia = () => {
               data={dataHinhAnhDanhGia}
               renderItem={renderHinhAnhDanhGia}
               horizontal={true}
-              keyExtractor={item => item.id}
+              keyExtractor={(item, index) => index.toString()}
             />
           </View>
           {/* thoi gian danh gia */}
@@ -132,7 +132,7 @@ const DanhSachDanhGia = () => {
         keyExtractor={item => item.id}
       /> */}
       {dataChiTietDanhGia.map(item => {
-        return <RenderChiTietDanhGia item={item} />;
+        return <RenderChiTietDanhGia item={item}/>;
       })}
     </View>
   );

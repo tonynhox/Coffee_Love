@@ -5,6 +5,8 @@ import {Provider} from 'react-redux';
 import AppNavigation from './src/components/navigations/AppNavigation';
 import {store} from './src/redux/store';
 import ModalCartOrder from './src/utils/Modals/ModalCartOrder';
+import OrderDetail from './src/components/others/orderDetail/OrderDetail';
+import ProductDetail from './src/components/others/product/ProductDetail';
 
 const App = () => {
   return (
@@ -17,6 +19,7 @@ const App = () => {
       {/* <QR/> */}
       {/* <DanhGia/> */}
       {/* <ToRate/> */}
+      {/* <ProductDetail/> */}
     </Provider>
 
   );
