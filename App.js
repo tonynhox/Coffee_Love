@@ -14,7 +14,7 @@ const App = () => {
     <Provider store={store}>
       {/* <ModalCartOrder/> */}
       {/* <Demo/> */}
-      <AppNavigation />
+      <ProductDetail />
       {/* <Otp/> */}
       {/* <QR/> */}
       {/* <DanhGia/> */}

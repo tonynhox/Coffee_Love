@@ -12,6 +12,7 @@ export const styles = StyleSheet.create({
   imageSanPham: {
     width: '100%',
     height: 250,
+    resizeMode: 'contain',
   },
   textTenSanPham: {
     fontSize: 30,
@@ -296,5 +297,12 @@ export const styles = StyleSheet.create({
     position: 'absolute',
     top: 12,
     right: 15,
+  },
+  loadingContainer: {
+    flex: 1,
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
   }
 });

@@ -6,14 +6,19 @@ import {
   FlatList,
   ScrollView,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome6';
 import {BACKGROUND_BUTTON_COLOR} from '../../../utils/contanst';
 import DanhSachDanhGia from './DanhSachDanhGia';
 import BottomMuaSanPham from './BottomMuaSanPham';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {styles} from './styles/productDetailStyle';
+import {useDispatch, useSelector} from 'react-redux';
+import {getChiTietSanPhamRequest} from '../../../redux/reducers/slices/chiTietSanPhamSlice';
+import {formatCurrency} from '../../../utils/formatCurrency';
+import Swiper from 'react-native-swiper';
 
 const ProductDetail = ({navigation}) => {
   const dataSanPhamDeXuat = [
@@ -55,6 +60,17 @@ const ProductDetail = ({navigation}) => {
     },
   ];
 
+  const dispatch = useDispatch();
+  const dataChiTietSanPham = useSelector(state => state.chi_tiet_san_pham.data);
+  const isLoading = useSelector(state => state.chi_tiet_san_pham.isLoading);
+
+  useEffect(() => {
+    const chiTietSanPhamRequest = () => {
+      dispatch(getChiTietSanPhamRequest('65200da4b4687e983b7353b4'));
+    };
+    chiTietSanPhamRequest();
+  }, []);
+
   const [isOpen, setIsOpen] = React.useState(false);
 
   const renderSanPhamDeXuat = () => {
@@ -68,7 +84,7 @@ const ProductDetail = ({navigation}) => {
           numberOfLines={2}
           ellipsizeMode="tail"
           style={styles.textTenSanPhamDeXuat}>
-          Americanoaaaaaaaa
+          Americano
         </Text>
         <Text style={styles.textGiaTienSanPhamDeXuat}>20.100₫</Text>
       </View>
@@ -76,132 +92,157 @@ const ProductDetail = ({navigation}) => {
   };
 
   return (
-    <GestureHandlerRootView style={styles.container}>
-      <ScrollView>
-        <Image
-          source={require('../../../assets/images/americano.png')}
-          style={styles.imageSanPham}
-        />
-
-        <TouchableOpacity
-          style={styles.backButton}
-          onPress={() => navigation.goBack()}>
-          <Icon name="arrow-left" size={17} color={'black'} />
-        </TouchableOpacity>
-
-        {/* Thong tin san pham container */}
-        <View style={styles.thongTinSanPhamContainer}>
-          {/* ten san pham, sao vote */}
-          <View>
-            <Text style={styles.textTenSanPham}>Americano</Text>
-            {/* star vote */}
-            <View style={styles.voteContainer}>
-              <Text style={styles.start}>4.5</Text>
-              <Icon
-                name="star"
-                solid
-                size={15}
-                color={'#FC9702'}
-                style={{paddingRight: 5, paddingLeft: 2}}
-              />
-              <Text style={styles.start}>(2.104)</Text>
-            </View>
-          </View>
-
-          {/* Danh muc */}
-          <View style={styles.danhSachDanhMucContainer}>
-            {/* Coffee  */}
-            <View style={styles.danhMucContainer}>
-              <Icon
-                name="mug-saucer"
-                solid
-                size={15}
-                color={'#FFD700'}
-                style={{marginRight: 5}}
-              />
-              <Text style={styles.textDanhMuc}>Coffee</Text>
-            </View>
-            {/* Coffee  */}
-            <View style={styles.danhMucContainer}>
-              <Icon
-                name="egg"
-                solid
-                size={15}
-                color={'#FFD700'}
-                style={{marginRight: 5}}
-              />
-              <Text style={styles.textDanhMuc}>Milk Tea</Text>
-            </View>
-            {/* Coffee  */}
-            <View style={styles.danhMucContainer}>
-              <Icon
-                name="mug-saucer"
-                solid
-                size={15}
-                color={'#FFD700'}
-                style={{marginRight: 5}}
-              />
-              <Text style={styles.textDanhMuc}>Milk Tea</Text>
-            </View>
-          </View>
-
-          <TouchableOpacity style={styles.buttonThemVaoYeuThich}>
-            <Icon name="heart" size={30} color={'#FC9702'} />
-          </TouchableOpacity>
+    <>
+      {isLoading ? (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color={BACKGROUND_BUTTON_COLOR} />
         </View>
+      ) : (
+        <GestureHandlerRootView style={styles.container}>
+          <ScrollView>
+            <Swiper
+            activeDotColor={BACKGROUND_BUTTON_COLOR}
+              nextButton={<Icon name="chevron-right" size={20} color={BACKGROUND_BUTTON_COLOR} />}
+              prevButton={<Icon name="chevron-left" size={20} color={BACKGROUND_BUTTON_COLOR} />}
+              height={250}
+              showsButtons={true}>
+              {dataChiTietSanPham.hinh_anh_sp.map((item, index) => {
+                return (
+                  <Image
+                    source={{uri: item.hinh_anh_sp}}
+                    style={styles.imageSanPham}
+                  />
+                );
+              })}
+            </Swiper>
 
-        {/* Gia */}
-       
-        <View style={styles.giaTienVaMuaContainer}>
-          <View style={styles.giaTienContainer}>
-            <Text style={[styles.textTien, styles.amount]}>100.000₫</Text>
-            <Text style={styles.dash}>-</Text>
-            <Text style={styles.textSale}>100.00₫</Text>
-          </View>
-
-          <View style={styles.yeuThichVaMuaHangContainer}>
-            {/* <Icon name="heart" size={30} color={'#FC9702'} /> */}
             <TouchableOpacity
-              style={styles.buttonMuaSanPham}
-              onPress={() => setIsOpen(true)}>
-              <Text style={styles.textMua}>Mua</Text>
-              <Icon name="cart-shopping" size={15} color={'white'} />
+              style={styles.backButton}
+              onPress={() => navigation.goBack()}>
+              <Icon name="arrow-left" size={17} color={'black'} />
             </TouchableOpacity>
-          </View>
-        </View>
 
-        {/* Mo ta container */}
-        <View style={styles.moTaContainer}>
-          <Text style={styles.textMoTa}>Mô tả</Text>
-          <Text style={styles.textThongTin}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec Lorem
-            ipsum dolor sit amet, consectetur adipiscing elit. Donec Lorem ipsum
-            dolor sit amet, consectetur adipiscing elit. Donec
-          </Text>
-        </View>
+            {/* Thong tin san pham container */}
+            <View style={styles.thongTinSanPhamContainer}>
+              {/* ten san pham, sao vote */}
+              <View>
+                <Text style={styles.textTenSanPham}>
+                  {dataChiTietSanPham.ten_san_pham}
+                </Text>
+                {/* star vote */}
+                <View style={styles.voteContainer}>
+                  <Text style={styles.start}>4.5</Text>
+                  <Icon
+                    name="star"
+                    solid
+                    size={15}
+                    color={'#FC9702'}
+                    style={{paddingRight: 5, paddingLeft: 2}}
+                  />
+                  <Text style={styles.start}>(2.104)</Text>
+                </View>
+              </View>
 
-        {/* separate line */}
-        <View style={styles.separateLine} />
+              {/* Danh muc */}
+              <View style={styles.danhSachDanhMucContainer}>
+                {dataChiTietSanPham.loai_san_pham.map((item, index) => {
+                  return (
+                    <TouchableOpacity
+                      style={styles.danhMucContainer}
+                      key={index}>
+                      <Icon
+                        name="mug-saucer"
+                        solid
+                        size={15}
+                        color={'#FFD700'}
+                        style={{marginRight: 5}}
+                      />
+                      <Text style={styles.textDanhMuc}>
+                        {item.ten_loai_san_pham}
+                      </Text>
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
 
-        {/* Sản phẩm đề xuất */}
-        <View style={styles.sanPhamDeXuatContainer}>
-          <Text style={styles.textMoTa}>Đề xuất</Text>
-          <FlatList
-            data={dataSanPhamDeXuat}
-            renderItem={renderSanPhamDeXuat}
-            horizontal={true}
-            keyExtractor={item => item.id}
-            showsHorizontalScrollIndicator={false}
+              <TouchableOpacity style={styles.buttonThemVaoYeuThich}>
+                <Icon name="heart" size={30} color={'#FC9702'} />
+              </TouchableOpacity>
+            </View>
+
+            {/* Gia */}
+
+            <View style={styles.giaTienVaMuaContainer}>
+              <View>
+                {/* Giam gia */}
+                {dataChiTietSanPham.size[2].giam_gia == 0 ? null : (
+                  <View style={styles.giaTienContainer}>
+                    <Text style={[styles.textTien, styles.amount]}>
+                      {formatCurrency(dataChiTietSanPham.size[2].giam_gia)}
+                    </Text>
+                    <Text style={styles.dash}>-</Text>
+                    <Text style={[styles.textTien, styles.amount]}>
+                      {formatCurrency(dataChiTietSanPham.size[0].giam_gia)}
+                    </Text>
+                  </View>
+                )}
+
+                {/* tien hien tai */}
+                <View style={styles.giaTienContainer}>
+                  <Text style={styles.textSale}>
+                    {formatCurrency(dataChiTietSanPham.size[2].gia)}
+                  </Text>
+                  <Text style={styles.dash}>-</Text>
+                  <Text style={styles.textSale}>
+                    {formatCurrency(dataChiTietSanPham.size[0].gia)}
+                  </Text>
+                </View>
+              </View>
+              <View style={styles.yeuThichVaMuaHangContainer}>
+                {/* <Icon name="heart" size={30} color={'#FC9702'} /> */}
+                <TouchableOpacity
+                  style={styles.buttonMuaSanPham}
+                  onPress={() => setIsOpen(true)}>
+                  <Text style={styles.textMua}>Mua</Text>
+                  <Icon name="cart-shopping" size={15} color={'white'} />
+                </TouchableOpacity>
+              </View>
+            </View>
+
+            {/* Mo ta container */}
+            <View style={styles.moTaContainer}>
+              <Text style={styles.textMoTa}>Mô tả</Text>
+              <Text style={styles.textThongTin}>
+                {dataChiTietSanPham.mo_ta}
+              </Text>
+            </View>
+
+            {/* separate line */}
+            <View style={styles.separateLine} />
+
+            {/* Sản phẩm đề xuất */}
+            <View style={styles.sanPhamDeXuatContainer}>
+              <Text style={styles.textMoTa}>Đề xuất</Text>
+              <FlatList
+                data={dataSanPhamDeXuat}
+                renderItem={renderSanPhamDeXuat}
+                horizontal={true}
+                keyExtractor={item => item.id}
+                showsHorizontalScrollIndicator={false}
+              />
+            </View>
+
+            <DanhSachDanhGia />
+          </ScrollView>
+
+          <BottomMuaSanPham
+            isOpen={isOpen}
+            onChangeOpen={() => setIsOpen(false)}
+            data={dataChiTietSanPham}
           />
-        </View>
-
-        <DanhSachDanhGia />
-      </ScrollView>
-
-      
-
-      <BottomMuaSanPham isOpen={isOpen} onChangeOpen={() => setIsOpen(false)} />
-    </GestureHandlerRootView>
+        </GestureHandlerRootView>
+      )}
+    </>
   );
 };
 
