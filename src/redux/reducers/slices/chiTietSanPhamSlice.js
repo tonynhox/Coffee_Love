@@ -23,7 +23,7 @@ const chiTietSanPhamSlice = createSlice({
       state.isLoading = false;
       state.success = false;
       state.data = null;
-      console.log('action.payload', action.payload);
+      console.log('action.payload fail', action.payload);
     },
   },
 });

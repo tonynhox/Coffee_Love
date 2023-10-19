@@ -91,7 +91,16 @@ const ProductDetail = ({navigation}) => {
     );
   };
 
-  return (
+  return dataChiTietSanPham == null ? (
+    <View style={styles.failContainer}>
+      <Text style={styles.textKhongCoDuLieu}>Không có dữ liệu</Text>
+      <TouchableOpacity
+        style={styles.backButton}
+        onPress={() => navigation.goBack()}>
+        <Icon name="arrow-left" size={17} color={'black'} />
+      </TouchableOpacity>
+    </View>
+  ) : (
     <>
       {isLoading ? (
         <View style={styles.loadingContainer}>
@@ -101,9 +110,21 @@ const ProductDetail = ({navigation}) => {
         <GestureHandlerRootView style={styles.container}>
           <ScrollView>
             <Swiper
-            activeDotColor={BACKGROUND_BUTTON_COLOR}
-              nextButton={<Icon name="chevron-right" size={20} color={BACKGROUND_BUTTON_COLOR} />}
-              prevButton={<Icon name="chevron-left" size={20} color={BACKGROUND_BUTTON_COLOR} />}
+              activeDotColor={BACKGROUND_BUTTON_COLOR}
+              nextButton={
+                <Icon
+                  name="chevron-right"
+                  size={20}
+                  color={BACKGROUND_BUTTON_COLOR}
+                />
+              }
+              prevButton={
+                <Icon
+                  name="chevron-left"
+                  size={20}
+                  color={BACKGROUND_BUTTON_COLOR}
+                />
+              }
               height={250}
               showsButtons={true}>
               {dataChiTietSanPham.hinh_anh_sp.map((item, index) => {

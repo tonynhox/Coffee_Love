@@ -7,15 +7,21 @@ import {
   Image,
   FlatList,
 } from 'react-native';
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome6';
 import LinearGradient from 'react-native-linear-gradient';
-import {LINEAR_1, LINEAR_2, LINEAR_3} from '../../../utils/contanst';
+import {
+  KEY_SEARCH_HISTORY,
+  LINEAR_1,
+  LINEAR_2,
+  LINEAR_3,
+} from '../../../utils/contanst';
 import Fuse from 'fuse.js';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {saveValueToStorage} from '../../../utils/saveSearchHistoryToStorage';
 
 const Search = () => {
-
   const navigation = useNavigation();
   const dataMostSold = [
     {
@@ -43,13 +49,31 @@ const Search = () => {
       star: 4.6,
     },
   ];
+  useEffect(() => {
+    getValues();
+  }, [navigation]);
 
-  const dataLichSuTimKiem = [
-    {id: 1, name: 'Americano'},
-    {id: 2, name: 'Americano'},
-    {id: 3, name: 'Americano'},
-    {id: 4, name: 'Americano'},
-  ];
+  const [dataFromStorage, setDataFromStorage] = useState([]);
+
+  // Retrieve the array of values
+  const getValues = async () => {
+    let key = KEY_SEARCH_HISTORY;
+
+    try {
+      const data = await AsyncStorage.getItem(key);
+      if (data) {
+        const dataArray = JSON.parse(data);
+        const newestValues = dataArray.slice(-4);
+        return setDataFromStorage(newestValues.reverse());
+      } else {
+        // No values stored under the key
+        return setDataFromStorage([]);
+      }
+    } catch (error) {
+      console.error('Error retrieving data from AsyncStorage:', error);
+      return setDataFromStorage([]);
+    }
+  };
 
   const dataTimKiem = [
     {id: 1, text: 'coffee', category: 'drink'},
@@ -95,12 +119,26 @@ const Search = () => {
   ];
 
   const [search, setSearch] = React.useState('');
-  const [isHistory, setIsHistory] = React.useState(true);
   const [filteredData, setFilteredData] = React.useState(dataTimKiem);
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
+
+  const handleChonSanPham = item => {
+    if (item?.item?.text === undefined) {
+      saveValueToStorage(KEY_SEARCH_HISTORY, item);
+      setSearch(item);
+    } else {
+      saveValueToStorage(KEY_SEARCH_HISTORY, item.item.text);
+      setSearch(item.item.text);
+    }
+    navigation.navigate('Home');
+  };
+
+  const handleTextInputFocused = () => {
+    setIsSearchFocused(true);
+  };
 
   const renderMuaNhieuNhat = ({item}) => {
     return (
-      
       /* hinh anh ten san pham, sao */
       <TouchableOpacity
         onPress={() => navigation.navigate('SearchSuccess')}
@@ -154,25 +192,40 @@ const Search = () => {
     );
   };
 
-  const renderLichSuTimKiem = () => {
+  const renderLichSuTimKiem = ({item, index}) => {
     return (
-      <View style={styles.timKiemGanDayContainer}>
-        <Icon
-          name={isHistory ? 'clock-rotate-left' : 'magnifying-glass'}
-          size={18}
-          color="gray"
-        />
-        <Text style={styles.textLichSuTimKiem}>Americano</Text>
-      </View>
+      <TouchableOpacity
+        style={styles.timKiemGanDayContainer}
+        onPress={() => handleChonSanPham(item)}>
+        <Icon name={'clock-rotate-left'} size={18} color="gray" />
+        <Text style={styles.textLichSuTimKiem}>{item}</Text>
+      </TouchableOpacity>
     );
   };
 
   const renderTimKiem = ({item}) => {
+        // nếu search rỗng thì hàm tìm kiếm (handleSearch) vẫn chưa chạy
+    // lúc này item.text chính là name vì giá trị của mảng hint từ component cha truyền vào
+    // chỉ có field là một object giống như này: 
+    // {"category": "food", "id": 40, "text": "french toast"}
+    // nên item.text chính là name
+    // *****
+    // nếu search có giá trị (khác rỗng) thì hàm tìm kiếm (handleSearch) đã chạy
+    // lúc này mảng đã đổi field, item bây giờ bao gồm 2 field item và refIndex
+    // goi item.item de lay gia tri name
+    let name;
+    if (search == '') {
+      name = item.text;
+    } else {
+      name = item.item;
+    }
     return (
-      <View style={styles.timKiemContainer}>
+      <TouchableOpacity
+        style={styles.timKiemContainer}
+        onPress={() => handleChonSanPham(name)}>
         <Icon name={'magnifying-glass'} size={18} color="gray" />
-        <Text style={styles.textLichSuTimKiem}>{item.item.text}</Text>
-      </View>
+        <Text style={styles.textLichSuTimKiem}>{name}</Text>
+      </TouchableOpacity>
     );
   };
 
@@ -182,10 +235,15 @@ const Search = () => {
   };
 
   const handleSearch = textSearch => {
+    if (textSearch == '') {
+      setSearch(textSearch);
+      setFilteredData(dataTimKiem);
+      return;
+    }
     setSearch(textSearch);
     const fuse = new Fuse(dataTimKiem, options);
     const filteredItems = fuse.search(textSearch);
-    console.log("filteredItems", filteredItems)
+    console.log('filteredItems', filteredItems);
     setFilteredData(filteredItems);
   };
 
@@ -193,9 +251,11 @@ const Search = () => {
     <View style={styles.container}>
       {/* find, arrow back */}
       <LinearGradient
-        colors={['#CC9F68','#CC9F68']}
+        colors={['#CC9F68', '#CC9F68']}
         style={styles.findAndArrowBackContainer}>
-        <TouchableOpacity style={styles.arrowBack}>
+        <TouchableOpacity
+          style={styles.arrowBack}
+          onPress={() => navigation.goBack()}>
           <Icon name={'arrow-left'} size={20} color="black" />
         </TouchableOpacity>
         <View style={styles.inputContainer}>
@@ -205,6 +265,9 @@ const Search = () => {
             color={'black'}
             placeholder="Tìm kiếm..."
             value={search}
+            onFocus={() => {
+              handleTextInputFocused();
+            }}
             onChangeText={text => handleSearch(text)}
           />
 
@@ -221,22 +284,27 @@ const Search = () => {
       </LinearGradient>
 
       {/* Danh sach da tim kiem, top san pham, san pham moi ra mat */}
-      {search ? (
+      {isSearchFocused ? (
         <FlatList
           data={filteredData}
           renderItem={renderTimKiem}
-          keyExtractor={item => item.item.id.toString()}
+          keyExtractor={(item, index )=> index.toString()}
         />
       ) : (
         <View>
-          {/* TIm kiem gan day */}
-          <View style={styles.danhSachDaTimKiemContainer}>
-            <FlatList
+          {dataFromStorage.length == 0 || (
+            // Tim kiem gan day
+            <View style={styles.danhSachDaTimKiemContainer}>
+              {/* <FlatList
               data={dataLichSuTimKiem}
               renderItem={renderLichSuTimKiem}
               keyExtractor={item => item.id.toString()}
-            />
-          </View>
+            /> */}
+              {dataFromStorage.map((item, index) => {
+                return <View key={index}>{renderLichSuTimKiem({item})}</View>;
+              })}
+            </View>
+          )}
 
           {/* separate line */}
           <View style={styles.separateLine} />

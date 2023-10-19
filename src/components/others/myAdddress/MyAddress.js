@@ -4,6 +4,7 @@ import {myAddressStyle} from './myAddressStyle';
 import Icon from 'react-native-vector-icons/FontAwesome6';
 import Header from '../../../utils/Header';
 import { useNavigation } from '@react-navigation/native';
+import { BACKGROUND_BUTTON_COLOR } from '../../../utils/contanst';
 
 const MyAddress = () => {
   const navigation = useNavigation();
@@ -45,7 +46,7 @@ const MyAddress = () => {
         <View style={myAddressStyle.containerButtonChecked}>
           {/* Button mac dinh */}
           <View style={myAddressStyle.checkedButtonContainer}>
-            <Icon name="circle-dot" size={20} color={'#9F580A'} />
+            <Icon name="circle-dot" size={20} color={BACKGROUND_BUTTON_COLOR} />
           </View>
         </View>
 
@@ -101,7 +102,7 @@ const MyAddress = () => {
       <TouchableOpacity 
         onPress={() => navigation.navigate('AddAddress')}
         style={myAddressStyle.addAddressContainer}>
-        <Icon name="circle-plus" size={20} color={'#9F580A'} />
+        <Icon name="circle-plus" size={20} color={BACKGROUND_BUTTON_COLOR} />
         <View />
         <Text style={myAddressStyle.textAddAddress}>Thêm địa chỉ</Text>
       </TouchableOpacity>

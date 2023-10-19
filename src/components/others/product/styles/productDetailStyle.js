@@ -9,6 +9,14 @@ export const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
   },
+  failContainer: {
+    flex: 1,
+    backgroundColor: '#fff',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  
   imageSanPham: {
     width: '100%',
     height: 250,
@@ -304,5 +312,10 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  textKhongCoDuLieu:{
+    fontSize: 20,
+    color: BACKGROUND_BUTTON_COLOR,
+    fontWeight: '500',
   }
 });

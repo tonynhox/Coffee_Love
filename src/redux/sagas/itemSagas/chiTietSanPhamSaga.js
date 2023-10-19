@@ -8,7 +8,7 @@ function* fetchItem(action) {
   try {
     console.log('action.payload SAGA', action.payload);
     const response = yield call(() =>
-      instance.get(`/api/san-pham/get-san-pham-by-id/${action.payload}`),
+      instance.get(`api/san-pham/get-san-pham-by-id/${action.payload}`),
     );
     yield put(getChiTietSanPhamSuccess(response.data));
   } catch (error) {

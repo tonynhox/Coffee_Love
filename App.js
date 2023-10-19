@@ -7,6 +7,7 @@ import {store} from './src/redux/store';
 import ModalCartOrder from './src/utils/Modals/ModalCartOrder';
 import OrderDetail from './src/components/others/orderDetail/OrderDetail';
 import ProductDetail from './src/components/others/product/ProductDetail';
+import AddAddress from './src/components/others/addAddress/AddAddress';
 
 const App = () => {
   return (
@@ -14,7 +15,7 @@ const App = () => {
     <Provider store={store}>
       {/* <ModalCartOrder/> */}
       {/* <Demo/> */}
-      <ProductDetail />
+      <AppNavigation />
       {/* <Otp/> */}
       {/* <QR/> */}
       {/* <DanhGia/> */}
