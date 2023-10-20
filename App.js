@@ -8,6 +8,7 @@ import ModalCartOrder from './src/utils/Modals/ModalCartOrder';
 import OrderDetail from './src/components/others/orderDetail/OrderDetail';
 import ProductDetail from './src/components/others/product/ProductDetail';
 import AddAddress from './src/components/others/addAddress/AddAddress';
+import BottomMuaSanPham from './src/components/others/product/BottomMuaSanPham';
 
 const App = () => {
   return (
@@ -15,7 +16,7 @@ const App = () => {
     <Provider store={store}>
       {/* <ModalCartOrder/> */}
       {/* <Demo/> */}
-      <AppNavigation />
+      <ProductDetail />
       {/* <Otp/> */}
       {/* <QR/> */}
       {/* <DanhGia/> */}

@@ -19,8 +19,13 @@ import {useDispatch, useSelector} from 'react-redux';
 import {getChiTietSanPhamRequest} from '../../../redux/reducers/slices/chiTietSanPhamSlice';
 import {formatCurrency} from '../../../utils/formatCurrency';
 import Swiper from 'react-native-swiper';
+import {useRoute} from '@react-navigation/native';
+import { lamTronSo } from '../../../utils/lamTronSo';
 
 const ProductDetail = ({navigation}) => {
+  // const route = useRoute();
+  // const {item} = route.params;
+
   const dataSanPhamDeXuat = [
     {
       id: 1,
@@ -152,7 +157,7 @@ const ProductDetail = ({navigation}) => {
                 </Text>
                 {/* star vote */}
                 <View style={styles.voteContainer}>
-                  <Text style={styles.start}>4.5</Text>
+                  <Text style={styles.start}>{lamTronSo(dataChiTietSanPham.tong_sao)}</Text>
                   <Icon
                     name="star"
                     solid
@@ -160,7 +165,7 @@ const ProductDetail = ({navigation}) => {
                     color={'#FC9702'}
                     style={{paddingRight: 5, paddingLeft: 2}}
                   />
-                  <Text style={styles.start}>(2.104)</Text>
+                  <Text style={styles.start}>({lamTronSo(dataChiTietSanPham.so_luong_danh_gia)})</Text>
                 </View>
               </View>
 
@@ -253,7 +258,7 @@ const ProductDetail = ({navigation}) => {
               />
             </View>
 
-            <DanhSachDanhGia />
+            <DanhSachDanhGia data={dataChiTietSanPham}/>
           </ScrollView>
 
           <BottomMuaSanPham

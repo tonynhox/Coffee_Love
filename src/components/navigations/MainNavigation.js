@@ -9,7 +9,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import ModalCartOrder from '../../utils/Modals/ModalCartOrder';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCartPaymentFetch } from '../../redux/reducers/slices/cartPaymentSlice';
-import Storage from '../../utils/Storage';
+import Storage from '../../utils/storage';
 
 const Tab = createBottomTabNavigator();
 
