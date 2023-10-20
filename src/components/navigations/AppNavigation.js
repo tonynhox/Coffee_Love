@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 
@@ -16,9 +16,18 @@ import AddAddress from '../others/addAddress/AddAddress';
 import MyAddress from '../others/myAdddress/MyAddress';
 import ToRate from '../others/toRate/ToRate';
 import Changepassword from '../others/changepassword/Changepassword';
+import { useDispatch } from 'react-redux';
+import { getCategoryFetch } from '../../redux/reducers/slices/categoriesSlice';
 const Stack = createNativeStackNavigator();
 
 const AppNavigation = () => {
+
+    const dispatch = useDispatch();
+    useEffect(() => {
+        console.log('AppNavigation');
+        dispatch(getCategoryFetch());
+    }, []);
+
   return (
     <NavigationContainer>
         <Stack.Navigator

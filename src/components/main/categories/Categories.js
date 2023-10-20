@@ -1,122 +1,145 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import {
   View,
   Text,
   StyleSheet,
   Image,
-  FlatList,
   TouchableOpacity,
-  Button,
-  ScrollView
+  ScrollView,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-
+import { useSelector } from 'react-redux';
 
 const Categories = () => {
-  const scrollViewRef = useRef();
-  const targetRef = useRef();
-  const targetRef1 = useRef();
+  const bigData = useSelector((state) => state.categories.data);
+  const [firstFlatListItems, setFirstFlatListItems] = useState(8);
 
-const onPressTouch = (target) => {
-  if (scrollViewRef.current && target.current) {
-    target.current.measure((x, y, width, height, pageX, pageY,) => {
-      scrollViewRef.current.scrollTo({
-        y: pageY,
-        animated: true
-      });
-    });
-  }
-}
 
-  const renderItem = ({ item }) => {
+  const renderItem = (item, index) => {
+    const { ten_loai_san_pham } = item;
+
+
+    if (index === 7 || ten_loai_san_pham === 'Xem Them') {
+      return (
+        <TouchableOpacity
+          style={Styles.card}
+          onPress={() => {
+            setFirstFlatListItems(firstFlatListItems + 8);
+          }}
+        >
+          <View style={[Styles.imgCard]}></View>
+          <Text numberOfLines={2} style={Styles.nameCard}>
+            Xem Them
+          </Text>
+        </TouchableOpacity>
+      );
+    }
+
     return (
       <TouchableOpacity
         style={Styles.card}
-        onPress={() => {
-          onPressTouch(targetRef);
-        }}
+
       >
         <View style={[Styles.imgCard]}>
           <Image
-
-            style={[Styles.imgCardBackground, { width: 65, height: 65, resizeMode: 'center' }]}
+            style={[
+              Styles.imgCardBackground,
+              { width: 65, height: 65, resizeMode: 'center' },
+            ]}
             source={{
               uri:
                 'https://www.thegioiphache.com/uploads/d/f/q/H/4/Gsztv_ly-thuy-tinh-ocean-caffe-cappuccino-p02441-p02471-1.png.webp',
             }}
           ></Image>
         </View>
-
         <Text numberOfLines={2} style={Styles.nameCard}>
-          {item === 8 ? 'Xem Them' : 'huy ne'}
+          {ten_loai_san_pham}
         </Text>
       </TouchableOpacity>
     );
   };
-
-  const renderItemDetail = ({ item }) => {
-    const {name,price} = item;
+  const categoryPositions = []; 
+  const renderCategory = (item,index) => {
+    const { ten_loai_san_pham, san_pham } = item;
+    categoryPositions.push(index);
     return (
-      <TouchableOpacity  
-        onPress={() => {
-          onPressTouch(targetRef1);
-        }}
-        style={{ flexDirection: 'row', marginVertical: 10, borderRadius: 4 }}>
+      <View key={ten_loai_san_pham}>
+        <Text style={{ color: '#000', fontWeight: '500', fontSize: 18 }}>
+          {ten_loai_san_pham}
+        </Text>
+        <View>
+          {san_pham.map((item, index) => (
+            <View key={index}>
+              {renderItemDetail(item)}
+            </View>
+          ))}
+        </View>
+      </View>
+    );
+  };
+
+  const renderItemDetail = (item) => {
+    const { ten_san_pham, size, hinh_anh_sp } = item;
+
+    return (
+      <TouchableOpacity
+        style={{ flexDirection: 'row', marginVertical: 10, borderRadius: 4 }}
+      >
         <TouchableOpacity
-          style={{ position: 'absolute', bottom: 0, right: 0, borderRadius: 100, backgroundColor: '#C67C4E', padding: 5 }}
+          style={{
+            position: 'absolute',
+            bottom: 0,
+            right: 0,
+            borderRadius: 100,
+            backgroundColor: '#C67C4E',
+            padding: 5,
+          }}
         >
           <Icon name="plus" style={{ fontSize: 26, color: '#fff' }} />
         </TouchableOpacity>
-
         <Image
-          style={{ borderRadius: 4, width: 110, height: 110, resizeMode: 'center' }}
+          style={{
+            borderRadius: 4,
+            width: 110,
+            height: 110,
+            resizeMode: 'center',
+          }}
           source={{
-            uri:
-              'https://www.thegioiphache.com/uploads/d/f/q/H/4/Gsztv_ly-thuy-tinh-ocean-caffe-cappuccino-p02441-p02471-1.png.webp',
+            uri: hinh_anh_sp[0]?.hinh_anh_sp,
           }}
         />
         <View style={{ marginHorizontal: 12, marginTop: 6 }}>
-          <Text style={{ fontSize: 15, fontWeight: '500', color: '#000', marginBottom: 6 }}>{name}</Text>
-          <Text style={{ fontSize: 15, fontWeight: '400', color: '#000' }}>{price}đ</Text>
+          <Text
+            style={{
+              fontSize: 15,
+              fontWeight: '500',
+              color: '#000',
+              marginBottom: 6,
+            }}
+          >
+            {ten_san_pham}
+          </Text>
+          <Text style={{ fontSize: 15, fontWeight: '400', color: '#000' }}>
+            {size[1]?.gia}đ
+          </Text>
         </View>
       </TouchableOpacity>
     );
   };
 
-  const renderCategory = ({item}) => {
-    const {loaiSP,SP} = item;
-    return (
-      <View >
-      <Text 
-        ref={targetRef}
-        style={{ color: '#000', fontWeight: '500', fontSize: 18 }}>{loaiSP}</Text>
-      <FlatList
-        scrollEnabled={false} 
-        data={SP}
-        renderItem={renderItemDetail}
-        keyExtractor={(item,index) => index}
-        showsVerticalScrollIndicator={false}
-        horizontal={false}
-      />
-    </View>
-    )
-  };
-
   return (
-    <ScrollView ref={scrollViewRef} style={Styles.container}>
-      <FlatList
-        scrollEnabled={false} 
-        style={{ marginVertical: 16 }}
-        data={[1, 2, 3, 4, 5, 6, 7, 8]}
-        numColumns={4}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.toString()}
-        showsVerticalScrollIndicator={false}
-        horizontal={false}
-        columnWrapperStyle={{ justifyContent: 'space-between' }}
-      />
-      <View> 
-        <Text ref={targetRef1} style={{ color: '#000', fontSize: 18, fontWeight: '500' }}>Bộ sưu tập</Text>
+    <ScrollView  style={Styles.container}>
+      <View style={Styles.row}>
+        {bigData.map((item, index) => {
+          if(index < firstFlatListItems){
+            return <View style={Styles.column} key={index}>
+              {renderItem(item, index)}
+            </View>}})}
+      </View>
+      <View>
+        <Text style={{ color: '#000', fontSize: 18, fontWeight: '500' }}>
+          Bộ sưu tập
+        </Text>
         <View style={{ marginVertical: 16, borderRadius: 10 }}>
           <Image
             style={{ width: '100%', height: 170, borderRadius: 10 }}
@@ -127,24 +150,22 @@ const onPressTouch = (target) => {
           />
         </View>
       </View>
-
-      <FlatList
-            scrollEnabled={false} 
-            style={{ marginVertical: 16 }}
-            data={bigData}
-            renderItem={renderCategory}
-            keyExtractor={(item,index) => index}
-            showsVerticalScrollIndicator={false}
-            horizontal={false}
-      />
-      <Button title="Scroll To Section" onPress={onPressTouch} />
+      {bigData.map((category, index) => (
+        <View key={index}>{renderCategory(category)}</View>
+      ))}
     </ScrollView>
   );
+  
 };
 
 export default Categories;
 
 const Styles = StyleSheet.create({
+  row: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+  },
   nameCard: {
     color: '#6D3805',
     marginTop: 4,
@@ -174,41 +195,3 @@ const Styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
 });
-
-
-var bigData = 
-[
-  {
-    loaiSP:'banh',
-    SP:
-    [
-      {name:'sp1',price:100},
-      {name:'sp2',price:100},
-      {name:'sp2',price:100},
-    ]
-  },
-  {
-    loaiSP:'kẹo',
-    SP:
-    [
-      {name:'sp1',price:100},
-      {name:'sp2',price:120},
-    ]
-  },
-  {
-    loaiSP:'Huy',
-    SP:
-    [
-      {name:'sp1',price:1200},
-      {name:'sp2',price:1010},
-    ]
-  },
-  {
-    loaiSP:'cafe',
-    SP:
-    [
-      {name:'sp1',price:1200},
-      {name:'sp2',price:1010},
-    ]
-  }
-]
