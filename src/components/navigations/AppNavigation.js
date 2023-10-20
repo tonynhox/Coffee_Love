@@ -18,14 +18,21 @@ import ToRate from '../others/toRate/ToRate';
 import Changepassword from '../others/changepassword/Changepassword';
 import { useDispatch } from 'react-redux';
 import { getCategoryFetch } from '../../redux/reducers/slices/categoriesSlice';
+import { getTopOrderFetch } from '../../redux/reducers/slices/topOrderSlice';
+import { getProductAllFetch } from '../../redux/reducers/slices/productSlice';
 const Stack = createNativeStackNavigator();
 
 const AppNavigation = () => {
 
     const dispatch = useDispatch();
+
+    //get api khi vào app
     useEffect(() => {
         console.log('AppNavigation');
         dispatch(getCategoryFetch());
+        dispatch(getTopOrderFetch())
+        dispatch(getProductAllFetch())
+        
     }, []);
 
   return (
