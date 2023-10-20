@@ -1,19 +1,32 @@
-import React, { useRef, useState } from 'react';
-import { ScrollView, StyleSheet, Text, View, Button,Dimensions } from 'react-native';
+import React, {useRef, useState} from 'react';
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  Button,
+  Dimensions,
+} from 'react-native';
 import Modal from 'react-native-modal';
 import OrderDetail from '../../components/others/orderDetail/OrderDetail';
+import CartPayment from '../../components/others/cartPayment/CartPayment';
+import { useSelector } from 'react-redux';
 
-const { height } = Dimensions.get('window');
-const ModalCartOrder = (props) => {
-  const { isVisible, setIsVisible } = props;
+
+
+const {height} = Dimensions.get('window');
+const ModalCartOrder = props => {
+  const {isVisible, setIsVisible} = props;
   const [scrollOffset, setScrollOffset] = useState(null);
   const scrollViewRef = useRef(null);
 
-  const handleOnScroll = (event) => {
+
+
+  const handleOnScroll = event => {
     setScrollOffset(event.nativeEvent.contentOffset.y);
   };
 
-  const handleScrollTo = (p) => {
+  const handleScrollTo = p => {
     if (scrollViewRef.current) {
       scrollViewRef.current.scrollTo(p);
     }
@@ -30,7 +43,7 @@ const ModalCartOrder = (props) => {
         isVisible={isVisible}
         onSwipeComplete={closeModal}
         swipeDirection={['down']}
-        swipeThreshold={height*(1/4)}
+        swipeThreshold={height * (1 / 4)}
         scrollTo={handleScrollTo}
         scrollOffset={scrollOffset}
         scrollOffsetMax={10000} // content height - ScrollView height
@@ -41,8 +54,28 @@ const ModalCartOrder = (props) => {
             ref={scrollViewRef}
             onScroll={handleOnScroll}
             scrollEventThrottle={16}>
-            <OrderDetail />
+            <CartPayment />
           </ScrollView>
+
+          {/* btn Đặt hàng */}
+          <View
+            style={{
+              flexDirection: 'row',
+              zIndex: 10,
+              width: '100%',
+              padding: 16,
+              backgroundColor: 'orange',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}>
+            <View style={{flexDirection: 'column'}}>
+              <Text style={{color:'white',fontSize:15.5,fontWeight:'500'}} >Giao hàng • 2 sản phẩm</Text>
+              <Text style={{color:'white',fontSize:16,fontWeight:'800'}}>126.000đ</Text>
+            </View>
+            <View style={{borderRadius: 20 ,paddingHorizontal:18,backgroundColor:'white',height:32,alignItems:'center',justifyContent:'center'}}>
+              <Text style={{color: 'orange',fontWeight:'600',fontSize:16,padding:0}}>Đặt hàng</Text>
+            </View>
+          </View>
         </View>
       </Modal>
     </View>
@@ -57,7 +90,9 @@ const styles = StyleSheet.create({
     borderTopStartRadius: 20,
   },
   scrollableModal: {
-    flex: 0.96,
+    // flex: 0.96,
+    flex: 1,
+    // borderRadius:20,
   },
   scrollableModalContent1: {
     height: 200,
