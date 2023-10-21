@@ -3,24 +3,35 @@ import React from 'react'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { styles } from '../styles'
 import { useNavigation } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
 const Menu = () => {
     const navigation = useNavigation();
+    const data = useSelector(state => state.products.data);
+    const isLoading = useSelector(state => state.products.isLoading);
 
-    const renderItem = ({ item }) => {
+
+    const renderItem = (item) => {
+        // console.log('item',item);
+        // const {index,item} = itemne;
+        console.log('item',item);
+
+        const {ten_san_pham,size,hinh_anh_sp,loai_san_pham} = item.item;
+        console.log('ten_san_pham',ten_san_pham);
+
         return (
         <TouchableOpacity 
             onPress={() => navigation.navigate('ProductDetail')}
             style={styles.cardProduct}>
             <View style={styles.cardImg}>
-                <Image style={styles.imgProduct} source={require('../../../../assets/images/img_cafe.png')} />
+                <Image style={styles.imgProduct} source={{uri:hinh_anh_sp[0].hinh_anh_sp}} />
             </View>
             <View style={styles.cardBottom}>
                 <View style={styles.CardItemMid}>
-                    <Text style={styles.txtTitle}>Cappuccino</Text>
-                    <Text style={styles.txtCategory}> Espresso ,Sữa</Text>
+                    <Text style={styles.txtTitle}>{ten_san_pham}</Text>
+                    <Text style={styles.txtCategory}> {size[1].ten_size} ,{loai_san_pham[0].ten_loai_san_pham} </Text>
                 </View>
                 <View style={styles.cardItemBottom}>
-                    <Text style={styles.txtTitle}>VND 75.000</Text>
+                    <Text style={styles.txtTitle}>{size[1].gia}</Text>
                     <TouchableOpacity
                         style={{ borderRadius: 100, backgroundColor: '#df7a00', padding: 5 }}
                         >
@@ -33,6 +44,7 @@ const Menu = () => {
     }
 
     return (
+        isLoading ? <Text>Loading...</Text> :
         <View>
             <Text style={{color:'#000',fontSize:20,fontWeight:'700',marginTop:20}}>Menu</Text>
             <FlatList
@@ -40,7 +52,8 @@ const Menu = () => {
                 columnWrapperStyle={{ justifyContent: 'space-between' }}
                 numColumns={2}
                 renderItem={renderItem}
-                keyExtractor={item => item.id}
+                keyExtractor={(item) => item._id.toString()}
+
             />
         </View>
     )
@@ -48,10 +61,10 @@ const Menu = () => {
 
 export default Menu
 
-var data = [
-    {id:1},
-    {id:2},
-    {id:3},
-    {id:4},
-    {id:5},
-    {id:6},]
+// var data = [
+//     {id:1},
+//     {id:2},
+//     {id:3},
+//     {id:4},
+//     {id:5},
+//     {id:6},]

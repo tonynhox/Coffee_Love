@@ -1,67 +1,70 @@
-import {StyleSheet, Text, View,TextInput, FlatList,ScrollView, TouchableOpacity} from 'react-native';
-import React, { useEffect, useState } from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  FlatList,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import RenderOrderItem from './RenderOrderItem';
 import {BACKGROUND_BUTTON_COLOR} from '../../../utils/contanst';
 // import { ScrollView } from 'react-native-virtualized-view';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
 const CartPayment = () => {
-
-  const diachi=  [
+  const diachi = [
     {
-        "ten_dia_chi": "yolo",
-        "so_dien_thoai": "dumemi",
-        "so_nha": "20",
-        "tinh": "dong nai",
-        "mac_dinh": 0,
-        "status": 1,
-        "_id": "65316033ab77492e0b68df1b",
-        "nguoi_nhan": "cac"
-    }
-]
+      ten_dia_chi: 'yolo',
+      so_dien_thoai: 'dumemi',
+      so_nha: '20',
+      tinh: 'dong nai',
+      mac_dinh: 0,
+      status: 1,
+      _id: '65316033ab77492e0b68df1b',
+      nguoi_nhan: 'cac',
+    },
+  ];
   const [diaChi, setDiaChi] = useState();
   useEffect(() => {
-    if(diachi.length>0){
+    if (diachi.length > 0) {
       setDiaChi(diachi[0]);
     }
-  }, [])
-  
-    //data giỏ hàng
-    const data = useSelector(state => state.cartPayment.data);
+  }, []);
 
-    console.log('data đây', data);
+  //data giỏ hàng
+  const data = useSelector(state => state.cartPayment.data);
+
   return (
-
     <View style={styles.container}>
-
-
       {/* separate line */}
 
       {/* Dia chi giao hang */}
       <TouchableOpacity style={styles.thongTinDiaChiContainer}>
-        <View style={{position:'absolute',top:30,right:0}}>
+        <View style={{position: 'absolute', top: 30, right: 0}}>
           {/* <Text style={styles.textDonHang}>Đổi</Text> */}
-          <Icon name='chevron-right' size={30} color='black' />
+          <Icon name="chevron-right" size={30} color="black" />
         </View>
         <Text style={styles.textThongTinDiaChi}>
           Thông tin - địa chỉ giao hàng
         </Text>
-        <View style={{marginLeft:6}}>
+        <View style={{marginLeft: 6}}>
           <Text style={styles.textThongTin}>{diaChi?.nguoi_nhan}</Text>
           <Text style={styles.textThongTin}>{diaChi?.so_dien_thoai}</Text>
           <Text
-            style={[styles.textThongTin,{width:'86%'}]}
+            style={[styles.textThongTin, {width: '86%'}]}
             numberOfLines={2}
-            ellipsizeMode="tail"
-            >
+            ellipsizeMode="tail">
             Địa chỉ: {diaChi?.so_nha}, {diaChi?.tinh}
           </Text>
         </View>
-
       </TouchableOpacity>
 
       {/* separate line */}
-      <View style={[styles.separateLine,{marginLeft:-20,width:"110%",left:0,}]} />
+      <View
+        style={[styles.separateLine, {marginLeft: -20, width: '110%', left: 0}]}
+      />
 
       {/* Don hang */}
       <View>
@@ -74,9 +77,7 @@ const CartPayment = () => {
           keyExtractor={item => item._id}
         /> */}
         {data.map((item, index) => {
-          return (
-              <RenderOrderItem key={index} item={item} index={index} />
-          )
+          return <RenderOrderItem key={index} item={item} index={index} />;
         })}
         {/* <Text style={[styles.textTongSanPham, {marginTop: 10}]}>
           Tổng sản phẩm: 3
@@ -85,7 +86,9 @@ const CartPayment = () => {
 
       {/* separate line
       <View style={styles.separateLine} /> */}
-      <View style={[styles.separateLine,{marginLeft:-20,width:"110%",left:0,}]} />
+      <View
+        style={[styles.separateLine, {marginLeft: -20, width: '110%', left: 0}]}
+      />
 
       {/* tong tien container */}
       {/* <View style={styles.tongTienContainer}>
@@ -113,8 +116,14 @@ const CartPayment = () => {
         <TouchableOpacity style={[styles.phiGiaoHangContainer, {marginTop: 5}]}>
           {/* <Text style={[styles.textPhiGiaoHang]}>Khuyến mãi</Text>
           <Text style={styles.textPhiGiaoHang}>-10.000₫</Text> */}
-          <Text style={[styles.textPhiGiaoHang,{fontSize:13.5, color:'blue',fontWeight:'500'}]}>Chọn khuyến mãi/đổi điểm</Text>
-          <Icon name='chevron-right' size={18} color='blue' />
+          <Text
+            style={[
+              styles.textPhiGiaoHang,
+              {fontSize: 13.5, color: 'blue', fontWeight: '500'},
+            ]}>
+            Chọn khuyến mãi/đổi điểm
+          </Text>
+          <Icon name="chevron-right" size={18} color="blue" />
         </TouchableOpacity>
       </View>
 
@@ -128,24 +137,24 @@ const CartPayment = () => {
       </View>
 
       {/* separate line */}
-      <View style={[styles.separateLine,{marginLeft:-20,width:"110%",left:0}]} />
-      
+      <View
+        style={[styles.separateLine, {marginLeft: -20, width: '110%', left: 0}]}
+      />
+
       {/* Hinh thuc hanh toan */}
       <View>
         <Text style={styles.textDonHang}>Hình thức thanh toán</Text>
 
         <TouchableOpacity style={styles.phiGiaoHangContainer}>
           {/* <Text style={styles.textPhiGiaoHang}>15.000₫</Text> */}
-          <View style={{flexDirection:'row',alignItems:'center'}} >
-            <Icon name='cash' size={20} color='green' />
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <Icon name="cash" size={20} color="green" />
             <Text style={styles.textPhiGiaoHang}> Tiền mặt</Text>
           </View>
 
           {/* <Text style={styles.textPhiGiaoHang}>15.000₫</Text> */}
-          <Icon name='chevron-right' size={20} color='black' />
+          <Icon name="chevron-right" size={20} color="black" />
         </TouchableOpacity>
-
-        
       </View>
       {/* Hinh thuc thanh toan */}
       {/* <View>
@@ -154,27 +163,27 @@ const CartPayment = () => {
         </Text>
       </View> */}
 
-
       {/* separate line */}
-      <View style={[styles.separateLine,{marginLeft:-20,width:"110%",left:0}]} />
-
+      <View
+        style={[styles.separateLine, {marginLeft: -20, width: '110%', left: 0}]}
+      />
 
       {/* chu thich */}
       <View>
         <Text style={styles.textDonHang}>Chú thích</Text>
         {/* chu thich view */}
         <View style={styles.chuThichContainer}>
-          <TextInput 
-            placeholder='Ghi chú đơn hàng (không bắt buộc)'
-            placeholderTextColor='#404040'
+          <TextInput
+            placeholder="Ghi chú đơn hàng (không bắt buộc)"
+            placeholderTextColor="#404040"
             // collapsable={true}
             // autoCorrect={true}
             multiline={true}
-            style={styles.textLoiNhan}/>
+            style={styles.textLoiNhan}
+          />
         </View>
       </View>
     </View>
-
   );
 };
 
@@ -186,10 +195,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     flexDirection: 'column',
     // justifyContent: 'flex-start',
-    padding:12,
+    padding: 12,
     // borderRadius:20,
-    marginTop:60,
-
+    marginTop: 60,
   },
   thongTinDiaChiContainer: {
     flexDirection: 'column',
@@ -204,7 +212,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: 'black',
     fontWeight: '700',
-    marginBottom : 6,
+    marginBottom: 6,
   },
   textTongSanPham: {
     fontSize: 15,
@@ -216,14 +224,14 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     color: '#000',
     // paddingVertical: 2,
-    paddingTop:2
+    paddingTop: 2,
   },
   separateLine: {
     height: 1,
     width: '100%',
     backgroundColor: 'gray',
     marginVertical: 10,
-    borderWidth:0.1,
+    borderWidth: 0.1,
   },
   textPhiGiaoHang: {
     fontSize: 14,
