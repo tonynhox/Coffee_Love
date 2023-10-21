@@ -18,7 +18,7 @@ import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {styles} from './styles/bottomMuaSanPhamStyle';
 import {formatCurrency} from '../../../utils/formatCurrency';
 
-const BottomMuaSanPham = ({isOpen, onChangeOpen, data}) => {
+const BottomMuaSanPham = ({isOpen, onChangeOpen, data, handleNavigate}) => {
   useEffect(() => {
     if (isOpen) {
       bottomSheetRef.current.expand();
@@ -72,8 +72,8 @@ const BottomMuaSanPham = ({isOpen, onChangeOpen, data}) => {
   };
 
   const [dataSize, setDataSize] = useState([
-    {id: 1123, name: 'Nhỏ', price: 0, isSelected: false},
-    {id: 21214, name: 'Vừa', price: 10000, isSelected: true},
+    {id: 1123, name: 'Nhỏ', price: 0, isSelected: true},
+    {id: 21214, name: 'Vừa', price: 10000, isSelected: false},
     {id: 31231, name: 'Lớn', price: 20000, isSelected: false},
   ]);
 
@@ -277,6 +277,12 @@ const BottomMuaSanPham = ({isOpen, onChangeOpen, data}) => {
     setDataTopping(prevState => {
       return prevState.map(item => {
         if (item._id === id) {
+          // nếu chưa được chọn thì cộng tiền vào, nếu đã chọn rồi thì trừ tiền ra
+          if (item.isSelected == false) {
+            setTotal(total + item.gia);
+          } else {
+            setTotal(total - item.gia);
+          }
           return {...item, isSelected: !item.isSelected};
         }
         return item; // Return the item as is for items that don't match the id
@@ -289,15 +295,6 @@ const BottomMuaSanPham = ({isOpen, onChangeOpen, data}) => {
 
   // variables
   const snapPoints = useMemo(() => ['70%'], []);
-
-  const renderSectionHeader = ({section}) => {
-    return (
-      <View style={styles.sectionHeaderContainer}>
-        <Text style={styles.textDa}>{section.title}</Text>
-        <Text style={styles.required}>{section.id == 0 ? '*' : ''}</Text>
-      </View>
-    );
-  };
 
   // render size
   const renderSize = ({item}) => {
@@ -428,9 +425,11 @@ const BottomMuaSanPham = ({isOpen, onChangeOpen, data}) => {
             </View>
           </View>
 
-          <View style={styles.muaNgayButtonContainer}>
-            <Text style={styles.textMuaNgay}>Mua ngay ({formatCurrency(total)})</Text>
-          </View>
+          <TouchableOpacity style={styles.muaNgayButtonContainer} onPress={() => handleNavigate(total*quantity)}>
+            <Text style={styles.textMuaNgay}>
+              Mua ngay ({formatCurrency(total * quantity)})
+            </Text>
+          </TouchableOpacity>
         </View>
       </BottomSheet>
     </>

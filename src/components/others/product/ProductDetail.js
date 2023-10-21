@@ -20,11 +20,14 @@ import {getChiTietSanPhamRequest} from '../../../redux/reducers/slices/chiTietSa
 import {formatCurrency} from '../../../utils/formatCurrency';
 import Swiper from 'react-native-swiper';
 import {useRoute} from '@react-navigation/native';
-import { lamTronSo } from '../../../utils/lamTronSo';
+import {lamTronSo} from '../../../utils/lamTronSo';
+import {useNavigation} from '@react-navigation/native';
 
 const ProductDetail = ({navigation}) => {
   // const route = useRoute();
   // const {item} = route.params;
+
+  // const navigation = useNavigation();
 
   const dataSanPhamDeXuat = [
     {
@@ -78,6 +81,10 @@ const ProductDetail = ({navigation}) => {
 
   const [isOpen, setIsOpen] = React.useState(false);
 
+  const navigateToBuyProduct = () => {
+    // navigation.navigate('BuyProduct');
+  };
+
   const renderSanPhamDeXuat = () => {
     return (
       <View style={styles.containerSanPhamDeXuat}>
@@ -96,20 +103,20 @@ const ProductDetail = ({navigation}) => {
     );
   };
 
-  return dataChiTietSanPham == null ? (
-    <View style={styles.failContainer}>
-      <Text style={styles.textKhongCoDuLieu}>Không có dữ liệu</Text>
-      <TouchableOpacity
-        style={styles.backButton}
-        onPress={() => navigation.goBack()}>
-        <Icon name="arrow-left" size={17} color={'black'} />
-      </TouchableOpacity>
+  return isLoading ? (
+    <View style={styles.loadingContainer}>
+      <ActivityIndicator size="large" color={BACKGROUND_BUTTON_COLOR} />
     </View>
   ) : (
     <>
-      {isLoading ? (
-        <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color={BACKGROUND_BUTTON_COLOR} />
+      {dataChiTietSanPham == null ? (
+        <View style={styles.failContainer}>
+          <Text style={styles.textKhongCoDuLieu}>Không có dữ liệu</Text>
+          <TouchableOpacity
+            style={styles.backButton}
+            onPress={() => navigation.goBack()}>
+            <Icon name="arrow-left" size={17} color={'black'} />
+          </TouchableOpacity>
         </View>
       ) : (
         <GestureHandlerRootView style={styles.container}>
@@ -157,7 +164,9 @@ const ProductDetail = ({navigation}) => {
                 </Text>
                 {/* star vote */}
                 <View style={styles.voteContainer}>
-                  <Text style={styles.start}>{lamTronSo(dataChiTietSanPham.tong_sao)}</Text>
+                  <Text style={styles.start}>
+                    {lamTronSo(dataChiTietSanPham.tong_sao)}
+                  </Text>
                   <Icon
                     name="star"
                     solid
@@ -165,7 +174,9 @@ const ProductDetail = ({navigation}) => {
                     color={'#FC9702'}
                     style={{paddingRight: 5, paddingLeft: 2}}
                   />
-                  <Text style={styles.start}>({lamTronSo(dataChiTietSanPham.so_luong_danh_gia)})</Text>
+                  <Text style={styles.start}>
+                    ({lamTronSo(dataChiTietSanPham.so_luong_danh_gia)})
+                  </Text>
                 </View>
               </View>
 
@@ -258,13 +269,14 @@ const ProductDetail = ({navigation}) => {
               />
             </View>
 
-            <DanhSachDanhGia data={dataChiTietSanPham}/>
+            <DanhSachDanhGia data={dataChiTietSanPham} />
           </ScrollView>
 
           <BottomMuaSanPham
             isOpen={isOpen}
             onChangeOpen={() => setIsOpen(false)}
             data={dataChiTietSanPham}
+            handleNavigate={navigateToBuyProduct}
           />
         </GestureHandlerRootView>
       )}
