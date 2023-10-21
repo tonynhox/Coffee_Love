@@ -1,6 +1,8 @@
 import {
+  ActivityIndicator,
   FlatList,
   Image,
+  RefreshControl,
   SafeAreaView,
   StyleSheet,
   Text,
@@ -10,66 +12,36 @@ import {
 import React from 'react';
 
 import Icon from 'react-native-vector-icons/FontAwesome6';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
+import {useDispatch, useSelector} from 'react-redux';
+import {BACKGROUND_BUTTON_COLOR, color_don_hang} from '../../../../utils/contanst';
+import { getDonHangRequest } from '../../../../redux/reducers/slices/donHangSlice';
 
 const DanhGia = () => {
   const navigation = useNavigation();
-  const dataChoXacNhan = [
-    {
-      id: 1,
-      name: 'Nguyen Minh Trong',
-      size: 'S',
-      location: 'So nha 1, duong 1, phuuong2',
-      price: 100000,
-      sale: 90000,
-      quantity: 2,
-      total: 180000,
-    },
-    {
-      id: 2,
-      name: 'Nguyen Minh Trong',
-      size: 'S',
-      location: 'So nha 1, duong 1, phuuong2',
-      price: 100000,
-      sale: 90000,
-      quantity: 2,
-      total: 180000,
-    },
-    {
-      id: 3,
-      name: 'Nguyen Minh Trong',
-      size: 'S',
-      location: 'So nha 1, duong 1, phuuong2',
-      price: 100000,
-      sale: 90000,
-      quantity: 2,
-      total: 180000,
-    },
-    {
-      id: 4,
-      name: 'Nguyen Minh Trong',
-      size: 'S',
-      location: 'So nha 1, duong 1, phuuong2',
-      price: 100000,
-      sale: 90000,
-      quantity: 2,
-      total: 180000,
-    },
-    {
-      id: 5,
-      name: 'Nguyen Minh Trong',
-      size: 'S',
-      location: 'So nha 1, duong 1, phuuong2',
-      price: 100000,
-      sale: 90000,
-      quantity: 2,
-      total: 180000,
-    },
-  ];
+const dispatch = useDispatch();
+
+  const data = useSelector(state => state.don_hang.dataDanhGia);
+  const isLoading = useSelector(state => state.don_hang.isLoading);
+  const id_user = useSelector(state => state.users.user.id_user);
+
+  const fetchDonHang = () => {
+    dispatch(getDonHangRequest({id_user: id_user}));
+  };
+
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    fetchDonHang();
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 1000);
+  }, []);
+
   const DanhGiaItem = ({item, id}) => {
     return (
-      <TouchableOpacity 
-        onPress={() => navigation.navigate('ToRate', {item: item})}
+      <View
         style={styles.itemContainer}>
         {/* Hinh anh, ten, so luong, size, dia chi */}
         <View style={styles.imageAndDescribeContainer}>
@@ -81,7 +53,7 @@ const DanhGia = () => {
           {/* Ten, size, dia chi */}
           <View style={styles.sanPhamContainer}>
             <View style={styles.tenVaSizeContainer}>
-              <Text style={styles.textName}>{item.name}</Text>
+              <Text style={styles.textName}>{item.dia_chi.nguoi_nhan}</Text>
 
               {/* <Text style={styles.textSoLuong}>Đánh giá</Text> */}
               <View style={styles.fiveStars}>
@@ -105,12 +77,14 @@ const DanhGia = () => {
         {/* Thanh tien */}
         <View style={styles.thanhTienContainer}>
           <Text style={styles.textDanhGia}>Đánh giá: </Text>
-          <Text style={styles.textNoiDung}>Ngon vãi luôn bạn ơi </Text>
+          <Text style={styles.textNoiDung}>{item.danh_gia}</Text>
         </View>
         {/* Thanh tien */}
         <View style={[styles.thanhTienContainer, {paddingBottom: 5}]}>
           <Text style={styles.textDanhGia}>Phản hồi: </Text>
-          <Text style={styles.textNoiDung}>Cảm ơn bạn đã sử dụng và phản hồi dịch vụ của Coffee.Love</Text>
+          <Text style={styles.textNoiDung}>
+            Cảm ơn bạn đã sử dụng và phản hồi dịch vụ của Coffee.Love
+          </Text>
         </View>
 
         {/* Neu co sai sot */}
@@ -120,19 +94,33 @@ const DanhGia = () => {
             <Text style={styles.textHuyDon}>Mua lại</Text>
           </TouchableOpacity>
         </View> */}
-      </TouchableOpacity>
+      </View>
     );
   };
 
   return (
     <View style={styles.container}>
-      <FlatList
-        style={{marginVertical: 10}}
-        data={dataChoXacNhan}
-        renderItem={DanhGiaItem}
-        keyExtractor={(item, index) => index.toString()}
-        ItemSeparatorComponent={() => <View style={{height: 10}} />}
-      />
+      {isLoading ? (
+        <ActivityIndicator size="large" color={BACKGROUND_BUTTON_COLOR} />
+      ) : (
+        <>
+          {data.length === 0 ? (
+            <Text style={styles.textKhongCoDuLieu}>Không có đánh giá</Text>
+          ) : (
+            <FlatList
+              style={{marginVertical: 3}}
+              data={data}
+              renderItem={DanhGiaItem}
+              keyExtractor={(item, index) => index.toString()}
+              // ItemSeparatorComponent={() => <View style={{height: 10}} />}
+              refreshControl={
+                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+              }
+            
+            />
+          )}
+        </>
+      )}
     </View>
   );
 };
@@ -145,11 +133,11 @@ const styles = StyleSheet.create({
   },
   itemContainer: {
     padding: 10,
-    marginHorizontal: 10,
-    paddingBottom: 10,
+    marginHorizontal: 5,
     elevation: 10,
-    backgroundColor: 'white',
+    backgroundColor: color_don_hang.cho_xac_nhan,
     borderRadius: 10,
+    marginVertical: 3,
   },
   imageProduct: {
     width: 50,
@@ -314,5 +302,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
 
     alignItems: 'center',
+  },
+  textKhongCoDuLieu: {
+    textAlign: 'center',
+    fontWeight: '400',
+    fontSize: 15,
+    color: BACKGROUND_BUTTON_COLOR,
+    marginTop: 20,
   },
 });

@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   FlatList,
   Image,
   SafeAreaView,
@@ -6,166 +7,78 @@ import {
   Text,
   TouchableOpacity,
   View,
+  RefreshControl,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect, useCallback} from 'react';
 
 import Icon from 'react-native-vector-icons/FontAwesome6';
 import {useNavigation} from '@react-navigation/native';
-import { formatCurrency } from '../../../../utils/formatCurrency';
+import {formatCurrency} from '../../../../utils/formatCurrency';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  BACKGROUND_BUTTON_COLOR,
+  color_don_hang,
+  trang_thai_don_hang,
+} from '../../../../utils/contanst';
+import {getDonHangRequest} from '../../../../redux/reducers/slices/donHangSlice';
 
 const DangGiao = () => {
   const navigation = useNavigation();
 
-  const data = [
-    {
-      dia_chi: {
-        ten_dia_chi: '212312',
-        so_dien_thoai: '',
-        so_nha: '102, tan thoi hiep',
-        tinh: '',
-      },
-      _id: '652f5aafea40e13b86ea04e2',
-      id_user: '651e8c5baa3c5378de775821',
-      id_chi_nhanh: '65227fdd4a2a0492a74faabc',
-      loai_don_hang: 'order Online',
-      ngay_dat: '2023-10-18T04:10:23.670Z',
-      san_pham: [
-        {
-          id_san_pham: '65200da4b4687e983b7353b4',
-          so_luong: 5,
-          gia: 75000,
-          _id: '652f5aafea40e13b86ea04e3',
-        },
-        {
-          id_san_pham: '6527c3f63f0f8812b90f7152',
-          so_luong: 5,
-          gia: 100000,
-          _id: '652f5aafea40e13b86ea04e4',
-        },
-      ],
-      ghi_chu: '',
-      so_diem_tich_luy: 200,
-      giam_gia: 10000,
-      phi_van_chuyen: 15000,
-      ma_trang_thai: 3,
-      ten_trang_thai: 'Đã hoàn thành',
-      ngay_cap_nhat: '2023-10-18T04:18:04.503Z',
-      tong_san_pham: 10,
-      thanh_tien: 880000,
-      __v: 0,
-      danh_gia: 'rất tuyệt vời ạ',
-      so_sao: 5,
-    },
-    {
-      dia_chi: {
-        ten_dia_chi: '212312',
-        so_dien_thoai: '',
-        so_nha: '',
-        tinh: '',
-      },
-      _id: '65313840b746b982299981e5',
-      id_user: '651e8c5baa3c5378de775821',
-      id_chi_nhanh: '65227fdd4a2a0492a74faabc',
-      loai_don_hang: 'order Online',
-      ngay_dat: '2023-10-19T14:08:00.745Z',
-      san_pham: [
-        {
-          id_san_pham: '65200da4b4687e983b7353b4',
-          so_luong: 5,
-          gia: 75000,
-          _id: '65313840b746b982299981e6',
-        },
-        {
-          id_san_pham: '6527c3f63f0f8812b90f7152',
-          so_luong: 5,
-          gia: 100000,
-          _id: '65313840b746b982299981e7',
-        },
-      ],
-      ghi_chu: '',
-      so_diem_tich_luy: 200,
-      giam_gia: 10000,
-      phi_van_chuyen: 15000,
-      ma_trang_thai: 1,
-      ten_trang_thai: 'Đang xử lý',
-      ngay_cap_nhat: '2023-10-19T14:08:00.745Z',
-      tong_san_pham: 10,
-      thanh_tien: 880000,
-      __v: 0,
-      danh_gia: 'rất tuyệt vời ạ',
-      so_sao: 4,
-    },
-  ];
+  const dispatch = useDispatch();
+
+  const data = useSelector(state => state.don_hang.dataDangGiao);
+  const isLoading = useSelector(state => state.don_hang.isLoading);
+  const id_user = useSelector(state => state.users.user.id_user);
+
+  const fetchDonHang = () => {
+    dispatch(getDonHangRequest({id_user: id_user}));
+  };
+
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      fetchDonHang();
+      setRefreshing(false);
+    }, 1000);
+  }, []);
 
   const handleMaTrangThai = ma_trang_thai => {
     switch (ma_trang_thai) {
+      case 0:
+        return 'Đã hủy';
       case 1:
-        return 'Đang xử lý';
+        return 'Đang chờ xác nhận';
       case 2:
-        return 'Đang giao';
+        return 'Đã xác nhận';
       case 3:
-        return 'Đã hoàn thành';
+        return 'Đang giao hàng';
+      case 4:
+        return 'Đã giao hàng';
+      case 5:
+        return 'Đã đánh giá';
       default:
         return 'Đang xử lý';
     }
   };
-  const dataChoXacNhan = [
-    {
-      id: 1,
-      name: 'Nguyen Minh Trong',
-      size: 'S',
-      location: 'So nha 1, duong 1, phuuong2',
-      price: 100000,
-      sale: 90000,
-      quantity: 2,
-      total: 180000,
-    },
-    {
-      id: 2,
-      name: 'Nguyen Minh Trong',
-      size: 'S',
-      location: 'So nha 1, duong 1, phuuong2',
-      price: 100000,
-      sale: 90000,
-      quantity: 2,
-      total: 180000,
-    },
-    {
-      id: 3,
-      name: 'Nguyen Minh Trong',
-      size: 'S',
-      location: 'So nha 1, duong 1, phuuong2',
-      price: 100000,
-      sale: 90000,
-      quantity: 2,
-      total: 180000,
-    },
-    {
-      id: 4,
-      name: 'Nguyen Minh Trong',
-      size: 'S',
-      location: 'So nha 1, duong 1, phuuong2',
-      price: 100000,
-      sale: 90000,
-      quantity: 2,
-      total: 180000,
-    },
-    {
-      id: 5,
-      name: 'Nguyen Minh Trong',
-      size: 'S',
-      location: 'So nha 1, duong 1, phuuong2',
-      price: 100000,
-      sale: 90000,
-      quantity: 2,
-      total: 180000,
-    },
-  ];
-  const DaGiaoItem = ({item, id}) => {
+
+  const DangGiaoItem = ({item, id}) => {
+    // check có thể hủy đơn hàng hay không
+    const isEnableCancel =
+      item.ma_trang_thai == trang_thai_don_hang.da_xac_nhan ||
+      item.ma_trang_thai == trang_thai_don_hang.dang_giao ||
+      item.ma_trang_thai == trang_thai_don_hang.da_huy;
+
+    // check đã hủy hàng hay chưa
+    const isCanceled = item.ma_trang_thai == trang_thai_don_hang.da_huy;
+
     return (
-      <TouchableOpacity
-        onPress={() => navigation.navigate('OrderDetail', {item: item})}
-        style={styles.itemContainer}>
+      <View
+        style={
+          isCanceled ? styles.itemCanceledContainer : styles.itemContainer
+        }>
         {/* Hinh anh, ten, so luong, size, dia chi */}
         <View style={styles.imageAndDescribeContainer}>
           <Image
@@ -176,7 +89,7 @@ const DangGiao = () => {
           {/* Ten, size, dia chi */}
           <View style={styles.sanPhamContainer}>
             <View style={styles.tenVaSizeContainer}>
-              <Text style={styles.textName}>{item.name}</Text>
+              <Text style={styles.textName}>{item.dia_chi.nguoi_nhan}</Text>
               <Text style={styles.textLocation}>{item.dia_chi.so_nha} </Text>
             </View>
             <View>
@@ -192,40 +105,63 @@ const DangGiao = () => {
           <Text style={styles.textSanPham}>{item.tong_san_pham} sản phẩm</Text>
           <View style={styles.thanhTienContainer}>
             <Text style={styles.textThanhTien}>Thành tiền: </Text>
-            <Text style={styles.textTien}>{formatCurrency(item.thanh_tien)}</Text>
+            <Text style={styles.textTien}>
+              {formatCurrency(item.thanh_tien)}
+            </Text>
           </View>
         </View>
 
         {/* Don hang dang cho xac nhan */}
-        <View style={styles.donHangChoContainer}>
+        <TouchableOpacity
+          style={styles.donHangChoContainer}
+          onPress={() => navigation.navigate('OrderDetail', {item: item})}>
           <Text style={styles.textDonHangDangChoXacNhan}>
             Đơn hàng đang chờ xác nhận{' '}
           </Text>
           <Icon name="angle-right" size={18} color={'#424141'} />
-        </View>
+        </TouchableOpacity>
 
         {/* Neu co sai sot */}
         <View style={styles.saiSotContainer}>
           <Text style={styles.textSaiSot}>
             Nếu có sai sót bạn có thể hủy ngay bước này
           </Text>
-          <TouchableOpacity style={styles.buttonCancel}>
+          <TouchableOpacity
+            style={
+              isEnableCancel ? styles.buttonDisableCancel : styles.buttonCancel
+            }
+            disabled={isEnableCancel}>
             <Text style={styles.textHuyDon}>Huỷ đơn</Text>
           </TouchableOpacity>
         </View>
-      </TouchableOpacity>
+      </View>
     );
   };
 
   return (
     <View style={styles.container}>
-      <FlatList
-        style={{marginVertical: 10}}
-        data={data}
-        renderItem={DaGiaoItem}
-        keyExtractor={(item, index) => index.toString()}
-        ItemSeparatorComponent={() => <View style={{height: 10}} />}
-      />
+      {isLoading ? (
+        <ActivityIndicator size="large" color={BACKGROUND_BUTTON_COLOR} />
+      ) : (
+        <>
+          {data.length == 0 ? (
+            <Text style={styles.textKhongCoDuLieu}>
+              Không có đơn hàng đang giao
+            </Text>
+          ) : (
+            <FlatList
+              style={{marginVertical: 3}}
+              data={data}
+              renderItem={DangGiaoItem}
+              keyExtractor={(item, index) => index.toString()}
+              // ItemSeparatorComponent={() => <View style={{height: 10}} />}
+              refreshControl={
+                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+              }
+            />
+          )}
+        </>
+      )}
     </View>
   );
 };
@@ -238,11 +174,19 @@ const styles = StyleSheet.create({
   },
   itemContainer: {
     padding: 10,
-    marginHorizontal: 10,
-    paddingBottom: 10,
+    marginHorizontal: 5,
     elevation: 10,
-    backgroundColor: 'white',
+    backgroundColor: color_don_hang.cho_xac_nhan,
     borderRadius: 10,
+    marginVertical: 3,
+  },
+  itemCanceledContainer: {
+    padding: 10,
+    marginHorizontal: 8,
+    elevation: 10,
+    backgroundColor: color_don_hang.da_huy,
+    borderRadius: 10,
+    marginVertical: 5,
   },
   imageProduct: {
     width: 50,
@@ -396,7 +340,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   buttonCancel: {
-    backgroundColor: '#B60A0A',
+    backgroundColor: color_don_hang.huy_don,
+    borderRadius: 6,
+    paddingHorizontal: 10,
+    paddingVertical: 2,
+  },
+  buttonDisableCancel: {
+    backgroundColor: color_don_hang.da_huy_don_hang,
     borderRadius: 6,
     paddingHorizontal: 10,
     paddingVertical: 2,
@@ -418,5 +368,12 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     fontSize: 15,
     color: 'black',
+  },
+  textKhongCoDuLieu: {
+    textAlign: 'center',
+    fontWeight: '400',
+    fontSize: 15,
+    color: BACKGROUND_BUTTON_COLOR,
+    marginTop: 20,
   },
 });

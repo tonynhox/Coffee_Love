@@ -9,6 +9,8 @@ import OrderDetail from './src/components/others/orderDetail/OrderDetail';
 import ProductDetail from './src/components/others/product/ProductDetail';
 import AddAddress from './src/components/others/addAddress/AddAddress';
 import BottomMuaSanPham from './src/components/others/product/BottomMuaSanPham';
+import DangGiao from './src/components/others/oders/item/DangGiao';
+import Orders from './src/components/others/oders/Orders';
 
 const App = () => {
   return (
@@ -16,7 +18,7 @@ const App = () => {
     <Provider store={store}>
       {/* <ModalCartOrder/> */}
       {/* <Demo/> */}
-      <ProductDetail />
+      <AppNavigation />
       {/* <Otp/> */}
       {/* <QR/> */}
       {/* <DanhGia/> */}

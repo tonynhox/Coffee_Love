@@ -26,6 +26,7 @@ import {useNavigation} from '@react-navigation/native';
 const ProductDetail = ({navigation}) => {
   // const route = useRoute();
   // const {item} = route.params;
+  // console.log('item', item);
 
   // const navigation = useNavigation();
 
