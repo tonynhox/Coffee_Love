@@ -9,6 +9,7 @@ import Storage from './src/utils/Storage';
 import ManHinhCHao from './src/components/navigations/ManHinhChao';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNavigationContainerRef } from '@react-navigation/native';
+import OrderDetail from './src/components/others/orderDetail/OrderDetail';
 
  export const navigationRef = createNavigationContainerRef()
 
@@ -24,7 +25,7 @@ const App = () => {
       {/* <AppNavigation  /> */}
     <NavigationContainer ref={navigationRef}>
 
-      <ManHinhCHao/>
+      <OrderDetail/>
       {/* <AppNavigation  /> */}
 
     </NavigationContainer>

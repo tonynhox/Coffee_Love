@@ -114,7 +114,7 @@ const DangGiao = () => {
         {/* Don hang dang cho xac nhan */}
         <TouchableOpacity
           style={styles.donHangChoContainer}
-          onPress={() => navigation.navigate('OrderDetail', {item: item})}>
+          onPress={() => navigation.navigate('OrderDetail', {id_don_hang: item._id})}>
           <Text style={styles.textDonHangDangChoXacNhan}>
             Đơn hàng đang chờ xác nhận{' '}
           </Text>
@@ -123,16 +123,18 @@ const DangGiao = () => {
 
         {/* Neu co sai sot */}
         <View style={styles.saiSotContainer}>
-          <Text style={styles.textSaiSot}>
-            Nếu có sai sót bạn có thể hủy ngay bước này
-          </Text>
-          <TouchableOpacity
-            style={
-              isEnableCancel ? styles.buttonDisableCancel : styles.buttonCancel
-            }
-            disabled={isEnableCancel}>
-            <Text style={styles.textHuyDon}>Huỷ đơn</Text>
-          </TouchableOpacity>
+          {isEnableCancel || (
+            <>
+              <Text style={styles.textSaiSot}>
+                Nếu có sai sót bạn có thể hủy ngay bước này
+              </Text>
+              <TouchableOpacity
+                style={styles.buttonCancel}
+                disabled={isEnableCancel}>
+                <Text style={styles.textHuyDon}>Huỷ đơn</Text>
+              </TouchableOpacity>
+            </>
+          )}
         </View>
       </View>
     );

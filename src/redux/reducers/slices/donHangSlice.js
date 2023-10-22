@@ -3,9 +3,11 @@ import {trang_thai_don_hang} from '../../../utils/contanst';
 
 const initialState = {
   isLoading: true,
+  isChiTietDonHangLoading: true,
   dataDangGiao: [],
   dataDanhGia: [],
   dataLichSu: [],
+  dataChiTietDonHang: null,
 };
 
 const donHangSlice = createSlice({
@@ -14,6 +16,9 @@ const donHangSlice = createSlice({
   reducers: {
     getDonHangRequest: state => {
       state.isLoading = true;
+    },
+    getChiTietDonHangRequest: state => {
+      state.isChiTietDonHangLoading = true;
     },
     getDonHangSuccess: (state, action) => {
       console.log('THANH CONG', action.payload);
@@ -27,14 +32,15 @@ const donHangSlice = createSlice({
       for (const item of action.payload.result) {
         const maTrangThai = item.ma_trang_thai;
         if (
-            
-          maTrangThai === trang_thai_don_hang.da_huy ||
           maTrangThai === trang_thai_don_hang.cho_xac_nhan ||
           maTrangThai === trang_thai_don_hang.da_xac_nhan ||
-            maTrangThai === trang_thai_don_hang.dang_giao
+          maTrangThai === trang_thai_don_hang.dang_giao
         ) {
           dangGiaoArray.push(item);
-        } else if (maTrangThai === trang_thai_don_hang.da_giao) {
+        } else if (
+          maTrangThai === trang_thai_don_hang.da_huy ||
+          maTrangThai === trang_thai_don_hang.da_giao
+        ) {
           lichSuArray.push(item);
         } else if (maTrangThai === trang_thai_don_hang.da_danh_gia) {
           danhGiaArray.push(item);
@@ -54,6 +60,17 @@ const donHangSlice = createSlice({
 
       console.log('state.dataDangGiao', state.dataDanhGia);
     },
+
+    getChiTietDonHangSuccess: (state, action) => {
+      console.log('THANH CONG', action.payload);
+      state.dataChiTietDonHang = action.payload.result;
+      state.isChiTietDonHangLoading = false;
+    },
+    getChiTietDonHangFail: (state, action) => {
+      console.log('THAT BAI');
+      state.isChiTietDonHangLoading = false;
+      console.log(action.payload);
+    },
     getDonHangFail: (state, action) => {
       console.log('THAT BAI');
       state.isLoading = false;
@@ -62,6 +79,12 @@ const donHangSlice = createSlice({
   },
 });
 
-export const {getDonHangRequest, getDonHangSuccess, getDonHangFail} =
-  donHangSlice.actions;
+export const {
+  getDonHangRequest,
+  getDonHangSuccess,
+  getDonHangFail,
+  getChiTietDonHangRequest,
+  getChiTietDonHangSuccess,
+  getChiTietDonHangFail,
+} = donHangSlice.actions;
 export default donHangSlice.reducer;
