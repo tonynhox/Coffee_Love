@@ -3,20 +3,21 @@ import React from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome6';
 import {BACKGROUND_BUTTON_COLOR} from '../../../utils/contanst';
 import moment from 'moment';
+import { lamTronSo } from '../../../utils/lamTronSo';
 
-const DanhSachDanhGia = () => {
-  const dataDanhGia = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5}];
-  const dataHinhAnhDanhGia = [{id: 1}, {id: 2}, {id: 3}];
-
+const DanhSachDanhGia = ({data}) => {
+  const dataDanhGia = [{id: 1415}, {id: 2745}, {id: 4243}, {id: 744}, {id: 1745}];
+  const dataHinhAnhDanhGia = [{id: 'sfasf'}, {id: 'asfasf'}, {id: 'svawse'}];
+  console.log('data', data);
   const dataChiTietDanhGia = [
     {
-      id: 1,
+      id: 1748,
       name: 'MustFapToLive',
       content:
         'Sản phẩm tốt, giá hợp lý, quản lý thì xinh, nhân viên nhiệt tình, thằng code cái giao diện này thì đẹp trai, người đâu mà vừa đẹp trai vừa thông mình vừa giỏi giang, không có người yêu đúng là quá phí, phải tôi tôi húp vội',
     },
-    {id: 2, name: 'ChaosTakeTheWorld', content: 'Uống ngon, giá hợp lý'},
-    {id: 3, name: 'MustFapToLive', content: 'Sản phẩm tốt, giá hợp lý'},
+    {id: 2746, name: 'ChaosTakeTheWorld', content: 'Uống ngon, giá hợp lý'},
+    {id: 37894, name: 'MustFapToLive', content: 'Sản phẩm tốt, giá hợp lý'},
 
   ];
 
@@ -41,7 +42,8 @@ const DanhSachDanhGia = () => {
         />
         {/* ten, so sao, noi dung, hinh anh */}
         <View>
-          <Text style={styles.textName}>{item.name}</Text>
+          {/* tên user đánh giá api chưa có */}
+          <Text style={styles.textName}>MayChaosTakeTheWorld</Text>
           <View style={[styles.danhGiaSaoContainer, {marginVertical: 7}]}>
             <FlatList
               data={dataDanhGia}
@@ -50,14 +52,14 @@ const DanhSachDanhGia = () => {
               keyExtractor={item => item.id}
             />
           </View>
-          <Text style={styles.textNoiDung}>{item.content}</Text>
+          <Text style={styles.textNoiDung}>{item.danh_gia}</Text>
           {/* hinh anh danh gia */}
           <View style={{marginVertical: 15}}>
             <FlatList
               data={dataHinhAnhDanhGia}
               renderItem={renderHinhAnhDanhGia}
               horizontal={true}
-              keyExtractor={item => item.id}
+              keyExtractor={(item, index) => index.toString()}
             />
           </View>
           {/* thoi gian danh gia */}
@@ -102,7 +104,7 @@ const DanhSachDanhGia = () => {
                   showsHorizontalScrollIndicator={false}
                 />
               </View>
-              <Text style={styles.textSao}>4.5/5 (127)</Text>
+              <Text style={styles.textSao}>{lamTronSo(data.tong_sao)}/5 ({data.so_luong_danh_gia})</Text>
             </View>
           </View>
           {/* tat ca danh gia, arrow */}
@@ -131,8 +133,8 @@ const DanhSachDanhGia = () => {
         renderItem={renderChiTietDanhGia}
         keyExtractor={item => item.id}
       /> */}
-      {dataChiTietDanhGia.map(item => {
-        return <RenderChiTietDanhGia item={item} />;
+      {data.danh_gia.map(item => {
+        return <RenderChiTietDanhGia item={item}/>;
       })}
     </View>
   );

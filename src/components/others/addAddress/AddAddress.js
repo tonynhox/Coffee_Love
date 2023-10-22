@@ -35,7 +35,7 @@ const AddAddress = () => {
             placeholder="Họ và tên... "
             placeholderTextColor="#999"
           />
-          <Icon name="user" size={20} color={BACKGROUND_BUTTON_COLOR} />
+          <Icon name="user" solid size={20} color={BACKGROUND_BUTTON_COLOR} />
         </View>
 
         {/* Textinput sdt */}

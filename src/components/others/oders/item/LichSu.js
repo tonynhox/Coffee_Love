@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   FlatList,
   Image,
   SafeAreaView,
@@ -6,73 +7,44 @@ import {
   Text,
   TouchableOpacity,
   View,
+  RefreshControl,
 } from 'react-native';
-import React from 'react';
+import React, {useState, useCallback} from 'react';
 
 import Icon from 'react-native-vector-icons/FontAwesome6';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
+import {formatCurrency} from '../../../../utils/formatCurrency';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  BACKGROUND_BUTTON_COLOR,
+  color_don_hang,
+} from '../../../../utils/contanst';
+import {getDonHangRequest} from '../../../../redux/reducers/slices/donHangSlice';
 
 const LichSu = () => {
-
+  const dispatch = useDispatch();
   const navigation = useNavigation();
+  const data = useSelector(state => state.don_hang.dataLichSu);
+  const isLoading = useSelector(state => state.don_hang.isLoading);
+  const id_user = useSelector(state => state.users.user.id_user);
+  
+  const fetchDonHang = () => {
+    dispatch(getDonHangRequest({id_user: id_user}));
+  };
 
-  const dataChoXacNhan = [
-    {
-      id: 1,
-      name: 'Nguyen Minh Trong',
-      size: 'S',
-      location: 'So nha 1, duong 1, phuuong2',
-      price: 100000,
-      sale: 90000,
-      quantity: 2,
-      total: 180000,
-    },
-    {
-      id: 2,
-      name: 'Nguyen Minh Trong',
-      size: 'S',
-      location: 'So nha 1, duong 1, phuuong2',
-      price: 100000,
-      sale: 90000,
-      quantity: 2,
-      total: 180000,
-    },
-    {
-      id: 3,
-      name: 'Nguyen Minh Trong',
-      size: 'S',
-      location: 'So nha 1, duong 1, phuuong2',
-      price: 100000,
-      sale: 90000,
-      quantity: 2,
-      total: 180000,
-    },
-    {
-      id: 4,
-      name: 'Nguyen Minh Trong',
-      size: 'S',
-      location: 'So nha 1, duong 1, phuuong2',
-      price: 100000,
-      sale: 90000,
-      quantity: 2,
-      total: 180000,
-    },
-    {
-      id: 5,
-      name: 'Nguyen Minh Trong',
-      size: 'S',
-      location: 'So nha 1, duong 1, phuuong2',
-      price: 100000,
-      sale: 90000,
-      quantity: 2,
-      total: 180000,
-    },
-  ];
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    fetchDonHang();
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 1000);
+  }, []);
+
   const DaGiaoItem = ({item, id}) => {
     return (
-      <TouchableOpacity 
-        onPress={() => navigation.navigate('OrderDetail', {item: item})}
-        style={styles.itemContainer}>
+      <View style={styles.itemContainer}>
         {/* Hinh anh, ten, so luong, size, dia chi */}
         <View style={styles.imageAndDescribeContainer}>
           <Image
@@ -83,7 +55,7 @@ const LichSu = () => {
           {/* Ten, size, dia chi */}
           <View style={styles.sanPhamContainer}>
             <View style={styles.tenVaSizeContainer}>
-              <Text style={styles.textName}>{item.name}</Text>
+              <Text style={styles.textName}>{item.dia_chi.nguoi_nhan}</Text>
               <Text style={styles.textLocation}>
                 SL: 1{'   '}Size: L {'  '} 113 Quang Trung{' '}
               </Text>
@@ -96,18 +68,24 @@ const LichSu = () => {
 
         {/* Thanh tien va so luong */}
         <View style={styles.thanhTienVaSoLuongContainer}>
-          <Text style={styles.textSanPham}>5 sản phẩm</Text>
+          <Text style={styles.textSanPham}>{item.tong_san_pham} sản phẩm</Text>
           <View style={styles.thanhTienContainer}>
             <Text style={styles.textThanhTien}>Thành tiền: </Text>
-            <Text style={styles.textTien}>{item.total}VND</Text>
+            <Text style={styles.textTien}>
+              {formatCurrency(item.thanh_tien)}
+            </Text>
           </View>
         </View>
 
         {/* Don hang dang cho xac nhan */}
-        <View style={styles.donHangChoContainer}>
-          <Text style={styles.textDonHangDangChoXacNhan}>Đơn hàng của bạn đã được giao thành công</Text>
+        <TouchableOpacity
+          style={styles.donHangChoContainer}
+          onPress={() => navigation.navigate('OrderDetail', {item: item._id})}>
+          <Text style={styles.textDonHangDangChoXacNhan}>
+            Đơn hàng của bạn đã được giao thành công
+          </Text>
           <Icon name="angle-right" size={20} color={'#424141'} />
-        </View>
+        </TouchableOpacity>
 
         {/* Neu co sai sot */}
         <View style={styles.saiSotContainer}>
@@ -118,19 +96,34 @@ const LichSu = () => {
             <Text style={styles.textHuyDon}>Đánh giá</Text>
           </TouchableOpacity>
         </View>
-      </TouchableOpacity>
+      </View>
     );
   };
 
   return (
     <View style={styles.container}>
-      <FlatList
-        style={{marginVertical: 10}}
-        data={dataChoXacNhan}
-        renderItem={DaGiaoItem}
-        keyExtractor={(item, index) => index.toString()}
-        ItemSeparatorComponent={() => <View style={{height: 10}} />}
-      />
+      {isLoading ? (
+        <ActivityIndicator size="large" color={BACKGROUND_BUTTON_COLOR} />
+      ) : (
+        <>
+          {data.length == 0 ? (
+            <Text style={styles.textKhongCoDuLieu}>
+              Không có lịch sử đơn hàng
+            </Text>
+          ) : (
+            <FlatList
+              style={{marginVertical: 3}}
+              data={data}
+              renderItem={DaGiaoItem}
+              keyExtractor={(item, index) => index.toString()}
+              // ItemSeparatorComponent={() => <View style={{height: 10}} />}
+              refreshControl={
+                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+              }
+            />
+          )}
+        </>
+      )}
     </View>
   );
 };
@@ -141,13 +134,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  itemContainer:{
+  itemContainer: {
     padding: 10,
-    marginHorizontal: 10,
-    paddingBottom: 10,
+    marginHorizontal: 5,
     elevation: 10,
-    backgroundColor: 'white',
+    backgroundColor: color_don_hang.cho_xac_nhan,
     borderRadius: 10,
+    marginVertical: 3,
   },
   imageProduct: {
     width: 50,
@@ -323,5 +316,12 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     fontSize: 15,
     color: 'black',
+  },
+  textKhongCoDuLieu: {
+    textAlign: 'center',
+    fontWeight: '400',
+    fontSize: 15,
+    color: BACKGROUND_BUTTON_COLOR,
+    marginTop: 20,
   },
 });

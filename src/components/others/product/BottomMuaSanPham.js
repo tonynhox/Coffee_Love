@@ -5,146 +5,396 @@ import {
   FlatList,
   TextInput,
   ScrollView,
+  TouchableOpacity,
 } from 'react-native';
-import React, {useRef, useMemo} from 'react';
-import BottomSheet from '@gorhom/bottom-sheet';
+import React, {useRef, useMemo, useEffect, useCallback, useState} from 'react';
+import BottomSheet, {
+  BottomSheetScrollView,
+  BottomSheetSectionList,
+} from '@gorhom/bottom-sheet';
 import Icon from 'react-native-vector-icons/FontAwesome6';
 import {BACKGROUND_BUTTON_COLOR} from '../../../utils/contanst';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import {styles} from './styles/bottomMuaSanPhamStyle';
+import {formatCurrency} from '../../../utils/formatCurrency';
 
-const BottomMuaSanPham = () => {
+const BottomMuaSanPham = ({isOpen, onChangeOpen, data, handleNavigate}) => {
+  useEffect(() => {
+    if (isOpen) {
+      bottomSheetRef.current.expand();
+    }
+  }, [isOpen]);
+
+  useEffect(() => {
+    setTotal(data.size[0].gia);
+  }, [data]);
+
+  const onChange = index => {
+    if (index === -1) {
+      onChangeOpen();
+    }
+  };
+
+  const [size, setSize] = useState();
+  const [topping, setTopping] = useState();
+  const [sugar, setSugar] = useState();
+  const [ice, setIce] = useState();
+  const [quantity, setQuantity] = useState(1);
+  const [total, setTotal] = useState(data.size[0].gia);
+  const [price, setPrice] = useState(0);
+
+  const handleTangSoLuong = () => {
+    setQuantity(quantity + 1);
+  };
+
+  const handleGiamSoLuong = () => {
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
+    }
+  };
+
+  const handleItemSelection = (id, data) => {
+    if (id === 1) {
+      // For data with id 1, allow all items to be selected
+      // data.forEach((item) => (item.isSelected = true));
+    } else {
+      // For data with id 0, 2, and 3, only one item can be selected
+      let selectedCount = 0;
+      data.forEach(item => {
+        if (item.isSelected) {
+          selectedCount++;
+          if (selectedCount > 1) {
+            item.isSelected = false; // Deselect the item if more than one is selected
+          }
+        }
+      });
+    }
+  };
+
+  const [dataSize, setDataSize] = useState([
+    {id: 1123, name: 'Nhỏ', price: 0, isSelected: true},
+    {id: 21214, name: 'Vừa', price: 10000, isSelected: false},
+    {id: 31231, name: 'Lớn', price: 20000, isSelected: false},
+  ]);
+
+  const [dataTopping, setDataTopping] = useState([
+    {
+      _id: '653267eeea17db2026215cbc',
+      ten_topping: 'pudding',
+      hinh_anh: [
+        {
+          hinh_anh_topping:
+            'https://bizweb.dktcdn.net/100/421/036/files/tran-chau-den-6630c62d-9e20-49ab-b979-7c5fd872e147.jpg?v=1639106526825',
+          _id: '653267eeea17db2026215cbd',
+        },
+        {
+          hinh_anh_topping:
+            'https://cdn.tgdd.vn/2021/09/CookRecipe/Avatar/1200(5).jpg',
+          _id: '653267eeea17db2026215cbe',
+        },
+      ],
+      gia: 12000,
+      status: 1,
+      isSelected: false,
+      __v: 0,
+    },
+    {
+      _id: '653267ffea17db2026215cc1',
+      ten_topping: 'trân châu',
+      hinh_anh: [
+        {
+          hinh_anh_topping:
+            'https://bizweb.dktcdn.net/100/421/036/files/tran-chau-den-6630c62d-9e20-49ab-b979-7c5fd872e147.jpg?v=1639106526825',
+          _id: '653267ffea17db2026215cc2',
+        },
+        {
+          hinh_anh_topping:
+            'https://cdn.tgdd.vn/2021/09/CookRecipe/Avatar/1200(5).jpg',
+          _id: '653267ffea17db2026215cc3',
+        },
+      ],
+      gia: 9000,
+      isSelected: false,
+      status: 1,
+      __v: 0,
+    },
+    {
+      _id: '65326809ea17db2026215cc6',
+      ten_topping: 'thạch rau câu',
+      hinh_anh: [
+        {
+          hinh_anh_topping:
+            'https://bizweb.dktcdn.net/100/421/036/files/tran-chau-den-6630c62d-9e20-49ab-b979-7c5fd872e147.jpg?v=1639106526825',
+          _id: '65326809ea17db2026215cc7',
+        },
+        {
+          hinh_anh_topping:
+            'https://cdn.tgdd.vn/2021/09/CookRecipe/Avatar/1200(5).jpg',
+          _id: '65326809ea17db2026215cc8',
+        },
+      ],
+      gia: 9000,
+      isSelected: false,
+      status: 1,
+      __v: 0,
+    },
+    {
+      _id: '65326809ewea17db2026215cc6',
+      ten_topping: 'thạch rau câu',
+      hinh_anh: [
+        {
+          hinh_anh_topping:
+            'https://bizweb.dktcdn.net/100/421/036/files/tran-chau-den-6630c62d-9e20-49ab-b979-7c5fd872e147.jpg?v=1639106526825',
+          _id: '65326809ea17db2026215cc7',
+        },
+        {
+          hinh_anh_topping:
+            'https://cdn.tgdd.vn/2021/09/CookRecipe/Avatar/1200(5).jpg',
+          _id: '65326809ea17db2026215cc8',
+        },
+      ],
+      gia: 9000,
+      isSelected: false,
+      status: 1,
+      __v: 0,
+    },
+    {
+      _id: '65326809sdfsewea1157db2026215cc6',
+      ten_topping: 'thạch rau câu',
+      hinh_anh: [
+        {
+          hinh_anh_topping:
+            'https://bizweb.dktcdn.net/100/421/036/files/tran-chau-den-6630c62d-9e20-49ab-b979-7c5fd872e147.jpg?v=1639106526825',
+          _id: '65326809ea17db2026215cc7',
+        },
+        {
+          hinh_anh_topping:
+            'https://cdn.tgdd.vn/2021/09/CookRecipe/Avatar/1200(5).jpg',
+          _id: '65326809ea17db2026215cc8',
+        },
+      ],
+      gia: 9000,
+      isSelected: false,
+      status: 1,
+      __v: 0,
+    },
+    {
+      _id: '65326809sdfsewea1sdfe7db2026215cc6',
+      ten_topping: 'thạch rau câu',
+      hinh_anh: [
+        {
+          hinh_anh_topping:
+            'https://bizweb.dktcdn.net/100/421/036/files/tran-chau-den-6630c62d-9e20-49ab-b979-7c5fd872e147.jpg?v=1639106526825',
+          _id: '65326809ea17db2026215cc7',
+        },
+        {
+          hinh_anh_topping:
+            'https://cdn.tgdd.vn/2021/09/CookRecipe/Avatar/1200(5).jpg',
+          _id: '65326809ea17db2026215cc8',
+        },
+      ],
+      gia: 9000,
+      isSelected: false,
+      status: 1,
+      __v: 0,
+    },
+    {
+      _id: '65326809sdfdfsewea17db2026215cc6',
+      ten_topping: 'thạch rau câu',
+      hinh_anh: [
+        {
+          hinh_anh_topping:
+            'https://bizweb.dktcdn.net/100/421/036/files/tran-chau-den-6630c62d-9e20-49ab-b979-7c5fd872e147.jpg?v=1639106526825',
+          _id: '65326809ea17db2026215cc7',
+        },
+        {
+          hinh_anh_topping:
+            'https://cdn.tgdd.vn/2021/09/CookRecipe/Avatar/1200(5).jpg',
+          _id: '65326809ea17db2026215cc8',
+        },
+      ],
+      gia: 9000,
+      isSelected: false,
+      status: 1,
+      __v: 0,
+    },
+    {
+      _id: '65326809sdfdfseasfewwea17db2026215cc6',
+      ten_topping: 'thạch rau câu',
+      hinh_anh: [
+        {
+          hinh_anh_topping:
+            'https://bizweb.dktcdn.net/100/421/036/files/tran-chau-den-6630c62d-9e20-49ab-b979-7c5fd872e147.jpg?v=1639106526825',
+          _id: '65326809ea17db2026215cc7',
+        },
+        {
+          hinh_anh_topping:
+            'https://cdn.tgdd.vn/2021/09/CookRecipe/Avatar/1200(5).jpg',
+          _id: '65326809ea17db2026215cc8',
+        },
+      ],
+      gia: 9000,
+      isSelected: false,
+      status: 1,
+      __v: 0,
+    },
+    {
+      _id: '65326809sdfdfsesdfdswea17db2026215cc6',
+      ten_topping: 'thạch rau câu',
+      hinh_anh: [
+        {
+          hinh_anh_topping:
+            'https://bizweb.dktcdn.net/100/421/036/files/tran-chau-den-6630c62d-9e20-49ab-b979-7c5fd872e147.jpg?v=1639106526825',
+          _id: '65326809ea17db2026215cc7',
+        },
+        {
+          hinh_anh_topping:
+            'https://cdn.tgdd.vn/2021/09/CookRecipe/Avatar/1200(5).jpg',
+          _id: '65326809ea17db2026215cc8',
+        },
+      ],
+      gia: 9000,
+      isSelected: false,
+      status: 1,
+      __v: 0,
+    },
+  ]);
+
+  const handleChangeSize = id => {
+    constantPrice = data.size[0].gia;
+    setDataSize(prevState => {
+      return prevState.map(item => {
+        if (item.id === id) {
+          setTotal(constantPrice + item.price);
+          return {...item, isSelected: true};
+        } else {
+          return {...item, isSelected: false};
+        }
+      });
+    });
+  };
+  const handleChangeTopping = id => {
+    setDataTopping(prevState => {
+      return prevState.map(item => {
+        if (item._id === id) {
+          // nếu chưa được chọn thì cộng tiền vào, nếu đã chọn rồi thì trừ tiền ra
+          if (item.isSelected == false) {
+            setTotal(total + item.gia);
+          } else {
+            setTotal(total - item.gia);
+          }
+          return {...item, isSelected: !item.isSelected};
+        }
+        return item; // Return the item as is for items that don't match the id
+      });
+    });
+  };
+
   // ref
   const bottomSheetRef = useRef(null);
 
   // variables
-  const snapPoints = useMemo(() => ['8%', '95%'], []);
+  const snapPoints = useMemo(() => ['70%'], []);
 
-  const dataTopping = [
-    {id: 1, name: 'Tran chau', price: 10000, isSelected: false},
-    {id: 2, name: 'Tran chau', price: 10000, isSelected: false},
-    {id: 3, name: 'Tran chau', price: 10000, isSelected: false},
-    {id: 4, name: 'Tran chau', price: 10000, isSelected: false},
-    {id: 5, name: 'Tran chau', price: 10000, isSelected: false},
-    {id: 6, name: 'Tran chau', price: 10000, isSelected: false},
-  ];
-
-  const dataDa = [
-    {id: 1, name: 'Ít', isSelected: false},
-    {id: 2, name: 'Vừa', isSelected: true},
-    {id: 3, name: 'Nhiều', isSelected: false},
-  ];
-
-  const dataDuong = [
-    {id: 1, name: 'Ít', isSelected: false},
-    {id: 2, name: 'Vừa', isSelected: true},
-    {id: 3, name: 'Nhiều', isSelected: false},
-  ];
-
-  const RenderDa = ({item}) => {
+  // render size
+  const renderSize = ({item}) => {
     return (
-      <View
-        style={
-          item.isSelected ? styles.daCheckedContainer : styles.daContainer
-        }>
-        <Text style={item.isSelected ? styles.textDaChecked : styles.textDa}>
-          {item.name}
-        </Text>
-      </View>
-    );
-  };
-
-  const RenderDuong = ({item}) => {
-    return (
-      <View
-        style={
-          item.isSelected ? styles.daCheckedContainer : styles.daContainer
-        }>
-        <Text style={item.isSelected ? styles.textDaChecked : styles.textDa}>
-          {item.name}
-        </Text>
-      </View>
-    );
-  };
-
-  const RenderTopping = ({item}) => {
-    return (
-      <View style={styles.toppingContainer}>
+      <TouchableOpacity
+        style={styles.toppingContainer}
+        onPress={() => handleChangeSize(item.id)}>
         <Text style={styles.textTopping}>{item.name}</Text>
         <View style={styles.tienToppingContainer}>
-          <Text style={styles.textTien}>+{item.price}₫</Text>
+          <Text style={styles.textTien}>+{formatCurrency(item.price)}</Text>
           <Icon
             style={styles.toppingChecked}
-            name="circle-dot"
+            name={item.isSelected ? 'circle-dot' : 'circle'}
             size={20}
             color={BACKGROUND_BUTTON_COLOR}
           />
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
+
+  // render topping
+  const renderTopping = ({item}) => {
+    return (
+      <TouchableOpacity
+        style={styles.toppingContainer}
+        onPress={() => handleChangeTopping(item._id)}>
+        <Text style={styles.textTopping}>{item.ten_topping}</Text>
+        <View style={styles.tienToppingContainer}>
+          <Text style={styles.textTien}>+{formatCurrency(item.gia)}</Text>
+          <Icon
+            style={styles.toppingChecked}
+            name={item.isSelected ? 'circle-dot' : 'circle'}
+            size={20}
+            color={BACKGROUND_BUTTON_COLOR}
+          />
+        </View>
+      </TouchableOpacity>
+    );
+  };
+
   return (
     <>
       <BottomSheet
+        onChange={onChange}
+        enablePanDownToClose={true}
         ref={bottomSheetRef}
-        
+        index={-1}
         snapPoints={snapPoints}
         backgroundStyle={{backgroundColor: '#FEF9F1'}}>
         <View style={styles.container}>
           {/* header ten san pham*/}
           <View style={styles.tenSanPhamVaGiaTienContainer}>
-            <Text style={styles.textTenSanPham}>Americano</Text>
+            <Text style={styles.textTenSanPham}>{data.ten_san_pham}</Text>
             <View style={styles.giaTienContainer}>
-              <Text style={styles.textGiaTien}>100.000₫</Text>
-              <Text style={styles.textGiaTienGiamGia}>100.000₫</Text>
+              <Text style={styles.textGiaTien}>
+                {data.size[0].giam_gia == 0
+                  ? null
+                  : formatCurrency(data.size[0].giam_gia)}
+              </Text>
+              <Text style={styles.textGiaTienGiamGia}>
+                {formatCurrency(data.size[0].gia)}
+              </Text>
             </View>
           </View>
 
           {/* separate line */}
           <View style={styles.separateLine} />
 
-          {/* topping */}
-          <View style={styles.toppingHeaderContainer}>
-            <Text style={styles.textHeaderTopping}>Topping (tùy chọn)</Text>
-            <View style={styles.danhSachTopping}>
-              {dataTopping.map(item => {
-                return <RenderTopping item={item} />;
-              })}
-            </View>
-          </View>
+          <View style={{height: '70%'}}>
+            <BottomSheetScrollView style={{flex: 1}}>
+              {/* Size view */}
+              <View>
+                {/* chon size */}
+                <View style={styles.sectionHeaderContainer}>
+                  <Text style={styles.textDa}>Chọn size</Text>
+                  <Text style={styles.required}>*</Text>
+                </View>
 
-          {/* Da */}
-          <View style={styles.daHeaderContainer}>
-            <Text style={styles.textHeaderDa}>Đá</Text>
-            <View style={styles.danhSachDa}>
-              {dataDa.map(item => {
-                return <RenderDa item={item} />;
-              })}
-            </View>
-          </View>
+                {/* list size */}
+                <>
+                  {dataSize.map(item => (
+                    <View key={item.id}>{renderSize({item})}</View>
+                  ))}
+                </>
+              </View>
 
-          {/* Duong */}
-          <View style={styles.daHeaderContainer}>
-            <Text style={styles.textHeaderDa}>Đường</Text>
-            <View style={styles.danhSachDa}>
-              {dataDa.map(item => {
-                return <RenderDa item={item} />;
-              })}
-            </View>
-          </View>
+              {/* Topping view */}
+              <View>
+                {/* chon topping */}
+                <View style={styles.sectionHeaderContainer}>
+                  <Text style={styles.textDa}>Chọn topping</Text>
+                </View>
 
-          {/* separate line */}
-          <View style={styles.separateLine} />
-
-          {/* Chu thich */}
-          <View style={styles.daHeaderContainer}>
-            <Text style={styles.textHeaderDa}>Chú thích</Text>
-            {/* view chu thich */}
-            <View style={styles.chuThichContainer}>
-              <TextInput
-                numberOfLines={2}
-                placeholder="Chú thích (ví dụ: cafe không cafe)"
-              />
-            </View>
+                {/* list topping */}
+                {dataTopping.map(item => (
+                  <View key={item.id}>{renderTopping({item})}</View>
+                ))}
+              </View>
+            </BottomSheetScrollView>
           </View>
         </View>
 
@@ -156,16 +406,30 @@ const BottomMuaSanPham = () => {
             <View style={styles.soLuongVaNutTuyChinhContainer}>
               <Text style={styles.textSoLuong}>Số lượng</Text>
               <View style={styles.soLuongContainer}>
-                <Icon name="minus" size={15} color={BACKGROUND_BUTTON_COLOR} />
-                <Text style={styles.textSoLuong}>1</Text>
-                <Icon name="plus" size={15} color={BACKGROUND_BUTTON_COLOR} />
+                <TouchableOpacity
+                  style={styles.buttonSoLuong}
+                  onPress={() => handleGiamSoLuong()}>
+                  <Icon
+                    name="minus"
+                    size={15}
+                    color={BACKGROUND_BUTTON_COLOR}
+                  />
+                </TouchableOpacity>
+                <Text style={styles.textSoLuong}>{quantity}</Text>
+                <TouchableOpacity
+                  style={styles.buttonSoLuong}
+                  onPress={() => handleTangSoLuong()}>
+                  <Icon name="plus" size={15} color={BACKGROUND_BUTTON_COLOR} />
+                </TouchableOpacity>
               </View>
             </View>
           </View>
 
-          <View style={styles.muaNgayButtonContainer}>
-            <Text style={styles.textMuaNgay}>Mua ngay (150k)</Text>
-          </View>
+          <TouchableOpacity style={styles.muaNgayButtonContainer} onPress={() => handleNavigate(total*quantity)}>
+            <Text style={styles.textMuaNgay}>
+              Mua ngay ({formatCurrency(total * quantity)})
+            </Text>
+          </TouchableOpacity>
         </View>
       </BottomSheet>
     </>
@@ -173,231 +437,3 @@ const BottomMuaSanPham = () => {
 };
 
 export default BottomMuaSanPham;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-  },
-  tenSanPhamVaGiaTienContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: '100%',
-  },
-  giaTienContainer: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-  },
-  separateLine: {
-    height: 1,
-    width: '95%',
-    backgroundColor: 'gray',
-    marginVertical: 10,
-  },
-  textTenSanPham: {
-    fontSize: 20,
-    color: 'black',
-    fontWeight: '500',
-    marginLeft: 10,
-  },
-  textGiaTien: {
-    fontSize: 16,
-    color: 'black',
-    fontWeight: '400',
-    fontStyle: 'italic',
-    textDecorationLine: 'line-through',
-  },
-  textGiaTienGiamGia: {
-    fontSize: 18,
-    color: 'red',
-    fontWeight: '500',
-    marginHorizontal: 10,
-  },
-  toppingContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: '100%',
-    paddingHorizontal: 10,
-    borderBottomWidth: 0.3,
-
-    marginLeft: 10,
-    paddingVertical: 12,
-  },
-  textTopping: {
-    fontSize: 15,
-    color: 'black',
-    fontWeight: '500',
-  },
-  giaTienContainer: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-  },
-  textHeaderTopping: {
-    fontSize: 18,
-    color: 'black',
-    fontWeight: '500',
-    marginHorizontal: 10,
-    marginBottom: 1,
-    marginTop: 5,
-  },
-  textHeaderDa: {
-    fontSize: 18,
-    color: 'black',
-    fontWeight: '500',
-    marginHorizontal: 10,
-    marginBottom: 1,
-    marginTop: 10,
-  },
-  textTien: {
-    fontSize: 15,
-    color: 'black',
-    fontWeight: '400',
-  },
-  tienToppingContainer: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-  },
-  toppingChecked: {
-    marginHorizontal: 10,
-  },
-  daContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 10,
-    paddingVertical: 7,
-    backgroundColor: '#FDE7C9',
-    borderWidth: 0.5,
-    borderRadius: 5,
-    borderColor: BACKGROUND_BUTTON_COLOR,
-    width: 70,
-  },
-  daCheckedContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 10,
-    paddingVertical: 7,
-    backgroundColor: BACKGROUND_BUTTON_COLOR,
-    borderWidth: 0.5,
-    borderRadius: 5,
-    borderColor: BACKGROUND_BUTTON_COLOR,
-    width: 70,
-  },
-
-  textDa: {
-    fontSize: 15,
-    color: 'black',
-    fontWeight: '500',
-  },
-  textDaChecked: {
-    fontSize: 15,
-    color: 'white',
-    fontWeight: '500',
-  },
-  danhSachTopping: {
-    width: '100%',
-  },
-  toppingHeaderContainer: {
-    width: '100%',
-    height: 'auto',
-  },
-  daHeaderContainer: {
-    width: '100%',
-  },
-  danhSachDa: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    paddingHorizontal: 10,
-    marginRight: 20,
-    marginTop: 10,
-  },
-  chuThichContainer: {
-    width: '95%',
-    height: 80,
-    borderWidth: 0.5,
-    borderRadius: 5,
-    borderColor: BACKGROUND_BUTTON_COLOR,
-    marginHorizontal: 10,
-    paddingHorizontal: 2,
-  },
-  buyNowContainer: {
-    width: '100%',
-    height: 80,
-    borderRadius: 10,
-    borderColor: BACKGROUND_BUTTON_COLOR,
-    borderWidth: 1,
-    backgroundColor: '#FDEEDD',
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    alignItems: 'center',
-    marginTop: 10,
-    position: 'absolute',
-    bottom: 0,
-  },
-  giaTienVaSoLuongContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 20,
-    marginBottom: 10
-  },
-  soLuongContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: 150,
-    height: 'auto',
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    marginHorizontal: 2,
-    borderRadius: 12,
-    borderColor: BACKGROUND_BUTTON_COLOR,
-    borderWidth: 2,
-    backgroundColor: '#FFECD2',
-  },
-  textSoLuong: {
-    fontSize: 16,
-    color: 'black',
-    fontWeight: 'bold',
-  },
-  soLuongVaNutTuyChinhContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: '100%',
-  },
-  textMuaNgay: {
-    fontSize: 20,
-    color: 'white',
-    fontWeight: 'bold',
-  },
-  muaNgayButtonContainer: {
-    width: '90%',
-    height: 50,
-    borderRadius: 10,
-    borderColor: BACKGROUND_BUTTON_COLOR,
-    borderWidth: 1,
-    backgroundColor: BACKGROUND_BUTTON_COLOR,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginHorizontal: 10,
-  },
-  muaNgayContainer: {
-    position: 'absolute',
-    bottom: 5,
-    width: '100%',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});

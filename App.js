@@ -33,6 +33,7 @@ const App = () => {
       {/* <QR/> */}
       {/* <DanhGia/> */}
       {/* <ToRate/> */}
+      {/* <ProductDetail/> */}
     </Provider>
 
   );

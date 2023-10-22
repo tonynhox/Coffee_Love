@@ -1,75 +1,91 @@
-import React, { useState } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { StyleSheet, Text, View } from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {NavigationContainer, useNavigation} from '@react-navigation/native';
+import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+import {ActivityIndicator, StyleSheet, Text, View} from 'react-native';
 import DangGiao from './item/DangGiao';
 import LichSu from './item/LichSu';
 import DanhGia from './item/DanhGia';
 import Header from '../../../utils/Header';
+import {useDispatch, useSelector} from 'react-redux';
+import { BACKGROUND_BUTTON_COLOR } from '../../../utils/contanst';
+import { getDonHangRequest } from '../../../redux/reducers/slices/donHangSlice';
 
 const Tab = createMaterialTopTabNavigator();
 
-
 const Orders = () => {
 
-  return (<>
-    <View style={{width:'100%'}}>
-      <Header
-        containerStyle={{ backgroundColor: '#fff', height: 50 }}
-        rightComponent={true}
-        headerText="Chi tiết đơn mua" />
-    </View>
+  const dispatch = useDispatch();
 
-      <Tab.Navigator 
+  const isLoading = useSelector(state => state.don_hang.isLoading);
+  // console.log('isLoading', isLoading);
+  const id_user = useSelector(state => state.users.user.id_user);
+  useEffect(() => {
+    const fetchDonHang = () => {
+      dispatch(getDonHangRequest({id_user: id_user}));
+    };
+    fetchDonHang();
+  }, []);
 
-      screenOptions={{
-        tabBarStyle: {
+  return (
+    <>
+      {isLoading ? (
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <ActivityIndicator size="large" color={BACKGROUND_BUTTON_COLOR} />
+        </View>
+      ) : (
+        <>
+          <View style={{width: '100%'}}>
+            <Header
+              containerStyle={{backgroundColor: '#fff', height: 50}}
+              rightComponent={true}
+              headerText="Chi tiết đơn mua"
+            />
+          </View>
 
-        },
-        tabBarIndicatorStyle: {
-          backgroundColor: 'red',
-          // width: '50%',
-        }, 
-        // tabBarIndicatorContainerStyle: { marginHorizontal: 40, paddingHorizontal: 80 }
+          <Tab.Navigator
+            screenOptions={{
+              tabBarStyle: {},
+              tabBarIndicatorStyle: {
+                backgroundColor: 'red',
+                // width: '50%',
+              },
+              // tabBarIndicatorContainerStyle: { marginHorizontal: 40, paddingHorizontal: 80 }
+            }}>
+            <Tab.Screen
+              name="DangGiao"
+              component={DangGiao}
+              options={{
+                tabBarLabel: ({focused, color}) => (
+                  <Text style={[styles.text]}>Đang đến</Text>
+                ),
+              }}></Tab.Screen>
 
-      }}
-      >
-        <Tab.Screen 
-          name="DangGiao" 
-          component={DangGiao} 
-          options={{
-            tabBarLabel: ({ focused, color }) => (
-              <Text style={[styles.text]}>Đang đến</Text>
-            ),
-          }}
-        ></Tab.Screen>
-        
-        <Tab.Screen 
-          name="LichSu" 
-          component={LichSu} 
-          options={{
-            tabBarLabel: ({ focused, color }) => (
-              <Text style={[styles.text]}>Lịch sử</Text>
-            ),
-          }}
-          />
-        <Tab.Screen 
-          name="DanhGia" 
-          component={DanhGia} 
-          options={{
-            tabBarLabel: ({ focused, color }) => (
-              <Text style={[styles.text]}>Đánh giá</Text>
-            ),
-          }}
-          />
-      </Tab.Navigator>
-      </>
-
+            <Tab.Screen
+              name="LichSu"
+              component={LichSu}
+              options={{
+                tabBarLabel: ({focused, color}) => (
+                  <Text style={[styles.text]}>Lịch sử</Text>
+                ),
+              }}
+            />
+            <Tab.Screen
+              name="DanhGia"
+              component={DanhGia}
+              options={{
+                tabBarLabel: ({focused, color}) => (
+                  <Text style={[styles.text]}>Đánh giá</Text>
+                ),
+              }}
+            />
+          </Tab.Navigator>
+        </>
+      )}
+    </>
   );
-}
+};
 
 export default Orders;
-
 
 const styles = StyleSheet.create({
   text: {

@@ -42,7 +42,8 @@ instance.interceptors.response.use(
         },
       ]);
     } else {
-      console.error("AXIOS Response Interceptor Error:", error);
+      console.log('ERROR CODE: ', error.status);
+      console.error("AXIOS Response Interceptor Error:", error.response);
     }
     return Promise.reject(error);
   },

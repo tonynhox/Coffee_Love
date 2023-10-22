@@ -2,14 +2,19 @@ import {combineReducers} from '@reduxjs/toolkit';
 import userSlice from './slices/userSlice';
 import categoriesSlice from './slices/categoriesSlice';
 import cartPaymentSlice from './slices/cartPaymentSlice';
+import chiTietSanPhamSlice from './slices/chiTietSanPhamSlice';
+
 import topOrdersSlice from './slices/topOrderSlice';
 import productSlice from './slices/productSlice';
+import donHangSlice from './slices/donHangSlice';
 const rootReducer = combineReducers({
   users: userSlice,
   categories: categoriesSlice,
   cartPayment: cartPaymentSlice,
+  chi_tiet_san_pham: chiTietSanPhamSlice,
   topOrders: topOrdersSlice,
-  products: productSlice
+  products: productSlice,
+  don_hang: donHangSlice,
 });
 
 export const appReducer = (state, action) => {

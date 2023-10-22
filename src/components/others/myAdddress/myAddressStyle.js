@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import { BACKGROUND_BUTTON_COLOR } from '../../../utils/contanst';
 
 export const myAddressStyle = StyleSheet.create({
   containerItem: {
@@ -10,6 +11,11 @@ export const myAddressStyle = StyleSheet.create({
     paddingVertical: 15,
     borderBottomWidth: 1,
     borderBottomColor: '#e0e0e0',
+    marginTop: 10,
+    marginHorizontal: 10,
+    elevation: 3,
+    borderWidth: 0.2,
+    borderColor: BACKGROUND_BUTTON_COLOR
   },
   defaultContainer: {
     width: 65,
@@ -18,15 +24,15 @@ export const myAddressStyle = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'column',
     borderWidth: 0.7,
-    borderColor: '#9F580A',
+    borderColor: BACKGROUND_BUTTON_COLOR,
     marginTop: 7,
   },
   addAddressContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    borderColor: '#9F580A',
-    borderWidth: 1,
+    borderColor: BACKGROUND_BUTTON_COLOR,
+    borderWidth: 2,
     width: '90%',
     height: 50,
     bottom: 20,
@@ -70,7 +76,7 @@ export const myAddressStyle = StyleSheet.create({
   textDefault: {
     fontWeight: '400',
     fontSize: 13,
-    color: '#9F580A',
+    color: BACKGROUND_BUTTON_COLOR,
   },
   textPhone: {
     fontWeight: '400',
@@ -100,14 +106,14 @@ export const myAddressStyle = StyleSheet.create({
   textAddAddress: {
     fontWeight: '500',
     fontSize: 17,
-    color: '#9F580A',
+    color: BACKGROUND_BUTTON_COLOR,
     lineHeight: 23,
     marginLeft: 10,
   },
   textChange: {
     fontWeight: '400',
     fontSize: 15,
-    color: '#9F580A',
+    color: BACKGROUND_BUTTON_COLOR,
     lineHeight: 23,
   },
 });

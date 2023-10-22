@@ -1,4 +1,5 @@
-import React, { useRef, useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
+import React, {useRef, useState} from 'react';
 import {
   View,
   Text,
@@ -8,16 +9,20 @@ import {
   ScrollView,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
 
 const Categories = () => {
-  const bigData = useSelector((state) => state.categories.data);
+  const bigData = useSelector(state => state.categories.data);
   const [firstFlatListItems, setFirstFlatListItems] = useState(8);
 
+  const navigation = useNavigation();
+
+  const handleNavigate = id => {
+    navigation.navigate('ProductDetail', {id});
+  };
 
   const renderItem = (item, index) => {
-    const { ten_loai_san_pham } = item;
-
+    const {ten_loai_san_pham} = item;
 
     if (index === 7 || ten_loai_san_pham === 'Xem Them') {
       return (
@@ -25,8 +30,7 @@ const Categories = () => {
           style={Styles.card}
           onPress={() => {
             setFirstFlatListItems(firstFlatListItems + 8);
-          }}
-        >
+          }}>
           <View style={[Styles.imgCard]}></View>
           <Text numberOfLines={2} style={Styles.nameCard}>
             Xem Them
@@ -36,21 +40,16 @@ const Categories = () => {
     }
 
     return (
-      <TouchableOpacity
-        style={Styles.card}
-
-      >
+      <TouchableOpacity style={Styles.card}>
         <View style={[Styles.imgCard]}>
           <Image
             style={[
               Styles.imgCardBackground,
-              { width: 65, height: 65, resizeMode: 'center' },
+              {width: 65, height: 65, resizeMode: 'center'},
             ]}
             source={{
-              uri:
-                'https://www.thegioiphache.com/uploads/d/f/q/H/4/Gsztv_ly-thuy-tinh-ocean-caffe-cappuccino-p02441-p02471-1.png.webp',
-            }}
-          ></Image>
+              uri: 'https://www.thegioiphache.com/uploads/d/f/q/H/4/Gsztv_ly-thuy-tinh-ocean-caffe-cappuccino-p02441-p02471-1.png.webp',
+            }}></Image>
         </View>
         <Text numberOfLines={2} style={Styles.nameCard}>
           {ten_loai_san_pham}
@@ -58,33 +57,31 @@ const Categories = () => {
       </TouchableOpacity>
     );
   };
-  const categoryPositions = []; 
-  const renderCategory = (item,index) => {
-    const { ten_loai_san_pham, san_pham } = item;
+  const categoryPositions = [];
+  const renderCategory = (item, index) => {
+    const {ten_loai_san_pham, san_pham} = item;
     categoryPositions.push(index);
     return (
       <View key={ten_loai_san_pham}>
-        <Text style={{ color: '#000', fontWeight: '500', fontSize: 18 }}>
+        <Text style={{color: '#000', fontWeight: '500', fontSize: 18}}>
           {ten_loai_san_pham}
         </Text>
         <View>
           {san_pham.map((item, index) => (
-            <View key={index}>
-              {renderItemDetail(item)}
-            </View>
+            <View key={index}>{renderItemDetail(item)}</View>
           ))}
         </View>
       </View>
     );
   };
 
-  const renderItemDetail = (item) => {
-    const { ten_san_pham, size, hinh_anh_sp } = item;
+  const renderItemDetail = item => {
+    const {ten_san_pham, size, hinh_anh_sp} = item;
 
     return (
       <TouchableOpacity
-        style={{ flexDirection: 'row', marginVertical: 10, borderRadius: 4 }}
-      >
+        style={{flexDirection: 'row', marginVertical: 10, borderRadius: 4}}
+        onPress={() => handleNavigate(item._id)}>
         <TouchableOpacity
           style={{
             position: 'absolute',
@@ -93,9 +90,8 @@ const Categories = () => {
             borderRadius: 100,
             backgroundColor: '#C67C4E',
             padding: 5,
-          }}
-        >
-          <Icon name="plus" style={{ fontSize: 26, color: '#fff' }} />
+          }}>
+          <Icon name="plus" style={{fontSize: 26, color: '#fff'}} />
         </TouchableOpacity>
         <Image
           style={{
@@ -108,18 +104,17 @@ const Categories = () => {
             uri: hinh_anh_sp[0]?.hinh_anh_sp,
           }}
         />
-        <View style={{ marginHorizontal: 12, marginTop: 6 }}>
+        <View style={{marginHorizontal: 12, marginTop: 6}}>
           <Text
             style={{
               fontSize: 15,
               fontWeight: '500',
               color: '#000',
               marginBottom: 6,
-            }}
-          >
+            }}>
             {ten_san_pham}
           </Text>
-          <Text style={{ fontSize: 15, fontWeight: '400', color: '#000' }}>
+          <Text style={{fontSize: 15, fontWeight: '400', color: '#000'}}>
             {size[1]?.gia}đ
           </Text>
         </View>
@@ -128,24 +123,27 @@ const Categories = () => {
   };
 
   return (
-    <ScrollView  style={Styles.container}>
+    <ScrollView style={Styles.container}>
       <View style={Styles.row}>
         {bigData.map((item, index) => {
-          if(index < firstFlatListItems){
-            return <View style={Styles.column} key={index}>
-              {renderItem(item, index)}
-            </View>}})}
+          if (index < firstFlatListItems) {
+            return (
+              <View style={Styles.column} key={index}>
+                {renderItem(item, index)}
+              </View>
+            );
+          }
+        })}
       </View>
       <View>
-        <Text style={{ color: '#000', fontSize: 18, fontWeight: '500' }}>
+        <Text style={{color: '#000', fontSize: 18, fontWeight: '500'}}>
           Bộ sưu tập
         </Text>
-        <View style={{ marginVertical: 16, borderRadius: 10 }}>
+        <View style={{marginVertical: 16, borderRadius: 10}}>
           <Image
-            style={{ width: '100%', height: 170, borderRadius: 10 }}
+            style={{width: '100%', height: 170, borderRadius: 10}}
             source={{
-              uri:
-                'https://www.thegioiphache.com/uploads/d/f/q/H/4/Gsztv_ly-thuy-tinh-ocean-caffe-cappuccino-p02441-p02471-1.png.webp',
+              uri: 'https://www.thegioiphache.com/uploads/d/f/q/H/4/Gsztv_ly-thuy-tinh-ocean-caffe-cappuccino-p02441-p02471-1.png.webp',
             }}
           />
         </View>
@@ -155,7 +153,6 @@ const Categories = () => {
       ))}
     </ScrollView>
   );
-  
 };
 
 export default Categories;

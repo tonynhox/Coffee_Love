@@ -5,15 +5,31 @@ import {
   View,
   FlatList,
   ScrollView,
+  TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome6';
 import {BACKGROUND_BUTTON_COLOR} from '../../../utils/contanst';
 import DanhSachDanhGia from './DanhSachDanhGia';
 import BottomMuaSanPham from './BottomMuaSanPham';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import {styles} from './styles/productDetailStyle';
+import {useDispatch, useSelector} from 'react-redux';
+import {getChiTietSanPhamRequest} from '../../../redux/reducers/slices/chiTietSanPhamSlice';
+import {formatCurrency} from '../../../utils/formatCurrency';
+import Swiper from 'react-native-swiper';
+import {useRoute} from '@react-navigation/native';
+import {lamTronSo} from '../../../utils/lamTronSo';
+import {useNavigation} from '@react-navigation/native';
 
-const ProductDetail = () => {
+const ProductDetail = ({navigation}) => {
+  // const route = useRoute();
+  // const {item} = route.params;
+  // console.log('item', item);
+
+  // const navigation = useNavigation();
+
   const dataSanPhamDeXuat = [
     {
       id: 1,
@@ -53,6 +69,23 @@ const ProductDetail = () => {
     },
   ];
 
+  const dispatch = useDispatch();
+  const dataChiTietSanPham = useSelector(state => state.chi_tiet_san_pham.data);
+  const isLoading = useSelector(state => state.chi_tiet_san_pham.isLoading);
+
+  useEffect(() => {
+    const chiTietSanPhamRequest = () => {
+      dispatch(getChiTietSanPhamRequest('65200da4b4687e983b7353b4'));
+    };
+    chiTietSanPhamRequest();
+  }, []);
+
+  const [isOpen, setIsOpen] = React.useState(false);
+
+  const navigateToBuyProduct = () => {
+    // navigation.navigate('BuyProduct');
+  };
+
   const renderSanPhamDeXuat = () => {
     return (
       <View style={styles.containerSanPhamDeXuat}>
@@ -64,386 +97,192 @@ const ProductDetail = () => {
           numberOfLines={2}
           ellipsizeMode="tail"
           style={styles.textTenSanPhamDeXuat}>
-          Americanoaaaaaaaa
+          Americano
         </Text>
         <Text style={styles.textGiaTienSanPhamDeXuat}>20.100₫</Text>
       </View>
     );
   };
 
-  return (
-    <GestureHandlerRootView style={styles.container}>
-      <ScrollView>
-        <Image
-          source={require('../../../assets/images/americano.png')}
-          style={styles.imageSanPham}
-        />
-
-        {/* Thong tin san pham container */}
-        <View style={styles.thongTinSanPhamContainer}>
-          {/* ten san pham, sao vote */}
-          <View>
-            <Text style={styles.textTenSanPham}>Americano</Text>
-            {/* star vote */}
-            <View style={styles.voteContainer}>
-              <Text style={styles.start}>4.5</Text>
-              <Icon
-                name="star"
-                solid
-                size={15}
-                color={'#FC9702'}
-                style={{paddingRight: 5, paddingLeft: 2}}
-              />
-              <Text style={styles.start}>(2.104)</Text>
-            </View>
-          </View>
-
-          {/* Danh muc */}
-          <View style={styles.danhSachDanhMucContainer}>
-            {/* Coffee  */}
-            <View style={styles.danhMucContainer}>
-              <Icon
-                name="mug-saucer"
-                solid
-                size={15}
-                color={'#FFD700'}
-                style={{marginRight: 5}}
-              />
-              <Text style={styles.textDanhMuc}>Coffee</Text>
-            </View>
-            {/* Coffee  */}
-            <View style={styles.danhMucContainer}>
-              <Icon
-                name="egg"
-                solid
-                size={15}
-                color={'#FFD700'}
-                style={{marginRight: 5}}
-              />
-              <Text style={styles.textDanhMuc}>Milk Tea</Text>
-            </View>
-            {/* Coffee  */}
-            <View style={styles.danhMucContainer}>
-              <Icon
-                name="mug-saucer"
-                solid
-                size={15}
-                color={'#FFD700'}
-                style={{marginRight: 5}}
-              />
-              <Text style={styles.textDanhMuc}>Milk Tea</Text>
-            </View>
-          </View>
+  return isLoading ? (
+    <View style={styles.loadingContainer}>
+      <ActivityIndicator size="large" color={BACKGROUND_BUTTON_COLOR} />
+    </View>
+  ) : (
+    <>
+      {dataChiTietSanPham == null ? (
+        <View style={styles.failContainer}>
+          <Text style={styles.textKhongCoDuLieu}>Không có dữ liệu</Text>
+          <TouchableOpacity
+            style={styles.backButton}
+            onPress={() => navigation.goBack()}>
+            <Icon name="arrow-left" size={17} color={'black'} />
+          </TouchableOpacity>
         </View>
+      ) : (
+        <GestureHandlerRootView style={styles.container}>
+          <ScrollView>
+            <Swiper
+              activeDotColor={BACKGROUND_BUTTON_COLOR}
+              nextButton={
+                <Icon
+                  name="chevron-right"
+                  size={20}
+                  color={BACKGROUND_BUTTON_COLOR}
+                />
+              }
+              prevButton={
+                <Icon
+                  name="chevron-left"
+                  size={20}
+                  color={BACKGROUND_BUTTON_COLOR}
+                />
+              }
+              height={250}
+              showsButtons={true}>
+              {dataChiTietSanPham.hinh_anh_sp.map((item, index) => {
+                return (
+                  <Image
+                    source={{uri: item.hinh_anh_sp}}
+                    style={styles.imageSanPham}
+                  />
+                );
+              })}
+            </Swiper>
 
-        {/* Gia */}
-        <View style={styles.giaTienContainer}>
-          <Text style={[styles.textTien, styles.amount]}>100.000₫</Text>
-          <Text style={styles.dash}>-</Text>
-          <Text style={styles.textSale}>100.000₫</Text>
-        </View>
+            <TouchableOpacity
+              style={styles.backButton}
+              onPress={() => navigation.goBack()}>
+              <Icon name="arrow-left" size={17} color={'black'} />
+            </TouchableOpacity>
 
-        {/* Mo ta container */}
-        <View style={styles.moTaContainer}>
-          <Text style={styles.textMoTa}>Mô tả</Text>
-          <Text style={styles.textThongTin}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec Lorem
-            ipsum dolor sit amet, consectetur adipiscing elit. Donec Lorem ipsum
-            dolor sit amet, consectetur adipiscing elit. Donec
-          </Text>
-        </View>
+            {/* Thong tin san pham container */}
+            <View style={styles.thongTinSanPhamContainer}>
+              {/* ten san pham, sao vote */}
+              <View>
+                <Text style={styles.textTenSanPham}>
+                  {dataChiTietSanPham.ten_san_pham}
+                </Text>
+                {/* star vote */}
+                <View style={styles.voteContainer}>
+                  <Text style={styles.start}>
+                    {lamTronSo(dataChiTietSanPham.tong_sao)}
+                  </Text>
+                  <Icon
+                    name="star"
+                    solid
+                    size={15}
+                    color={'#FC9702'}
+                    style={{paddingRight: 5, paddingLeft: 2}}
+                  />
+                  <Text style={styles.start}>
+                    ({lamTronSo(dataChiTietSanPham.so_luong_danh_gia)})
+                  </Text>
+                </View>
+              </View>
 
-        {/* separate line */}
-        <View style={styles.separateLine} />
+              {/* Danh muc */}
+              <View style={styles.danhSachDanhMucContainer}>
+                {dataChiTietSanPham.loai_san_pham.map((item, index) => {
+                  return (
+                    <TouchableOpacity
+                      style={styles.danhMucContainer}
+                      key={index}>
+                      <Icon
+                        name="mug-saucer"
+                        solid
+                        size={15}
+                        color={'#FFD700'}
+                        style={{marginRight: 5}}
+                      />
+                      <Text style={styles.textDanhMuc}>
+                        {item.ten_loai_san_pham}
+                      </Text>
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
 
-        {/* chon size */}
-        <View style={styles.chonSizeContainer}>
-          <Text style={styles.textMoTa}>Chọn size</Text>
-          <View style={styles.baSizeContainer}>
-            {/* Size M */}
-            <View style={styles.sizeContainer}>
-              <Text style={styles.textSize}>M</Text>
+              <TouchableOpacity style={styles.buttonThemVaoYeuThich}>
+                <Icon name="heart" size={30} color={'#FC9702'} />
+              </TouchableOpacity>
             </View>
-            {/* Size L */}
-            <View style={styles.sizeSelectedContainer}>
-              <Text style={styles.textSizeSelected}>L</Text>
-            </View>
-            {/* Size SL */}
-            <View style={styles.sizeContainer}>
-              <Text style={styles.textSize}>SL</Text>
-            </View>
-          </View>
-          <View />
-          <View />
-        </View>
 
-        {/* Sản phẩm đề xuất */}
-        <View style={styles.sanPhamDeXuatContainer}>
-          <Text style={styles.textMoTa}>Đề xuất</Text>
-          <FlatList
-            data={dataSanPhamDeXuat}
-            renderItem={renderSanPhamDeXuat}
-            horizontal={true}
-            keyExtractor={item => item.id}
-            showsHorizontalScrollIndicator={false}
+            {/* Gia */}
+
+            <View style={styles.giaTienVaMuaContainer}>
+              <View>
+                {/* Giam gia */}
+                {dataChiTietSanPham.size[2].giam_gia == 0 ? null : (
+                  <View style={styles.giaTienContainer}>
+                    <Text style={[styles.textTien, styles.amount]}>
+                      {formatCurrency(dataChiTietSanPham.size[2].giam_gia)}
+                    </Text>
+                    <Text style={styles.dash}>-</Text>
+                    <Text style={[styles.textTien, styles.amount]}>
+                      {formatCurrency(dataChiTietSanPham.size[0].giam_gia)}
+                    </Text>
+                  </View>
+                )}
+
+                {/* tien hien tai */}
+                <View style={styles.giaTienContainer}>
+                  <Text style={styles.textSale}>
+                    {formatCurrency(dataChiTietSanPham.size[2].gia)}
+                  </Text>
+                  <Text style={styles.dash}>-</Text>
+                  <Text style={styles.textSale}>
+                    {formatCurrency(dataChiTietSanPham.size[0].gia)}
+                  </Text>
+                </View>
+              </View>
+              <View style={styles.yeuThichVaMuaHangContainer}>
+                {/* <Icon name="heart" size={30} color={'#FC9702'} /> */}
+                <TouchableOpacity
+                  style={styles.buttonMuaSanPham}
+                  onPress={() => setIsOpen(true)}>
+                  <Text style={styles.textMua}>Mua</Text>
+                  <Icon name="cart-shopping" size={15} color={'white'} />
+                </TouchableOpacity>
+              </View>
+            </View>
+
+            {/* Mo ta container */}
+            <View style={styles.moTaContainer}>
+              <Text style={styles.textMoTa}>Mô tả</Text>
+              <Text style={styles.textThongTin}>
+                {dataChiTietSanPham.mo_ta}
+              </Text>
+            </View>
+
+            {/* separate line */}
+            <View style={styles.separateLine} />
+
+            {/* Sản phẩm đề xuất */}
+            <View style={styles.sanPhamDeXuatContainer}>
+              <Text style={styles.textMoTa}>Đề xuất</Text>
+              <FlatList
+                data={dataSanPhamDeXuat}
+                renderItem={renderSanPhamDeXuat}
+                horizontal={true}
+                keyExtractor={item => item.id}
+                showsHorizontalScrollIndicator={false}
+              />
+            </View>
+
+            <DanhSachDanhGia data={dataChiTietSanPham} />
+          </ScrollView>
+
+          <BottomMuaSanPham
+            isOpen={isOpen}
+            onChangeOpen={() => setIsOpen(false)}
+            data={dataChiTietSanPham}
+            handleNavigate={navigateToBuyProduct}
           />
-        </View>
-
-        <DanhSachDanhGia />
-      </ScrollView>
-
-      <BottomMuaSanPham />
-    </GestureHandlerRootView>
+        </GestureHandlerRootView>
+      )}
+    </>
   );
 };
 
 export default ProductDetail;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
-  },
-  imageSanPham: {
-    width: '100%',
-    height: 250,
-  },
-  textTenSanPham: {
-    fontSize: 30,
-    color: 'black',
-    fontWeight: '500',
-  },
-  thongTinSanPhamContainer: {
-    flexDirection: 'column',
-    justifyContent: 'space-evenly',
-    alignItems: 'flex-start',
-    width: '100%',
-    height: 130,
-    paddingLeft: 10,
-    borderBottomEndRadius: 10,
-    borderBottomStartRadius: 10,
-    paddingRight: 10,
-    borderColor: '#F3962C',
-    borderWidth: 1,
-
-    // backgroundColor: '#F3962C',
-    backgroundColor: '#FCE0C0',
-  },
-  voteContainer: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-  },
-  danhMucContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: 'auto',
-    height: 'auto',
-    padding: 5,
-    marginHorizontal: 2,
-    borderRadius: 10,
-    backgroundColor: BACKGROUND_BUTTON_COLOR,
-  },
-  textDanhMuc: {
-    fontSize: 15,
-    color: 'white',
-    fontWeight: '500',
-  },
-  baSizeContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  space: {
-    height: 2,
-  },
-  start: {
-    fontSize: 14,
-    color: 'black',
-    fontWeight: '400',
-  },
-  danhSachDanhMucContainer: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    width: '100%',
-    height: 'auto',
-  },
-  textMoTa: {
-    fontSize: 18,
-    color: 'black',
-    fontWeight: '500',
-    marginTop: 10,
-    marginBottom: 5,
-  },
-  textThongTin: {
-    fontSize: 15,
-    color: '#404040',
-    fontWeight: '400',
-    paddingVertical: 2,
-    width: 400,
-  },
-  textSize: {
-    fontSize: 16,
-    color: BACKGROUND_BUTTON_COLOR,
-    fontWeight: 'bold',
-  },
-  textSizeSelected: {
-    fontSize: 16,
-    color: 'white',
-    fontWeight: 'bold',
-  },
-  separateLine: {
-    height: 1,
-    width: '95%',
-    backgroundColor: 'gray',
-    marginVertical: 10,
-  },
-  sizeContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: 'auto',
-    height: 'auto',
-    paddingVertical: 5,
-    paddingHorizontal: 25,
-    marginHorizontal: 5,
-    borderRadius: 12,
-    borderColor: BACKGROUND_BUTTON_COLOR,
-    borderWidth: 1.5,
-    backgroundColor: '#FFECD2',
-  },
-  sizeSelectedContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: 'auto',
-    height: 'auto',
-    paddingVertical: 5,
-    paddingHorizontal: 25,
-    marginHorizontal: 5,
-    borderRadius: 12,
-    borderColor: BACKGROUND_BUTTON_COLOR,
-    borderWidth: 1.5,
-    backgroundColor: BACKGROUND_BUTTON_COLOR,
-  },
-  chonSizeContainer: {
-    width: '100%',
-    paddingLeft: 10,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  moTaContainer: {
-    marginLeft: 10,
-  },
-  buyNowContainer: {
-    width: '100%',
-    height: 130,
-    borderRadius: 10,
-    borderColor: BACKGROUND_BUTTON_COLOR,
-    borderWidth: 1,
-    backgroundColor: '#FDEEDD',
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    alignItems: 'center',
-    marginTop: 10,
-    position: 'absolute',
-    bottom: 0,
-  },
-  soLuongContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: 150,
-    height: 'auto',
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    marginHorizontal: 2,
-    borderRadius: 12,
-    borderColor: BACKGROUND_BUTTON_COLOR,
-    borderWidth: 2,
-    backgroundColor: '#FFECD2',
-  },
-  textSoLuong: {
-    fontSize: 16,
-    color: BACKGROUND_BUTTON_COLOR,
-    fontWeight: 'bold',
-  },
-  textSale: {
-    fontSize: 18,
-    color: BACKGROUND_BUTTON_COLOR,
-    fontWeight: 'bold',
-  },
-  textTien: {
-    fontSize: 18,
-    color: 'gray',
-    fontWeight: 'bold',
-  },
-  amount: {
-    textDecorationLine: 'line-through', // Add a line-through text decoration
-  },
-  giaTienContainer: {
-    flexDirection: 'row',
-    marginTop: 10,
-    marginBottom: 2,
-    width: '100%',
-    marginLeft: 15,
-  },
-  dash: {
-    fontSize: 16,
-    color: 'gray',
-    paddingHorizontal: 5,
-  },
-  buyNowButtonContainer: {
-    width: 130,
-    height: 50,
-    borderRadius: 10,
-    borderColor: BACKGROUND_BUTTON_COLOR,
-    borderWidth: 2,
-    backgroundColor: BACKGROUND_BUTTON_COLOR,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  textBuyNow: {
-    fontSize: 18,
-    color: 'white',
-    fontWeight: 'bold',
-  },
-  giaTienVaSoLuongContainer: {
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  containerSanPhamDeXuat: {
-    flexDirection: 'column',
-    width: 80,
-    marginHorizontal: 12,
-    marginTop: 10,
-  },
-  imageSanPhamDeXuat: {
-    width: 80,
-    height: 80,
-  },
-  textTenSanPhamDeXuat: {
-    fontSize: 14,
-    color: 'black',
-    fontWeight: '500',
-  },
-  textGiaTienSanPhamDeXuat: {
-    fontSize: 13,
-    color: 'black',
-    fontWeight: '400',
-    color: BACKGROUND_BUTTON_COLOR,
-  },
-  sanPhamDeXuatContainer: {
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    marginLeft: 10,
-    marginTop: 15,
-  },
-});
