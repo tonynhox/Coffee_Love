@@ -185,7 +185,6 @@ const Search = () => {
     setSearch(textSearch);
     const fuse = new Fuse(dataTimKiem, options);
     const filteredItems = fuse.search(textSearch);
-    console.log("filteredItems", filteredItems)
     setFilteredData(filteredItems);
   };
 

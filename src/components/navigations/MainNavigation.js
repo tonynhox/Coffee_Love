@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, Pressable} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Home from '../main/home/Home';
@@ -7,17 +7,23 @@ import ListVoucher from '../main/voucher/ListVoucher';
 import Profile from '../main/profile/Profile';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import ModalCartOrder from '../../utils/Modals/ModalCartOrder';
-import { useDispatch, useSelector } from 'react-redux';
-import { getCartPaymentFetch } from '../../redux/reducers/slices/cartPaymentSlice';
+import {useDispatch, useSelector} from 'react-redux';
+import {getCartPaymentFetch} from '../../redux/reducers/slices/cartPaymentSlice';
 import Storage from '../../utils/Storage';
 
 const Tab = createBottomTabNavigator();
 
-const MainNavigation =  () => {
+const MainNavigation = () => {
   const dispatch = useDispatch();
   // const id_user =  Storage.getItem('id_user');
   const id_user = useSelector(state => state.users.user.id_user);
-  dispatch(getCartPaymentFetch({id_user:id_user}));
+  useEffect(() => {
+    if (id_user) {
+      dispatch(getCartPaymentFetch({id_user: id_user}));
+      dispatch(getCartPaymentFetch({id_user: id_user}));
+      console.log('id_user', id_user);
+    }
+  }, [id_user]);
 
   return (
     <Tab.Navigator
@@ -90,8 +96,7 @@ const MainNavigation =  () => {
 };
 
 const ExtraView = ({setModalVisible}) => {
-  const dispatch = useDispatch();
-  const id_user = useSelector(state => state?.users?.user?.id_user);
+
   return (
     <Pressable
       style={{
@@ -119,7 +124,6 @@ const ExtraView = ({setModalVisible}) => {
       <Pressable
         onPress={() => {
           setModalVisible(true);
-          console.log('click');
         }}
         style={{
           flexDirection: 'row',
@@ -159,7 +163,6 @@ const ExtraView = ({setModalVisible}) => {
 
 const HomeWithExtraView = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
-  console.log(isModalVisible);
 
   return (
     <View style={{flex: 1}}>

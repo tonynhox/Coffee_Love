@@ -13,23 +13,35 @@ import {BACKGROUND_BUTTON_COLOR} from '../../../utils/contanst';
 // import { ScrollView } from 'react-native-virtualized-view';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useSelector} from 'react-redux';
+const diachiArr = [
+  {
+    ten_dia_chi: 'yolo',
+    so_dien_thoai: '090909090',
+    so_nha: '20',
+    tinh: 'dong nai',
+    mac_dinh: 0,
+    status: 1,
+    _id: '65316033ab77492e0b68df1b',
+    nguoi_nhan: 'cac',
+  },
+  {
+    ten_dia_chi: 'lagi',
+    so_dien_thoai: '142313123',
+    so_nha: '20',
+    tinh: 'binh thuan',
+    mac_dinh: 1,
+    status: 1,
+    _id: '65316033ab77492e0b68df1b',
+    nguoi_nhan: 'huy',
+  },
+];
 const CartPayment = () => {
-  const diachi = [
-    {
-      ten_dia_chi: 'yolo',
-      so_dien_thoai: 'dumemi',
-      so_nha: '20',
-      tinh: 'dong nai',
-      mac_dinh: 0,
-      status: 1,
-      _id: '65316033ab77492e0b68df1b',
-      nguoi_nhan: 'cac',
-    },
-  ];
-  const [diaChi, setDiaChi] = useState();
+
+  const [diaChi, setDiaChi] = useState({});
   useEffect(() => {
-    if (diachi.length > 0) {
-      setDiaChi(diachi[0]);
+    if (diachiArr.length > 0) {
+      const defaultAddress = diachiArr.find(item => item.mac_dinh === 1);
+      setDiaChi(defaultAddress);
     }
   }, []);
 
@@ -197,7 +209,7 @@ const styles = StyleSheet.create({
     // justifyContent: 'flex-start',
     padding: 12,
     // borderRadius:20,
-    marginTop: 60,
+    marginTop: 20,
   },
   thongTinDiaChiContainer: {
     flexDirection: 'column',

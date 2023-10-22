@@ -51,6 +51,7 @@ const ModalCartOrder = props => {
         style={styles.modal}>
         <View style={styles.scrollableModal}>
           <ScrollView
+          style={{marginTop:height * (1 / 8),backgroundColor:'white'}}
             ref={scrollViewRef}
             onScroll={handleOnScroll}
             scrollEventThrottle={16}>

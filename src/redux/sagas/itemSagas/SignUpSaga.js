@@ -15,7 +15,6 @@ function* SignUp(action){
     const response = yield call(() => instance.post('users/dang-ky-username', payload));
     
 
-    console.log('response', response.data);
     // if(response.data.trang_thai){
     //   yield put(SignUpSuccess(response.data))
     // }else{

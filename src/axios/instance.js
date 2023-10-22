@@ -2,7 +2,7 @@ import axios from 'axios';
 import Storage from '../utils/Storage';
 
 const instance = axios.create({
-  baseURL: 'http://coffee.thaihoa.software/',
+  baseURL: 'https://coffee.thaihoa.software/',
 });
 
 instance.interceptors.request.use(

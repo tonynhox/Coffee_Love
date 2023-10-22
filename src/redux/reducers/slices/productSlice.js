@@ -18,7 +18,6 @@ export const productSlice =  createSlice({
     getProductAllSuccess: (state, action) => {
       state.data = action.payload;
       state.isLoading = false;
-      console.log('data menu ok',state.data );
 
     },
     //action fail

@@ -1,0 +1,30 @@
+import React, { useState, useRef, useCallback } from 'react';
+import { View, Platform, PermissionsAndroid, Text, Dimensions } from 'react-native';
+import { Button, Icon, Input, Dialog } from '@rneui/themed';
+// import styles from './../styles/Style'
+import Barcode from '@kichiyaki/react-native-barcode-generator';
+
+//https://github.com/LintangWisesa/ReactNative-Barcode-Generator-Scanner
+
+const BarcodeGenerator = (props) => {
+    const {ma_khach_hang} = props;
+    // const [BarValue, setBarValue] = useState('CL00000001');
+    const ref = useRef();
+
+    return (
+        <Barcode
+        // borderRadius={20}
+        // format="CODE128"ß
+        value={ma_khach_hang ? ma_khach_hang : '----------'}
+        text={ma_khach_hang ? ma_khach_hang : '----------'}
+        style={{marginBottom:3, borderRadius:8,padding:4 }}
+        textStyle={{ color:'#000' }}
+        // style={{alignSelf:'center'}}
+        maxWidth={Dimensions.get('window').width / 1.5}
+        // maxHeight={Dimensions.get('window').height / 2}
+        height={40}
+    />
+    );
+}
+
+export default BarcodeGenerator

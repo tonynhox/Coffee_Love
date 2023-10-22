@@ -18,7 +18,6 @@ export const categoriesSlice =  createSlice({
     getCategorySuccess: (state, action) => {
       state.data = action.payload;
       state.isLoading = false;
-      console.log('getCategorySuccess', action.payload);
     },
     //action fail
     getCategoryFail: (state, action) => {

@@ -12,7 +12,6 @@ function* WorkerTopOrder(action){
     // };
     console.log('WorkerTopOrder');
     const response = yield call(() => instance.get('api/san-pham/danh-sach-san-pham-danh-gia-tot-nhat'));
-    console.log('response', response.data);
     if(response.data.success){
       yield put(getTopOrderSuccess(response.data.data))
     }else{

@@ -18,11 +18,10 @@ export const cartPaymentSlice =  createSlice({
     getCartPaymentSuccess: (state, action) => {
       state.data = action.payload;
       state.isLoading = false;
-      console.log('getCartPaymentSliceSuccess', action.payload);
     },
     //action fail
     getCartPaymentFail: (state, action) => {
-      console.log('getCartPaymentSliceFail', action);
+      console.log('getCartPaymentSliceFail', action.payload);
       state.isLoading = false;
     },
   },

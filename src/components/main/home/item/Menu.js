@@ -11,12 +11,8 @@ const Menu = () => {
 
 
     const renderItem = (item) => {
-        // console.log('item',item);
-        // const {index,item} = itemne;
-        console.log('item',item);
 
         const {ten_san_pham,size,hinh_anh_sp,loai_san_pham} = item.item;
-        console.log('ten_san_pham',ten_san_pham);
 
         return (
         <TouchableOpacity 

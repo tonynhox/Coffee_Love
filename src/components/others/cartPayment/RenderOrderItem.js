@@ -4,7 +4,6 @@ import React from 'react';
 import { BACKGROUND_BUTTON_COLOR } from '../../../utils/contanst';
 
 const RenderOrderItem = ({item}) => {
-  console.log('item', item);
   return (
     <TouchableOpacity style={styles.container}>
       {/* Image va thong tin san pham */}

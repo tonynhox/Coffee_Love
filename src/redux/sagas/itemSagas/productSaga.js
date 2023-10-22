@@ -12,7 +12,6 @@ function* WorkerProduct(action){
     // };
     // console.log('WorkerProduct');
     const response = yield call(() => instance.get('api/san-pham/get-all-san-pham'));
-    console.log('WorkerProduct', response.data);
     if(response.data.success){
       yield put(getProductAllSuccess(response.data.data))
     }else{
