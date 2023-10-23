@@ -10,6 +10,7 @@ import ModalCartOrder from '../../utils/Modals/ModalCartOrder';
 import {useDispatch, useSelector} from 'react-redux';
 import {getCartPaymentFetch} from '../../redux/reducers/slices/cartPaymentSlice';
 import Storage from '../../utils/Storage';
+import CategoriesText from '../main/categories/CategoriesText';
 
 const Tab = createBottomTabNavigator();
 
@@ -181,7 +182,7 @@ const CategoriesWithExtraView = () => {
 
   return (
     <View style={{flex: 1}}>
-      <Categories />
+      <CategoriesText />
       <ExtraView setModalVisible={setIsModalVisible} />
       <ModalCartOrder
         isVisible={isModalVisible}

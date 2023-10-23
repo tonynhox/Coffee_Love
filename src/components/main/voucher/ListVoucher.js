@@ -12,9 +12,11 @@ import {styles} from './styles';
 import {useSelector} from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useNavigation} from '@react-navigation/native';
+import BarcodeGenerator from '../home/item/barcode/BarcodeGenerator';
 
 const ListVoucher = () => {
-  // const data =  useSelector(state => state.utils.data)
+  const user = useSelector(state => state.users.user);
+
   const navigation = useNavigation();
   const RenderItem = ({item}) => {
     return (
@@ -60,12 +62,14 @@ const ListVoucher = () => {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.fistCard}>
-        <Text style={[styles.txtfc, {fontSize: 20}]}>Ưu đãi</Text>
-        <Text style={[styles.txtfc, {fontSize: 25, fontWeight: '700'}]}>
+        <Text style={[styles.txtfc, {fontSize: 20,fontWeight:'600'}]}>Ưu đãi</Text>
+        <Text style={[styles.txtfc, {marginVertical:10,fontSize: 28, fontWeight: '700'}]}>
           Mới
         </Text>
         <View style={styles.txtfc2}>
-          <Text style={[styles.txtfc, {fontSize: 15}]}>0 Điểm</Text>
+          <Text style={[styles.txtfc, {fontSize: 15}]}>
+            {user.tich_diem} Điểm
+          </Text>
           <View style={styles.btnvc}>
             <Icon
               name="ticket-percent-outline"
@@ -75,8 +79,9 @@ const ListVoucher = () => {
           </View>
         </View>
         <View style={styles.cardRowfc}>
-          <Icon name="barcode" style={styles.barcode} />
-          <Text style={styles.txtfc4}>1234565</Text>
+          <BarcodeGenerator height={60} ma_khach_hang={user.ma_khach_hang} />
+          {/* <Icon name="barcode" style={styles.barcode} />
+          <Text style={styles.txtfc4}>1234565</Text> */}
         </View>
         <Text style={[styles.txtfc, {fontSize: 12, marginTop: 10}]}>
           Còn 100 điểm nữa bạn sẻ thăng hạng
@@ -84,7 +89,9 @@ const ListVoucher = () => {
         <Text style={[styles.txtfc, {fontSize: 12}]}>
           Đổi quà không ảnh hưởng tới việc thăng hạng của bạn
         </Text>
-        <Text style={[styles.txtfc, {fontSize: 12}]}>chưa tích điểm</Text>
+        <Text style={[styles.txtfc, {fontSize: 12}]}>
+          Hãy dùng điểm để đổi ưu đãi nhé
+        </Text>
       </View>
 
       <View style={styles.card}>

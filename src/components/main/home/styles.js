@@ -36,7 +36,7 @@ export const styles = StyleSheet.create({
   },
   cardNotUser: {
     flex: 1,
-    height: 140,
+    height: 150,
     backgroundColor: '#fff',
     borderRadius: 12,
     paddingVertical: 12,
@@ -51,7 +51,7 @@ export const styles = StyleSheet.create({
   },
   cardUser: {
     flex: 1,
-    height: 140,
+    height: 150,
     backgroundColor: 'rgba(252, 135, 0, 0.8)',
     borderRadius: 12,
     paddingVertical: 12,

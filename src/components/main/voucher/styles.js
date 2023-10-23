@@ -2,7 +2,8 @@ import {StyleSheet, Text, View} from 'react-native';
 
 export const styles = StyleSheet.create({
   txtall: {
-    width: 100,
+    // width: 100,
+    paddingHorizontal: 10,
     height: 30,
     justifyContent: 'center',
     textAlign: 'center',
@@ -14,9 +15,11 @@ export const styles = StyleSheet.create({
     fontWeight: '400',
   },
   fistCard: {
-    height: '25%',
+    // height: 330,
     backgroundColor: '#FF8C00',
-    padding: 24,
+    // padding: 24,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
   },
   txtfc: {
     fontWeight: '400',
@@ -25,7 +28,7 @@ export const styles = StyleSheet.create({
   txtfc2: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 10,
+    // marginTop: 10,
   },
   btnvc: {
     height: 30,
@@ -46,8 +49,10 @@ export const styles = StyleSheet.create({
   cardRowfc: {
     marginTop: 15,
     backgroundColor: '#fff',
-    height: 150,
-    borderRadius: 20,
+    height: 120,
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   barcode: {
     alignSelf: 'center',
@@ -181,7 +186,7 @@ export const styles = StyleSheet.create({
     marginLeft: -6,
   },
   container: {
-    flex: 1,
+    // flex: 1,
     backgroundColor: '#f3f3f3',
   },
 });

@@ -23,7 +23,10 @@ import {useRoute} from '@react-navigation/native';
 import {lamTronSo} from '../../../utils/lamTronSo';
 import {useNavigation} from '@react-navigation/native';
 
-const ProductDetail = ({navigation}) => {
+const ProductDetail = (props) => {
+  
+  const {navigation, route} = props;
+  const id = route?.params?.id;
   // const route = useRoute();
   // const {item} = route.params;
   // console.log('item', item);
@@ -75,7 +78,7 @@ const ProductDetail = ({navigation}) => {
 
   useEffect(() => {
     const chiTietSanPhamRequest = () => {
-      dispatch(getChiTietSanPhamRequest('65200da4b4687e983b7353b4'));
+      dispatch(getChiTietSanPhamRequest( id));
     };
     chiTietSanPhamRequest();
   }, []);
