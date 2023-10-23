@@ -73,10 +73,10 @@ const Home = () => {
           {useNativeDriver: false}, // Sử dụng driver không dựa vào native (không sử dụng bằng true)
         )}
         style={styles.container}>
-        <CardUser />
+        {/* <CardUser />
         <Extention />
         <TopOrder />
-        <Menu />
+        <Menu /> */}
       </ScrollView>
     </View>
   );

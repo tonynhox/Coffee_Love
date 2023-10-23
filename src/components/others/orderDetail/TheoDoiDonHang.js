@@ -22,7 +22,7 @@ const TheoDoiDonHang = ({maTrangThai}) => {
           {/* Da dat container */}
           <View style={styles.daDatContainer}>
             <Icon
-              name='circle-check'
+              name="circle-check"
               solid
               size={12}
               color={BACKGROUND_BUTTON_COLOR}
@@ -40,9 +40,15 @@ const TheoDoiDonHang = ({maTrangThai}) => {
           {/* Dang giao hang container */}
           <View style={styles.daDatContainer}>
             <Icon
-              name={dang_giao_hang ? 'circle-check' : (da_giao_hang ? 'circle-check' : 'circle')}
+              name={
+                dang_giao_hang
+                  ? 'circle-check'
+                  : da_giao_hang
+                  ? 'circle-check'
+                  : 'circle'
+              }
               size={12}
-              solid={dang_giao_hang ? true : (da_giao_hang ? true : false)}
+              solid={dang_giao_hang ? true : da_giao_hang ? true : false}
               color={BACKGROUND_BUTTON_COLOR}
             />
 
@@ -58,7 +64,7 @@ const TheoDoiDonHang = ({maTrangThai}) => {
           {/* Dang giao hang container */}
           <View style={styles.daDatContainer}>
             <Icon
-              name={da_giao_hang ?  "circle-check" : "circle"}
+              name={da_giao_hang ? 'circle-check' : 'circle'}
               solid={da_giao_hang ? true : false}
               size={12}
               color={BACKGROUND_BUTTON_COLOR}

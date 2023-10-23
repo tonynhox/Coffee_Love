@@ -25,7 +25,7 @@ const App = () => {
       {/* <AppNavigation  /> */}
     <NavigationContainer ref={navigationRef}>
 
-      <OrderDetail/>
+      <AppNavigation/>
       {/* <AppNavigation  /> */}
 
     </NavigationContainer>
