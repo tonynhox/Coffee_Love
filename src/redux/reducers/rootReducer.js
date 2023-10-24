@@ -20,18 +20,18 @@ const rootReducer = combineReducers({
   locationMap: locationMapSlice,
 });
 
-export const appReducer = (state, action) => {
-  if (action.type === 'logout') {
-    const slices = getState();
-    //reset
-    Object.keys(slices).forEach(slice => {
-      slices[slice] = slices[slice].initialState;
-    });
+// export const appReducer = (state, action) => {
+//   if (action.type === 'logout') {
+//     const slices = getState();
+//     //reset
+//     Object.keys(slices).forEach(slice => {
+//       slices[slice] = slices[slice].initialState;
+//     });
 
-    return slices;
-  }
+//     return slices;
+//   }
 
-  return rootReducer(state, action);
-};
+//   return rootReducer(state, action);
+// };
 
 export default rootReducer;

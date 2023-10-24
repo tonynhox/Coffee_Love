@@ -8,8 +8,8 @@ import {useSelector} from 'react-redux';
 
 const CardUser = () => {
   const navigation = useNavigation();
-  const user = useSelector(state => state.users.user);
-  const islogin = user.id_user;
+  const user = useSelector(state => state.users?.user);
+  const islogin = user?.id_user||'';
 
   console.log('islogin', islogin);
   return (

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Pressable} from 'react-native';
+import {View, Text, Pressable, Alert} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Home from '../main/home/Home';
 import Categories from '../main/categories/Categories';
@@ -17,6 +17,8 @@ import {getLocationMapFetch} from '../../redux/reducers/slices/locationMap';
 const Tab = createBottomTabNavigator();
 
 const MainNavigation = () => {
+  const [position, setPosition] = useState({});
+
   //vị trí hiện tại
   const getCurrentPosition = () => {
     Geolocation.getCurrentPosition(
@@ -24,16 +26,15 @@ const MainNavigation = () => {
         setPosition(pos);
       },
       error => Alert.alert('GetCurrentPosition Error', JSON.stringify(error)),
-      // {enableHighAccuracy: true,},
+      // {enableHighAccuracy: true,}
 
     );
   };
 
   useEffect(() => {
     getCurrentPosition();
-  }, [position]);
+  }, []);
 
-  const [position, setPosition] = useState({});
 
 
   useEffect(() => {
@@ -52,7 +53,7 @@ const MainNavigation = () => {
 
   const dispatch = useDispatch();
   // const id_user =  Storage.getItem('id_user');
-  const id_user = useSelector(state => state.users.user.id_user);
+  const id_user = useSelector(state => state.users?.user?.id_user);
   useEffect(() => {
     if (id_user) {
       dispatch(getCartPaymentFetch({id_user: id_user}));
