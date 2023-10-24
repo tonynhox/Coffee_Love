@@ -11,6 +11,7 @@ import {getCategoryFetch} from '../../redux/reducers/slices/categoriesSlice';
 import {getTopOrderFetch} from '../../redux/reducers/slices/topOrderSlice';
 import {getProductAllFetch} from '../../redux/reducers/slices/productSlice';
 import { LoginSuccess, getOneUserFetch } from '../../redux/reducers/slices/userSlice';
+import { getFavoriteRequest } from '../../redux/reducers/slices/favoriteSlice';
 const Stack = createNativeStackNavigator();
 
 const ManHinh = () => {
@@ -51,7 +52,7 @@ const ManHinh = () => {
         console.log('token nè',user);
         dispatch(LoginSuccess({data:{token:token,id_user:user}}))
         dispatch(getOneUserFetch({id_user:user}));
-
+        dispatch(getFavoriteRequest({id_user:user}));
       }
     }
 

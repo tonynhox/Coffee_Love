@@ -254,7 +254,7 @@ export const styles = StyleSheet.create({
   sanPhamDeXuatContainer: {
     flexDirection: 'column',
     justifyContent: 'flex-start',
-   
+    marginLeft: 10,
     marginTop: 15,
   },
   buttonMuaSanPham: {

@@ -23,8 +23,7 @@ import {useRoute} from '@react-navigation/native';
 import {lamTronSo} from '../../../utils/lamTronSo';
 import {useNavigation} from '@react-navigation/native';
 
-const ProductDetail = (props) => {
-  
+const ProductDetail = props => {
   const {navigation, route} = props;
   const id = route?.params?.id;
   // const route = useRoute();
@@ -33,15 +32,17 @@ const ProductDetail = (props) => {
 
   // const navigation = useNavigation();
 
-  const dataSanPhamDeXuat = useSelector(state => state.products.data)
+  const dataSanPhamDeXuat = useSelector(state => state.products.data);
 
   const dispatch = useDispatch();
   const dataChiTietSanPham = useSelector(state => state.chi_tiet_san_pham.data);
   const isLoading = useSelector(state => state.chi_tiet_san_pham.isLoading);
 
+  //data favorite
+  const dataFavorite = useSelector(state => state.favorite.data);
   useEffect(() => {
     const chiTietSanPhamRequest = () => {
-      dispatch(getChiTietSanPhamRequest( id));
+      dispatch(getChiTietSanPhamRequest(id));
     };
     chiTietSanPhamRequest();
   }, []);
@@ -52,9 +53,19 @@ const ProductDetail = (props) => {
     // navigation.navigate('BuyProduct');
   };
 
+  const onCheckIsLiked = () => {
+    return dataFavorite.some(item => item._id === dataChiTietSanPham._id);
+  };
+
+  const chonSanPhamDexuat = id => {
+    dispatch(getChiTietSanPhamRequest(id));
+  };
+
   const renderSanPhamDeXuat = ({item}) => {
     return (
-      <View style={styles.containerSanPhamDeXuat}>
+      <TouchableOpacity
+        style={styles.containerSanPhamDeXuat}
+        onPress={() => chonSanPhamDexuat(item._id)}>
         <Image
           style={styles.imageSanPhamDeXuat}
           source={require('../../../assets/images/americano.png')}
@@ -65,8 +76,10 @@ const ProductDetail = (props) => {
           style={styles.textTenSanPhamDeXuat}>
           {item.ten_san_pham}
         </Text>
-        <Text style={styles.textGiaTienSanPhamDeXuat}>{formatCurrency(item.size[0].gia)}</Text>
-      </View>
+        <Text style={styles.textGiaTienSanPhamDeXuat}>
+          {formatCurrency(item.size[0].gia)}
+        </Text>
+      </TouchableOpacity>
     );
   };
 
@@ -170,7 +183,12 @@ const ProductDetail = (props) => {
               </View>
 
               <TouchableOpacity style={styles.buttonThemVaoYeuThich}>
-                <Icon name="heart" size={30} color={'#FC9702'} />
+                <Icon
+                  name="heart"
+                  solid={onCheckIsLiked()}
+                  size={30}
+                  color={'#FC9702'}
+                />
               </TouchableOpacity>
             </View>
 
@@ -228,11 +246,10 @@ const ProductDetail = (props) => {
             <View style={styles.sanPhamDeXuatContainer}>
               <Text style={styles.textMoTa}>Đề xuất</Text>
               <FlatList
-              
                 data={dataSanPhamDeXuat}
                 renderItem={renderSanPhamDeXuat}
                 horizontal={true}
-                keyExtractor={item => item.id}
+                keyExtractor={item => item._id}
                 showsHorizontalScrollIndicator={false}
               />
             </View>

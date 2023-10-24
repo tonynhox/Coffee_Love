@@ -17,7 +17,6 @@ const chiTietSanPhamSlice = createSlice({
       state.isLoading = false;
       state.success = true;
       state.data = action.payload.data;
-      console.log('action.payload.data', action.payload.data);
     },
     getChiTietSanPhamFail: (state, action) => {
       state.isLoading = false;

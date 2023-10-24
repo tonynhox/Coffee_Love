@@ -3,23 +3,17 @@ import React from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome6';
 import {BACKGROUND_BUTTON_COLOR} from '../../../utils/contanst';
 import moment from 'moment';
-import { lamTronSo } from '../../../utils/lamTronSo';
+import {lamTronSo} from '../../../utils/lamTronSo';
 
 const DanhSachDanhGia = ({data}) => {
-  const dataDanhGia = [{id: 1415}, {id: 2745}, {id: 4243}, {id: 744}, {id: 1745}];
-  const dataHinhAnhDanhGia = [{id: 'sfasf'}, {id: 'asfasf'}, {id: 'svawse'}];
-  console.log('data', data);
-  const dataChiTietDanhGia = [
-    {
-      id: 1748,
-      name: 'MustFapToLive',
-      content:
-        'Sản phẩm tốt, giá hợp lý, quản lý thì xinh, nhân viên nhiệt tình, thằng code cái giao diện này thì đẹp trai, người đâu mà vừa đẹp trai vừa thông mình vừa giỏi giang, không có người yêu đúng là quá phí, phải tôi tôi húp vội',
-    },
-    {id: 2746, name: 'ChaosTakeTheWorld', content: 'Uống ngon, giá hợp lý'},
-    {id: 37894, name: 'MustFapToLive', content: 'Sản phẩm tốt, giá hợp lý'},
-
+  const dataDanhGia = [
+    {id: 1415},
+    {id: 2745},
+    {id: 4243},
+    {id: 744},
+    {id: 1745},
   ];
+  const dataHinhAnhDanhGia = [{id: 'sfasf'}, {id: 'asfasf'}, {id: 'svawse'}];
 
   const renderHinhAnhDanhGia = ({item}) => {
     return (
@@ -104,7 +98,9 @@ const DanhSachDanhGia = ({data}) => {
                   showsHorizontalScrollIndicator={false}
                 />
               </View>
-              <Text style={styles.textSao}>{lamTronSo(data.tong_sao)}/5 ({data.so_luong_danh_gia})</Text>
+              <Text style={styles.textSao}>
+                {lamTronSo(data.tong_sao)}/5 ({data.so_luong_danh_gia})
+              </Text>
             </View>
           </View>
           {/* tat ca danh gia, arrow */}
@@ -134,7 +130,11 @@ const DanhSachDanhGia = ({data}) => {
         keyExtractor={item => item.id}
       /> */}
       {data.danh_gia.map(item => {
-        return <RenderChiTietDanhGia item={item}/>;
+        return (
+          <View key={item._id}>
+            <RenderChiTietDanhGia item={item} />
+          </View>
+        );
       })}
     </View>
   );
