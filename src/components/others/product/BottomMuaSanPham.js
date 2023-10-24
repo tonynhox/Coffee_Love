@@ -43,6 +43,10 @@ const BottomMuaSanPham = ({isOpen, onChangeOpen, data, handleNavigate}) => {
     }
   };
 
+  useEffect(() => {
+    setDataTopping(dataToppingFetch);
+  }, [dataToppingFetch])
+
   const getToppingRequest = () => {
     dispatch(getDataToppingRequest());
   };
@@ -69,20 +73,15 @@ const BottomMuaSanPham = ({isOpen, onChangeOpen, data, handleNavigate}) => {
     }
   };
 
-  const [dataSize, setDataSize] = useState([
-    {id: 1123, name: 'Nhỏ', price: 0, isSelected: true},
-    {id: 21214, name: 'Vừa', price: 10000, isSelected: false},
-    {id: 31231, name: 'Lớn', price: 20000, isSelected: false},
-  ]);
-
   const [dataTopping, setDataTopping] = useState(dataToppingFetch);
+  const [dataSize, setDataSize] = useState(data.size);
 
   const handleChangeSize = id => {
     constantPrice = data.size[0].gia;
     setDataSize(prevState => {
       return prevState.map(item => {
-        if (item.id === id) {
-          setTotal(constantPrice + item.price);
+        if (item._id === id) {
+          setTotal(constantPrice + item.gia);
           return {...item, isSelected: true};
         } else {
           return {...item, isSelected: false};
@@ -118,10 +117,10 @@ const BottomMuaSanPham = ({isOpen, onChangeOpen, data, handleNavigate}) => {
     return (
       <TouchableOpacity
         style={styles.toppingContainer}
-        onPress={() => handleChangeSize(item.id)}>
-        <Text style={styles.textTopping}>{item.name}</Text>
+        onPress={() => handleChangeSize(item._id)}>
+        <Text style={styles.textTopping}>{item.ten_size}</Text>
         <View style={styles.tienToppingContainer}>
-          <Text style={styles.textTien}>+{formatCurrency(item.price)}</Text>
+          <Text style={styles.textTien}>+{formatCurrency(item.gia)}</Text>
           <Icon
             style={styles.toppingChecked}
             name={item.isSelected ? 'circle-dot' : 'circle'}

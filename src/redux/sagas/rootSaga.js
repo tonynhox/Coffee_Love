@@ -19,7 +19,7 @@ export default function* rootSaga() {
     productSaga(),
     donHangSaga(),
     chiTietDonHangSaga(),
-    locationMapSaga(),
+    // locationMapSaga(),
     toppingSaga(),
   ]);
 }
