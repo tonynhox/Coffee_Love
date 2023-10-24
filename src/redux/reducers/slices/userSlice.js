@@ -3,10 +3,7 @@ import {ToastAndroid} from 'react-native';
 import Storage from '../../../utils/Storage';
 //state
 const initialState = {
-  user: {
-    id_user: '',
-    token: '',
-  },
+  user: null,
   isLoading: false,
   isLogin: false,
 };

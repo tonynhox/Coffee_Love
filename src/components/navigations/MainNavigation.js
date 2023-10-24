@@ -11,12 +11,14 @@ import {useDispatch, useSelector} from 'react-redux';
 import {getCartPaymentFetch} from '../../redux/reducers/slices/cartPaymentSlice';
 import Storage from '../../utils/Storage';
 import CategoriesText from '../main/categories/CategoriesText';
-import Geolocation from '@react-native-community/geolocation';
+import Geolocation from 'react-native-geolocation-service';
 import {getLocationMapFetch} from '../../redux/reducers/slices/locationMap';
 
 const Tab = createBottomTabNavigator();
 
 const MainNavigation = () => {
+  const [position, setPosition] = useState({});
+
   //vị trí hiện tại
   const getCurrentPosition = () => {
     Geolocation.getCurrentPosition(
@@ -24,7 +26,8 @@ const MainNavigation = () => {
         setPosition(pos);
       },
       error => Alert.alert('GetCurrentPosition Error', JSON.stringify(error)),
-      {enableHighAccuracy: true},
+      // {enableHighAccuracy: true,}
+
     );
   };
 
@@ -32,7 +35,6 @@ const MainNavigation = () => {
     getCurrentPosition();
   }, []);
 
-  const [position, setPosition] = useState({});
 
 
   useEffect(() => {
@@ -51,7 +53,7 @@ const MainNavigation = () => {
 
   const dispatch = useDispatch();
   // const id_user =  Storage.getItem('id_user');
-  const id_user = useSelector(state => state.users.user.id_user);
+  const id_user = useSelector(state => state.users?.user?.id_user);
   useEffect(() => {
     if (id_user) {
       dispatch(getCartPaymentFetch({id_user: id_user}));

@@ -23,6 +23,7 @@ const App = () => {
       <NavigationContainer ref={navigationRef}>
         <ManHinhCHao/>
         {/* <Map /> */}
+        {/* <Map /> */}
         {/* <AppNavigation  /> */}
       </NavigationContainer>
 

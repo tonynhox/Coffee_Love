@@ -3,11 +3,15 @@ import React from 'react'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { styles } from './styles'
 import Header from '../../../utils/Header'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { appReducer } from '../../../redux/reducers/rootReducer'
+import Storage from '../../../utils/Storage'
+import { LoginSuccess } from '../../../redux/reducers/slices/userSlice'
 
 const Profile = ({navigation}) => {
     const dispatch = useDispatch();
-
+    const user = useSelector(state => state.users.user);
+    console.log('user',user);
     return (<>
         <Header headerText="Tài khoản" 
         leftComponent={true}
@@ -18,7 +22,7 @@ const Profile = ({navigation}) => {
                 <Text style={styles.txtTitle}>Tiện ích</Text>
                 <View style={styles.cardRow} >
                     <TouchableOpacity 
-                        onPress={() => navigation.navigate('Orders')}
+                        onPress={() => user?navigation.navigate('Orders'):navigation.navigate('UserNavigation',{screen:'Login'})}
                         style={styles.cardExtention}>
                         <Icon name="file-document-outline" style={[styles.icon,{color:'orange',fontSize:26}]} />
                         <Text style={styles.txtExtention}>Lịch sử đơn hàng</Text>
@@ -71,7 +75,8 @@ const Profile = ({navigation}) => {
             <View style={styles.card}>
                 <Text style={styles.txtTitle}>Tài khoản</Text>
                 <TouchableOpacity 
-                    onPress={() => navigation.navigate('EditProfile')}
+                    onPress={() => user? navigation.navigate('EditProfile'):navigation.navigate('UserNavigation',{screen:'Login'})
+                }
                     style={[styles.line,{borderTopLeftRadius:8}]}>
                     <View style={styles.CardSupport}>
                         <Icon name="account-outline" style={[styles.icon,]} />
@@ -80,7 +85,8 @@ const Profile = ({navigation}) => {
                     <Icon name="chevron-right" style={[styles.icon,styles.icLeft]} />
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.line}
-                    onPress={() => navigation.navigate('Changepassword')}
+                    onPress={() => user?navigation.navigate('Changepassword'):navigation.navigate('UserNavigation',{screen:'Login'})
+                }
                 
                 >
                     <View style={styles.CardSupport}>
@@ -90,7 +96,8 @@ const Profile = ({navigation}) => {
                     <Icon name="chevron-right" style={[styles.icon,styles.icLeft]} />
                 </TouchableOpacity>
                 <TouchableOpacity 
-                    onPress={() => navigation.navigate('MyAddress')}
+                    onPress={() => user?navigation.navigate('MyAddress'):navigation.navigate('UserNavigation',{screen:'Login'})
+                }
                     style={styles.line}>
                     <View style={styles.CardSupport}>
                         <Icon name="map-marker-multiple-outline" style={[styles.icon,]} />
@@ -98,6 +105,8 @@ const Profile = ({navigation}) => {
                     </View>
                     <Icon name="chevron-right" style={[styles.icon,styles.icLeft]} />
                 </TouchableOpacity>
+
+                {user?
                 <TouchableOpacity 
                     onPress={ ()=> {
                         Alert.alert(
@@ -111,7 +120,11 @@ const Profile = ({navigation}) => {
                                 },
                                 { text: "Xác nhận", 
                                 onPress: () => 
-                                    {   dispatch({type: 'logout'});}
+                                    {   
+                                        dispatch(LoginSuccess(''));
+                                        Storage.removeToken();
+                                        Storage.removeItem('id_user');
+                                }
                                     
                                  }
                             ]
@@ -123,7 +136,18 @@ const Profile = ({navigation}) => {
                         <Text style={styles.txtItem}>Đăng xuất</Text>
                     </View>
                     <Icon name="chevron-right" style={[styles.icon,styles.icLeft]} />
-                </TouchableOpacity>
+                </TouchableOpacity>:
+                <TouchableOpacity 
+                onPress={ ()=> {
+                    navigation.navigate('UserNavigation',{screen:'Login'});
+                }}
+                style={[styles.line,{borderBottomLeftRadius:8}]}>
+                <View style={[styles.CardSupport,{borderBottomWidth:0}]}>
+                    <Icon name="logout" style={[styles.icon,]} />
+                    <Text style={styles.txtItem}>Đăng Nhập</Text>
+                </View>
+                <Icon name="chevron-right" style={[styles.icon,styles.icLeft]} />
+            </TouchableOpacity>}
            </View>
 
         </ScrollView>

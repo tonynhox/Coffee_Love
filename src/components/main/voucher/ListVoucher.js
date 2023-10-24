@@ -15,7 +15,7 @@ import {useNavigation} from '@react-navigation/native';
 import BarcodeGenerator from '../home/item/barcode/BarcodeGenerator';
 
 const ListVoucher = () => {
-  const user = useSelector(state => state.users.user);
+  const user = useSelector(state => state.users?.user);
 
   const navigation = useNavigation();
   const RenderItem = ({item}) => {
@@ -68,7 +68,7 @@ const ListVoucher = () => {
         </Text>
         <View style={styles.txtfc2}>
           <Text style={[styles.txtfc, {fontSize: 15}]}>
-            {user.tich_diem} Điểm
+            {user?.tich_diem} Điểm
           </Text>
           <View style={styles.btnvc}>
             <Icon
@@ -79,7 +79,7 @@ const ListVoucher = () => {
           </View>
         </View>
         <View style={styles.cardRowfc}>
-          <BarcodeGenerator height={60} ma_khach_hang={user.ma_khach_hang} />
+          <BarcodeGenerator height={60} ma_khach_hang={user?.ma_khach_hang} />
           {/* <Icon name="barcode" style={styles.barcode} />
           <Text style={styles.txtfc4}>1234565</Text> */}
         </View>
