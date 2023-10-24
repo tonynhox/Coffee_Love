@@ -45,9 +45,9 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 16,
     flexDirection: 'column',
     justifyContent: 'space-between',
-    borderWidth:0.6,
-    borderColor:'lightgray',
-    alignItems:'center',
+    borderWidth: 0.6,
+    borderColor: 'lightgray',
+    alignItems: 'center',
   },
   cardUser: {
     flex: 1,

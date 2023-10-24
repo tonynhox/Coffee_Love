@@ -1,4 +1,4 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const saveValueToStorage = async (key, value) => {
   try {
@@ -18,7 +18,7 @@ export const saveValueToStorage = async (key, value) => {
       // If no data exists, create an array with the new value
       dataArray = [value];
     }
-    console.log("SAVE THANH CONG: ", dataArray)
+    console.log('SAVE THANH CONG: ', dataArray);
     // Save the updated array back to AsyncStorage
     await AsyncStorage.setItem(key, JSON.stringify(dataArray));
   } catch (error) {

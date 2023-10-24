@@ -2,16 +2,16 @@ import {createSlice} from '@reduxjs/toolkit';
 
 //state
 const initialState = {
-    data:{},
-    isLoading: false,
+  data: {},
+  isLoading: false,
 };
 
-export const topOrderSlice =  createSlice({
+export const topOrderSlice = createSlice({
   name: 'topOrders',
   initialState,
   reducers: {
-    getTopOrderFetch: (state) => {
-        console.log('getTopOrderFetch');
+    getTopOrderFetch: state => {
+      console.log('getTopOrderFetch');
       state.isLoading = true;
     },
     //action success
@@ -28,6 +28,7 @@ export const topOrderSlice =  createSlice({
   },
 });
 
-export const {getTopOrderFetch,getTopOrderSuccess,getTopOrderFail} = topOrderSlice.actions;
+export const {getTopOrderFetch, getTopOrderSuccess, getTopOrderFail} =
+  topOrderSlice.actions;
 
 export default topOrderSlice.reducer;

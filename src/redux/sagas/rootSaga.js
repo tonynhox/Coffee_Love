@@ -5,7 +5,9 @@ import cartPaymentSaga from './itemSagas/cartPaymentSaga';
 import chiTietSanPhamSaga from './itemSagas/chiTietSanPhamSaga';
 import topOrderSaga from './itemSagas/topOrderSaga';
 import productSaga from './itemSagas/productSaga';
-import { chiTietDonHangSaga, donHangSaga } from './itemSagas/donHangSaga';
+import voucherSaga from './itemSagas/voucherSaga';
+import scoreSaga from './itemSagas/scoreSaga';
+import {donHangSaga,chiTietDonHangSaga } from './itemSagas/donHangSaga';
 
 import locationMapSaga from './itemSagas/locationMapSaga';
 import toppingSaga from './itemSagas/toppingSaga';
@@ -19,7 +21,11 @@ export default function* rootSaga() {
     productSaga(),
     donHangSaga(),
     chiTietDonHangSaga(),
+    donHangSaga(),
+    chiTietDonHangSaga(),
     // locationMapSaga(),
     toppingSaga(),
+    voucherSaga(),
+    scoreSaga(),
   ]);
 }

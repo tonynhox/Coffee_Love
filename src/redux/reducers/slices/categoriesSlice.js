@@ -2,16 +2,16 @@ import {createSlice} from '@reduxjs/toolkit';
 
 //state
 const initialState = {
-    data:{},
-    isLoading: false,
+  data: {},
+  isLoading: false,
 };
 
-export const categoriesSlice =  createSlice({
+export const categoriesSlice = createSlice({
   name: 'categories',
   initialState,
   reducers: {
-    getCategoryFetch: (state) => {
-        console.log('getCategoryFetch');
+    getCategoryFetch: state => {
+      console.log('getCategoryFetch');
       state.isLoading = true;
     },
     //action success
@@ -27,6 +27,7 @@ export const categoriesSlice =  createSlice({
   },
 });
 
-export const {getCategoryFetch,getCategorySuccess,getCategoryFail} = categoriesSlice.actions;
+export const {getCategoryFetch, getCategorySuccess, getCategoryFail} =
+  categoriesSlice.actions;
 
 export default categoriesSlice.reducer;

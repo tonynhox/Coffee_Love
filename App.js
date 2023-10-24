@@ -17,40 +17,16 @@ export const navigationRef = createNavigationContainerRef();
 const App = () => {
   return (
     <Provider store={store}>
-      {/* <ModalCartOrder/> */}
-      {/* <Demo/> */}
-      {/* <AppNavigation  /> */}
+
       <NavigationContainer ref={navigationRef}>
         <ManHinhCHao/>
-        {/* <Map /> */}
-        {/* <Map /> */}
-        {/* <AppNavigation  /> */}
+
       </NavigationContainer>
 
-      {/* <Otp/> */}
-      {/* <QR/> */}
-      {/* <DanhGia/> */}
-      {/* <ToRate/> */}
-      {/* <ProductDetail/> */}
     </Provider>
   );
 };
 
-// const App = () => {
-//   return (
-//     <View style={{flex:1}}>
-//         {/* <MyAddress/> */}
-//         {/* <AddAddress/>   */}
-
-//         {/* <Payment/>  */}
-
-//         {/* <EditProfile/> */}
-
-//         {/* <Detail/> */}
-//         <ProductDetail/>
-//     </View>
-//   );
-// };
 
 export default App;
 

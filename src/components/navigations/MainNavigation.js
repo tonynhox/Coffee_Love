@@ -1,5 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Pressable, Alert, Platform, PermissionsAndroid} from 'react-native';
+import {
+  View,
+  Text,
+  Pressable,
+  Alert,
+  Platform,
+  PermissionsAndroid,
+} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Home from '../main/home/Home';
 import Categories from '../main/categories/Categories';
@@ -13,6 +20,8 @@ import Storage from '../../utils/Storage';
 import CategoriesText from '../main/categories/CategoriesText';
 import Geolocation from 'react-native-geolocation-service';
 import {getLocationMapFetch} from '../../redux/reducers/slices/locationMap';
+import {getVoucherFetch} from '../../redux/reducers/slices/voucherSlide';
+import {getScoreFetch} from '../../redux/reducers/slices/scoreSlide';
 
 const Tab = createBottomTabNavigator();
 
@@ -20,10 +29,9 @@ const MainNavigation = () => {
   const [position, setPosition] = useState({});
 
   //vị trí hiện tại
-   const getCurrentPosition =async () =>{
-  
+  const getCurrentPosition = async () => {
     if (Platform.OS === 'android') {
-      const granted= await PermissionsAndroid.request(
+      const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
       );
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
@@ -31,20 +39,17 @@ const MainNavigation = () => {
           pos => {
             setPosition(pos);
           },
-          error => Alert.alert('GetCurrentPosition Error', JSON.stringify(error)),
+          error =>
+            Alert.alert('GetCurrentPosition Error', JSON.stringify(error)),
           // {enableHighAccuracy: true,}
-    
         );
       }
     }
-  }
-
+  };
 
   useEffect(() => {
     getCurrentPosition();
   }, []);
-
-
 
   useEffect(() => {
     if (position) {
@@ -66,7 +71,8 @@ const MainNavigation = () => {
   useEffect(() => {
     if (id_user) {
       dispatch(getCartPaymentFetch({id_user: id_user}));
-      dispatch(getCartPaymentFetch({id_user: id_user}));
+      dispatch(getVoucherFetch({id_user: id_user}));
+      dispatch(getScoreFetch());
       console.log('id_user', id_user);
     }
   }, [id_user]);
@@ -75,30 +81,39 @@ const MainNavigation = () => {
     <Tab.Navigator
       screenOptions={({route}) => ({
         headerShown: false,
+        tabBarActiveTintColor: '#FF8C00',
         tabBarIcon: ({focused}) => {
           if (route.name == 'Home') {
             if (!focused) {
-              return <Icon name="home-outline" size={25} color="#6f4506" />;
-            } else {
               return <Icon name="home-outline" size={25} color="#000" />;
+            } else {
+              return <Icon name="home-outline" size={25} color="#FF8C00" />;
             }
           } else if (route.name == 'Categories') {
             if (!focused) {
-              return <Icon name="home-outline" size={25} color="#000" />;
+              return <Icon name="coffee-outline" size={25} color="#000" />;
             } else {
-              return <Icon name="home-outline" size={25} color="#000" />;
+              return <Icon name="coffee-outline" size={25} color="#FF8C00" />;
             }
           } else if (route.name == 'Voucher') {
             if (!focused) {
-              return <Icon name="home-outline" size={25} color="#000" />;
+              return (
+                <Icon name="ticket-percent-outline" size={25} color="#000" />
+              );
             } else {
-              return <Icon name="home-outline" size={25} color="#000" />;
+              return (
+                <Icon name="ticket-percent-outline" size={25} color="#FF8C00" />
+              );
             }
           } else if (route.name == 'Profile') {
             if (!focused) {
-              return <Icon name="home-outline" size={25} color="#000" />;
+              return (
+                <Icon name="account-circle-outline" size={25} color="#000" />
+              );
             } else {
-              return <Icon name="home-outline" size={25} color="#000" />;
+              return (
+                <Icon name="account-circle-outline" size={25} color="#FF8C00" />
+              );
             }
           }
         },
@@ -142,7 +157,7 @@ const MainNavigation = () => {
 };
 
 const ExtraView = ({setModalVisible}) => {
-  const nameLocation = useSelector( state => state.locationMap.data.address);
+  const nameLocation = useSelector(state => state.locationMap.data.address);
 
   return (
     <Pressable
@@ -166,7 +181,12 @@ const ExtraView = ({setModalVisible}) => {
       }}>
       <View style={{justifyContent: 'center'}}>
         {/* <Text>Giao đến</Text> */}
-        <Text style={{maxWidth:200,color:'black',fontSize:14}} numberOfLines={1} ellipsizeMode="tail" >{nameLocation}</Text>
+        <Text
+          style={{maxWidth: 200, color: 'black', fontSize: 14}}
+          numberOfLines={1}
+          ellipsizeMode="tail">
+          {nameLocation}
+        </Text>
       </View>
       <Pressable
         onPress={() => {

@@ -1,9 +1,13 @@
 import {StyleSheet, Text, View, FlatList, Image} from 'react-native';
 import React from 'react';
 import {styles} from './styles';
+import {useSelector} from 'react-redux';
 
 const AllCore = () => {
-  const RenderItem2 = ({item2}) => {
+
+  const allScore = useSelector(state => state.scores.score);
+  console.log("All Score: ", allScore);
+  const RenderItem = ({item}) => {
     return (
       <View style={styles.cardFL}>
         <View>
@@ -14,10 +18,10 @@ const AllCore = () => {
           <Text style={styles.centeredText}>Coffee{'\n'}Love</Text>
         </View>
         <View style={styles.imgView}>
-          <Text style={styles.txtTitleFL}>Bánh mochi</Text>
-          <Text style={styles.txtB}>Miễn phí 1 bánh mochi bất kỳ </Text>
+          <Text style={styles.txtTitleFL}>{item.ten_voucher}</Text>
+          <Text style={styles.txtB}>{item.mo_ta}</Text>
           <View style={styles.bean}>
-            <Text style={styles.txtB2}> 200</Text>
+            <Text style={styles.txtB2}>{item.diem}</Text>
             <Text style={styles.txt}>Điểm</Text>
           </View>
         </View>
@@ -27,9 +31,9 @@ const AllCore = () => {
   return (
     <FlatList
       style={styles.container}
-      data={data}
-      renderItem={RenderItem2}
-      keyExtractor={item2 => item2.id}
+      data={allScore}
+      renderItem={RenderItem}
+      keyExtractor={item => item.id}
     />
   );
 };

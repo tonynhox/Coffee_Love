@@ -11,9 +11,9 @@ const TopOrder = () => {
   const navigation = useNavigation();
   const data = useSelector(state => state.topOrders.data);
   const isLoading = useSelector(state => state.topOrders.isLoading);
-  return (
-    isLoading ? <Text>Loading...</Text> :
-    
+  return isLoading ? (
+    <Text>Loading...</Text>
+  ) : (
     <Swiper style={{height: 140}} showsPagination={false} autoplay={true}>
       {data.map((item, index) => {
         return (

@@ -7,10 +7,11 @@ import {
   checkOtpSuccess,
   SignUpSuccess,
   changePassOtpSuccess,
+  editUserSuccess,
 } from '../../reducers/slices/userSlice';
 import instance from '../../../axios/instance';
 import Header from '../../../utils/Header';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import Storage from '../../../utils/Storage';
 
 function* Login(action) {
@@ -21,41 +22,46 @@ function* Login(action) {
       mat_khau: mat_khau,
     };
 
-    const response = yield call(() => instance.post('users/dang-nhap-username', payload));
-    
-    if(response.data.trang_thai){
+    const response = yield call(() =>
+      instance.post('users/dang-nhap-username', payload),
+    );
+
+    console.log('user: ', response.data);
+
+    if (response.data.trang_thai) {
       //lưu local
       Storage.setToken(response.data.data.token);
-      Storage.setItem('id_user',response.data.data.id_user);
+      Storage.setItem('id_user', response.data.data.id_user);
 
       // yield put(LoginSuccess(response.data))
-      yield WorkerUser({payload:{id_user:response.data.data.id_user}})
-      yield navigation.navigate('MainNavigation')
-    }else{
-      yield put(getUserFail(response.data.message))
+      yield WorkerUser({payload: {id_user: response.data.data.id_user}});
+      yield navigation.navigate('MainNavigation');
+    } else {
+      yield put(getUserFail(response.data.message));
     }
   } catch (error) {
     console.log('error login', error);
-    yield put(getUserFail('Lỗi kết nối'))
+    yield put(getUserFail('Lỗi kết nối'));
   }
 }
 
-function* WorkerUser(action){
+function* WorkerUser(action) {
   try {
-    const { id_user} = action.payload;
+    const {id_user} = action.payload;
     // console.log('id_user ne',id_user);
 
-    const response = yield call(() => instance.get('users/lay-thong-tin-user/'+id_user));
-    
-    if(response.data.trang_thai){
-      yield put(LoginSuccess(response.data))
-    }else{
-      yield put(getUserFail(response.data.message))
+    const response = yield call(() =>
+      instance.get('users/lay-thong-tin-user/' + id_user),
+    );
+
+    if (response.data.trang_thai) {
+      yield put(LoginSuccess(response.data));
+    } else {
+      yield put(getUserFail(response.data.message));
     }
-    
   } catch (error) {
     console.log('error get 1 user', error);
-    yield put(getUserFail('Lỗi kết nối'))
+    yield put(getUserFail('Lỗi kết nối'));
   }
 }
 
@@ -169,7 +175,7 @@ function* ChangePass(action) {
       mat_khau_cu: mat_khau_cu,
       mat_khau_moi: mat_khau_moi,
     };
-      // console.log("..: ", id_user, mat_khau_cu, mat_khau_moi)
+    // console.log("..: ", id_user, mat_khau_cu, mat_khau_moi)
     //api
     const response = yield call(() =>
       instance.post('users/doi-mat-khau', payload),
@@ -187,13 +193,37 @@ function* ChangePass(action) {
   }
 }
 
+function* EditUser(action) {
+  try {
+    const {id_user, ho_ten, avatar, email, so_dien_thoai} = action.payload;
+    const payload = {
+      id_user: id_user,
+      ho_ten: ho_ten,
+      avatar: avatar,
+      email: email,
+      so_dien_thoai: so_dien_thoai,
+    };
+
+    //api
+    const response = yield call(() => instance.post('users/sua-user', payload));
+
+    if (response.data.trang_thai) {
+      yield put(editUserSuccess(response.data.data));
+    } else {
+      yield put(getUserFail('Cap nhat that bai')); //????????message?? ddaua ra daya
+    }
+  } catch (error) {
+    console.log('error', error);
+    yield put(getUserFail('Lỗi kết nối'));
+  }
+}
+
 function* userSaga() {
   yield takeLatest('users/getUserFetch', Login);
 
-  yield takeLatest('users/getOneUserFetch', WorkerUser)
+  yield takeLatest('users/getOneUserFetch', WorkerUser);
 
-
-  yield takeLatest('users/getRegister', SignUp)
+  yield takeLatest('users/getRegister', SignUp);
 
   yield takeLatest('users/getOtp', sendOtp);
 
@@ -203,6 +233,8 @@ function* userSaga() {
 
   // trong main
   yield takeLatest('users/changePass', ChangePass);
+
+  yield takeLatest('users/editUser', EditUser);
 }
 
 export default userSaga;

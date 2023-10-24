@@ -6,7 +6,7 @@ const instance = axios.create({
 });
 
 instance.interceptors.request.use(
-  async (config) => {
+  async config => {
     try {
       const token = await Storage.getToken();
       if (token) {
@@ -14,23 +14,26 @@ instance.interceptors.request.use(
       }
       return config;
     } catch (error) {
-    //   console.error("AXIOS:", error);
+      //   console.error("AXIOS:", error);
       return Promise.reject(error);
     }
   },
-//   (error) => {
-//     console.error('loi axios', error);
-//     return Promise.reject(error);
-//   },
+  //   (error) => {
+  //     console.error('loi axios', error);
+  //     return Promise.reject(error);
+  //   },
 );
 
 instance.interceptors.response.use(
-  (response) => {
+  response => {
     return response;
   },
-  async (error) => {
+  async error => {
     if (error.response && error.response.status === 401) {
-      console.log("AXIOS Response Interceptor Error - 401 Unauthorized:", error);
+      console.log(
+        'AXIOS Response Interceptor Error - 401 Unauthorized:',
+        error,
+      );
       Alert.alert('Đã hết phiên đăng nhập!', 'Vui lòng đăng nhập lại', [
         {
           text: 'ok',
@@ -43,7 +46,7 @@ instance.interceptors.response.use(
       ]);
     } else {
       console.log('ERROR CODE: ', error.status);
-      console.error("AXIOS Response Interceptor Error:", error.response);
+      console.error('AXIOS Response Interceptor Error:', error.response);
     }
     return Promise.reject(error);
   },

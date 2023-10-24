@@ -2,16 +2,16 @@ import {createSlice} from '@reduxjs/toolkit';
 
 //state
 const initialState = {
-    data:[],
-    isLoading: false,
+  data: [],
+  isLoading: false,
 };
 
-export const cartPaymentSlice =  createSlice({
+export const cartPaymentSlice = createSlice({
   name: 'cartPayment',
   initialState,
   reducers: {
-    getCartPaymentFetch: (state) => {
-        console.log('getCartPaymentSliceFetch');
+    getCartPaymentFetch: state => {
+      console.log('getCartPaymentSliceFetch');
       state.isLoading = true;
     },
     //action success
@@ -27,6 +27,7 @@ export const cartPaymentSlice =  createSlice({
   },
 });
 
-export const {getCartPaymentFetch,getCartPaymentSuccess,getCartPaymentFail} = cartPaymentSlice.actions;
+export const {getCartPaymentFetch, getCartPaymentSuccess, getCartPaymentFail} =
+  cartPaymentSlice.actions;
 
 export default cartPaymentSlice.reducer;

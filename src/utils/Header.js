@@ -1,9 +1,9 @@
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const Header = (props) => {
+const Header = props => {
   const navigation = useNavigation();
   const {
     headerText,
@@ -16,19 +16,20 @@ const Header = (props) => {
     customComponent,
   } = props;
 
-
   const renderLeftIcon = () => {
     if (leftComponent) {
-      return (
-        leftComponent
-      );
+      return leftComponent;
     } else {
       return (
-        <TouchableOpacity 
-          style={{position:'absolute',left: 0}}
-        onPress={() => {
-          navigation.goBack()}}>
-          <Icon name="chevron-left" style={[styleIconhdLeft, { fontSize: 30,color:'black' }]} />
+        <TouchableOpacity
+          style={{position: 'absolute', left: 0}}
+          onPress={() => {
+            navigation.goBack();
+          }}>
+          <Icon
+            name="chevron-left"
+            style={[styleIconhdLeft, {fontSize: 30, color: 'black'}]}
+          />
         </TouchableOpacity>
       );
     }
@@ -36,15 +37,18 @@ const Header = (props) => {
 
   const renderRightIcon = () => {
     if (rightComponent) {
-      return (
-        rightComponent
-      );
+      return rightComponent;
     } else {
       return (
-        <TouchableOpacity 
-          style={{position:'absolute',right: 16}}
-          onPress={() => {navigation.navigate('Notification')}}>
-          <Icon name="bell-outline" style={[styleIconhdRight, { fontSize: 25,color:'black'}]} />
+        <TouchableOpacity
+          style={{position: 'absolute', right: 16}}
+          onPress={() => {
+            navigation.navigate('Notification');
+          }}>
+          <Icon
+            name="bell-outline"
+            style={[styleIconhdRight, {fontSize: 25, color: 'black'}]}
+          />
         </TouchableOpacity>
       );
     }
