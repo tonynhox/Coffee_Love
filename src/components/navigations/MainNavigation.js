@@ -16,12 +16,6 @@ import {getLocationMapFetch} from '../../redux/reducers/slices/locationMap';
 
 const Tab = createBottomTabNavigator();
 
-
-
-
-
-
-
 const MainNavigation = () => {
   const [position, setPosition] = useState({});
 

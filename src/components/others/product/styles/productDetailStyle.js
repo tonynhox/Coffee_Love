@@ -38,7 +38,7 @@ export const styles = StyleSheet.create({
     paddingLeft: 10,
     borderBottomEndRadius: 10,
     borderBottomStartRadius: 10,
-    paddingRight: 10,
+    paddingRight: 20,
     borderColor: '#F3962C',
     borderWidth: 1,
     paddingVertical: 15,
@@ -254,7 +254,7 @@ export const styles = StyleSheet.create({
   sanPhamDeXuatContainer: {
     flexDirection: 'column',
     justifyContent: 'flex-start',
-    marginLeft: 10,
+   
     marginTop: 15,
   },
   buttonMuaSanPham: {

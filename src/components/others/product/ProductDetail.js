@@ -33,44 +33,7 @@ const ProductDetail = (props) => {
 
   // const navigation = useNavigation();
 
-  const dataSanPhamDeXuat = [
-    {
-      id: 1,
-      name: 'Americano',
-      price: '20.100₫',
-      image: require('../../../assets/images/americano.png'),
-    },
-    {
-      id: 2,
-      name: 'Americano',
-      price: '20.100₫',
-      image: require('../../../assets/images/americano.png'),
-    },
-    {
-      id: 3,
-      name: 'Americano',
-      price: '20.100₫',
-      image: require('../../../assets/images/americano.png'),
-    },
-    {
-      id: 4,
-      name: 'Americano',
-      price: '20.100₫',
-      image: require('../../../assets/images/americano.png'),
-    },
-    {
-      id: 5,
-      name: 'Americano',
-      price: '20.100₫',
-      image: require('../../../assets/images/americano.png'),
-    },
-    {
-      id: 6,
-      name: 'Americano',
-      price: '20.100₫',
-      image: require('../../../assets/images/americano.png'),
-    },
-  ];
+  const dataSanPhamDeXuat = useSelector(state => state.products.data)
 
   const dispatch = useDispatch();
   const dataChiTietSanPham = useSelector(state => state.chi_tiet_san_pham.data);
@@ -89,7 +52,7 @@ const ProductDetail = (props) => {
     // navigation.navigate('BuyProduct');
   };
 
-  const renderSanPhamDeXuat = () => {
+  const renderSanPhamDeXuat = ({item}) => {
     return (
       <View style={styles.containerSanPhamDeXuat}>
         <Image
@@ -100,9 +63,9 @@ const ProductDetail = (props) => {
           numberOfLines={2}
           ellipsizeMode="tail"
           style={styles.textTenSanPhamDeXuat}>
-          Americano
+          {item.ten_san_pham}
         </Text>
-        <Text style={styles.textGiaTienSanPhamDeXuat}>20.100₫</Text>
+        <Text style={styles.textGiaTienSanPhamDeXuat}>{formatCurrency(item.size[0].gia)}</Text>
       </View>
     );
   };
@@ -265,6 +228,7 @@ const ProductDetail = (props) => {
             <View style={styles.sanPhamDeXuatContainer}>
               <Text style={styles.textMoTa}>Đề xuất</Text>
               <FlatList
+              
                 data={dataSanPhamDeXuat}
                 renderItem={renderSanPhamDeXuat}
                 horizontal={true}

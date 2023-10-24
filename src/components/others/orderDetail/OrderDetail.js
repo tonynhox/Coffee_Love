@@ -1,109 +1,279 @@
-import {StyleSheet, Text, View, FlatList,ScrollView} from 'react-native';
-import React from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  ScrollView,
+  LayoutAnimation,
+} from 'react-native';
+import React, {useEffect} from 'react';
 import RenderOrderItem from './RenderOrderItem';
 import TheoDoiDonHang from './TheoDoiDonHang';
-import {BACKGROUND_BUTTON_COLOR} from '../../../utils/contanst';
+import {
+  BACKGROUND_BUTTON_COLOR,
+  style_text_khong_co_du_lieu,
+} from '../../../utils/contanst';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import {useDispatch, useSelector} from 'react-redux';
+import {getChiTietDonHangRequest} from '../../../redux/reducers/slices/donHangSlice';
+import {ActivityIndicator} from 'react-native';
+import {formatCurrency} from '../../../utils/formatCurrency';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
+
 // import { ScrollView } from 'react-native-virtualized-view';
 
 const OrderDetail = () => {
-  const donhang = [
-    {id: 1, tensanpham: 'Americano', soluong: 1, size: 'S', gia: 100000},
-    {id: 2, tensanpham: 'Americano', soluong: 1, size: 'S', gia: 100000},
-    {id: 3, tensanpham: 'Americano', soluong: 1, size: 'S', gia: 100000},
-    {id: 10, tensanpham: 'Americano', soluong: 1, size: 'S', gia: 100000},
-    {id: 20, tensanpham: 'Americano', soluong: 1, size: 'S', gia: 100000},
-    {id: 33, tensanpham: 'Americano', soluong: 1, size: 'S', gia: 100000},
-  ];
+  // const isLoading = false;
+  // const data = {
+  //   dia_chi: {
+  //     ten_dia_chi: '212312',
+  //     so_dien_thoai: '',
+  //     so_nha: '',
+  //     tinh: '',
+  //     nguoi_nhan: 'huy',
+  //   },
+  //   _id: '6533b71fdd102a21406f9676',
+  //   id_user: '651e8c5baa3c5378de775821',
+  //   id_chi_nhanh: '6522818a2639141f25388250',
+  //   loai_don_hang: 'order Online',
+  //   ngay_dat: '2023-10-21T11:33:51.032Z',
+  //   san_pham: [
+  //     {
+  //       id_san_pham: '65200da4b4687e983b7353b4',
+  //       ten_san_pham: 'abc',
+  //       size: 'S',
+  //       so_luong: 5,
+  //       gia: 75000,
+  //       _id: '6533b71fdd102a21406f9677',
+  //       topping: [
+  //         {
+  //           ten_topping: 'trân châu',
+  //           gia: 10000,
+  //         },
+  //         {
+  //           ten_topping: 'thạch dừa',
+  //           gia: 12000,
+  //         },
+  //       ],
+  //     },
+  //     {
+  //       id_san_pham: '6527c3f63f0f8812b90f7152',
+  //       ten_san_pham: 'asdvbsdfs',
+  //       size: 'F',
+  //       so_luong: 5,
+  //       gia: 100000,
+  //       _id: '6533b71fdd102a21406f9678',
+  //       topping: [
+  //         {
+  //           ten_topping: 'trân châu',
+  //           gia: 10000,
+  //         },
+  //         {
+  //           ten_topping: 'thạch dừa',
+  //           gia: 12000,
+  //         },
+  //       ],
+  //     },
+  //   ],
+  //   ghi_chu: '',
+  //   so_diem_tich_luy: 200,
+  //   giam_gia: 10000,
+  //   phi_van_chuyen: 15000,
+  //   ma_trang_thai: 1,
+  //   ten_trang_thai: 'Đang xử lý',
+  //   ngay_cap_nhat: '2023-10-21T11:33:51.032Z',
+  //   tong_san_pham: 10,
+  //   thanh_tien: 880000,
+  //   hinh_anh_danh_gia: [
+  //     {
+  //       ten_hinh_anh: 'abc.xyz',
+  //       _id: '6533b749dd102a21406f967e',
+  //     },
+  //     {
+  //       ten_hinh_anh: 'abc.xyz',
+  //       _id: '6533b749dd102a21406f967f',
+  //     },
+  //   ],
+  //   __v: 1,
+  //   danh_gia: 'rất tuyệt vời ạ',
+  //   email: '123',
+  //   ngay_danh_gia: '2023-10-21T11:34:33.014Z',
+  //   so_sao: 5,
+  //   ten_user: '123',
+  // };
+
+  const dispatch = useDispatch();
+  const route = useRoute();
+  const {id_don_hang} = route.params;
+  const navigation = useNavigation();
+
+  const isLoading = useSelector(
+    state => state.don_hang.isChiTietDonHangLoading,
+  );
+  const data = useSelector(state => state.don_hang.dataChiTietDonHang);
+
+  useEffect(() => {
+    navigation.setOptions({
+      title: 'Chi tiết đơn hàng',
+      headerTitleStyle: {
+        fontSize: 18,
+        color: 'black',
+        fontWeight: '600',
+      },
+      headerStyle: {
+        backgroundColor: '#fff',
+      },
+    });
+
+    const fetchChiTietDonHang = () => {
+      dispatch(getChiTietDonHangRequest({id_don_hang: id_don_hang}));
+    };
+    fetchChiTietDonHang();
+  }, []);
+
+  const transition = {
+    duration: 250, // You can adjust the duration as needed
+    create: {
+      type: LayoutAnimation.Types.easeInEaseOut,
+      property: LayoutAnimation.Properties.opacity,
+    },
+    update: {
+      type: LayoutAnimation.Types.easeInEaseOut,
+    },
+    delete: {
+      type: LayoutAnimation.Types.easeInEaseOut,
+      property: LayoutAnimation.Properties.opacity,
+    },
+  };
+
+  const [currentIndex, setCurrentIndex] = React.useState(null);
+  const handleAnimation = React.useCallback(index => {
+    LayoutAnimation.configureNext(transition);
+    setCurrentIndex(index === currentIndex ? null : index);
+  }, []);
+
   return (
-
-    <ScrollView style={styles.container}>
-      <View style={styles.theoDoiDonHangContainer}>
-        <TheoDoiDonHang />
-      </View>
-
-      {/* separate line */}
-      <View style={styles.separateLine} />
-
-      {/* Dia chi giao hang */}
-      <View style={styles.thongTinDiaChiContainer}>
-        <Text style={styles.textThongTinDiaChi}>
-          Thông tin - địa chỉ giao hàng
-        </Text>
-        <Text style={styles.textThongTin}>Nguyễn Văn A</Text>
-        <Text style={styles.textThongTin}>0123456789</Text>
-        <Text
-          style={styles.textThongTin}
-          numberOfLines={2}
-          ellipsizeMode="tail">
-          Địa chỉ: 123 Nguyễn Văn A, phường Bình Thọ, quận Thủ Đức, TP.HCM
-        </Text>
-      </View>
-
-      {/* separate line */}
-      <View style={styles.separateLine} />
-
-      {/* Don hang */}
-      <View>
-        <Text style={styles.textDonHang}>Đơn hàng</Text>
-        <FlatList
-          // height={210}
-          scrollEnabled={false} 
-          data={donhang}
-          renderItem={({item}) => <RenderOrderItem item={item} />}
-          keyExtractor={item => item.id}
-        />
-        <Text style={[styles.textTongSanPham, {marginTop: 10}]}>
-          Tổng sản phẩm: 3
-        </Text>
-      </View>
-
-      {/* separate line */}
-      <View style={styles.separateLine} />
-
-      {/* chi phi giao hang */}
-      <View>
-        {/* phi giao hang container */}
-        <View style={styles.phiGiaoHangContainer}>
-          <Text style={styles.textPhiGiaoHang}>Phí giao hàng</Text>
-          <Text style={styles.textPhiGiaoHang}>15.000₫</Text>
+    <>
+      {isLoading ? (
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <ActivityIndicator size="large" color={BACKGROUND_BUTTON_COLOR} />
         </View>
+      ) : (
+        <>
+          {data == null ? (
+            <View
+              style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+              <Text style={style_text_khong_co_du_lieu}>Không có dữ liệu</Text>
+            </View>
+          ) : (
+            <ScrollView style={styles.container}>
+              <View style={styles.theoDoiDonHangContainer}>
+                <TheoDoiDonHang maTrangThai={data.ma_trang_thai} />
+              </View>
 
-        {/* phi giam gia container */}
-        <View style={[styles.phiGiaoHangContainer, {marginTop: 5}]}>
-          <Text style={styles.textPhiGiaoHang}>Giảm giá</Text>
-          <Text style={styles.textPhiGiaoHang}>-10.000₫</Text>
-        </View>
-      </View>
+              {/* separate line */}
+              <View style={styles.separateLine} />
 
-      {/* separate line */}
-      <View style={styles.separateLine} />
+              {/* Dia chi giao hang */}
+              <View style={styles.thongTinDiaChiContainer}>
+                <Text style={styles.textThongTinDiaChi}>
+                  Thông tin - địa chỉ giao hàng
+                </Text>
+                <Text style={styles.textThongTin}>
+                  {data.dia_chi.nguoi_nhan}
+                </Text>
+                <Text style={styles.textThongTin}>
+                  {data.dia_chi.so_dien_thoai}
+                </Text>
+                <Text
+                  style={styles.textThongTin}
+                  numberOfLines={2}
+                  ellipsizeMode="tail">
+                  Địa chỉ: {data.dia_chi.so_nha} {data.dia_chi.tinh}
+                </Text>
+              </View>
 
-      {/* tong tien container */}
-      <View style={styles.tongTienContainer}>
-        <Text style={styles.textTongTien}>Tổng</Text>
-        <Text style={styles.textTongTien}>100.100₫</Text>
-      </View>
+              {/* separate line */}
+              <View style={styles.separateLine} />
 
-      {/* Hinh thuc thanh toan */}
-      <View>
-        <Text style={styles.textThanhToanKhiNhanHang}>
-          (Thanh toán khi nhận hàng)
-        </Text>
-      </View>
+              {/* Don hang */}
+              <View>
+                <Text style={styles.textDonHang}>Đơn hàng</Text>
+                <FlatList
+                  marginTop={10}
+                  scrollEnabled={false}
+                  data={data.san_pham}
+                  renderItem={({item, index}) => (
+                    <RenderOrderItem
+                      item={item}
+                      index={index}
+                      isSelected={index === currentIndex}
+                      onPress={handleAnimation}
+                    />
+                  )}
+                  keyExtractor={item => item._id}
+                />
+                <Text style={[styles.textTongSanPham, {marginTop: 10}]}>
+                  Tổng sản phẩm: {data.tong_san_pham}
+                </Text>
+              </View>
 
-      {/* separate line */}
-      <View style={styles.separateLine} />
+              {/* separate line */}
+              <View style={styles.separateLine} />
 
-      {/* chu thich */}
-      <View>
-        <Text style={styles.textChuThich}>Chú thích</Text>
-        {/* chu thich view */}
-        <View style={styles.chuThichContainer}>
-          <Text style={styles.textLoiNhan}>Lời nhắn của khách hàng</Text>
-        </View>
-      </View>
-    </ScrollView>
+              {/* chi phi giao hang */}
+              <View>
+                {/* phi giao hang container */}
+                <View style={styles.phiGiaoHangContainer}>
+                  <Text style={styles.textPhiGiaoHang}>Phí giao hàng</Text>
+                  <Text style={styles.textPhiGiaoHang}>
+                    {formatCurrency(data.phi_van_chuyen)}
+                  </Text>
+                </View>
 
+                {/* phi giam gia container */}
+                <View style={[styles.phiGiaoHangContainer, {marginTop: 5}]}>
+                  <Text style={styles.textPhiGiaoHang}>Giảm giá</Text>
+                  <Text style={styles.textPhiGiaoHang}>
+                    -{formatCurrency(data.giam_gia)}
+                  </Text>
+                </View>
+              </View>
+
+              {/* separate line */}
+              <View style={styles.separateLine} />
+
+              {/* tong tien container */}
+              <View style={styles.tongTienContainer}>
+                <Text style={styles.textTongTien}>Tổng</Text>
+                <Text style={styles.textTongTien}>
+                  {formatCurrency(data.thanh_tien)}
+                </Text>
+              </View>
+
+              {/* Hinh thuc thanh toan */}
+              <View>
+                <Text style={styles.textThanhToanKhiNhanHang}>
+                  (Thanh toán khi nhận hàng)
+                </Text>
+              </View>
+
+              {/* separate line */}
+              <View style={styles.separateLine} />
+
+              {/* chu thich */}
+              <View>
+                <Text style={styles.textChuThich}>Chú thích</Text>
+                {/* chu thich view */}
+                <View style={styles.chuThichContainer}>
+                  <Text style={styles.textLoiNhan}>{data.ghi_chu}</Text>
+                </View>
+              </View>
+            </ScrollView>
+          )}
+        </>
+      )}
+    </>
   );
 };
 
@@ -115,7 +285,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     flexDirection: 'column',
     // justifyContent: 'flex-start',
-    paddingHorizontal: 12,
+    paddingHorizontal: 7,
+    marginBottom: 10,
   },
   thongTinDiaChiContainer: {
     flexDirection: 'column',
@@ -192,7 +363,7 @@ const styles = StyleSheet.create({
   },
   theoDoiDonHangContainer: {
     width: '100%',
-    height: 100,
+    height: 150,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',

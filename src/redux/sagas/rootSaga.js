@@ -5,8 +5,10 @@ import cartPaymentSaga from './itemSagas/cartPaymentSaga';
 import chiTietSanPhamSaga from './itemSagas/chiTietSanPhamSaga';
 import topOrderSaga from './itemSagas/topOrderSaga';
 import productSaga from './itemSagas/productSaga';
-import { donHangSaga } from './itemSagas/donHangSaga';
+import { chiTietDonHangSaga, donHangSaga } from './itemSagas/donHangSaga';
+
 import locationMapSaga from './itemSagas/locationMapSaga';
+import toppingSaga from './itemSagas/toppingSaga';
 export default function* rootSaga() {
   yield all([
     userSaga(),
@@ -16,6 +18,8 @@ export default function* rootSaga() {
     topOrderSaga(),
     productSaga(),
     donHangSaga(),
-    locationMapSaga(),
+    chiTietDonHangSaga(),
+    // locationMapSaga(),
+    toppingSaga(),
   ]);
 }
