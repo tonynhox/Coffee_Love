@@ -9,6 +9,7 @@ import productSlice from './slices/productSlice';
 import donHangSlice from './slices/donHangSlice';
 
 import locationMapSlice from './slices/locationMap';
+import toppingSlice from './slices/toppingSlice';
 const rootReducer = combineReducers({
   users: userSlice,
   categories: categoriesSlice,
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   products: productSlice,
   don_hang: donHangSlice,
   locationMap: locationMapSlice,
+  topping: toppingSlice
 });
 
 export const appReducer = (state, action) => {

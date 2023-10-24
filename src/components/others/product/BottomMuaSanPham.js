@@ -6,6 +6,7 @@ import {
   TextInput,
   ScrollView,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useRef, useMemo, useEffect, useCallback, useState} from 'react';
 import BottomSheet, {
@@ -17,8 +18,15 @@ import {BACKGROUND_BUTTON_COLOR} from '../../../utils/contanst';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {styles} from './styles/bottomMuaSanPhamStyle';
 import {formatCurrency} from '../../../utils/formatCurrency';
+import {useDispatch, useSelector} from 'react-redux';
+import {getDataToppingRequest} from '../../../redux/reducers/slices/toppingSlice';
 
 const BottomMuaSanPham = ({isOpen, onChangeOpen, data, handleNavigate}) => {
+  const dispatch = useDispatch();
+
+  const isLoading = useSelector(state => state.topping.isLoading);
+  const dataToppingFetch = useSelector(state => state.topping.data);
+
   useEffect(() => {
     if (isOpen) {
       bottomSheetRef.current.expand();
@@ -34,6 +42,14 @@ const BottomMuaSanPham = ({isOpen, onChangeOpen, data, handleNavigate}) => {
       onChangeOpen();
     }
   };
+
+  const getToppingRequest = () => {
+    dispatch(getDataToppingRequest());
+  };
+
+  useEffect(() => {
+    getToppingRequest();
+  }, []);
 
   const [size, setSize] = useState();
   const [topping, setTopping] = useState();
@@ -53,212 +69,13 @@ const BottomMuaSanPham = ({isOpen, onChangeOpen, data, handleNavigate}) => {
     }
   };
 
-  const handleItemSelection = (id, data) => {
-    if (id === 1) {
-      // For data with id 1, allow all items to be selected
-      // data.forEach((item) => (item.isSelected = true));
-    } else {
-      // For data with id 0, 2, and 3, only one item can be selected
-      let selectedCount = 0;
-      data.forEach(item => {
-        if (item.isSelected) {
-          selectedCount++;
-          if (selectedCount > 1) {
-            item.isSelected = false; // Deselect the item if more than one is selected
-          }
-        }
-      });
-    }
-  };
-
   const [dataSize, setDataSize] = useState([
     {id: 1123, name: 'Nhỏ', price: 0, isSelected: true},
     {id: 21214, name: 'Vừa', price: 10000, isSelected: false},
     {id: 31231, name: 'Lớn', price: 20000, isSelected: false},
   ]);
 
-  const [dataTopping, setDataTopping] = useState([
-    {
-      _id: '653267eeea17db2026215cbc',
-      ten_topping: 'pudding',
-      hinh_anh: [
-        {
-          hinh_anh_topping:
-            'https://bizweb.dktcdn.net/100/421/036/files/tran-chau-den-6630c62d-9e20-49ab-b979-7c5fd872e147.jpg?v=1639106526825',
-          _id: '653267eeea17db2026215cbd',
-        },
-        {
-          hinh_anh_topping:
-            'https://cdn.tgdd.vn/2021/09/CookRecipe/Avatar/1200(5).jpg',
-          _id: '653267eeea17db2026215cbe',
-        },
-      ],
-      gia: 12000,
-      status: 1,
-      isSelected: false,
-      __v: 0,
-    },
-    {
-      _id: '653267ffea17db2026215cc1',
-      ten_topping: 'trân châu',
-      hinh_anh: [
-        {
-          hinh_anh_topping:
-            'https://bizweb.dktcdn.net/100/421/036/files/tran-chau-den-6630c62d-9e20-49ab-b979-7c5fd872e147.jpg?v=1639106526825',
-          _id: '653267ffea17db2026215cc2',
-        },
-        {
-          hinh_anh_topping:
-            'https://cdn.tgdd.vn/2021/09/CookRecipe/Avatar/1200(5).jpg',
-          _id: '653267ffea17db2026215cc3',
-        },
-      ],
-      gia: 9000,
-      isSelected: false,
-      status: 1,
-      __v: 0,
-    },
-    {
-      _id: '65326809ea17db2026215cc6',
-      ten_topping: 'thạch rau câu',
-      hinh_anh: [
-        {
-          hinh_anh_topping:
-            'https://bizweb.dktcdn.net/100/421/036/files/tran-chau-den-6630c62d-9e20-49ab-b979-7c5fd872e147.jpg?v=1639106526825',
-          _id: '65326809ea17db2026215cc7',
-        },
-        {
-          hinh_anh_topping:
-            'https://cdn.tgdd.vn/2021/09/CookRecipe/Avatar/1200(5).jpg',
-          _id: '65326809ea17db2026215cc8',
-        },
-      ],
-      gia: 9000,
-      isSelected: false,
-      status: 1,
-      __v: 0,
-    },
-    {
-      _id: '65326809ewea17db2026215cc6',
-      ten_topping: 'thạch rau câu',
-      hinh_anh: [
-        {
-          hinh_anh_topping:
-            'https://bizweb.dktcdn.net/100/421/036/files/tran-chau-den-6630c62d-9e20-49ab-b979-7c5fd872e147.jpg?v=1639106526825',
-          _id: '65326809ea17db2026215cc7',
-        },
-        {
-          hinh_anh_topping:
-            'https://cdn.tgdd.vn/2021/09/CookRecipe/Avatar/1200(5).jpg',
-          _id: '65326809ea17db2026215cc8',
-        },
-      ],
-      gia: 9000,
-      isSelected: false,
-      status: 1,
-      __v: 0,
-    },
-    {
-      _id: '65326809sdfsewea1157db2026215cc6',
-      ten_topping: 'thạch rau câu',
-      hinh_anh: [
-        {
-          hinh_anh_topping:
-            'https://bizweb.dktcdn.net/100/421/036/files/tran-chau-den-6630c62d-9e20-49ab-b979-7c5fd872e147.jpg?v=1639106526825',
-          _id: '65326809ea17db2026215cc7',
-        },
-        {
-          hinh_anh_topping:
-            'https://cdn.tgdd.vn/2021/09/CookRecipe/Avatar/1200(5).jpg',
-          _id: '65326809ea17db2026215cc8',
-        },
-      ],
-      gia: 9000,
-      isSelected: false,
-      status: 1,
-      __v: 0,
-    },
-    {
-      _id: '65326809sdfsewea1sdfe7db2026215cc6',
-      ten_topping: 'thạch rau câu',
-      hinh_anh: [
-        {
-          hinh_anh_topping:
-            'https://bizweb.dktcdn.net/100/421/036/files/tran-chau-den-6630c62d-9e20-49ab-b979-7c5fd872e147.jpg?v=1639106526825',
-          _id: '65326809ea17db2026215cc7',
-        },
-        {
-          hinh_anh_topping:
-            'https://cdn.tgdd.vn/2021/09/CookRecipe/Avatar/1200(5).jpg',
-          _id: '65326809ea17db2026215cc8',
-        },
-      ],
-      gia: 9000,
-      isSelected: false,
-      status: 1,
-      __v: 0,
-    },
-    {
-      _id: '65326809sdfdfsewea17db2026215cc6',
-      ten_topping: 'thạch rau câu',
-      hinh_anh: [
-        {
-          hinh_anh_topping:
-            'https://bizweb.dktcdn.net/100/421/036/files/tran-chau-den-6630c62d-9e20-49ab-b979-7c5fd872e147.jpg?v=1639106526825',
-          _id: '65326809ea17db2026215cc7',
-        },
-        {
-          hinh_anh_topping:
-            'https://cdn.tgdd.vn/2021/09/CookRecipe/Avatar/1200(5).jpg',
-          _id: '65326809ea17db2026215cc8',
-        },
-      ],
-      gia: 9000,
-      isSelected: false,
-      status: 1,
-      __v: 0,
-    },
-    {
-      _id: '65326809sdfdfseasfewwea17db2026215cc6',
-      ten_topping: 'thạch rau câu',
-      hinh_anh: [
-        {
-          hinh_anh_topping:
-            'https://bizweb.dktcdn.net/100/421/036/files/tran-chau-den-6630c62d-9e20-49ab-b979-7c5fd872e147.jpg?v=1639106526825',
-          _id: '65326809ea17db2026215cc7',
-        },
-        {
-          hinh_anh_topping:
-            'https://cdn.tgdd.vn/2021/09/CookRecipe/Avatar/1200(5).jpg',
-          _id: '65326809ea17db2026215cc8',
-        },
-      ],
-      gia: 9000,
-      isSelected: false,
-      status: 1,
-      __v: 0,
-    },
-    {
-      _id: '65326809sdfdfsesdfdswea17db2026215cc6',
-      ten_topping: 'thạch rau câu',
-      hinh_anh: [
-        {
-          hinh_anh_topping:
-            'https://bizweb.dktcdn.net/100/421/036/files/tran-chau-den-6630c62d-9e20-49ab-b979-7c5fd872e147.jpg?v=1639106526825',
-          _id: '65326809ea17db2026215cc7',
-        },
-        {
-          hinh_anh_topping:
-            'https://cdn.tgdd.vn/2021/09/CookRecipe/Avatar/1200(5).jpg',
-          _id: '65326809ea17db2026215cc8',
-        },
-      ],
-      gia: 9000,
-      isSelected: false,
-      status: 1,
-      __v: 0,
-    },
-  ]);
+  const [dataTopping, setDataTopping] = useState(dataToppingFetch);
 
   const handleChangeSize = id => {
     constantPrice = data.size[0].gia;
@@ -383,17 +200,26 @@ const BottomMuaSanPham = ({isOpen, onChangeOpen, data, handleNavigate}) => {
               </View>
 
               {/* Topping view */}
-              <View>
-                {/* chon topping */}
-                <View style={styles.sectionHeaderContainer}>
-                  <Text style={styles.textDa}>Chọn topping</Text>
+              {isLoading ? (
+                <View style={{flex: 1, justifyContent: 'center'}}>
+                  <ActivityIndicator
+                    size="small"
+                    color={BACKGROUND_BUTTON_COLOR}
+                  />
                 </View>
+              ) : (
+                <View>
+                  {/* chon topping */}
+                  <View style={styles.sectionHeaderContainer}>
+                    <Text style={styles.textDa}>Chọn topping</Text>
+                  </View>
 
-                {/* list topping */}
-                {dataTopping.map(item => (
-                  <View key={item.id}>{renderTopping({item})}</View>
-                ))}
-              </View>
+                  {/* list topping */}
+                  {dataTopping.map(item => (
+                    <View key={item.id}>{renderTopping({item})}</View>
+                  ))}
+                </View>
+              )}
             </BottomSheetScrollView>
           </View>
         </View>
@@ -425,7 +251,9 @@ const BottomMuaSanPham = ({isOpen, onChangeOpen, data, handleNavigate}) => {
             </View>
           </View>
 
-          <TouchableOpacity style={styles.muaNgayButtonContainer} onPress={() => handleNavigate(total*quantity)}>
+          <TouchableOpacity
+            style={styles.muaNgayButtonContainer}
+            onPress={() => handleNavigate(total * quantity)}>
             <Text style={styles.textMuaNgay}>
               Mua ngay ({formatCurrency(total * quantity)})
             </Text>

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Pressable} from 'react-native';
+import {View, Text, Pressable, Alert} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Home from '../main/home/Home';
 import Categories from '../main/categories/Categories';
