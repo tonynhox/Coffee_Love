@@ -1,5 +1,5 @@
 import {View, Text, StyleSheet, TextInput} from 'react-native';
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 
 import {Provider} from 'react-redux';
 import AppNavigation from './src/components/navigations/AppNavigation';
@@ -7,28 +7,24 @@ import {store} from './src/redux/store';
 import ModalCartOrder from './src/utils/Modals/ModalCartOrder';
 import Storage from './src/utils/Storage';
 import ManHinhCHao from './src/components/navigations/ManHinhChao';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNavigationContainerRef } from '@react-navigation/native';
-import OrderDetail from './src/components/others/orderDetail/OrderDetail';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNavigationContainerRef} from '@react-navigation/native';
+import Map from './src/components/others/map4D/Map';
 
- export const navigationRef = createNavigationContainerRef()
+export const navigationRef = createNavigationContainerRef();
+
 
 const App = () => {
-
-
-
   return (
-
     <Provider store={store}>
       {/* <ModalCartOrder/> */}
       {/* <Demo/> */}
       {/* <AppNavigation  /> */}
-    <NavigationContainer ref={navigationRef}>
-
-      <AppNavigation/>
-      {/* <AppNavigation  /> */}
-
-    </NavigationContainer>
+      <NavigationContainer ref={navigationRef}>
+        <ManHinhCHao/>
+        {/* <Map /> */}
+        {/* <AppNavigation  /> */}
+      </NavigationContainer>
 
       {/* <Otp/> */}
       {/* <QR/> */}
@@ -36,7 +32,6 @@ const App = () => {
       {/* <ToRate/> */}
       {/* <ProductDetail/> */}
     </Provider>
-
   );
 };
 
@@ -49,7 +44,7 @@ const App = () => {
 //         {/* <Payment/>  */}
 
 //         {/* <EditProfile/> */}
-        
+
 //         {/* <Detail/> */}
 //         <ProductDetail/>
 //     </View>

@@ -28,7 +28,7 @@ islogin===''?
       </TouchableOpacity>
     </View> :
         <View style={styles.cardUser}>
-        <View>
+        <View style={{marginBottom:10}}>
           <Text style={styles.txtName} >{user.ho_ten}</Text>
           <Text style={styles.txtName}>Mới</Text>
         </View>

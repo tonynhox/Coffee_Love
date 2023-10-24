@@ -7,6 +7,8 @@ import chiTietSanPhamSlice from './slices/chiTietSanPhamSlice';
 import topOrdersSlice from './slices/topOrderSlice';
 import productSlice from './slices/productSlice';
 import donHangSlice from './slices/donHangSlice';
+
+import locationMapSlice from './slices/locationMap';
 const rootReducer = combineReducers({
   users: userSlice,
   categories: categoriesSlice,
@@ -15,6 +17,7 @@ const rootReducer = combineReducers({
   topOrders: topOrdersSlice,
   products: productSlice,
   don_hang: donHangSlice,
+  locationMap: locationMapSlice,
 });
 
 export const appReducer = (state, action) => {

@@ -7,6 +7,7 @@ import topOrderSaga from './itemSagas/topOrderSaga';
 import productSaga from './itemSagas/productSaga';
 import { chiTietDonHangSaga, donHangSaga } from './itemSagas/donHangSaga';
 
+import locationMapSaga from './itemSagas/locationMapSaga';
 export default function* rootSaga() {
   yield all([
     userSaga(),
@@ -16,6 +17,7 @@ export default function* rootSaga() {
     topOrderSaga(),
     productSaga(),
     donHangSaga(),
-    chiTietDonHangSaga()
+    chiTietDonHangSaga(),
+    locationMapSaga(),
   ]);
 }
