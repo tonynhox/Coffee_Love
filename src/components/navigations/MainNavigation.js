@@ -11,7 +11,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {getCartPaymentFetch} from '../../redux/reducers/slices/cartPaymentSlice';
 import Storage from '../../utils/Storage';
 import CategoriesText from '../main/categories/CategoriesText';
-import Geolocation from '@react-native-community/geolocation';
+import Geolocation from 'react-native-geolocation-service';
 import {getLocationMapFetch} from '../../redux/reducers/slices/locationMap';
 
 const Tab = createBottomTabNavigator();
@@ -24,13 +24,14 @@ const MainNavigation = () => {
         setPosition(pos);
       },
       error => Alert.alert('GetCurrentPosition Error', JSON.stringify(error)),
-      {enableHighAccuracy: true},
+      // {enableHighAccuracy: true,},
+
     );
   };
 
   useEffect(() => {
     getCurrentPosition();
-  }, []);
+  }, [position]);
 
   const [position, setPosition] = useState({});
 
