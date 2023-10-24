@@ -52,7 +52,7 @@ export const editProfileStyle = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 10,
-    position: 'absolute',
+    // position: 'absolute',
     bottom: 10,
   },
   textSaveProfile: {

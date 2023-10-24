@@ -16,12 +16,15 @@ import AddAddress from '../others/addAddress/AddAddress';
 import MyAddress from '../others/myAdddress/MyAddress';
 import ToRate from '../others/toRate/ToRate';
 import Changepassword from '../others/changepassword/Changepassword';
+import AllVoucher from '../others/allVoucher/AllVoucher';
+import AllScore from '../others/allScore/AllScore';
 import {useDispatch} from 'react-redux';
 import {getCategoryFetch} from '../../redux/reducers/slices/categoriesSlice';
 import {getTopOrderFetch} from '../../redux/reducers/slices/topOrderSlice';
 import {getProductAllFetch} from '../../redux/reducers/slices/productSlice';
 import Storage from '../../utils/Storage';
 import {navigationRef} from '../../../App';
+import ScoreHistory from '../others/scoreHistory/ScoreHistory';
 // add other navigation functions that you need and export them
 
 const Stack = createNativeStackNavigator();
@@ -165,6 +168,33 @@ const AppNavigation = props => {
         <Stack.Screen
           name="ToRate"
           component={ToRate}
+          options={{
+            presentation: 'modal',
+            // animationTypeForReplace: 'push',
+            animation: 'fade',
+          }}
+        />
+        <Stack.Screen
+          name="AllVoucher"
+          component={AllVoucher}
+          options={{
+            presentation: 'modal',
+            // animationTypeForReplace: 'push',
+            animation: 'fade',
+          }}
+        />
+        <Stack.Screen
+          name="AllScore"
+          component={AllScore}
+          options={{
+            presentation: 'modal',
+            // animationTypeForReplace: 'push',
+            animation: 'fade',
+          }}
+        />
+        <Stack.Screen
+          name="ScoreHistory"
+          component={ScoreHistory}
           options={{
             presentation: 'modal',
             // animationTypeForReplace: 'push',

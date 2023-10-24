@@ -8,8 +8,11 @@ import {
 } from 'react-native';
 import React from 'react';
 import {styles} from './styles';
+import {useSelector} from 'react-redux';
 
 const AllVoucher = () => {
+  const allVoucher = useSelector(state => state.vouchers.voucher.VoucherHieuLuc);
+  // console.log('all voucher: ', allVoucher);
   const RenderItem = ({item}) => {
     return (
       <View style={styles.cardFL}>
@@ -21,9 +24,10 @@ const AllVoucher = () => {
           <Text style={styles.centeredText}>Coffee{'\n'}Love</Text>
         </View>
         <View style={styles.imgView}>
-          <Text style={styles.txtTitleFL}>Miễn phí giao hàng</Text>
-          <Text style={styles.txt}>Sử dụng cho đơn từ 100K</Text>
-          <Text style={styles.txt}>Sử dụng đến 11/10/2023</Text>
+          <Text style={styles.txtTitleFL}>{item.ten_voucher}</Text>
+          {/* <Text style={styles.txt}>{item.ma_voucher}</Text> */}
+          <Text style={styles.txt}>{item.mo_ta}</Text>
+          <Text style={styles.txt}>Sử dụng đến: {item.ngay_ket_thuc}</Text>
         </View>
       </View>
     );
@@ -32,7 +36,7 @@ const AllVoucher = () => {
   return (
     <FlatList
       style={styles.container}
-      data={data}
+      data={allVoucher}
       renderItem={RenderItem}
       keyExtractor={item => item.id}
     />

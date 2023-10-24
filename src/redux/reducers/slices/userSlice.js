@@ -68,6 +68,7 @@ export const userSlice = createSlice({
       state.isLoading = false;
       ToastAndroid.show('Đổi mật khẩu thành công ', ToastAndroid.SHORT);
     },
+
     checkOtp: state => {
       state.isLoading = true;
     },
@@ -76,6 +77,17 @@ export const userSlice = createSlice({
       state.isLoading = false;
       ToastAndroid.show('Otp đúng', ToastAndroid.SHORT);
     },
+
+    editUser: state => {
+      state.isLoading = true;
+    },
+
+    editUserSuccess: (state,action) => {
+      state.isLoading = false;
+      state.user = action.payload
+      ToastAndroid.show('Chỉnh sửa thành công', ToastAndroid.SHORT);
+    },
+
   },
 
   //error
@@ -100,6 +112,8 @@ export const {
   changePassOtpSuccess,
   changePass,
   changePassSuccess,
+  editUser,
+  editUserSuccess,
   getUserFail,
 } = userSlice.actions;
 

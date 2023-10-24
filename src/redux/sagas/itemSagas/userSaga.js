@@ -7,6 +7,7 @@ import {
   checkOtpSuccess,
   SignUpSuccess,
   changePassOtpSuccess,
+  editUserSuccess,
 } from '../../reducers/slices/userSlice';
 import instance from '../../../axios/instance';
 import Header from '../../../utils/Header';
@@ -22,6 +23,8 @@ function* Login(action) {
     };
 
     const response = yield call(() => instance.post('users/dang-nhap-username', payload));
+
+    console.log('user: ', response.data);
     
     if(response.data.trang_thai){
       //lưu local
@@ -187,6 +190,33 @@ function* ChangePass(action) {
   }
 }
 
+function* EditUser(action) {
+  try {
+    const {id_user, ho_ten, avatar, email, so_dien_thoai} = action.payload;
+    const payload = {
+      id_user: id_user,
+      ho_ten: ho_ten,
+      avatar: avatar,
+      email: email,
+      so_dien_thoai: so_dien_thoai,
+    };
+    
+    //api
+    const response = yield call(() =>
+      instance.post('users/sua-user', payload),
+    );
+
+    if (response.data.trang_thai) {
+      yield put(editUserSuccess(response.data.data));
+    } else {
+      yield put(getUserFail('Cap nhat that bai'));//????????message?? ddaua ra daya
+    }
+  } catch (error) {
+    console.log('error', error);
+    yield put(getUserFail('Lỗi kết nối'));
+  }
+}
+
 function* userSaga() {
   yield takeLatest('users/getUserFetch', Login);
 
@@ -203,6 +233,9 @@ function* userSaga() {
 
   // trong main
   yield takeLatest('users/changePass', ChangePass);
+
+  yield takeLatest('users/editUser', EditUser);
+  
 }
 
 export default userSaga;

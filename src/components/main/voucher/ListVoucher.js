@@ -111,6 +111,7 @@ const ListVoucher = () => {
             <Icon
               name="file-search-outline"
               style={[styles.icon, {color: '#FF8C00', fontSize: 26}]}
+              onPress={() => navigation.navigate('ScoreHistory')}
             />
             <Text style={styles.txtExtention}>Lịch sử điểm</Text>
           </TouchableOpacity>
@@ -126,7 +127,10 @@ const ListVoucher = () => {
 
       <View style={[styles.txtfc2, {marginRight: 24}]}>
         <Text style={styles.txtTitle}>Voucher của bạn</Text>
-        <Text style={styles.txtall}>Xem tất cả</Text>
+        <TouchableOpacity 
+          onPress={() => navigation.navigate('AllVoucher')} >
+          <Text style={styles.txtall}>Xem tất cả</Text>
+        </TouchableOpacity>
       </View>
 
       <FlatList
@@ -139,7 +143,11 @@ const ListVoucher = () => {
 
       <View style={[styles.txtfc2, {marginRight: 24}]}>
         <Text style={styles.txtTitle}>Đổi Điểm</Text>
-        <Text style={styles.txtall}>Xem tất cả</Text>
+        <TouchableOpacity 
+          onPress={() => navigation.navigate('AllScore')} >
+          <Text style={styles.txtall}>Xem tất cả</Text>
+        </TouchableOpacity>
+        
       </View>
       <FlatList
         scrollEnabled={false}

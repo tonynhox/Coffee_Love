@@ -6,32 +6,58 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {editProfileStyle} from './editProfileStyle';
 import Icon from 'react-native-vector-icons/FontAwesome6';
 import {BACKGROUND_BUTTON_COLOR} from '../../../utils/contanst';
 import Header from '../../../utils/Header';
+import {useDispatch, useSelector} from 'react-redux';
+import {editUser} from '../../../redux/reducers/slices/userSlice';
 
 const EditProfile = () => {
+  const user = useSelector(state => state.users.user);
+  const [dataTemp, setdataTemp] = useState(user); 
+
+  // const [ten, setTen] = useState(user.ho_ten);
+  // const [ava, setAva] = useState(user.avatar);//twj ghi
+  // const [mail, setMail] = useState(user.email);
+  // const [sdt, setSdt] = useState(user.so_dien_thoai);// xuoosng duwois swar laij choox value
+
+
+  // co 2 cach lam
+  //1 la lam nhu cach tren nhung trong 
+  //store ko viet lai nen no ko thay doi o giao dien
+  // 2 la thay doi truc tiep trong store, gio tao lam cach 2 nho xem cho ki
+  const isLoading = useSelector(state => state.users.isLoading);
+  const id = user.id_user;
+
+  const dispatch = useDispatch();
+
+  const handleEdit = () => {
+    dispatch(
+      // editUser({
+      //   id_user: id,
+      //   ho_ten: ten,
+      //   avatar: ava,
+      //   email: mail,
+      //   so_dien_thoai: sdt,
+      // }),
+      editUser(dataTemp) //ok
+    );
+  };
+
   return (
     <View style={editProfileStyle.container}>
       {/* Image avatar */}
 
       <View
         style={{
-          width:'100%'
-        }}
-      >     
-        <Header
-          headerText="Chỉnh sửa hồ sơ"
-          rightComponent={true}
-        />
+          width: '100%',
+        }}>
+        <Header headerText="Chỉnh sửa hồ sơ" rightComponent={true} />
       </View>
 
-      <Image
-        source={require('../../../assets/images/americano.png')}
-        style={editProfileStyle.imageProfile}
-      />
+      <Image source={require('../../../assets/images/avatar.png')} style={editProfileStyle.imageProfile} />
 
       {/* input name view */}
       <View style={editProfileStyle.textInputContainer}>
@@ -39,7 +65,8 @@ const EditProfile = () => {
         <View style={editProfileStyle.inputContainer}>
           <TextInput
             style={editProfileStyle.input}
-            placeholder="Tên của bạn "
+            onChangeText={text => setdataTemp({...dataTemp, ho_ten:text})} 
+            value={dataTemp.ho_ten} //ghi tiep
             placeholderTextColor="#999"
           />
           <Icon
@@ -57,7 +84,8 @@ const EditProfile = () => {
         <View style={editProfileStyle.inputContainer}>
           <TextInput
             style={editProfileStyle.input}
-            placeholder="Email của bạn "
+            onChangeText={text => setdataTemp({...dataTemp,email:text})} // ghi tieeps
+            value={dataTemp.email}
             placeholderTextColor="#999"
           />
           <Icon
@@ -75,7 +103,8 @@ const EditProfile = () => {
         <View style={editProfileStyle.inputContainer}>
           <TextInput
             style={editProfileStyle.input}
-            placeholder="SDT của bạn "
+            onChangeText={text => setdataTemp({...dataTemp, so_dien_thoai:text})}
+            value={dataTemp.so_dien_thoai}
             placeholderTextColor="#999"
           />
           <Icon
@@ -86,7 +115,11 @@ const EditProfile = () => {
           />
         </View>
       </View>
-      <TouchableOpacity style={editProfileStyle.buttonSaveProfile}>
+      <TouchableOpacity
+        onPress={() => {
+          handleEdit();
+        }}
+        style={editProfileStyle.buttonSaveProfile}>
         <Text style={editProfileStyle.textSaveProfile}>Đặt Lại Hồ Sơ</Text>
       </TouchableOpacity>
     </View>

@@ -7,6 +7,9 @@ import chiTietSanPhamSlice from './slices/chiTietSanPhamSlice';
 import topOrdersSlice from './slices/topOrderSlice';
 import productSlice from './slices/productSlice';
 import donHangSlice from './slices/donHangSlice';
+import voucherSlide from './slices/voucherSlide';
+import scoreSlide from './slices/scoreSlide';
+
 const rootReducer = combineReducers({
   users: userSlice,
   categories: categoriesSlice,
@@ -15,6 +18,8 @@ const rootReducer = combineReducers({
   topOrders: topOrdersSlice,
   products: productSlice,
   don_hang: donHangSlice,
+  vouchers: voucherSlide,
+  scores: scoreSlide,
 });
 
 export const appReducer = (state, action) => {

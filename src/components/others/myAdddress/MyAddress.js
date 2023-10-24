@@ -1,13 +1,17 @@
 import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {myAddressStyle} from './myAddressStyle';
 import Icon from 'react-native-vector-icons/FontAwesome6';
 import Header from '../../../utils/Header';
-import { useNavigation } from '@react-navigation/native';
-import { BACKGROUND_BUTTON_COLOR } from '../../../utils/contanst';
+import {useNavigation} from '@react-navigation/native';
+import {BACKGROUND_BUTTON_COLOR} from '../../../utils/contanst';
+import {useSelector} from 'react-redux';
 
 const MyAddress = () => {
   const navigation = useNavigation();
+  const diachi = useSelector(state => state.users.user.dia_chi);
+
+  console.log('diachi: ', diachi);
   const data = [
     {
       id: 1,
@@ -39,6 +43,7 @@ const MyAddress = () => {
     },
   ];
 
+
   const renderItemAddress = ({item, index}) => {
     return (
       <View style={myAddressStyle.containerItem}>
@@ -54,24 +59,29 @@ const MyAddress = () => {
         <TouchableOpacity style={myAddressStyle.containerAddress}>
           {/* View ten va sdt */}
           <View style={myAddressStyle.nameAndPhoneContainer}>
-            <Text style={myAddressStyle.textName}>{item.name}</Text>
-            <Text style={myAddressStyle.textPhone}>{item.phone}</Text>
+            <Text style={myAddressStyle.textName}>{item.nguoi_nhan}</Text>
+            <Text style={myAddressStyle.textPhone}>{item.so_dien_thoai}</Text>
             <View />
             <View />
           </View>
           {/* View so nha va ten duong */}
           <View>
-            <Text style={myAddressStyle.textAddress}>{item.address1}</Text>
+            <Text style={myAddressStyle.textAddress}>Số {item.so_nha}</Text>
           </View>
           {/* View phuong va quan */}
           <View>
-            <Text style={myAddressStyle.textAddress}>{item.address2}</Text>
+            <Text style={myAddressStyle.textAddress}>{item.tinh}</Text>
           </View>
 
           {/* View mac dinh */}
+          {item.mac_dinh?
+
           <View style={myAddressStyle.defaultContainer}>
-            <Text style={myAddressStyle.textDefault}>Mặc định</Text>
+            <Text style={myAddressStyle.textDefault}>
+              Mặc định
+            </Text>
           </View>
+          : null }
         </TouchableOpacity>
 
         {/* View button sua */}
@@ -86,20 +96,17 @@ const MyAddress = () => {
 
   return (
     <View style={myAddressStyle.container}>
-      <View style={{width:'100%'}}>
-        <Header
-          headerText="Địa chỉ của tôi"
-          rightComponent={true}
-        />
+      <View style={{width: '100%'}}>
+        <Header headerText="Địa chỉ của tôi" rightComponent={true} />
       </View>
       <FlatList
         style={{width: '100%'}}
-        data={data}
+        data={diachi}
         renderItem={renderItemAddress}
         keyExtractor={(item, index) => index.toString()}
       />
       {/* Them dia chi */}
-      <TouchableOpacity 
+      <TouchableOpacity
         onPress={() => navigation.navigate('AddAddress')}
         style={myAddressStyle.addAddressContainer}>
         <Icon name="circle-plus" size={20} color={BACKGROUND_BUTTON_COLOR} />

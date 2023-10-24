@@ -11,6 +11,8 @@ import {getCategoryFetch} from '../../redux/reducers/slices/categoriesSlice';
 import {getTopOrderFetch} from '../../redux/reducers/slices/topOrderSlice';
 import {getProductAllFetch} from '../../redux/reducers/slices/productSlice';
 import { LoginSuccess, getOneUserFetch } from '../../redux/reducers/slices/userSlice';
+import { getVoucherFetch} from '../../redux/reducers/slices/voucherSlide';
+import { getScoreFetch } from '../../redux/reducers/slices/scoreSlide';
 const Stack = createNativeStackNavigator();
 
 const ManHinh = () => {
@@ -40,7 +42,8 @@ const ManHinh = () => {
       dispatch(getCategoryFetch()),
       dispatch(getTopOrderFetch()),
       dispatch(getProductAllFetch()),
-      checkLogin()
+      checkLogin(),
+
     ]);
 
     //check login
@@ -51,6 +54,8 @@ const ManHinh = () => {
         console.log('token nè',user);
         dispatch(LoginSuccess({data:{token:token,id_user:user}}))
         dispatch(getOneUserFetch({id_user:user}));
+        // dispatch(getVoucherFetch({id_user:user}));
+        // dispatch(getScoreFetch());
 
       }
     }

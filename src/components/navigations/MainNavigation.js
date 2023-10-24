@@ -10,6 +10,8 @@ import ModalCartOrder from '../../utils/Modals/ModalCartOrder';
 import {useDispatch, useSelector} from 'react-redux';
 import {getCartPaymentFetch} from '../../redux/reducers/slices/cartPaymentSlice';
 import Storage from '../../utils/Storage';
+import { getVoucherFetch } from '../../redux/reducers/slices/voucherSlide';
+import { getScoreFetch } from '../../redux/reducers/slices/scoreSlide';
 
 const Tab = createBottomTabNavigator();
 
@@ -20,7 +22,8 @@ const MainNavigation = () => {
   useEffect(() => {
     if (id_user) {
       dispatch(getCartPaymentFetch({id_user: id_user}));
-      dispatch(getCartPaymentFetch({id_user: id_user}));
+      dispatch(getVoucherFetch({id_user:id_user}));
+      dispatch(getScoreFetch());
       console.log('id_user', id_user);
     }
   }, [id_user]);
@@ -29,30 +32,39 @@ const MainNavigation = () => {
     <Tab.Navigator
       screenOptions={({route}) => ({
         headerShown: false,
+        tabBarActiveTintColor: '#FF8C00',
         tabBarIcon: ({focused}) => {
           if (route.name == 'Home') {
             if (!focused) {
-              return <Icon name="home-outline" size={25} color="#6f4506" />;
-            } else {
               return <Icon name="home-outline" size={25} color="#000" />;
+            } else {
+              return <Icon name="home-outline" size={25} color="#FF8C00" />;
             }
           } else if (route.name == 'Categories') {
             if (!focused) {
-              return <Icon name="home-outline" size={25} color="#000" />;
+              return <Icon name="coffee-outline" size={25} color="#000" />;
             } else {
-              return <Icon name="home-outline" size={25} color="#000" />;
+              return <Icon name="coffee-outline" size={25} color="#FF8C00" />;
             }
           } else if (route.name == 'Voucher') {
             if (!focused) {
-              return <Icon name="home-outline" size={25} color="#000" />;
+              return (
+                <Icon name="ticket-percent-outline" size={25} color="#000" />
+              );
             } else {
-              return <Icon name="home-outline" size={25} color="#000" />;
+              return (
+                <Icon name="ticket-percent-outline" size={25} color="#FF8C00" />
+              );
             }
           } else if (route.name == 'Profile') {
             if (!focused) {
-              return <Icon name="home-outline" size={25} color="#000" />;
+              return (
+                <Icon name="account-circle-outline" size={25} color="#000" />
+              );
             } else {
-              return <Icon name="home-outline" size={25} color="#000" />;
+              return (
+                <Icon name="account-circle-outline" size={25} color="#FF8C00" />
+              );
             }
           }
         },
@@ -96,7 +108,6 @@ const MainNavigation = () => {
 };
 
 const ExtraView = ({setModalVisible}) => {
-
   return (
     <Pressable
       style={{
