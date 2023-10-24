@@ -11,10 +11,44 @@ import {useDispatch, useSelector} from 'react-redux';
 import {getCartPaymentFetch} from '../../redux/reducers/slices/cartPaymentSlice';
 import Storage from '../../utils/Storage';
 import CategoriesText from '../main/categories/CategoriesText';
+import Geolocation from '@react-native-community/geolocation';
+import {getLocationMapFetch} from '../../redux/reducers/slices/locationMap';
 
 const Tab = createBottomTabNavigator();
 
 const MainNavigation = () => {
+  //vị trí hiện tại
+  const getCurrentPosition = () => {
+    Geolocation.getCurrentPosition(
+      pos => {
+        setPosition(pos);
+      },
+      error => Alert.alert('GetCurrentPosition Error', JSON.stringify(error)),
+      {enableHighAccuracy: true},
+    );
+  };
+
+  useEffect(() => {
+    getCurrentPosition();
+  }, []);
+
+  const [position, setPosition] = useState({});
+
+
+  useEffect(() => {
+    if (position) {
+      dispatch(
+        getLocationMapFetch({
+          lng: position?.coords?.longitude,
+          lat: position?.coords?.latitude,
+        }),
+      );
+      // console.log(position.coords);
+    }
+  }, [position]);
+
+  // end vị trí hiện tại
+
   const dispatch = useDispatch();
   // const id_user =  Storage.getItem('id_user');
   const id_user = useSelector(state => state.users.user.id_user);
@@ -97,6 +131,7 @@ const MainNavigation = () => {
 };
 
 const ExtraView = ({setModalVisible}) => {
+  const nameLocation = useSelector( state => state.locationMap.data.address);
 
   return (
     <Pressable
@@ -120,7 +155,7 @@ const ExtraView = ({setModalVisible}) => {
       }}>
       <View style={{justifyContent: 'center'}}>
         {/* <Text>Giao đến</Text> */}
-        <Text>184/88 tô ký, quận 12, TPHCM</Text>
+        <Text style={{maxWidth:200,color:'black',fontSize:14}} numberOfLines={1} ellipsizeMode="tail" >{nameLocation}</Text>
       </View>
       <Pressable
         onPress={() => {
