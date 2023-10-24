@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Pressable, Alert} from 'react-native';
+import {View, Text, Pressable, Alert, Platform, PermissionsAndroid} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Home from '../main/home/Home';
 import Categories from '../main/categories/Categories';
@@ -16,20 +16,35 @@ import {getLocationMapFetch} from '../../redux/reducers/slices/locationMap';
 
 const Tab = createBottomTabNavigator();
 
+
+
+
+
+
+
 const MainNavigation = () => {
   const [position, setPosition] = useState({});
 
   //vị trí hiện tại
-  const getCurrentPosition = () => {
-    Geolocation.getCurrentPosition(
-      pos => {
-        setPosition(pos);
-      },
-      error => Alert.alert('GetCurrentPosition Error', JSON.stringify(error)),
-      // {enableHighAccuracy: true,}
+   const getCurrentPosition =async () =>{
+  
+    if (Platform.OS === 'android') {
+      const granted= await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        Geolocation.getCurrentPosition(
+          pos => {
+            setPosition(pos);
+          },
+          error => Alert.alert('GetCurrentPosition Error', JSON.stringify(error)),
+          // {enableHighAccuracy: true,}
+    
+        );
+      }
+    }
+  }
 
-    );
-  };
 
   useEffect(() => {
     getCurrentPosition();
