@@ -55,7 +55,7 @@ const Menu = ({openBottomMuaHang}) => {
       </TouchableOpacity>
     );
   };
-
+//aaaaaaaaaaaaaaaaaaa
   return isLoading ? (
     <Text>Loading...</Text>
   ) : (

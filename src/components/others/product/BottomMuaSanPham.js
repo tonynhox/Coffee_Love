@@ -35,7 +35,7 @@ const BottomMuaSanPham = ({isOpen, onChangeOpen, data, handleNavigate}) => {
   }, [isOpen]);
 
   useEffect(() => {
-    setTotal(data.size[0].gia);
+    setTotal(data.size[1].gia);
   }, [data]);
 
   const onChange = index => {
@@ -57,7 +57,7 @@ const BottomMuaSanPham = ({isOpen, onChangeOpen, data, handleNavigate}) => {
   }, []);
 
   const [quantity, setQuantity] = useState(1);
-  const [total, setTotal] = useState(data.size[0].gia);
+  const [total, setTotal] = useState(data.size[1].gia);
 
   const handleTangSoLuong = () => {
     setQuantity(quantity + 1);
@@ -73,11 +73,11 @@ const BottomMuaSanPham = ({isOpen, onChangeOpen, data, handleNavigate}) => {
   const [dataSize, setDataSize] = useState(data.size);
 
   const handleChangeSize = id => {
-    constantPrice = data.size[0].gia;
+    constantPrice = data.size[1].gia;
     setDataSize(prevState => {
       return prevState.map(item => {
         if (item._id === id) {
-          setTotal(constantPrice + item.gia);
+          setTotal(item.gia);
           return {...item, isSelected: true};
         } else {
           return {...item, isSelected: false};
@@ -181,12 +181,12 @@ const BottomMuaSanPham = ({isOpen, onChangeOpen, data, handleNavigate}) => {
             <Text style={styles.textTenSanPham}>{data.ten_san_pham}</Text>
             <View style={styles.giaTienContainer}>
               <Text style={styles.textGiaTien}>
-                {data.size[0].giam_gia == 0
+                {data.size[1].giam_gia == 0
                   ? null
-                  : formatCurrency(data.size[0].giam_gia)}
+                  : formatCurrency(data.size[1].giam_gia)}
               </Text>
               <Text style={styles.textGiaTienGiamGia}>
-                {formatCurrency(data.size[0].gia)}
+                {formatCurrency(data.size[1].gia)}
               </Text>
             </View>
           </View>

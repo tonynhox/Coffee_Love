@@ -11,19 +11,11 @@ import Extention from './item/Extention';
 import {useNavigation} from '@react-navigation/native';
 import ModalCartOrder from '../../../utils/Modals/ModalCartOrder';
 import BottomMuaSanPham from './item/BottomMuaSanPham';
-const Home = () => {
+
+const Home = ({openBottomMuaHang}) => {
   const [scrollY] = useState(new Animated.Value(0));
   const navigation = useNavigation();
 
-  const [isOpenBottomMuaHang, setIsOpenBottomMuaHang] = useState(false);
-  const [idFromMenu, setIdFromMenu] = useState('');
-
-  const openBottomMuaHang = id => {
-    setIdFromMenu(id);
-    setIsOpenBottomMuaHang(true);
-  };
-
-  const navigateToBuyProduct = () => {};
 
   const HeaderName = () => {
     return (
@@ -88,15 +80,10 @@ const Home = () => {
         <Extention />
         <TopOrder />
         <Menu openBottomMuaHang={openBottomMuaHang} />
-        {/* <BottomMuaSanPham
-          isOpen={isOpenBottomMuaHang}
-          // onChangeOpen={() => setIsOpenBottomMuaHang(false)}
-          id={idFromMenu}
-          handleNavigate={navigateToBuyProduct}
-        /> */}
+        
       </ScrollView>
     </View>
-  );
+  ); //aaaaaaaaaaaaaaaaaaaa
 };
 
 export default React.memo(Home);

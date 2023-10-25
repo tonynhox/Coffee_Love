@@ -12,7 +12,7 @@ import {
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useSelector} from 'react-redux';
 
-const CategoriesText = () => {
+const CategoriesText = ({openBottomMuaHang}) => {
   const bigData = useSelector(state => state.categories.data);
   const trashData = [-1, 0];
   const customBigData = [...trashData, ...bigData];
@@ -21,12 +21,10 @@ const CategoriesText = () => {
   const navigation = useNavigation();
   const [index, setIndex] = useState(-1);
 
-
   useEffect(() => {
-    if(index!=-1 )
-    ref.current.scrollToIndex({animated: false, index: index+2});
-  }
-  , [index]);
+    if (index != -1)
+      ref.current.scrollToIndex({animated: false, index: index + 2});
+  }, [index]);
 
   const handleNavigate = id => {
     navigation.navigate('ProductDetail', {id});
@@ -51,9 +49,7 @@ const CategoriesText = () => {
     }
 
     return (
-      <TouchableOpacity 
-        onPress={() => setIndex(index)}
-        style={Styles.card}>
+      <TouchableOpacity onPress={() => setIndex(index)} style={Styles.card}>
         <View style={[Styles.imgCard]}>
           <Image
             style={[
@@ -72,10 +68,7 @@ const CategoriesText = () => {
   };
 
   const renderCategory = (item, index) => {
-
-
     if (index === 0) {
-
       return (
         <View style={Styles.row}>
           {bigData.map((item, index) => {
@@ -131,6 +124,7 @@ const CategoriesText = () => {
         style={{flexDirection: 'row', marginVertical: 10, borderRadius: 4}}
         onPress={() => handleNavigate(item._id)}>
         <TouchableOpacity
+          onPress={() => openBottomMuaHang({id: item._id})}
           style={{
             position: 'absolute',
             bottom: 0,
@@ -171,12 +165,11 @@ const CategoriesText = () => {
   };
 
   return (
-    
     <FlatList
       onScrollToIndexFailed={info => {
         const wait = new Promise(resolve => setTimeout(resolve, 500));
         wait.then(() => {
-          ref.current?.scrollToIndex({ index: info.index, animated: true });
+          ref.current?.scrollToIndex({index: info.index, animated: true});
         });
       }}
       ref={ref}

@@ -2,8 +2,9 @@ import {createSlice} from '@reduxjs/toolkit';
 
 const initialState = {
   isLoading: true,
-  success: false,
   data: null,
+  dataFromMenu: null,
+  isMenuLoading: true
 };
 
 const chiTietSanPhamSlice = createSlice({
@@ -15,13 +16,24 @@ const chiTietSanPhamSlice = createSlice({
     },
     getChiTietSanPhamSuccess: (state, action) => {
       state.isLoading = false;
-      state.success = true;
       state.data = action.payload.data;
     },
     getChiTietSanPhamFail: (state, action) => {
       state.isLoading = false;
-      state.success = false;
       state.data = [];
+      console.log('action.payload fail', action.payload);
+    },
+
+    getChiTietSanPhamTuMenuRequest: (state, action) => {
+      state.isMenuLoading = true;
+    },
+    getChiTietSanPhamTuMenuSuccess: (state, action) => {
+      state.isMenuLoading = false;
+      state.dataFromMenu = action.payload.data;
+    },
+    getChiTietSanPhamTuMenuFail: (state, action) => {
+      state.isMenuLoading = false;
+      state.dataFromMenu = [];
       console.log('action.payload fail', action.payload);
     },
   },
@@ -31,6 +43,9 @@ export const {
   getChiTietSanPhamRequest,
   getChiTietSanPhamSuccess,
   getChiTietSanPhamFail,
+  getChiTietSanPhamTuMenuRequest,
+  getChiTietSanPhamTuMenuSuccess,
+  getChiTietSanPhamTuMenuFail,
 } = chiTietSanPhamSlice.actions;
 
 export default chiTietSanPhamSlice.reducer;

@@ -14,18 +14,17 @@ import BottomSheet, {
   BottomSheetSectionList,
 } from '@gorhom/bottom-sheet';
 import Icon from 'react-native-vector-icons/FontAwesome6';
-import {BACKGROUND_BUTTON_COLOR} from '../../../../utils/contanst';
+import { BACKGROUND_BUTTON_COLOR } from '../../../utils/contanst';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {styles} from './bottomMuaSanPhamStyle';
-import {formatCurrency} from '../../../../utils/formatCurrency';
+import { formatCurrency } from '../../../utils/formatCurrency';
 import {useDispatch, useSelector} from 'react-redux';
 import {
-  getChiTietSanPhamRequest,
-  getChiTietSanPhamTuMenuRequest,
-} from '../../../../redux/reducers/slices/chiTietSanPhamSlice';
-import { setSanPham } from '../../../../redux/reducers/slices/muaSanPhamSlice';
+  getChiTietSanPhamTuMenuRequest
+} from '../../../redux/reducers/slices/chiTietSanPhamSlice';
+import { setSanPham } from '../../../redux/reducers/slices/muaSanPhamSlice';
 
-const BottomMuaSanPham = ({onChangeOpen, id}) => {
+const BottomMuaSanPhamCategories = ({onChangeOpen, id}) => {
   const dispatch = useDispatch();
   // ref
   const bottomSheetRef = useRef(null);
@@ -316,4 +315,4 @@ const BottomMuaSanPham = ({onChangeOpen, id}) => {
   );
 };
 
-export default BottomMuaSanPham;
+export default BottomMuaSanPhamCategories;

@@ -13,6 +13,9 @@ import Storage from '../../utils/Storage';
 import CategoriesText from '../main/categories/CategoriesText';
 import Geolocation from 'react-native-geolocation-service';
 import {getLocationMapFetch} from '../../redux/reducers/slices/locationMap';
+import BottomMuaSanPham from '../main/home/item/BottomMuaSanPham';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import BottomMuaSanPhamCategories from '../main/categories/BottomMuaSanPhamCategories';
 
 const Tab = createBottomTabNavigator();
 
@@ -27,15 +30,12 @@ const MainNavigation = () => {
       },
       error => Alert.alert('GetCurrentPosition Error', JSON.stringify(error)),
       // {enableHighAccuracy: true,}
-
     );
   };
 
   useEffect(() => {
     getCurrentPosition();
   }, []);
-
-
 
   useEffect(() => {
     if (position) {
@@ -133,7 +133,7 @@ const MainNavigation = () => {
 };
 
 const ExtraView = ({setModalVisible}) => {
-  const nameLocation = useSelector( state => state.locationMap.data.address);
+  const nameLocation = useSelector(state => state.locationMap.data.address);
 
   return (
     <Pressable
@@ -157,7 +157,12 @@ const ExtraView = ({setModalVisible}) => {
       }}>
       <View style={{justifyContent: 'center'}}>
         {/* <Text>Giao đến</Text> */}
-        <Text style={{maxWidth:200,color:'black',fontSize:14}} numberOfLines={1} ellipsizeMode="tail" >{nameLocation}</Text>
+        <Text
+          style={{maxWidth: 200, color: 'black', fontSize: 14}}
+          numberOfLines={1}
+          ellipsizeMode="tail">
+          {nameLocation}
+        </Text>
       </View>
       <Pressable
         onPress={() => {
@@ -202,30 +207,64 @@ const ExtraView = ({setModalVisible}) => {
 const HomeWithExtraView = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
+  //bottom tab home screen
+  const [isOpenBottomMuaHang, setIsOpenBottomMuaHang] = useState(false);
+  const [idFromMenu, setIdFromMenu] = useState('');
+
+  const openBottomMuaHang = id => {
+    setIdFromMenu(id);
+    setIsOpenBottomMuaHang(true);
+  };
+
   return (
-    <View style={{flex: 1}}>
-      <Home />
+    <GestureHandlerRootView style={{flex: 1}}>
+      <Home openBottomMuaHang={openBottomMuaHang} />
       <ExtraView setModalVisible={setIsModalVisible} />
       <ModalCartOrder
         isVisible={isModalVisible}
         setIsVisible={setIsModalVisible}
       />
-    </View>
+      {isOpenBottomMuaHang && (
+        <BottomMuaSanPham
+          isOpen={isOpenBottomMuaHang}
+          onChangeOpen={() => setIsOpenBottomMuaHang(false)}
+          id={idFromMenu}
+          // handleNavigate={navigateToBuyProduct}
+        />
+      )}
+    </GestureHandlerRootView>
   );
 };
 
 const CategoriesWithExtraView = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
+  //bottom tab home screen
+  const [isOpenBottomMuaHang, setIsOpenBottomMuaHang] = useState(false);
+  const [idFromMenu, setIdFromMenu] = useState('');
+
+  const openBottomMuaHang = id => {
+    setIdFromMenu(id);
+    setIsOpenBottomMuaHang(true);
+  };
+
   return (
-    <View style={{flex: 1}}>
-      <CategoriesText />
+    <GestureHandlerRootView style={{flex: 1}}>
+      <CategoriesText openBottomMuaHang={openBottomMuaHang} />
       <ExtraView setModalVisible={setIsModalVisible} />
       <ModalCartOrder
         isVisible={isModalVisible}
         setIsVisible={setIsModalVisible}
       />
-    </View>
+      {isOpenBottomMuaHang && (
+        <BottomMuaSanPhamCategories
+          isOpen={isOpenBottomMuaHang}
+          onChangeOpen={() => setIsOpenBottomMuaHang(false)}
+          id={idFromMenu}
+          // handleNavigate={navigateToBuyProduct}
+        />
+      )}
+    </GestureHandlerRootView>
   );
 };
 

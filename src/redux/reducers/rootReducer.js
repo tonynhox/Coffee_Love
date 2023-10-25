@@ -11,6 +11,7 @@ import donHangSlice from './slices/donHangSlice';
 import locationMapSlice from './slices/locationMap';
 import toppingSlice from './slices/toppingSlice';
 import favoriteSlice from './slices/favoriteSlice';
+import muaSanPhamSlice from './slices/muaSanPhamSlice';
 const rootReducer = combineReducers({
   users: userSlice,
   categories: categoriesSlice,
@@ -21,21 +22,9 @@ const rootReducer = combineReducers({
   don_hang: donHangSlice,
   locationMap: locationMapSlice,
   topping: toppingSlice,
-  favorite: favoriteSlice
+  favorite: favoriteSlice,
+  mua_san_pham: muaSanPhamSlice,
 });
 
-// export const appReducer = (state, action) => {
-//   if (action.type === 'logout') {
-//     const slices = getState();
-//     //reset
-//     Object.keys(slices).forEach(slice => {
-//       slices[slice] = slices[slice].initialState;
-//     });
-
-//     return slices;
-//   }
-
-//   return rootReducer(state, action);
-// };
 
 export default rootReducer;

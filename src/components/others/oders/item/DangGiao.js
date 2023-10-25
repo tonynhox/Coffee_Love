@@ -30,7 +30,7 @@ const DangGiao = () => {
   const data = useSelector(state => state.don_hang.dataDangGiao);
   const isLoading = useSelector(state => state.don_hang.isLoading);
   const id_user = useSelector(state => state.users.user.id_user);
-  // console.log('data', data);
+
   const fetchDonHang = () => {
     dispatch(getDonHangRequest({id_user: id_user}));
   };
