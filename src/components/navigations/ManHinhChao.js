@@ -10,12 +10,15 @@ import {useDispatch} from 'react-redux';
 import {getCategoryFetch} from '../../redux/reducers/slices/categoriesSlice';
 import {getTopOrderFetch} from '../../redux/reducers/slices/topOrderSlice';
 import {getProductAllFetch} from '../../redux/reducers/slices/productSlice';
-import { LoginSuccess, getOneUserFetch } from '../../redux/reducers/slices/userSlice';
-import { getFavoriteRequest } from '../../redux/reducers/slices/favoriteSlice';
+import {
+  LoginSuccess,
+  getOneUserFetch,
+} from '../../redux/reducers/slices/userSlice';
+import {getFavoriteRequest} from '../../redux/reducers/slices/favoriteSlice';
+import {getDataToppingRequest} from '../../redux/reducers/slices/toppingSlice';
 const Stack = createNativeStackNavigator();
 
 const ManHinh = () => {
-
   //check vao app lan dau
   const getDataUserLocal = async () => {
     if (navigationRef.isReady()) {
@@ -26,7 +29,6 @@ const ManHinh = () => {
         Storage.setItem('init', 'true');
         navigationRef.navigate('AppNavigation', {screen: 'UserNavigation'});
       } else {
-
         navigationRef.navigate('AppNavigation', {screen: 'MainNavigation'});
       }
     }
@@ -41,32 +43,34 @@ const ManHinh = () => {
       dispatch(getCategoryFetch()),
       dispatch(getTopOrderFetch()),
       dispatch(getProductAllFetch()),
-      checkLogin()
+      dispatch(getDataToppingRequest()),
+      checkLogin(),
     ]);
 
-    //check login
-    const checkLogin= async ()=>{
-      const token= await Storage.getItem('token');
-      const user= await Storage.getItem('id_user');
-      if(token!==null&&user!==null){
-        console.log('token nè',user);
-        dispatch(LoginSuccess({data:{token:token,id_user:user}}))
-        dispatch(getOneUserFetch({id_user:user}));
-        dispatch(getFavoriteRequest({id_user:user}));
-      }
+  //check login
+  const checkLogin = async () => {
+    const token = await Storage.getItem('token');
+    const user = await Storage.getItem('id_user');
+    if (token !== null && user !== null) {
+      console.log('token nè', user);
+      dispatch(LoginSuccess({data: {token: token, id_user: user}}));
+      dispatch(getOneUserFetch({id_user: user}));
+      dispatch(getFavoriteRequest({id_user: user}));
     }
+  };
 
   useEffect(() => {
     callAPI().then(() => {
       //call api xong thì chuyển màn hình
       getDataUserLocal();
     });
-
   }, []);
 
   return (
-    <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
-      <Text style={{color:'black',fontSize:60,fontWeight:'700'}} >COFFE {'\n'} LOVE</Text>
+    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <Text style={{color: 'black', fontSize: 60, fontWeight: '700'}}>
+        COFFE {'\n'} LOVE
+      </Text>
     </View>
   );
 };

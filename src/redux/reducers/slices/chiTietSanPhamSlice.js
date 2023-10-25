@@ -21,7 +21,7 @@ const chiTietSanPhamSlice = createSlice({
     getChiTietSanPhamFail: (state, action) => {
       state.isLoading = false;
       state.success = false;
-      state.data = null;
+      state.data = [];
       console.log('action.payload fail', action.payload);
     },
   },

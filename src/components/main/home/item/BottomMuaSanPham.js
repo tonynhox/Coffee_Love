@@ -14,19 +14,28 @@ import BottomSheet, {
   BottomSheetSectionList,
 } from '@gorhom/bottom-sheet';
 import Icon from 'react-native-vector-icons/FontAwesome6';
-import {BACKGROUND_BUTTON_COLOR} from '../../../utils/contanst';
+import { BACKGROUND_BUTTON_COLOR } from '../../../../utils/contanst';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
-import {styles} from './styles/bottomMuaSanPhamStyle';
-import {formatCurrency} from '../../../utils/formatCurrency';
+import {styles} from './bottomMuaSanPhamStyle';
+import { formatCurrency } from '../../../../utils/formatCurrency';
 import {useDispatch, useSelector} from 'react-redux';
-import {getDataToppingRequest} from '../../../redux/reducers/slices/toppingSlice';
+import { getChiTietSanPhamRequest } from '../../../../redux/reducers/slices/chiTietSanPhamSlice';
 
-const BottomMuaSanPham = ({isOpen, onChangeOpen, data, handleNavigate}) => {
-  const dispatch = useDispatch();
-
-  const isLoading = useSelector(state => state.topping.isLoading);
+const BottomMuaSanPham = ({isOpen, onChangeOpen, id, handleNavigate}) => {
   const dataToppingFetch = useSelector(state => state.topping.data);
   const user = useSelector(state => state.users.user);
+
+  const isLoading = useSelector(state => state.chi_tiet_san_pham.isLoading);
+  const dataChiTietSanPham = useSelector(state => state.chi_tiet_san_pham.data);
+
+
+  useEffect(() => {
+    const chiTietSanPhamRequest = () => {
+      dispatch(getChiTietSanPhamRequest(id));
+    };
+
+    chiTietSanPhamRequest();
+  }, []);
 
   useEffect(() => {
     if (isOpen) {
@@ -48,16 +57,8 @@ const BottomMuaSanPham = ({isOpen, onChangeOpen, data, handleNavigate}) => {
     setDataTopping(dataToppingFetch);
   }, [dataToppingFetch]);
 
-  const getToppingRequest = () => {
-    dispatch(getDataToppingRequest());
-  };
-
-  useEffect(() => {
-    getToppingRequest();
-  }, []);
-
   const [quantity, setQuantity] = useState(1);
-  const [total, setTotal] = useState(data.size[0].gia);
+  const [total, setTotal] = useState(1000);
 
   const handleTangSoLuong = () => {
     setQuantity(quantity + 1);
