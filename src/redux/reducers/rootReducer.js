@@ -8,7 +8,7 @@ import topOrdersSlice from './slices/topOrderSlice';
 import productSlice from './slices/productSlice';
 import donHangSlice from './slices/donHangSlice';
 
-import locationMapSlice from './slices/locationMap';
+import locationMapSlice from './slices/locationMapSlice';
 import toppingSlice from './slices/toppingSlice';
 import voucherSlide from './slices/voucherSlide';
 import scoreSlide from './slices/scoreSlide';

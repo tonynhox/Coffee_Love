@@ -19,14 +19,16 @@ import {getCartPaymentFetch} from '../../redux/reducers/slices/cartPaymentSlice'
 import Storage from '../../utils/Storage';
 import CategoriesText from '../main/categories/CategoriesText';
 import Geolocation from 'react-native-geolocation-service';
-import {getLocationMapFetch} from '../../redux/reducers/slices/locationMap';
+import {getLocationMapFetch, setMyLocation} from '../../redux/reducers/slices/locationMapSlice';
 import {getVoucherFetch} from '../../redux/reducers/slices/voucherSlide';
 import {getScoreFetch} from '../../redux/reducers/slices/scoreSlide';
+import ListStore from '../main/listStore/ListStore';
 
 const Tab = createBottomTabNavigator();
 
 const MainNavigation = () => {
-  const [position, setPosition] = useState({});
+  // const [position, setPosition] = useState({});
+  const position = useSelector(state => state.locationMap.data.myLocation);
 
   //vị trí hiện tại
   const getCurrentPosition = async () => {
@@ -37,7 +39,7 @@ const MainNavigation = () => {
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
         Geolocation.getCurrentPosition(
           pos => {
-            setPosition(pos);
+            dispatch(setMyLocation(pos?.coords));
           },
           error =>
             Alert.alert('GetCurrentPosition Error', JSON.stringify(error)),
@@ -55,8 +57,8 @@ const MainNavigation = () => {
     if (position) {
       dispatch(
         getLocationMapFetch({
-          lng: position?.coords?.longitude,
-          lat: position?.coords?.latitude,
+          lng: position?.longitude,
+          lat: position?.latitude,
         }),
       );
       // console.log(position.coords);
@@ -78,6 +80,7 @@ const MainNavigation = () => {
   }, [id_user]);
 
   return (
+    
     <Tab.Navigator
       screenOptions={({route}) => ({
         headerShown: false,
@@ -94,6 +97,12 @@ const MainNavigation = () => {
               return <Icon name="coffee-outline" size={25} color="#000" />;
             } else {
               return <Icon name="coffee-outline" size={25} color="#FF8C00" />;
+            }
+          } else if (route.name == 'ListStore') {
+            if (!focused) {
+              return <Icon name="store-search-outline" size={25} color="#000" />;
+            } else {
+              return <Icon name="store-search-outline" size={25} color="#FF8C00" />;
             }
           } else if (route.name == 'Voucher') {
             if (!focused) {
@@ -136,6 +145,16 @@ const MainNavigation = () => {
           animationTypeForReplace: 'push',
           animation: 'slide_from_right',
           tabBarLabel: 'Categories',
+        }}
+      />
+      <Tab.Screen
+        name="ListStore"
+        component={ListStore}
+        options={{
+          presentation: 'modal',
+          animationTypeForReplace: 'push',
+          animation: 'slide_from_right',
+          tabBarLabel: 'ListStore',
         }}
       />
       <Tab.Screen

@@ -23,7 +23,7 @@ export default function* rootSaga() {
     chiTietDonHangSaga(),
     donHangSaga(),
     chiTietDonHangSaga(),
-    // locationMapSaga(),
+    locationMapSaga(),
     toppingSaga(),
     voucherSaga(),
     scoreSaga(),
