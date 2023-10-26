@@ -6,6 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
   ActivityIndicator,
+  Alert,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -22,8 +23,26 @@ const Login = ({navigation}) => {
 
   const dispatch = useDispatch();
 
+  const showAlert = () => {
+    Alert.alert(
+      'Không Được Rổng!',
+      'Xin hãy nhập đầy đủ tên đăng nhập và mật khẩu',
+      [
+        {
+          text: 'Đồng ý',
+          onPress: () => console.log('Đã đồng ý'),
+        },
+      ],
+      { cancelable: false }
+    );
+  };
+
   const handleLogin = async () => {
-    dispatch(getUserFetch({tai_khoan, mat_khau, navigation}));
+    if (tai_khoan === '' || mat_khau === '') {
+      showAlert();
+    } else {
+      dispatch(getUserFetch({tai_khoan, mat_khau, navigation}));
+    }
   };
 
   const [showPassword, setShowPassword] = React.useState(false);

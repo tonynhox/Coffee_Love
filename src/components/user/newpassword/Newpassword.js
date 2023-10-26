@@ -1,4 +1,11 @@
-import {StyleSheet, Text, View, Pressable, TextInput} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Pressable,
+  TextInput,
+  Alert,
+} from 'react-native';
 import React, {useState} from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {styles} from './styles';
@@ -21,9 +28,27 @@ const Newpassword = props => {
 
   const dispatch = useDispatch();
 
+  const showAlert = () => {
+    Alert.alert(
+      'Không Được Rổng!',
+      'Vui lòng nhập đầy đủ thông tin',
+      [
+        {
+          text: 'Đồng ý',
+          onPress: () => console.log('Đã đồng ý'),
+        },
+      ],
+      {cancelable: false},
+    );
+  };
+
   const handleNewPass = () => {
-    if (mat_khau===pass) {
-      dispatch(changePassOtp({email, otp, mat_khau, navigation}));
+    if (email === '' || otp === '' || mat_khau === '') {
+      showAlert();
+    } else {
+      if (mat_khau === pass) {
+        dispatch(changePassOtp({email, otp, mat_khau, navigation}));
+      }
     }
   };
   return (

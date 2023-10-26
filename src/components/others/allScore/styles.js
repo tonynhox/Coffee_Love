@@ -1,27 +1,57 @@
 import {StyleSheet, Text, View} from 'react-native';
-import React from 'react';
 
 export const styles = StyleSheet.create({
-  cardFL: {
+  cardItemBottom: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  txtCategory: {
+    color: '#000',
+    fontWeight: '300',
+    paddingTop: 2,
+    fontSize: 13,
+  },
+  CardItemMid: {
+    marginTop: 1,
+  },
+  txtTitle: {
+    color: '#000',
+    fontWeight: '600',
+    fontSize: 18,
+  },
+  cardBottom: {
+    padding: 8,
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+  },
+
+  imgProduct: {
+    height: '100%',
+    width: '100%',
+    borderRadius: 10,
+    resizeMode: 'cover',
+  },
+  cardImg: {
+    width: '100%',
+    height: '50%',
+  },
+  cardProduct: {
+    marginVertical: 12,
+    height: 195,
+    width: 170,
+    // marginHorizontal:24,
     backgroundColor: '#fff',
     borderRadius: 10,
-    flexDirection: 'row',
-    marginHorizontal: 16,
-    marginVertical: 8,
+    elevation: 4,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 0,
+      height: 10,
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  img: {
-    height: 80,
-    resizeMode: 'contain',
-    width: 90,
-    marginLeft: -6,
+    shadowRadius: 10,
+    shadowOpacity: 0.51,
   },
   centeredText: {
     position: 'absolute',
@@ -35,41 +65,5 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
-  imgView: {
-    marginLeft: 14,
-  },
-  txtB: {
-    fontSize: 12,
-    color: '#000',
-    fontWeight: '300',
-    width: 200,
-    flexWrap: 'wrap',
-  },
-  txt: {
-    fontSize: 12,
-    color: '#000',
-    fontWeight: '300',
-    flexWrap: 'wrap',
-  },
-  txtTitleFL: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#000',
-    marginBottom: 6,
-    marginTop: 5,
-  },
-  bean: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: 60,
-  },
-  txtB2: {
-    fontSize: 12,
-    color: '#00FF00',
-    fontWeight: '300',
-    borderRadius: 5,
-    borderColor: '#00FF66',
-    borderWidth: 1,
-    borderStyle: 'solid',
-  },
+  
 });
