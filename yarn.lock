@@ -5902,6 +5902,16 @@ react-native-linear-gradient@^2.8.3:
   resolved "https://registry.yarnpkg.com/react-native-linear-gradient/-/react-native-linear-gradient-2.8.3.tgz#9a116649f86d74747304ee13db325e20b21e564f"
   integrity sha512-KflAXZcEg54PXkLyflaSZQ3PJp4uC4whM7nT/Uot9m0e/qxFV3p6uor1983D1YOBJbJN7rrWdqIjq0T42jOJyA==
 
+react-native-map4d-map@^2.7.0:
+  version "2.7.0"
+  resolved "https://registry.yarnpkg.com/react-native-map4d-map/-/react-native-map4d-map-2.7.0.tgz#49f826cbf8d5c434ac9bcb9e37870aae1e292c4f"
+  integrity sha512-tnaDQtToNXUNTfUabwpoo+XC2NlrByqWhV6WiLpaVgUZRa8Io5YC+vQ0rQyJB1DCg388Y1Dv2Wh4wPhrBa38Ow==
+
+react-native-map4d-services@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/react-native-map4d-services/-/react-native-map4d-services-1.0.2.tgz#5786ab69055ef16cc23d5614c88f296324f7de74"
+  integrity sha512-bVCsy/zE0faZC0kBNfZkMzVpxypU50jLEwIeRvYccopoybNGEkf4Ggq+6RRYaC4ZID1u8d85hwFforoXte8OxA==
+
 react-native-modal@^13.0.1:
   version "13.0.1"
   resolved "https://registry.yarnpkg.com/react-native-modal/-/react-native-modal-13.0.1.tgz#691f1e646abb96fa82c1788bf18a16d585da37cd"
