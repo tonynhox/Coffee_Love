@@ -24,6 +24,17 @@ export const scoreSlide = createSlice({
         ToastAndroid.SHORT,
       );
     },
+
+    getChangeScoreFetch: state => {
+      state.isLoading = true;
+    },
+    //action success
+    getChangeScoreSuccess: (state, action) => {
+      // state.score = action.payload;
+      //   console.log('store của Score: ', state.score);
+      state.isLoading = false;
+      ToastAndroid.show('Đổi Điểm Thành công', ToastAndroid.SHORT);
+    },
   },
 
   //error
@@ -34,7 +45,12 @@ export const scoreSlide = createSlice({
   },
 });
 
-export const {getScoreFetch, getScoreSuccess, getScoreFail} =
-  scoreSlide.actions;
+export const {
+  getScoreFetch,
+  getScoreSuccess,
+  getChangeScoreFetch,
+  getChangeScoreSuccess,
+  getScoreFail,
+} = scoreSlide.actions;
 
 export default scoreSlide.reducer;

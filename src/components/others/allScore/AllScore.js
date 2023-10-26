@@ -1,42 +1,70 @@
-import {StyleSheet, Text, View, FlatList, Image} from 'react-native';
+import {Text, View, Image, FlatList, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {styles} from './styles';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 
-const AllCore = () => {
+const TestScore = () => {
+  const data = useSelector(state => state.scores.score);
+  const isLoading = useSelector(state => state.scores.isLoading);
 
-  const allScore = useSelector(state => state.scores.score);
-  console.log("All Score: ", allScore);
-  const RenderItem = ({item}) => {
+  const id = useSelector(state => state.users.user.id_user);
+
+  const dispatch = useDispatch();
+
+  const handleChangeScore = item => {
+    dispatch(
+      getChangeScoreFetch({
+        id_user: id,
+        so_diem: item.diem,
+        id_voucher: item._id,
+        ten_voucher: item.ten_voucher,
+        gia_tri: item.gia_tri,
+        ngay_ket_thuc: item.ngay_ket_thuc,
+      }),
+    );
+  };
+
+  const renderItem = item => {
+    const {ten_voucher, ma_voucher, diem} = item.item;
+
     return (
-      <View style={styles.cardFL}>
-        <View>
+      <TouchableOpacity
+        style={styles.cardProduct}
+        onPress={() => {
+          handleChangeScore(item);
+        }}>
+        <View style={styles.cardImg}>
           <Image
-            style={styles.img}
+            style={styles.imgProduct}
             source={require('../../../assets/images/mochi.jpg')}
           />
           <Text style={styles.centeredText}>Coffee{'\n'}Love</Text>
         </View>
-        <View style={styles.imgView}>
-          <Text style={styles.txtTitleFL}>{item.ten_voucher}</Text>
-          <Text style={styles.txtB}>{item.mo_ta}</Text>
-          <View style={styles.bean}>
-            <Text style={styles.txtB2}>{item.diem}</Text>
-            <Text style={styles.txt}>Điểm</Text>
+        <View style={styles.cardBottom}>
+          <View style={styles.CardItemMid}>
+            <Text style={styles.txtTitle}>{ten_voucher}</Text>
+            <Text style={styles.txtCategory}>{ma_voucher}</Text>
+          </View>
+          <View style={styles.cardItemBottom}>
+            <Text style={styles.txtTitle}>{diem}</Text>
+            <Text style={styles.txtTitle}>Điểm</Text>
           </View>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
+
   return (
-    <FlatList
-      style={styles.container}
-      data={allScore}
-      renderItem={RenderItem}
-      keyExtractor={item => item.id}
-    />
+    <View>
+      <FlatList
+        data={data}
+        columnWrapperStyle={{justifyContent: 'space-between'}}
+        numColumns={2}
+        renderItem={renderItem}
+        keyExtractor={item => item._id.toString()}
+      />
+    </View>
   );
 };
 
-export default AllCore;
-var data = [{id: 1}, {id: 2}, {id: 3}, {id: 4}];
+export default TestScore;

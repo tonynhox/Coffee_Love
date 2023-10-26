@@ -5,6 +5,7 @@ import {
   TextInput,
   Pressable,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -35,9 +36,27 @@ const Otp = props => {
 
   const dispatch = useDispatch();
 
+  const showAlert = () => {
+    Alert.alert(
+      'Không Được Rổng!',
+      'Vui lòng nhập đầy đủ thông tin',
+      [
+        {
+          text: 'Đồng ý',
+          onPress: () => console.log('Đã đồng ý'),
+        },
+      ],
+      {cancelable: false},
+    );
+  };
+
   const handleOtp = () => {
     const otp = `${number}${number1}${number2}${number3}`;
-    dispatch(checkOtp({email, otp, navigation}));
+    if (email === '' || otp === '') {
+      showAlert();
+    } else {
+      dispatch(checkOtp({email, otp, navigation}));
+    }
   };
 
   return (
