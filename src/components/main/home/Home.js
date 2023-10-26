@@ -10,9 +10,12 @@ import CardUser from './item/CardUser';
 import Extention from './item/Extention';
 import {useNavigation} from '@react-navigation/native';
 import ModalCartOrder from '../../../utils/Modals/ModalCartOrder';
-const Home = () => {
+import BottomMuaSanPham from './item/BottomMuaSanPham';
+
+const Home = ({openBottomMuaHang}) => {
   const [scrollY] = useState(new Animated.Value(0));
   const navigation = useNavigation();
+
 
   const HeaderName = () => {
     return (
@@ -76,10 +79,11 @@ const Home = () => {
         <CardUser />
         <Extention />
         <TopOrder />
-        <Menu />
+        <Menu openBottomMuaHang={openBottomMuaHang} />
+        
       </ScrollView>
     </View>
-  );
+  ); //aaaaaaaaaaaaaaaaaaaa
 };
 
 export default React.memo(Home);

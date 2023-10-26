@@ -62,7 +62,6 @@ const donHangSlice = createSlice({
     },
 
     getChiTietDonHangSuccess: (state, action) => {
-      console.log('THANH CONG', action.payload);
       state.dataChiTietDonHang = action.payload.result;
       state.isChiTietDonHangLoading = false;
     },

@@ -17,6 +17,8 @@ import {
 import {getVoucherFetch} from '../../redux/reducers/slices/voucherSlide';
 import {getScoreFetch} from '../../redux/reducers/slices/scoreSlide';
 import { getLocationStoreFetch } from '../../redux/reducers/slices/locationMapSlice';
+import {getFavoriteRequest} from '../../redux/reducers/slices/favoriteSlice';
+import {getDataToppingRequest} from '../../redux/reducers/slices/toppingSlice';
 const Stack = createNativeStackNavigator();
 
 const ManHinh = () => {
@@ -45,6 +47,7 @@ const ManHinh = () => {
       dispatch(getTopOrderFetch()),
       dispatch(getProductAllFetch()),
       dispatch(getLocationStoreFetch()),
+      dispatch(getDataToppingRequest()),
       checkLogin(),
     ]);
 
@@ -58,6 +61,7 @@ const ManHinh = () => {
       dispatch(getOneUserFetch({id_user: user}));
       // dispatch(getVoucherFetch({id_user:user}));
       // dispatch(getScoreFetch());
+      dispatch(getFavoriteRequest({id_user: user}));
     }
   };
 

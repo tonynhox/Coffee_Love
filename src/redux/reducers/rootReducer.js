@@ -13,6 +13,8 @@ import toppingSlice from './slices/toppingSlice';
 import voucherSlide from './slices/voucherSlide';
 import scoreSlide from './slices/scoreSlide';
 
+import favoriteSlice from './slices/favoriteSlice';
+import muaSanPhamSlice from './slices/muaSanPhamSlice';
 const rootReducer = combineReducers({
   users: userSlice,
   categories: categoriesSlice,
@@ -25,6 +27,8 @@ const rootReducer = combineReducers({
   topping: toppingSlice,
   vouchers: voucherSlide,
   scores: scoreSlide,
+  favorite: favoriteSlice,
+  mua_san_pham: muaSanPhamSlice,
 });
 
 export default rootReducer;

@@ -11,10 +11,8 @@ const toppingSlice = createSlice({
   reducers: {
     getDataToppingRequest: state => {
       state.isLoading = true;
-      console.log('TOPPING CALLING');
     },
     getDataToppingSuccess: (state, action) => {
-      console.log('TOPPING: ', action.payload.data);
       state.data = action.payload.data;
       state.isLoading = false;
     },

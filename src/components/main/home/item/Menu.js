@@ -11,7 +11,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {styles} from '../styles';
 import {useNavigation} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
-const Menu = () => {
+const Menu = ({openBottomMuaHang}) => {
   const navigation = useNavigation();
   const data = useSelector(state => state.products.data);
   const isLoading = useSelector(state => state.products.isLoading);
@@ -42,6 +42,7 @@ const Menu = () => {
           <View style={styles.cardItemBottom}>
             <Text style={styles.txtTitle}>{size[1].gia}</Text>
             <TouchableOpacity
+              onPress={() => openBottomMuaHang({id: item.item._id})}
               style={{
                 borderRadius: 100,
                 backgroundColor: '#df7a00',
@@ -54,7 +55,7 @@ const Menu = () => {
       </TouchableOpacity>
     );
   };
-
+//aaaaaaaaaaaaaaaaaaa
   return isLoading ? (
     <Text>Loading...</Text>
   ) : (
@@ -75,11 +76,3 @@ const Menu = () => {
 };
 
 export default Menu;
-
-// var data = [
-//     {id:1},
-//     {id:2},
-//     {id:3},
-//     {id:4},
-//     {id:5},
-//     {id:6},]

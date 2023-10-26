@@ -26,6 +26,7 @@ const BottomMuaSanPham = ({isOpen, onChangeOpen, data, handleNavigate}) => {
 
   const isLoading = useSelector(state => state.topping.isLoading);
   const dataToppingFetch = useSelector(state => state.topping.data);
+  const user = useSelector(state => state.users.user);
 
   useEffect(() => {
     if (isOpen) {
@@ -34,7 +35,7 @@ const BottomMuaSanPham = ({isOpen, onChangeOpen, data, handleNavigate}) => {
   }, [isOpen]);
 
   useEffect(() => {
-    setTotal(data.size[0].gia);
+    setTotal(data.size[1].gia);
   }, [data]);
 
   const onChange = index => {
@@ -45,7 +46,7 @@ const BottomMuaSanPham = ({isOpen, onChangeOpen, data, handleNavigate}) => {
 
   useEffect(() => {
     setDataTopping(dataToppingFetch);
-  }, [dataToppingFetch])
+  }, [dataToppingFetch]);
 
   const getToppingRequest = () => {
     dispatch(getDataToppingRequest());
@@ -55,13 +56,8 @@ const BottomMuaSanPham = ({isOpen, onChangeOpen, data, handleNavigate}) => {
     getToppingRequest();
   }, []);
 
-  const [size, setSize] = useState();
-  const [topping, setTopping] = useState();
-  const [sugar, setSugar] = useState();
-  const [ice, setIce] = useState();
   const [quantity, setQuantity] = useState(1);
-  const [total, setTotal] = useState(data.size[0].gia);
-  const [price, setPrice] = useState(0);
+  const [total, setTotal] = useState(data.size[1].gia);
 
   const handleTangSoLuong = () => {
     setQuantity(quantity + 1);
@@ -78,11 +74,11 @@ const BottomMuaSanPham = ({isOpen, onChangeOpen, data, handleNavigate}) => {
 
   console.log('data topping', dataTopping);
   const handleChangeSize = id => {
-    constantPrice = data.size[0].gia;
+    constantPrice = data.size[1].gia;
     setDataSize(prevState => {
       return prevState.map(item => {
         if (item._id === id) {
-          setTotal(constantPrice + item.gia);
+          setTotal(item.gia);
           return {...item, isSelected: true};
         } else {
           return {...item, isSelected: false};
@@ -107,6 +103,22 @@ const BottomMuaSanPham = ({isOpen, onChangeOpen, data, handleNavigate}) => {
     });
   };
 
+  // hàm lọc size được chọn cho vào giỏ hàng
+  const handeSelectedSize = () => {
+    return dataSize.find(item => item.isSelected === true);
+  };
+
+  // hàm lọc topping được chọn cho vào giỏ hàng
+  const handleSelectedTopping = () => {
+    const newArrayTopping = dataTopping
+      .filter(item => item.isSelected) // Filter items with isSelected == true
+      .map(item => ({
+        ten_topping: item.ten_topping, // Add the ten_topping field
+        gia: item.gia, // Add the gia field
+      }));
+    return newArrayTopping;
+  };
+
   // ref
   const bottomSheetRef = useRef(null);
 
@@ -117,6 +129,7 @@ const BottomMuaSanPham = ({isOpen, onChangeOpen, data, handleNavigate}) => {
   const renderSize = ({item}) => {
     return (
       <TouchableOpacity
+        key={item._id}
         style={styles.toppingContainer}
         onPress={() => handleChangeSize(item._id)}>
         <Text style={styles.textTopping}>{item.ten_size}</Text>
@@ -137,6 +150,7 @@ const BottomMuaSanPham = ({isOpen, onChangeOpen, data, handleNavigate}) => {
   const renderTopping = ({item}) => {
     return (
       <TouchableOpacity
+        key={item._id}
         style={styles.toppingContainer}
         onPress={() => handleChangeTopping(item._id)}>
         <Text style={styles.textTopping}>{item.ten_topping}</Text>
@@ -168,12 +182,12 @@ const BottomMuaSanPham = ({isOpen, onChangeOpen, data, handleNavigate}) => {
             <Text style={styles.textTenSanPham}>{data.ten_san_pham}</Text>
             <View style={styles.giaTienContainer}>
               <Text style={styles.textGiaTien}>
-                {data.size[0].giam_gia == 0
+                {data.size[1].giam_gia == 0
                   ? null
-                  : formatCurrency(data.size[0].giam_gia)}
+                  : formatCurrency(data.size[1].giam_gia)}
               </Text>
               <Text style={styles.textGiaTienGiamGia}>
-                {formatCurrency(data.size[0].gia)}
+                {formatCurrency(data.size[1].gia)}
               </Text>
             </View>
           </View>
@@ -194,7 +208,7 @@ const BottomMuaSanPham = ({isOpen, onChangeOpen, data, handleNavigate}) => {
                 {/* list size */}
                 <>
                   {dataSize.map(item => (
-                    <View key={item.id}>{renderSize({item})}</View>
+                    <View key={item._id}>{renderSize({item})}</View>
                   ))}
                 </>
               </View>
@@ -216,7 +230,7 @@ const BottomMuaSanPham = ({isOpen, onChangeOpen, data, handleNavigate}) => {
 
                   {/* list topping */}
                   {dataTopping.map(item => (
-                    <View key={item.id}>{renderTopping({item})}</View>
+                    <View key={item._id}>{renderTopping({item})}</View>
                   ))}
                 </View>
               )}
@@ -253,7 +267,17 @@ const BottomMuaSanPham = ({isOpen, onChangeOpen, data, handleNavigate}) => {
 
           <TouchableOpacity
             style={styles.muaNgayButtonContainer}
-            onPress={() => handleNavigate(total * quantity)}>
+            onPress={() =>
+              handleNavigate({
+                id_user: user.id_user,
+                id_san_pham: data._id,
+                ten_san_pham: data.ten_san_pham,
+                size: handeSelectedSize().ten_size,
+                gia: handeSelectedSize().gia,
+                so_luong: quantity,
+                topping: handleSelectedTopping(),
+              })
+            }>
             <Text style={styles.textMuaNgay}>
               Mua ngay ({formatCurrency(total * quantity)})
             </Text>

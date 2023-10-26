@@ -24,7 +24,6 @@ export const userSlice = createSlice({
     //action success
     LoginSuccess: (state, action) => {
       state.user = action.payload.data;
-      console.log('store của user', state.user);
       state.isLogin = true;
       state.isLoading = false;
       ToastAndroid.show('Đăng nhập thành công', ToastAndroid.SHORT);

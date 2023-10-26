@@ -23,6 +23,9 @@ import {getLocationMapFetch, setMyLocation} from '../../redux/reducers/slices/lo
 import {getVoucherFetch} from '../../redux/reducers/slices/voucherSlide';
 import {getScoreFetch} from '../../redux/reducers/slices/scoreSlide';
 import ListStore from '../main/listStore/ListStore';
+import BottomMuaSanPham from '../main/home/item/BottomMuaSanPham';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import BottomMuaSanPhamCategories from '../main/categories/BottomMuaSanPhamCategories';
 
 const Tab = createBottomTabNavigator();
 
@@ -250,30 +253,64 @@ const ExtraView = ({setModalVisible}) => {
 const HomeWithExtraView = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
+  //bottom tab home screen
+  const [isOpenBottomMuaHang, setIsOpenBottomMuaHang] = useState(false);
+  const [idFromMenu, setIdFromMenu] = useState('');
+
+  const openBottomMuaHang = id => {
+    setIdFromMenu(id);
+    setIsOpenBottomMuaHang(true);
+  };
+
   return (
-    <View style={{flex: 1}}>
-      <Home />
+    <GestureHandlerRootView style={{flex: 1}}>
+      <Home openBottomMuaHang={openBottomMuaHang} />
       <ExtraView setModalVisible={setIsModalVisible} />
       <ModalCartOrder
         isVisible={isModalVisible}
         setIsVisible={setIsModalVisible}
       />
-    </View>
+      {isOpenBottomMuaHang && (
+        <BottomMuaSanPham
+          isOpen={isOpenBottomMuaHang}
+          onChangeOpen={() => setIsOpenBottomMuaHang(false)}
+          id={idFromMenu}
+          // handleNavigate={navigateToBuyProduct}
+        />
+      )}
+    </GestureHandlerRootView>
   );
 };
 
 const CategoriesWithExtraView = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
+  //bottom tab home screen
+  const [isOpenBottomMuaHang, setIsOpenBottomMuaHang] = useState(false);
+  const [idFromMenu, setIdFromMenu] = useState('');
+
+  const openBottomMuaHang = id => {
+    setIdFromMenu(id);
+    setIsOpenBottomMuaHang(true);
+  };
+
   return (
-    <View style={{flex: 1}}>
-      <CategoriesText />
+    <GestureHandlerRootView style={{flex: 1}}>
+      <CategoriesText openBottomMuaHang={openBottomMuaHang} />
       <ExtraView setModalVisible={setIsModalVisible} />
       <ModalCartOrder
         isVisible={isModalVisible}
         setIsVisible={setIsModalVisible}
       />
-    </View>
+      {isOpenBottomMuaHang && (
+        <BottomMuaSanPhamCategories
+          isOpen={isOpenBottomMuaHang}
+          onChangeOpen={() => setIsOpenBottomMuaHang(false)}
+          id={idFromMenu}
+          // handleNavigate={navigateToBuyProduct}
+        />
+      )}
+    </GestureHandlerRootView>
   );
 };
 

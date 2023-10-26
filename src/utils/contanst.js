@@ -31,3 +31,8 @@ export const style_text_khong_co_du_lieu = {
   color: BACKGROUND_BUTTON_COLOR,
   marginTop: 20,
 };
+
+export const code_trang_thai_yeu_thich = {
+  yeu_thich: 10,
+  bo_yeu_thich: 11,
+};

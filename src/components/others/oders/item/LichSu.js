@@ -80,7 +80,7 @@ const LichSu = () => {
         {/* Don hang dang cho xac nhan */}
         <TouchableOpacity
           style={styles.donHangChoContainer}
-          onPress={() => navigation.navigate('OrderDetail', {item: item._id})}>
+          onPress={() => navigation.navigate('OrderDetail', {id_don_hang: item._id})}>
           <Text style={styles.textDonHangDangChoXacNhan}>
             Đơn hàng của bạn đã được giao thành công
           </Text>

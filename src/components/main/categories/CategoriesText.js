@@ -12,7 +12,7 @@ import {
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useSelector} from 'react-redux';
 
-const CategoriesText = () => {
+const CategoriesText = ({openBottomMuaHang}) => {
   const bigData = useSelector(state => state.categories.data);
   const trashData = [-1, 0];
   const customBigData = [...trashData, ...bigData];
@@ -124,6 +124,7 @@ const CategoriesText = () => {
         style={{flexDirection: 'row', marginVertical: 10, borderRadius: 4}}
         onPress={() => handleNavigate(item._id)}>
         <TouchableOpacity
+          onPress={() => openBottomMuaHang({id: item._id})}
           style={{
             position: 'absolute',
             bottom: 0,
