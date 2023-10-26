@@ -18,6 +18,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {
   BACKGROUND_BUTTON_COLOR,
   color_don_hang,
+  trang_thai_don_hang,
 } from '../../../../utils/contanst';
 import {getDonHangRequest} from '../../../../redux/reducers/slices/donHangSlice';
 
@@ -27,7 +28,7 @@ const LichSu = () => {
   const data = useSelector(state => state.don_hang.dataLichSu);
   const isLoading = useSelector(state => state.don_hang.isLoading);
   const id_user = useSelector(state => state.users.user.id_user);
-  
+
   const fetchDonHang = () => {
     dispatch(getDonHangRequest({id_user: id_user}));
   };
@@ -43,6 +44,9 @@ const LichSu = () => {
   }, []);
 
   const DaGiaoItem = ({item, id}) => {
+    // check đã hủy hàng hay chưa
+    const isCanceled = item.ma_trang_thai == trang_thai_don_hang.da_huy;
+
     return (
       <View style={styles.itemContainer}>
         {/* Hinh anh, ten, so luong, size, dia chi */}
@@ -61,7 +65,9 @@ const LichSu = () => {
               </Text>
             </View>
             <View>
-              <Text style={styles.textHoanThanh}>Hoàn thành</Text>
+              <Text style={styles.textHoanThanh}>
+                {isCanceled ? 'Đã hủy' : 'Hoàn thành'}
+              </Text>
             </View>
           </View>
         </View>
@@ -80,21 +86,30 @@ const LichSu = () => {
         {/* Don hang dang cho xac nhan */}
         <TouchableOpacity
           style={styles.donHangChoContainer}
-          onPress={() => navigation.navigate('OrderDetail', {id_don_hang: item._id})}>
+          onPress={() =>
+            navigation.navigate('OrderDetail', {id_don_hang: item._id})
+          }>
           <Text style={styles.textDonHangDangChoXacNhan}>
-            Đơn hàng của bạn đã được giao thành công
+            {isCanceled
+              ? 'Đơn hàng đã hủy'
+              : 'Đơn hàng của bạn đã được giao thành công'}
           </Text>
           <Icon name="angle-right" size={20} color={'#424141'} />
         </TouchableOpacity>
 
         {/* Neu co sai sot */}
         <View style={styles.saiSotContainer}>
-          <Text style={styles.textSaiSot}>
-            Xin hãy đánh giá để chúng tôi có thêm động lực và cải thiện sản phẩm
-          </Text>
-          <TouchableOpacity style={styles.buttonCancel}>
-            <Text style={styles.textHuyDon}>Đánh giá</Text>
-          </TouchableOpacity>
+          {isCanceled || (
+            <>
+              <Text style={styles.textSaiSot}>
+                Xin hãy đánh giá để chúng tôi có thêm động lực và cải thiện sản
+                phẩm
+              </Text>
+              <TouchableOpacity style={styles.buttonCancel}>
+                <Text style={styles.textHuyDon}>Đánh giá</Text>
+              </TouchableOpacity>
+            </>
+          )}
         </View>
       </View>
     );

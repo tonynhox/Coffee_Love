@@ -4,9 +4,11 @@ import {trang_thai_don_hang} from '../../../utils/contanst';
 const initialState = {
   isLoading: true,
   isChiTietDonHangLoading: true,
+  isThayDoiTrangThaiDonHangLoading: false,
   dataDangGiao: [],
   dataDanhGia: [],
   dataLichSu: [],
+
   dataChiTietDonHang: null,
 };
 
@@ -21,9 +23,6 @@ const donHangSlice = createSlice({
       state.isChiTietDonHangLoading = true;
     },
     getDonHangSuccess: (state, action) => {
-      console.log('THANH CONG', action.payload);
-      state.data = action.payload;
-
       let counterProcess = 0; // đếm số item của for
       const dangGiaoArray = [];
       const danhGiaArray = [];
@@ -55,6 +54,7 @@ const donHangSlice = createSlice({
           state.dataDanhGia = danhGiaArray;
           state.dataLichSu = lichSuArray;
           state.isLoading = false;
+          state.isThayDoiTrangThaiDonHangLoading = false;
         }
       }
 
@@ -75,6 +75,31 @@ const donHangSlice = createSlice({
       state.isLoading = false;
       console.log(action.payload);
     },
+
+    // thay doi trang thai don hang
+    thayDoiTrangThaiDonHangRequest: state => {
+      state.isThayDoiTrangThaiDonHangLoading = true;
+    },
+    getThayDoiSuccess: (state, action) => {
+      if (action.payload.result) {
+        let id_match = '';
+        state.dataDangGiao = state.dataDangGiao.filter(item => {
+          if (item._id !== action.payload.result._id) {
+            return true; // Keep the item in the filtered array
+          } else {
+            id_match = item._id; // Set id_match to item._id
+            state.dataLichSu.push(item);
+            return false; // Exclude this item from the filtered array
+          }
+        });
+
+        state.isThayDoiTrangThaiDonHangLoading = false;
+      }
+    },
+    getThayDoiFail: (state, action) => {
+      console.log('THAT BAI', action.payload);
+      state.isThayDoiTrangThaiDonHangLoading = false;
+    },
   },
 });
 
@@ -85,5 +110,8 @@ export const {
   getChiTietDonHangRequest,
   getChiTietDonHangSuccess,
   getChiTietDonHangFail,
+  thayDoiTrangThaiDonHangRequest,
+  getThayDoiSuccess,
+  getThayDoiFail,
 } = donHangSlice.actions;
 export default donHangSlice.reducer;
