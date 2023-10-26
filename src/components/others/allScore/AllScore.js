@@ -2,6 +2,8 @@ import {Text, View, Image, FlatList, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {styles} from './styles';
 import {useSelector, useDispatch} from 'react-redux';
+import { getChangeScoreFetch } from '../../../redux/reducers/slices/scoreSlide';
+
 
 const TestScore = () => {
   const data = useSelector(state => state.scores.score);
