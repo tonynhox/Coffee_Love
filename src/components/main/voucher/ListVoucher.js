@@ -120,11 +120,12 @@ const ListVoucher = () => {
           </TouchableOpacity>
         </View>
         <View style={styles.cardRow}>
-          <TouchableOpacity style={styles.cardExtention}>
+          <TouchableOpacity
+            style={styles.cardExtention}
+            onPress={() => navigation.navigate('ScoreHistory')}>
             <Icon
               name="file-search-outline"
               style={[styles.icon, {color: '#FF8C00', fontSize: 26}]}
-              onPress={() => navigation.navigate('ScoreHistory')}
             />
             <Text style={styles.txtExtention}>Lịch sử điểm</Text>
           </TouchableOpacity>

@@ -11,6 +11,7 @@ import {donHangSaga,chiTietDonHangSaga } from './itemSagas/donHangSaga';
 
 import locationMapSaga from './itemSagas/locationMapSaga';
 import toppingSaga from './itemSagas/toppingSaga';
+import historyScoreSaga from './itemSagas/historyScoreSaga';
 export default function* rootSaga() {
   yield all([
     userSaga(),
@@ -27,5 +28,6 @@ export default function* rootSaga() {
     toppingSaga(),
     voucherSaga(),
     scoreSaga(),
+    historyScoreSaga(),
   ]);
 }

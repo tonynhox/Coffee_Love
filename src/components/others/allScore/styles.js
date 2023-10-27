@@ -38,7 +38,7 @@ export const styles = StyleSheet.create({
     height: '50%',
   },
   cardProduct: {
-    marginVertical: 12,
+    marginVertical: 5,
     height: 195,
     width: 170,
     // marginHorizontal:24,
@@ -65,5 +65,8 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
-  
+  container: {
+    flex: 1,
+    padding: 20,
+  },
 });

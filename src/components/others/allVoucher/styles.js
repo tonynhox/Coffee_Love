@@ -22,7 +22,7 @@ export const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   imgView: {
-    marginLeft: 14,
+    marginLeft: 5,
   },
   txtB: {
     fontSize: 12,

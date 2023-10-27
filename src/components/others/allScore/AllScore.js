@@ -2,11 +2,11 @@ import {Text, View, Image, FlatList, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {styles} from './styles';
 import {useSelector, useDispatch} from 'react-redux';
-import { getChangeScoreFetch } from '../../../redux/reducers/slices/scoreSlide';
+import {getChangeScoreFetch} from '../../../redux/reducers/slices/scoreSlide';
 
-
-const TestScore = () => {
+const AllScore = () => {
   const data = useSelector(state => state.scores.score);
+  // console.log('data score: ', data);
   const isLoading = useSelector(state => state.scores.isLoading);
 
   const id = useSelector(state => state.users.user.id_user);
@@ -14,14 +14,15 @@ const TestScore = () => {
   const dispatch = useDispatch();
 
   const handleChangeScore = item => {
+    const {diem, _id, ten_voucher, gia_tri, ngay_ket_thuc} = item.item;
     dispatch(
       getChangeScoreFetch({
         id_user: id,
-        so_diem: item.diem,
-        id_voucher: item._id,
-        ten_voucher: item.ten_voucher,
-        gia_tri: item.gia_tri,
-        ngay_ket_thuc: item.ngay_ket_thuc,
+        so_diem: diem,
+        id_voucher: _id,
+        ten_voucher: ten_voucher,
+        gia_tri: gia_tri,
+        ngay_ket_thuc: ngay_ket_thuc,
       }),
     );
   };
@@ -48,8 +49,8 @@ const TestScore = () => {
             <Text style={styles.txtCategory}>{ma_voucher}</Text>
           </View>
           <View style={styles.cardItemBottom}>
-            <Text style={styles.txtTitle}>{diem}</Text>
-            <Text style={styles.txtTitle}>Điểm</Text>
+            <Text style={[styles.txtTitle, {color: '#00FF00'}]}>{diem}</Text>
+            <Text style={[styles.txtTitle, {color: '#FF8C00'}]}>Điểm</Text>
           </View>
         </View>
       </TouchableOpacity>
@@ -57,16 +58,17 @@ const TestScore = () => {
   };
 
   return (
-    <View>
+    <View style={styles.container}>
       <FlatList
+        
         data={data}
         columnWrapperStyle={{justifyContent: 'space-between'}}
         numColumns={2}
         renderItem={renderItem}
-        keyExtractor={item => item._id.toString()}
+        keyExtractor={item => item._id}
       />
     </View>
   );
 };
 
-export default TestScore;
+export default AllScore;

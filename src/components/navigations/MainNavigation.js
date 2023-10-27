@@ -23,6 +23,7 @@ import {getLocationMapFetch, setMyLocation} from '../../redux/reducers/slices/lo
 import {getVoucherFetch} from '../../redux/reducers/slices/voucherSlide';
 import {getScoreFetch} from '../../redux/reducers/slices/scoreSlide';
 import ListStore from '../main/listStore/ListStore';
+import { getHistoryScoreFetch } from '../../redux/reducers/slices/historyScoreSlide';
 
 const Tab = createBottomTabNavigator();
 
@@ -75,6 +76,7 @@ const MainNavigation = () => {
       dispatch(getCartPaymentFetch({id_user: id_user}));
       dispatch(getVoucherFetch({id_user: id_user}));
       dispatch(getScoreFetch());
+      dispatch(getHistoryScoreFetch({id_user: id_user}));
       console.log('id_user', id_user);
     }
   }, [id_user]);

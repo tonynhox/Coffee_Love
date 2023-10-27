@@ -3,19 +3,29 @@ import React from 'react';
 import {styles} from './styles';
 import Icon from 'react-native-vector-icons/FontAwesome6';
 import { useSelector } from 'react-redux';
+import moment from 'moment';
 
 const ScoreHistory = () => {
 
-  // const doi_diem = useSelector(state => state.users.user.doi_diem);
+  const historyScore = useSelector(state => state.historyScores.historyScore);
+  // console.log("historyScore: ", historyScore);
+
+  const date = (item) =>{
+    const Date = item.ngay_doi;
+    const isValid = moment(Date).format('MMMM Do YYYY, h:mm:ss a');
+    return isValid;
+  }
+
 
   const renderItem = item => {
+    const {ten_doi_diem, ngay_doi, so_diem} = item.item;
     return (
       <View style={styles.cardScore}>
         <View>
-          <Text style={styles.datetimetxt}>14:39 - 23/10/2023</Text>
-          <Text style={styles.txtname}>Đơn hàng #97648576490</Text>
+          <Text style={styles.datetimetxt}>{date(item)}</Text>
+          <Text style={styles.txtname}>{ten_doi_diem}</Text>
         </View>
-        <Text style={styles.score}>177</Text>
+        <Text style={styles.score}>{so_diem}</Text>
       </View>
     );
   };
@@ -24,9 +34,9 @@ const ScoreHistory = () => {
       <View style={styles.container2}>
         <Text style={styles.titleContainer}>ScoreHistory</Text>
         <FlatList
-          data={data}
+          data={historyScore}
           renderItem={renderItem}
-          keyExtractor={item => item.id}
+          keyExtractor={item => item._id}
         />
       </View>
     </View>
