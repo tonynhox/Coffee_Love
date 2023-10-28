@@ -20,7 +20,11 @@ import {
   color_don_hang,
   trang_thai_don_hang,
 } from '../../../../utils/contanst';
-import {getDonHangRequest} from '../../../../redux/reducers/slices/donHangSlice';
+import {
+  getDanhGiaRequest,
+  getDonHangRequest,
+} from '../../../../redux/reducers/slices/donHangSlice';
+import ModalDanhGia from './ModalDanhGia';
 
 const LichSu = () => {
   const dispatch = useDispatch();
@@ -28,6 +32,11 @@ const LichSu = () => {
   const data = useSelector(state => state.don_hang.dataLichSu);
   const isLoading = useSelector(state => state.don_hang.isLoading);
   const id_user = useSelector(state => state.users.user.id_user);
+  const email = useSelector(state => state.users.user.email);
+  const ho_ten = useSelector(state => state.users.user.ho_ten);
+  const isDanhGiaLoading = useSelector(
+    state => state.don_hang.isDanhGiaLoading,
+  );
 
   const fetchDonHang = () => {
     dispatch(getDonHangRequest({id_user: id_user}));
@@ -42,6 +51,23 @@ const LichSu = () => {
       setRefreshing(false);
     }, 1000);
   }, []);
+
+  const [isVisible, setIsVisible] = useState({isVisible: false, id: ''});
+  const toggleModal = id => {
+    setIsVisible({isVisible: !isVisible.isVisible, id: id});
+  };
+  const sendRate = data => {
+    setIsVisible(!{isVisible: !isVisible.isVisible, id: ''});
+    const newData = {
+      id_don_hang: data.id_don_hang,
+      so_sao: data.so_sao,
+      danh_gia: data.danh_gia,
+      hinh_anh_danh_gia: data.hinh_anh_danh_gia,
+      email: email,
+      ten_user: ho_ten,
+    };
+    dispatch(getDanhGiaRequest(newData));
+  };
 
   const DaGiaoItem = ({item, id}) => {
     // check đã hủy hàng hay chưa
@@ -105,7 +131,9 @@ const LichSu = () => {
                 Xin hãy đánh giá để chúng tôi có thêm động lực và cải thiện sản
                 phẩm
               </Text>
-              <TouchableOpacity style={styles.buttonCancel}>
+              <TouchableOpacity
+                style={styles.buttonCancel}
+                onPress={() => toggleModal(item._id)}>
                 <Text style={styles.textHuyDon}>Đánh giá</Text>
               </TouchableOpacity>
             </>
@@ -126,16 +154,36 @@ const LichSu = () => {
               Không có lịch sử đơn hàng
             </Text>
           ) : (
-            <FlatList
-              style={{marginVertical: 3}}
-              data={data}
-              renderItem={DaGiaoItem}
-              keyExtractor={(item, index) => index.toString()}
-              // ItemSeparatorComponent={() => <View style={{height: 10}} />}
-              refreshControl={
-                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-              }
-            />
+            <>
+              <FlatList
+                style={{marginVertical: 3}}
+                data={data}
+                renderItem={DaGiaoItem}
+                keyExtractor={(item, index) => index.toString()}
+                // ItemSeparatorComponent={() => <View style={{height: 10}} />}
+                refreshControl={
+                  <RefreshControl
+                    refreshing={refreshing}
+                    onRefresh={onRefresh}
+                  />
+                }
+              />
+
+              {isDanhGiaLoading && (
+                <View style={styles.thayDoiLoading}>
+                  <ActivityIndicator
+                    size="large"
+                    color={BACKGROUND_BUTTON_COLOR}
+                  />
+                </View>
+              )}
+
+              <ModalDanhGia
+                isVisible={isVisible}
+                onCancel={toggleModal}
+                sendRate={sendRate}
+              />
+            </>
           )}
         </>
       )}
@@ -338,5 +386,12 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: BACKGROUND_BUTTON_COLOR,
     marginTop: 20,
+  },
+  thayDoiLoading: {
+    position: 'absolute',
+    top: '35%',
+    left: 0,
+    bottom: 0,
+    right: 0,
   },
 });

@@ -1,28 +1,32 @@
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity, Dimensions} from 'react-native';
 import React, {useState} from 'react';
 import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/FontAwesome6';
+import { modal_color_don_hang } from '../../../../utils/contanst';
 
-const ModalHuyDonHang = ({isVisible, toggleModal, onConfirm}) => {
+const ModalHuyDonHang = ({idProduct, isVisible, toggleModal, onConfirm}) => {
  
   const confirmCancel = () => {
-    onConfirm();
+    onConfirm(isVisible.id);
   };
 
   return (
     <Modal
-      isVisible={isVisible}
+      isVisible={isVisible.isVisible}
+      backdropOpacity={0.3}
       onBackdropPress={() => toggleModal()}
       backdropTransitionOutTiming={0}
-      animationIn={'wobble'}>
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      animationIn={'zoomIn'}
+      animationOut={'zoomOut'}>
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', }}>
         <View
           style={{
-            backgroundColor: '#FBDD9F',
+            backgroundColor: modal_color_don_hang.background,
             padding: 25,
             borderRadius: 10,
             flexDirection: 'row',
             alignItems: 'center',
+            // width: Dimensions.get('window').width - 20
           }}>
           {/* View icon va noi dung */}
           <Icon name="mug-hot" size={60} color="#E98001" />
@@ -78,7 +82,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     paddingVertical: 5,
-    backgroundColor: '#E98001',
+    backgroundColor: modal_color_don_hang.button,
     width: 100,
     justifyContent: 'center',
     alignItems: 'center',

@@ -15,7 +15,7 @@ import {
 } from '../../../utils/contanst';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
-import {getChiTietDonHangRequest} from '../../../redux/reducers/slices/donHangSlice';
+import {getChiTietDonHangRequest, re_checkTrangThaiDonHangRequest} from '../../../redux/reducers/slices/donHangSlice';
 import {ActivityIndicator} from 'react-native';
 import {formatCurrency} from '../../../utils/formatCurrency';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
@@ -128,7 +128,13 @@ const OrderDetail = () => {
     const fetchChiTietDonHang = () => {
       dispatch(getChiTietDonHangRequest({id_don_hang: id_don_hang}));
     };
+
+    const re_checkTrangThai = () => {
+      dispatch(re_checkTrangThaiDonHangRequest({id_don_hang: id_don_hang}));
+    };
+
     fetchChiTietDonHang();
+    re_checkTrangThai();
   }, []);
 
   const transition = {

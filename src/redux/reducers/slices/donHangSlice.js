@@ -1,10 +1,12 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {trang_thai_don_hang} from '../../../utils/contanst';
+import {ToastAndroid} from 'react-native';
 
 const initialState = {
   isLoading: true,
   isChiTietDonHangLoading: true,
   isThayDoiTrangThaiDonHangLoading: false,
+  isDanhGiaLoading: false,
   dataDangGiao: [],
   dataDanhGia: [],
   dataLichSu: [],
@@ -50,15 +52,13 @@ const donHangSlice = createSlice({
         // để chắc chắn là đã duyệt hết tất cả các item của for
         // trước khi loading xong
         if (counterProcess === action.payload.result.length) {
-          state.dataDangGiao = dangGiaoArray;
-          state.dataDanhGia = danhGiaArray;
-          state.dataLichSu = lichSuArray;
+          state.dataDangGiao = dangGiaoArray.reverse();
+          state.dataDanhGia = danhGiaArray.reverse();
+          state.dataLichSu = lichSuArray.reverse();
           state.isLoading = false;
           state.isThayDoiTrangThaiDonHangLoading = false;
         }
       }
-
-      console.log('state.dataDangGiao', state.dataDanhGia);
     },
 
     getChiTietDonHangSuccess: (state, action) => {
@@ -83,7 +83,7 @@ const donHangSlice = createSlice({
     getThayDoiSuccess: (state, action) => {
       if (action.payload.result) {
         let id_match = '';
-        state.dataDangGiao = state.dataDangGiao.filter(item => {
+        state.dataDangGiao = state.dataDangGiao.reverse().filter(item => {
           if (item._id !== action.payload.result._id) {
             return true; // Keep the item in the filtered array
           } else {
@@ -100,6 +100,39 @@ const donHangSlice = createSlice({
       console.log('THAT BAI', action.payload);
       state.isThayDoiTrangThaiDonHangLoading = false;
     },
+
+    // danh gia
+    getDanhGiaRequest: state => {
+      state.isDanhGiaLoading = true;
+    },
+
+    getDanhGiaSuccess: (state, action) => {
+      if (action.payload.result) {
+        let id_match = '';
+        state.dataLichSu = state.dataLichSu.reverse().filter(item => {
+          if (item._id !== action.payload.result._id) {
+            return true; // Keep the item in the filtered array
+          } else {
+            id_match = item._id; // Set id_match to item._id
+            state.dataDanhGia.unshift(action.payload.result);
+            return false; // Exclude this item from the filtered array
+          }
+        });
+
+        state.isDanhGiaLoading = false;
+        ToastAndroid.show('Đánh giá thành công', ToastAndroid.SHORT);
+      }
+    },
+
+    getDanhGiaFail: (state, action) => {
+      console.log('THAT BAI', action.payload);
+      state.isDanhGiaLoading = false;
+    },
+
+    // real-time check trang thai
+    re_checkTrangThaiDonHangRequest: state => {
+      console.log("EXECUTED")
+    },
   },
 });
 
@@ -113,5 +146,9 @@ export const {
   thayDoiTrangThaiDonHangRequest,
   getThayDoiSuccess,
   getThayDoiFail,
+  getDanhGiaRequest,
+  getDanhGiaSuccess,
+  getDanhGiaFail,
+  re_checkTrangThaiDonHangRequest
 } = donHangSlice.actions;
 export default donHangSlice.reducer;

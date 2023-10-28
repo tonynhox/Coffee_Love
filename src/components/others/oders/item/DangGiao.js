@@ -38,21 +38,22 @@ const DangGiao = () => {
   );
   const id_user = useSelector(state => state.users.user.id_user);
 
-// useEffect(() => {
-    
-//   }, [isThayDoiTrangThaiDonHangLoading]);
+  // useEffect(() => {
+
+  //   }, [isThayDoiTrangThaiDonHangLoading]);
 
   const fetchDonHang = () => {
     dispatch(getDonHangRequest({id_user: id_user}));
   };
 
-  const [isVisible, setIsVisible] = React.useState(false);
-  const handleShowModalHuyDon = () => {
-    setIsVisible(!isVisible);
+  const [idProduct, setIdProduct] = React.useState('');
+  const [isVisible, setIsVisible] = React.useState({isVisible: false, id: ''});
+  const handleShowModalHuyDon = (id) => {
+    setIsVisible({isVisible: !isVisible.isVisible, id: id});
   };
 
-  const handelComfirmCancel = id_don_hang => {
-    setIsVisible(!isVisible);
+  const handelComfirmCancel = (id_don_hang) => {
+    setIsVisible({isVisible: !isVisible.isVisible, id: id_don_hang});
     dispatch(
       thayDoiTrangThaiDonHangRequest({
         id_don_hang: id_don_hang,
@@ -159,18 +160,12 @@ const DangGiao = () => {
               <TouchableOpacity
                 style={styles.buttonCancel}
                 disabled={isEnableCancel}
-                onPress={() => handleShowModalHuyDon()}>
+                onPress={() => handleShowModalHuyDon(item._id)}>
                 <Text style={styles.textHuyDon}>Huỷ đơn</Text>
               </TouchableOpacity>
             </>
           )}
         </View>
-
-        <ModalHuyDonHang
-          isVisible={isVisible}
-          toggleModal={handleShowModalHuyDon}
-          onConfirm={() => handelComfirmCancel(item._id)}
-        />
       </View>
     );
   };
@@ -208,6 +203,11 @@ const DangGiao = () => {
                   />
                 </View>
               )}
+              <ModalHuyDonHang
+                isVisible={isVisible}
+                toggleModal={handleShowModalHuyDon}
+                onConfirm={idProduct => handelComfirmCancel(idProduct)}
+              />
             </>
           )}
         </>

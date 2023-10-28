@@ -10,6 +10,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNavigationContainerRef} from '@react-navigation/native';
 import Map from './src/components/others/map4D/Map';
 import ModalHuyDonHang from './src/components/others/oders/item/ModalHuyDonHang';
+import ModalDanhGia from './src/components/others/oders/item/ModalDanhGia';
 
 export const navigationRef = createNavigationContainerRef();
 
@@ -23,6 +24,7 @@ const App = () => {
       {/* <AppNavigation  /> */}
       <NavigationContainer ref={navigationRef}>
         <ManHinhCHao/>
+        {/* <ModalDanhGia/> */}
         {/* <ModalHuyDonHang/> */}
         {/* <Map /> */}
         {/* <Map /> */}
