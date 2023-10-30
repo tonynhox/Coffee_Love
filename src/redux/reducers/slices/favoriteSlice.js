@@ -1,6 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {ToastAndroid} from 'react-native';
-import { code_trang_thai_yeu_thich } from '../../../utils/contanst';
+import {code_trang_thai_yeu_thich} from '../../../utils/contanst';
 
 const initialState = {
   data: [],
@@ -31,7 +31,20 @@ const favoriteSlice = createSlice({
         state.trang_thai_yeu_thich = false;
       }
     },
-    getChangeFavoriteFail: (state, action) => {
+    getChangeFavoriteFail: (state, action) => {},
+
+    getAddFavoriteSuccess: (state, action) => {
+      if (action.payload.result == code_trang_thai_yeu_thich.them_yeu_thich) {
+        state.data = [...state.data, {_id: action.payload.id_san_pham}];
+      } else {
+        state.data = state.data.filter(
+          item => item._id != action.payload.id_san_pham,
+        );
+      }
+
+    },
+    clearFavorite: (state, action) => {
+      state.data = [];
     },
   },
 });
@@ -43,6 +56,8 @@ export const {
   getChangeFavoriteFail,
   getChangeFavoriteRequest,
   getChangeFavoriteSuccess,
+  clearFavorite,
+  getAddFavoriteSuccess,
 } = favoriteSlice.actions;
 
 export default favoriteSlice.reducer;

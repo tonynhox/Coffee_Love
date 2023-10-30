@@ -72,7 +72,6 @@ const BottomMuaSanPham = ({isOpen, onChangeOpen, data, handleNavigate}) => {
   const [dataTopping, setDataTopping] = useState(dataToppingFetch);
   const [dataSize, setDataSize] = useState(data.size);
 
-  console.log('data topping', dataTopping);
   const handleChangeSize = id => {
     constantPrice = data.size[1].gia;
     setDataSize(prevState => {

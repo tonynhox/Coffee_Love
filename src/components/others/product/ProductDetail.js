@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   SafeAreaView,
+  ToastAndroid,
 } from 'react-native';
 import React, {useEffect} from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome6';
@@ -64,13 +65,18 @@ const ProductDetail = props => {
   };
 
   const onCheckIsLiked = () => {
-    console.log('DATA FA: ', dataFavorite);
     return dataFavorite.some(item => item._id === dataChiTietSanPham?._id);
   };
 
   const [isLiked, setIsLiked] = React.useState(onCheckIsLiked());
 
   const handleLike = () => {
+    if (!user || user.id_user == '') {
+      console.log('USER: ', user.id_user)
+      ToastAndroid.show('Bạn cần đăng nhập để yêu thích', 1000);
+      return;
+    }
+
     setIsLiked(!isLiked);
     dispatch(
       getChangeFavoriteRequest({
@@ -80,9 +86,11 @@ const ProductDetail = props => {
     );
   };
 
-  useEffect(() => {
-    dispatch(getFavoriteRequest({id_user: user.id_user}));
-  }, [isLiked]);
+  // useEffect(() => {
+  //   if (user && user.id_user != '') {
+  //     dispatch(getFavoriteRequest({id_user: user.id_user}));
+  //   }
+  // }, [isLiked]);
 
   const chonSanPhamDexuat = id => {
     dispatch(getChiTietSanPhamRequest(id));

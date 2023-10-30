@@ -33,8 +33,8 @@ export const style_text_khong_co_du_lieu = {
 };
 
 export const code_trang_thai_yeu_thich = {
-  yeu_thich: 10,
-  bo_yeu_thich: 11,
+  them_yeu_thich: 100,
+  bo_yeu_thich: 10,
 };
 
 export const modal_color_don_hang = {

@@ -1,6 +1,7 @@
 import {takeLatest, put, call} from 'redux-saga/effects';
 import instance from '../../../axios/instance';
 import {
+  getAddFavoriteSuccess,
   getChangeFavoriteFail,
   getChangeFavoriteSuccess,
   getFavoriteFail,
@@ -38,6 +39,7 @@ function* fetchChangeFavoriteSaga(action) {
       yield put(getChangeFavoriteFail());
     } else {
       yield put(getChangeFavoriteSuccess(response.data));
+      yield put(getAddFavoriteSuccess(response.data));
     }
   } catch (error) {
     yield put(getChangeFavoriteFail());

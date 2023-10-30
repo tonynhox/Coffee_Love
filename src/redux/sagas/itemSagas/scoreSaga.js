@@ -12,7 +12,7 @@ function* getScore(action) {
     const response = yield call(() =>
       instance.get('api/voucher/lay-danh-sach-voucher-doi-diem'),
     );
-    console.log('get Score: ', response.data);
+    // console.log('get Score: ', response.data);
     if (response.data.trang_thai) {
       yield put(getScoreSuccess(response.data));
     } else {
