@@ -20,35 +20,13 @@ import Fuse from 'fuse.js';
 import {useNavigation} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {saveValueToStorage} from '../../../utils/saveSearchHistoryToStorage';
+import {useSelector, useDispatch} from 'react-redux';
+import {lamTronSo} from '../../../utils/lamTronSo';
+import { getSearchFetch } from '../../../redux/reducers/slices/searchSlice';
 
 const Search = () => {
   const navigation = useNavigation();
-  const dataMostSold = [
-    {
-      id: 1,
-      name: 'Americano',
-      image: require('../../../assets/images/americano.png'),
-      star: 4.6,
-    },
-    {
-      id: 2,
-      name: 'Americano',
-      image: require('../../../assets/images/americano.png'),
-      star: 4.6,
-    },
-    {
-      id: 3,
-      name: 'Americano',
-      image: require('../../../assets/images/americano.png'),
-      star: 4.6,
-    },
-    {
-      id: 4,
-      name: 'Americano',
-      image: require('../../../assets/images/americano.png'),
-      star: 4.6,
-    },
-  ];
+
   useEffect(() => {
     getValues();
   }, [navigation]);
@@ -121,6 +99,7 @@ const Search = () => {
   const [search, setSearch] = React.useState('');
   const [filteredData, setFilteredData] = React.useState(dataTimKiem);
   const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const dispatch = useDispatch();
 
   const handleChonSanPham = item => {
     if (item?.item?.text === undefined) {
@@ -130,32 +109,36 @@ const Search = () => {
       saveValueToStorage(KEY_SEARCH_HISTORY, item.item.text);
       setSearch(item.item.text);
     }
-    navigation.navigate('Home');
+    dispatch(getSearchFetch({item, navigation}))
+    // console.log('text: ', item);
+    // navigation.navigate('SearchSuccess', {ten_san_pham: item.ten_san_pham})
   };
 
   const handleTextInputFocused = () => {
     setIsSearchFocused(true);
   };
 
+  const dataTop = useSelector(state => state.topOrders.data);
+  const dataTopOr = dataTop.slice(0, 4);
   const renderMuaNhieuNhat = ({item}) => {
     return (
       /* hinh anh ten san pham, sao */
       <TouchableOpacity
-        onPress={() => navigation.navigate('SearchSuccess')}
+        onPress={() => navigation.navigate('ProductDetail', {id: item._id})}
         style={styles.hinhAnhVaThongTinMuaNhieuNhat}>
         <Image
           style={styles.imageSanPhamMuaNhieuNhat}
-          source={require('../../../assets/images/americano.png')}
+          source={{uri: item.hinh_anh_sp[0].hinh_anh_sp}}
         />
         <View style={styles.thongTinSanPhamMuaNhieuConTainer}>
           <Text
             numberOfLines={1}
             ellipsizeMode="tail"
             style={styles.textTenSanPhamMuaNhieuNhat}>
-            Americano
+            {item.ten_san_pham}
           </Text>
           <View style={styles.soSaoContainer}>
-            <Text style={styles.textStar}>4.6</Text>
+            <Text style={styles.textStar}> {lamTronSo(item.tong_sao)}</Text>
             <Icon name="star" solid size={11} color={LINEAR_3} />
           </View>
         </View>
@@ -168,27 +151,29 @@ const Search = () => {
     );
   };
 
+  const dataPd = useSelector(state => state.products.data);
+  const dataSPM = dataPd.slice(0, 4);
   const renderSanPhamMoi = ({item}) => {
+    // console.log('item: ', item);
+
     return (
       /* hinh anh ten san pham, sao */
-      <View style={styles.hinhAnhVaThongTinMuaNhieuNhat}>
+      <TouchableOpacity
+        onPress={() => navigation.navigate('ProductDetail', {id: item._id})}
+        style={styles.hinhAnhVaThongTinMuaNhieuNhat}>
         <Image
           style={styles.imageSanPhamMuaNhieuNhat}
-          source={require('../../../assets/images/americano.png')}
+          source={{uri: item.hinh_anh_sp[0].hinh_anh_sp}}
         />
         <View style={styles.thongTinSanPhamMuaNhieuConTainer}>
           <Text
             numberOfLines={1}
             ellipsizeMode="tail"
             style={styles.textTenSanPhamMuaNhieuNhat}>
-            Americano
+            {item.ten_san_pham}
           </Text>
-          <View style={styles.soSaoContainer}>
-            <Text style={styles.textStar}>4.6</Text>
-            <Icon name="star" solid size={11} color={LINEAR_3} />
-          </View>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
 
@@ -204,9 +189,9 @@ const Search = () => {
   };
 
   const renderTimKiem = ({item}) => {
-        // nếu search rỗng thì hàm tìm kiếm (handleSearch) vẫn chưa chạy
+    // nếu search rỗng thì hàm tìm kiếm (handleSearch) vẫn chưa chạy
     // lúc này item.text chính là name vì giá trị của mảng hint từ component cha truyền vào
-    // chỉ có field là một object giống như này: 
+    // chỉ có field là một object giống như này:
     // {"category": "food", "id": 40, "text": "french toast"}
     // nên item.text chính là name
     // *****
@@ -217,12 +202,15 @@ const Search = () => {
     if (search == '') {
       name = item.text;
     } else {
-      name = item.item;
+      name = item.item.text;
     }
+    // console.log("item s>> ", item);
     return (
       <TouchableOpacity
         style={styles.timKiemContainer}
-        onPress={() => handleChonSanPham(name)}>
+        onPress={() => {
+          handleChonSanPham(name)
+        }}>
         <Icon name={'magnifying-glass'} size={18} color="gray" />
         <Text style={styles.textLichSuTimKiem}>{name}</Text>
       </TouchableOpacity>
@@ -244,7 +232,9 @@ const Search = () => {
     const fuse = new Fuse(dataTimKiem, options);
     const filteredItems = fuse.search(textSearch);
     console.log('filteredItems', filteredItems);
+    
     setFilteredData(filteredItems);
+    
   };
 
   return (
@@ -272,7 +262,8 @@ const Search = () => {
           />
 
           {/* Find */}
-          <TouchableOpacity>
+          <TouchableOpacity 
+            onPress={() => handleChonSanPham(search)}>
             <Icon
               name={'magnifying-glass'}
               size={20}
@@ -288,7 +279,7 @@ const Search = () => {
         <FlatList
           data={filteredData}
           renderItem={renderTimKiem}
-          keyExtractor={(item, index )=> index.toString()}
+          keyExtractor={(item, index) => index.toString()}
         />
       ) : (
         <View>
@@ -318,9 +309,9 @@ const Search = () => {
               }}>
               <FlatList
                 numColumns={2}
-                data={dataMostSold}
+                data={dataTopOr}
                 renderItem={renderMuaNhieuNhat}
-                keyExtractor={item => item.id.toString()}
+                keyExtractor={item => item._id.toString()}
               />
             </View>
           </View>
@@ -334,14 +325,15 @@ const Search = () => {
               }}>
               <FlatList
                 numColumns={2}
-                data={dataMostSold}
+                data={dataSPM}
                 renderItem={renderSanPhamMoi}
-                keyExtractor={item => item.id.toString()}
+                keyExtractor={item => item._id.toString()}
               />
             </View>
           </View>
         </View>
       )}
+      
     </View>
   );
 };

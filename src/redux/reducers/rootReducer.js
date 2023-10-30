@@ -13,6 +13,7 @@ import toppingSlice from './slices/toppingSlice';
 import voucherSlide from './slices/voucherSlide';
 import scoreSlide from './slices/scoreSlide';
 import historyScoreSlide from './slices/historyScoreSlide';
+import searchSlice from './slices/searchSlice';
 
 const rootReducer = combineReducers({
   users: userSlice,
@@ -27,7 +28,7 @@ const rootReducer = combineReducers({
   vouchers: voucherSlide,
   scores: scoreSlide,
   historyScores: historyScoreSlide,
-
+  searchs: searchSlice,
 });
 
 export default rootReducer;

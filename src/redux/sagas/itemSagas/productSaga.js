@@ -27,6 +27,8 @@ function* WorkerProduct(action) {
   }
 }
 
+
+
 function* productSaga() {
   yield takeLatest('products/getProductAllFetch', WorkerProduct);
 }
