@@ -30,6 +30,7 @@ import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import BottomMuaSanPhamCategories from '../main/categories/BottomMuaSanPhamCategories';
 import { setIsVisibleModalCart } from '../../redux/reducers/slices/utilSlice';
 import { formatCurrency } from '../../utils/formatCurrency';
+import { getHistoryScoreFetch } from '../../redux/reducers/slices/historyScoreSlide';
 
 const Tab = createBottomTabNavigator();
 
@@ -82,6 +83,7 @@ const MainNavigation = () => {
       dispatch(getCartPaymentFetch({id_user: id_user}));
       dispatch(getVoucherFetch({id_user: id_user}));
       dispatch(getScoreFetch());
+      dispatch(getHistoryScoreFetch({id_user: id_user}));
       console.log('id_user', id_user);
     }
   }, [id_user]);

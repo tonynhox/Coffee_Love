@@ -35,6 +35,7 @@ export const scoreSlide = createSlice({
       state.isLoading = false;
       ToastAndroid.show('Đổi Điểm Thành công', ToastAndroid.SHORT);
     },
+
   },
 
   //error

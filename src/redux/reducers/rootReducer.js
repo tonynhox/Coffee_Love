@@ -12,6 +12,8 @@ import locationMapSlice from './slices/locationMapSlice';
 import toppingSlice from './slices/toppingSlice';
 import voucherSlide from './slices/voucherSlide';
 import scoreSlide from './slices/scoreSlide';
+import historyScoreSlide from './slices/historyScoreSlide';
+import searchSlice from './slices/searchSlice';
 
 import favoriteSlice from './slices/favoriteSlice';
 import muaSanPhamSlice from './slices/muaSanPhamSlice';
@@ -32,6 +34,8 @@ const rootReducer = combineReducers({
   favorite: favoriteSlice,
   mua_san_pham: muaSanPhamSlice,
   utils: utilsSlice,
+  historyScores: historyScoreSlide,
+  searchs: searchSlice,
 });
 
 export default rootReducer;

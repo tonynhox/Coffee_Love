@@ -209,7 +209,7 @@ function* EditUser(action) {
     if (response.data.trang_thai) {
       yield put(editUserSuccess(response.data.data));
     } else {
-      yield put(getUserFail('Cap nhat that bai')); //????????message?? ddaua ra daya
+      yield put(getUserFail('Cap nhat that bai'));
     }
   } catch (error) {
     console.log('error', error);

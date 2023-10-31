@@ -37,12 +37,12 @@ function* ChangeScore(action) {
       ngay_ket_thuc: ngay_ket_thuc,
     };
 
-    console.log("payload: ", payload);
+    // console.log("payload: ", payload);
     //api
     const response = yield call(() =>
       instance.post('api/voucher/doi-diem-thanh-voucher', payload),
     );
-console.log("response: ", response.data);
+// console.log("response: ", response.data);
     if (response.data.trang_thai) {
       yield put(getChangeScoreSuccess());
     } else {
