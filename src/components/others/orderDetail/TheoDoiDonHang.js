@@ -8,6 +8,8 @@ import {
 import Header from '../../../utils/Header';
 
 const TheoDoiDonHang = ({maTrangThai}) => {
+  const da_huy = maTrangThai === trang_thai_don_hang.da_huy;
+
   const da_dat_hang =
     maTrangThai === trang_thai_don_hang.cho_xac_nhan ||
     maTrangThai === trang_thai_don_hang.da_xac_nhan;
@@ -16,67 +18,75 @@ const TheoDoiDonHang = ({maTrangThai}) => {
 
   return (
     <>
-      <View style={styles.container}>
-        {/* 3 icon container */}
-        <View style={styles.trangThaiContainer}>
-          {/* Da dat container */}
-          <View style={styles.daDatContainer}>
-            <Icon
-              name="circle-check"
-              solid
-              size={12}
-              color={BACKGROUND_BUTTON_COLOR}
-            />
-
-            <Text style={[styles.textTrangThai, {paddingVertical: 8}]}>
-              Đã đặt
-            </Text>
-            <Text style={styles.textThoiGianDatHang}>19:11</Text>
-          </View>
-
-          {/* separate line */}
-          <View style={styles.lineTrangThai} />
-
-          {/* Dang giao hang container */}
-          <View style={styles.daDatContainer}>
-            <Icon
-              name={
-                dang_giao_hang
-                  ? 'circle-check'
-                  : da_giao_hang
-                  ? 'circle-check'
-                  : 'circle'
-              }
-              size={12}
-              solid={dang_giao_hang ? true : da_giao_hang ? true : false}
-              color={BACKGROUND_BUTTON_COLOR}
-            />
-
-            <Text style={[styles.textTrangThai, {paddingVertical: 8}]}>
-              Đang giao hàng
-            </Text>
-            <Text style={styles.textThoiGianDatHang}>19:11</Text>
-          </View>
-
-          {/* separate line */}
-          <View style={styles.lineTrangThai} />
-
-          {/* Dang giao hang container */}
-          <View style={styles.daDatContainer}>
-            <Icon
-              name={da_giao_hang ? 'circle-check' : 'circle'}
-              solid={da_giao_hang ? true : false}
-              size={12}
-              color={BACKGROUND_BUTTON_COLOR}
-            />
-
-            <Text style={[styles.textTrangThai, {paddingVertical: 8}]}>
-              Giao thành công
-            </Text>
-            <Text style={styles.textThoiGianDatHang}>19:11</Text>
-          </View>
+      {da_huy ? (
+        <View style={styles.container}>
+          <Text style={styles.textDaHuy}>Đã hủy</Text>
         </View>
-      </View>
+      ) : (
+        <>
+          <View style={styles.container}>
+            {/* 3 icon container */}
+            <View style={styles.trangThaiContainer}>
+              {/* Da dat container */}
+              <View style={styles.daDatContainer}>
+                <Icon
+                  name="circle-check"
+                  solid
+                  size={12}
+                  color={BACKGROUND_BUTTON_COLOR}
+                />
+
+                <Text style={[styles.textTrangThai, {paddingVertical: 8}]}>
+                  Đã đặt
+                </Text>
+                <Text style={styles.textThoiGianDatHang}>19:11</Text>
+              </View>
+
+              {/* separate line */}
+              <View style={styles.lineTrangThai} />
+
+              {/* Dang giao hang container */}
+              <View style={styles.daDatContainer}>
+                <Icon
+                  name={
+                    dang_giao_hang
+                      ? 'circle-check'
+                      : da_giao_hang
+                      ? 'circle-check'
+                      : 'circle'
+                  }
+                  size={12}
+                  solid={dang_giao_hang ? true : da_giao_hang ? true : false}
+                  color={BACKGROUND_BUTTON_COLOR}
+                />
+
+                <Text style={[styles.textTrangThai, {paddingVertical: 8}]}>
+                  Đang giao hàng
+                </Text>
+                <Text style={styles.textThoiGianDatHang}>19:11</Text>
+              </View>
+
+              {/* separate line */}
+              <View style={styles.lineTrangThai} />
+
+              {/* Dang giao hang container */}
+              <View style={styles.daDatContainer}>
+                <Icon
+                  name={da_giao_hang ? 'circle-check' : 'circle'}
+                  solid={da_giao_hang ? true : false}
+                  size={12}
+                  color={BACKGROUND_BUTTON_COLOR}
+                />
+
+                <Text style={[styles.textTrangThai, {paddingVertical: 8}]}>
+                  Giao thành công
+                </Text>
+                <Text style={styles.textThoiGianDatHang}>19:11</Text>
+              </View>
+            </View>
+          </View>
+        </>
+      )}
     </>
   );
 };
@@ -117,5 +127,10 @@ const styles = StyleSheet.create({
     height: 2,
     width: 40,
     backgroundColor: 'gray',
+  },
+  textDaHuy: {
+    fontSize: 16,
+    color: 'red',
+    fontWeight: '500',
   },
 });

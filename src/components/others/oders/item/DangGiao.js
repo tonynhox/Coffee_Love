@@ -20,7 +20,11 @@ import {
   color_don_hang,
   trang_thai_don_hang,
 } from '../../../../utils/contanst';
-import {getDonHangRequest} from '../../../../redux/reducers/slices/donHangSlice';
+import {
+  getDonHangRequest,
+  thayDoiTrangThaiDonHangRequest,
+} from '../../../../redux/reducers/slices/donHangSlice';
+import ModalHuyDonHang from './ModalHuyDonHang';
 
 const DangGiao = () => {
   const navigation = useNavigation();
@@ -29,10 +33,33 @@ const DangGiao = () => {
 
   const data = useSelector(state => state.don_hang.dataDangGiao);
   const isLoading = useSelector(state => state.don_hang.isLoading);
+  const isThayDoiTrangThaiDonHangLoading = useSelector(
+    state => state.don_hang.isThayDoiTrangThaiDonHangLoading,
+  );
   const id_user = useSelector(state => state.users.user.id_user);
+
+  // useEffect(() => {
+
+  //   }, [isThayDoiTrangThaiDonHangLoading]);
 
   const fetchDonHang = () => {
     dispatch(getDonHangRequest({id_user: id_user}));
+  };
+
+  const [idProduct, setIdProduct] = React.useState('');
+  const [isVisible, setIsVisible] = React.useState({isVisible: false, id: ''});
+  const handleShowModalHuyDon = (id) => {
+    setIsVisible({isVisible: !isVisible.isVisible, id: id});
+  };
+
+  const handelComfirmCancel = (id_don_hang) => {
+    setIsVisible({isVisible: !isVisible.isVisible, id: id_don_hang});
+    dispatch(
+      thayDoiTrangThaiDonHangRequest({
+        id_don_hang: id_don_hang,
+        ma_trang_thai: trang_thai_don_hang.da_huy,
+      }),
+    );
   };
 
   const [refreshing, setRefreshing] = React.useState(false);
@@ -114,7 +141,9 @@ const DangGiao = () => {
         {/* Don hang dang cho xac nhan */}
         <TouchableOpacity
           style={styles.donHangChoContainer}
-          onPress={() => navigation.navigate('OrderDetail', {id_don_hang: item._id})}>
+          onPress={() =>
+            navigation.navigate('OrderDetail', {id_don_hang: item._id})
+          }>
           <Text style={styles.textDonHangDangChoXacNhan}>
             Đơn hàng đang chờ xác nhận{' '}
           </Text>
@@ -130,7 +159,8 @@ const DangGiao = () => {
               </Text>
               <TouchableOpacity
                 style={styles.buttonCancel}
-                disabled={isEnableCancel}>
+                disabled={isEnableCancel}
+                onPress={() => handleShowModalHuyDon(item._id)}>
                 <Text style={styles.textHuyDon}>Huỷ đơn</Text>
               </TouchableOpacity>
             </>
@@ -151,16 +181,34 @@ const DangGiao = () => {
               Không có đơn hàng đang giao
             </Text>
           ) : (
-            <FlatList
-              style={{marginVertical: 3}}
-              data={data}
-              renderItem={DangGiaoItem}
-              keyExtractor={(item, index) => index.toString()}
-              // ItemSeparatorComponent={() => <View style={{height: 10}} />}
-              refreshControl={
-                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-              }
-            />
+            <>
+              <FlatList
+                style={{marginVertical: 3}}
+                data={data}
+                renderItem={DangGiaoItem}
+                keyExtractor={(item, index) => index.toString()}
+                // ItemSeparatorComponent={() => <View style={{height: 10}} />}
+                refreshControl={
+                  <RefreshControl
+                    refreshing={refreshing}
+                    onRefresh={onRefresh}
+                  />
+                }
+              />
+              {isThayDoiTrangThaiDonHangLoading && (
+                <View style={styles.thayDoiLoading}>
+                  <ActivityIndicator
+                    size="large"
+                    color={BACKGROUND_BUTTON_COLOR}
+                  />
+                </View>
+              )}
+              <ModalHuyDonHang
+                isVisible={isVisible}
+                toggleModal={handleShowModalHuyDon}
+                onConfirm={idProduct => handelComfirmCancel(idProduct)}
+              />
+            </>
           )}
         </>
       )}
@@ -377,5 +425,12 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: BACKGROUND_BUTTON_COLOR,
     marginTop: 20,
+  },
+  thayDoiLoading: {
+    position: 'absolute',
+    top: '35%',
+    left: 0,
+    bottom: 0,
+    right: 0,
   },
 });

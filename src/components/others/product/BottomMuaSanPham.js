@@ -72,7 +72,7 @@ const BottomMuaSanPham = ({isOpen, onChangeOpen, data, handleNavigate}) => {
   const [dataTopping, setDataTopping] = useState(dataToppingFetch);
   const [dataSize, setDataSize] = useState(data.size);
 
-
+  //huy
   const handleChangeSize = (id) => {
     // Lấy ra size hiện tại đã được chọn
     const currentSelectedSize = dataSize.find((item) => item.isSelected);
@@ -105,6 +105,20 @@ const BottomMuaSanPham = ({isOpen, onChangeOpen, data, handleNavigate}) => {
       }
     }
   };
+  //trongnm
+  // const handleChangeSize = id => {
+  //   constantPrice = data.size[1].gia;
+  //   setDataSize(prevState => {
+  //     return prevState.map(item => {
+  //       if (item._id === id) {
+  //         setTotal(item.gia);
+  //         return {...item, isSelected: true};
+  //       } else {
+  //         return {...item, isSelected: false};
+  //       }
+  //     });
+  //   });
+  // };
   
   const handleChangeTopping = id => {
     setDataTopping(prevState => {

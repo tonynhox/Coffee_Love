@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { appReducer } from '../../../redux/reducers/rootReducer'
 import Storage from '../../../utils/Storage'
 import { LoginSuccess } from '../../../redux/reducers/slices/userSlice'
+import { clearFavorite } from '../../../redux/reducers/slices/favoriteSlice'
 
 const Profile = ({navigation}) => {
     const dispatch = useDispatch();
@@ -122,6 +123,7 @@ const Profile = ({navigation}) => {
                                 onPress: () => 
                                     {   
                                         dispatch(LoginSuccess(''));
+                                        dispatch(clearFavorite());
                                         Storage.removeToken();
                                         Storage.removeItem('id_user');
                                 }

@@ -9,21 +9,27 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 
 import Icon from 'react-native-vector-icons/FontAwesome6';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
-import {BACKGROUND_BUTTON_COLOR, color_don_hang} from '../../../../utils/contanst';
-import { getDonHangRequest } from '../../../../redux/reducers/slices/donHangSlice';
+import {
+  BACKGROUND_BUTTON_COLOR,
+  color_don_hang,
+} from '../../../../utils/contanst';
+import {getDonHangRequest} from '../../../../redux/reducers/slices/donHangSlice';
 
 const DanhGia = () => {
   const navigation = useNavigation();
-const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const data = useSelector(state => state.don_hang.dataDanhGia);
   const isLoading = useSelector(state => state.don_hang.isLoading);
   const id_user = useSelector(state => state.users.user.id_user);
+
+  const dataRateStar = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5}];
+  const [start, setStart] = useState(4);
 
   const fetchDonHang = () => {
     dispatch(getDonHangRequest({id_user: id_user}));
@@ -39,10 +45,25 @@ const dispatch = useDispatch();
     }, 1000);
   }, []);
 
-  const DanhGiaItem = ({item, id}) => {
+  const [listHeight, setListHeight] = useState(null); // State to store the height of the FlatList
+
+  const calculateListHeight = event => {
+    setListHeight(event.nativeEvent.layout.height);
+  };
+
+  const RateStar = ({item, index, sao}) => {
+    const selected = sao >= item.id ? true : false;
     return (
-      <View
-        style={styles.itemContainer}>
+      <View style={styles.startContainer} onPress={() => setStart(item.id)}>
+        <Icon solid={selected} name="star" size={20} color="#E98001" />
+      </View>
+    );
+  };
+
+  const DanhGiaItem = ({item, id}) => {
+    const so_sao = item.so_sao;
+    return (
+      <View style={styles.itemContainer}>
         {/* Hinh anh, ten, so luong, size, dia chi */}
         <View style={styles.imageAndDescribeContainer}>
           <Image
@@ -56,17 +77,22 @@ const dispatch = useDispatch();
               <Text style={styles.textName}>{item.dia_chi.nguoi_nhan}</Text>
 
               {/* <Text style={styles.textSoLuong}>Đánh giá</Text> */}
-              <View style={styles.fiveStars}>
-                <Icon name="star" solid size={20} color={'#FF8E00'} />
-                <Icon name="star" solid size={20} color={'#FF8E00'} />
-                <Icon name="star" solid size={20} color={'#FF8E00'} />
-                <Icon name="star" solid size={20} color={'#FF8E00'} />
-                <Icon name="star" solid size={20} color={'#FF8E00'} />
+              <View onLayout={calculateListHeight}>
+                <FlatList
+                  horizontal={true}
+                  data={dataRateStar}
+                  renderItem={({item, index}) => (
+                    <RateStar item={item} index={index} sao={so_sao} />
+                  )}
+                  keyExtractor={(item, index) => item.id.toString()}
+                />
               </View>
             </View>
             <View>
               <Text style={styles.textLocation}>
-                SL: 1{'   '}Size: L {'  '} 113 Quang Trung{' '}
+                SL: {item.tong_san_pham}
+                {'   '}Size: {item.san_pham[0].size} {'  '}{' '}
+                {item.dia_chi.so_nha}{' '}
               </Text>
             </View>
           </View>
@@ -116,7 +142,6 @@ const dispatch = useDispatch();
               refreshControl={
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
               }
-            
             />
           )}
         </>
@@ -155,6 +180,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     width: '100%',
+    flex: 1,
   },
   textName: {
     fontWeight: '600',
@@ -300,7 +326,6 @@ const styles = StyleSheet.create({
   },
   fiveStars: {
     flexDirection: 'row',
-
     alignItems: 'center',
   },
   textKhongCoDuLieu: {
@@ -309,5 +334,11 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: BACKGROUND_BUTTON_COLOR,
     marginTop: 20,
+  },
+  startContainer: {
+    paddingVertical: 5,
+    paddingHorizontal: 2,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

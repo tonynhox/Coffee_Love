@@ -9,6 +9,8 @@ import ManHinhCHao from './src/components/navigations/ManHinhChao';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNavigationContainerRef} from '@react-navigation/native';
 import Map from './src/components/others/map4D/Map';
+import ModalHuyDonHang from './src/components/others/oders/item/ModalHuyDonHang';
+import ModalDanhGia from './src/components/others/oders/item/ModalDanhGia';
 
 export const navigationRef = createNavigationContainerRef();
 
@@ -16,11 +18,16 @@ export const navigationRef = createNavigationContainerRef();
 const App = () => {
   return (
     <Provider store={store}>
-
+      {/* <ModalCartOrder/> */}
+      {/* <Demo/> */}
+      {/* <AppNavigation  /> */}
       <NavigationContainer ref={navigationRef}>
         <ManHinhCHao/>
-        {/* <Map/> */}
-
+        {/* <ModalDanhGia/> */}
+        {/* <ModalHuyDonHang/> */}
+        {/* <Map /> */}
+        {/* <Map /> */}
+        {/* <AppNavigation  /> */}
       </NavigationContainer>
 
     </Provider>
