@@ -9,13 +9,13 @@ import {ScrollView} from 'react-native-virtualized-view';
 import CardUser from './item/CardUser';
 import Extention from './item/Extention';
 import {useNavigation} from '@react-navigation/native';
-import ModalCartOrder from '../../../utils/Modals/ModalCartOrder';
-import BottomMuaSanPham from './item/BottomMuaSanPham';
+import {useSelector} from 'react-redux';
 
-const Home = ({openBottomMuaHang}) => {
+const Home = () => {
   const [scrollY] = useState(new Animated.Value(0));
   const navigation = useNavigation();
 
+  const user = useSelector(state => state.users?.user);
 
   const HeaderName = () => {
     return (
@@ -23,9 +23,9 @@ const Home = ({openBottomMuaHang}) => {
         <Text style={{fontSize: 30, color: 'red'}}>♨</Text>
         <View
           style={{flexDirection: 'row', alignItems: 'center', paddingLeft: 3}}>
-          <Text style={{fontSize: 18, color: 'black'}}>Hi,</Text>
+          <Text style={{fontSize: 18, color: 'black'}}>Hi, </Text>
           <Text style={{fontSize: 18, color: 'black', fontWeight: 'bold'}}>
-            Naveen
+            { user?.ho_ten || 'Khách'}
           </Text>
         </View>
       </View>
@@ -76,10 +76,10 @@ const Home = ({openBottomMuaHang}) => {
           {useNativeDriver: false}, // Sử dụng driver không dựa vào native (không sử dụng bằng true)
         )}
         style={styles.container}>
-        <CardUser />
+        <CardUser user={user} />
         <Extention />
         <TopOrder />
-        <Menu openBottomMuaHang={openBottomMuaHang} />
+        <Menu />
         
       </ScrollView>
     </View>

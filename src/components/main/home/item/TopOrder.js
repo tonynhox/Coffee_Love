@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useNavigation} from '@react-navigation/native';
 import Swiper from 'react-native-swiper';
 import {useSelector} from 'react-redux';
+import { lamTronSo } from '../../../../utils/lamTronSo';
 
 //slide top order
 const TopOrder = () => {
@@ -19,7 +20,9 @@ const TopOrder = () => {
         return (
           <TouchableOpacity
             key={index}
-            onPress={() => navigation.navigate('ProductDetail')}
+            onPress={() =>           
+              navigation.navigate('ProductDetail', {id: item._id})
+          }
             style={styles.cardTopOrder}>
             <View style={styles.cardItemLeft}>
               <View style={styles.rows}>
@@ -29,14 +32,17 @@ const TopOrder = () => {
                 />
                 <Text style={{color: '#000', fontWeight: '500', fontSize: 14}}>
                   {' '}
-                  {item.tong_sao}
+                  {/* { item.tong_sao} */}
+                  {lamTronSo(item.tong_sao)}
                 </Text>
               </View>
-              <Text style={{color: '#000', fontWeight: '600', fontSize: 16}}>
+              <Text style={{color: '#000', fontWeight: '500', fontSize: 16}}>
                 Top order
               </Text>
-              <Text style={{color: '#000', fontWeight: '700', fontSize: 18}}>
-                {item.ten_san_pham}{' '}
+              <Text 
+              numberOfLines={2}
+                style={{ color: '#000', fontWeight: '600', fontSize: 18}}>
+                {item.ten_san_pham}
               </Text>
               <View style={[styles.rows, {}]}>
                 <Text style={{color: '#F5A646', fontWeight: '500'}}>

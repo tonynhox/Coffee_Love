@@ -7,6 +7,7 @@ import {
   ScrollView,
   TouchableOpacity,
   ActivityIndicator,
+  Alert,
 } from 'react-native';
 import React, {useRef, useMemo, useEffect, useCallback, useState} from 'react';
 import BottomSheet, {
@@ -14,26 +15,43 @@ import BottomSheet, {
   BottomSheetSectionList,
 } from '@gorhom/bottom-sheet';
 import Icon from 'react-native-vector-icons/FontAwesome6';
-import { BACKGROUND_BUTTON_COLOR } from '../../../utils/contanst';
+import {BACKGROUND_BUTTON_COLOR} from '../../../utils/contanst';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {styles} from './bottomMuaSanPhamStyle';
-import { formatCurrency } from '../../../utils/formatCurrency';
+import {formatCurrency} from '../../../utils/formatCurrency';
 import {useDispatch, useSelector} from 'react-redux';
 import {
-  getChiTietSanPhamTuMenuRequest
+  getChiTietSanPhamSuccess,
+  getChiTietSanPhamTuMenuRequest,
+  getChiTietSanPhamTuMenuSuccess,
 } from '../../../redux/reducers/slices/chiTietSanPhamSlice';
-import { setSanPham } from '../../../redux/reducers/slices/muaSanPhamSlice';
+import {
+  setItemGioHang,
+  setOpenBottomSheet,
+} from '../../../redux/reducers/slices/utilSlice';
+import {
+  getAddCartPaymentFetch,
+  getDeleteCartPaymentFetch,
+  getUpdateCartPaymentFetch,
+} from '../../../redux/reducers/slices/cartPaymentSlice';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 
-const BottomMuaSanPhamCategories = ({onChangeOpen, id}) => {
+const BottomMuaSanPhamCategories = ({isOpenBottom}) => {
+  //id sanpham
+  const id = useSelector(state => state.utils.idSanPham);
   const dispatch = useDispatch();
   // ref
   const bottomSheetRef = useRef(null);
+  const [total, setTotal] = useState(0);
 
   const dataToppingFetch = useSelector(state => state.topping.data);
   const user = useSelector(state => state.users.user);
+  const itemGioHang = useSelector(state => state.utils.itemGioHang);
 
   const isLoading = useSelector(state => state.chi_tiet_san_pham.isMenuLoading);
-  const dataChiTietSanPham = useSelector(
+
+  const [dataChiTietSanPham, setDataChiTietSanPham] = useState(null);
+  const dataChiTietSP = useSelector(
     state => state.chi_tiet_san_pham.dataFromMenu,
   );
   useEffect(() => {
@@ -44,16 +62,60 @@ const BottomMuaSanPhamCategories = ({onChangeOpen, id}) => {
   }, []);
 
   useEffect(() => {
+    if (dataChiTietSP && itemGioHang) {
+      const item = {
+        ...dataChiTietSP,
+        size: dataChiTietSP.size.map(item => {
+          if (item.ten_size === itemGioHang.size) {
+            setTotal(item.gia);
+            return {...item, isSelected: true};
+          } else {
+            return {...item, isSelected: false};
+          }
+        }),
+      };
+      setQuantity(itemGioHang.so_luong);
+      setDataChiTietSanPham({...item});
+
+      //toping
+
+      if (itemGioHang.topping.length > 0) {
+        // console.log('itemGioHang?.topping',itemGioHang?.topping);
+        setDataTopping(prevState => {
+          return prevState.map(item => {
+            if (
+              itemGioHang.topping.find(
+                itemTopping => itemTopping.ten_topping === item.ten_topping,
+              )
+            ) {
+              setTotal(prevState => prevState + item.gia);
+              return {...item, isSelected: true};
+            }
+            return item;
+          });
+        });
+      }
+    } else if (dataChiTietSP) {
+      setDataChiTietSanPham(dataChiTietSP);
+    }
+  }, [dataChiTietSP]);
+
+  useEffect(() => {
     if (dataChiTietSanPham) {
-      setTotal(dataChiTietSanPham.size[1].gia);
       setDataSize(dataChiTietSanPham.size);
-      setTotal(dataChiTietSanPham.size[1].gia);
+      if (!itemGioHang) {
+        setTotal(dataChiTietSanPham.size[1].gia);
+      }
     }
   }, [dataChiTietSanPham]);
 
   const onChange = index => {
     if (index === -1) {
-      onChangeOpen();
+      // onChangeOpen();
+      dispatch(setOpenBottomSheet(false));
+      dispatch(getChiTietSanPhamTuMenuSuccess({data: null}));
+      dispatch(setItemGioHang(null));
+      dispatch(getChiTietSanPhamSuccess({data: null}));
     }
   };
 
@@ -62,7 +124,6 @@ const BottomMuaSanPhamCategories = ({onChangeOpen, id}) => {
   }, [dataToppingFetch]);
 
   const [quantity, setQuantity] = useState(1);
-  const [total, setTotal] = useState(0);
 
   const handleTangSoLuong = () => {
     setQuantity(quantity + 1);
@@ -71,29 +132,89 @@ const BottomMuaSanPhamCategories = ({onChangeOpen, id}) => {
   const handleGiamSoLuong = () => {
     if (quantity > 1) {
       setQuantity(quantity - 1);
+    } else {
+      if (itemGioHang && quantity - 1 == 0) {
+        Alert.alert(
+          'Thông báo',
+          'Bạn có muốn xóa sản phẩm này không?',
+          [
+            {
+              text: 'Không',
+              onPress: () => console.log('Cancel Pressed'),
+              style: 'cancel',
+            },
+            {
+              text: 'Có',
+              onPress: () => {
+                dispatch(setItemGioHang(null));
+                dispatch(getChiTietSanPhamTuMenuSuccess({data: null}));
+                dispatch(getChiTietSanPhamSuccess({data: null}));
+                dispatch(
+                  getDeleteCartPaymentFetch({
+                    data: {id_user: user.id_user, _id: itemGioHang._id},
+                    dispatch: dispatch,
+                  }),
+                );
+                dispatch(setOpenBottomSheet(false));
+              },
+            },
+          ],
+          {cancelable: false},
+        );
+      }
     }
   };
 
+  const navigation = useNavigation();
+
   const handleNavigate = data => {
-    dispatch(setSanPham(data));
+    if (!itemGioHang)
+      dispatch(getAddCartPaymentFetch({data: data, dispatch: dispatch}));
+    else {
+      //cập nhật item giỏ hàng
+      data = {...data, _id: itemGioHang._id};
+      dispatch(getUpdateCartPaymentFetch({data: data, dispatch: dispatch}));
+    }
   };
 
   const [dataTopping, setDataTopping] = useState(dataToppingFetch);
   const [dataSize, setDataSize] = useState([]);
 
   const handleChangeSize = id => {
-    constantPrice = dataChiTietSanPham.size[1].gia;
-    setDataSize(prevState => {
-      return prevState.map(item => {
-        if (item._id === id) {
-          setTotal(item.gia);
-          return {...item, isSelected: true};
-        } else {
-          return {...item, isSelected: false};
-        }
-      });
-    });
+    // Lấy ra size hiện tại đã được chọn
+    const currentSelectedSize = dataSize.find(item => item.isSelected);
+
+    // Tìm ra size mới dựa trên id
+    const newSize = dataSize.find(item => item._id === id);
+
+    // Kiểm tra nếu size mới khác size hiện tại
+    if (currentSelectedSize !== newSize) {
+      // Loại bỏ isSelected cho size hiện tại
+      if (currentSelectedSize) {
+        setDataSize(prevState =>
+          prevState.map(item =>
+            item._id === currentSelectedSize._id
+              ? {...item, isSelected: false}
+              : item,
+          ),
+        );
+      }
+
+      // Cập nhật isSelected cho size mới
+      setDataSize(prevState =>
+        prevState.map(item =>
+          item._id === id ? {...item, isSelected: true} : item,
+        ),
+      );
+
+      // Tính toán và cập nhật giá
+      if (currentSelectedSize) {
+        const priceDifference = newSize.gia - currentSelectedSize.gia;
+        setTotal(total => total + priceDifference);
+      }
+    }
   };
+
   const handleChangeTopping = id => {
     setDataTopping(prevState => {
       return prevState.map(item => {
@@ -131,7 +252,9 @@ const BottomMuaSanPhamCategories = ({onChangeOpen, id}) => {
   const snapPoints = useMemo(() => ['75%'], []);
 
   // render size
-  const renderSize = ({item}) => {
+  const renderSize = ({item, index}) => {
+    const defaultgia = dataChiTietSanPham.size[1].gia;
+    const gia = item.gia - defaultgia;
     return (
       <TouchableOpacity
         key={item._id}
@@ -139,7 +262,12 @@ const BottomMuaSanPhamCategories = ({onChangeOpen, id}) => {
         onPress={() => handleChangeSize(item._id)}>
         <Text style={styles.textTopping}>{item.ten_size}</Text>
         <View style={styles.tienToppingContainer}>
-          <Text style={styles.textTien}>+{formatCurrency(item.gia)}</Text>
+          {gia > 0 ? (
+            <Text style={styles.textTien}>+{formatCurrency(gia)}</Text>
+          ) : (
+            <Text style={styles.textTien}>{formatCurrency(gia)}</Text>
+          )}
+
           <Icon
             style={styles.toppingChecked}
             name={item.isSelected ? 'circle-dot' : 'circle'}
@@ -173,146 +301,146 @@ const BottomMuaSanPhamCategories = ({onChangeOpen, id}) => {
   };
 
   return (
-    <>
-      <BottomSheet
-        onChange={onChange}
-        enablePanDownToClose={true}
-        ref={bottomSheetRef}
-        index={0}
-        snapPoints={snapPoints}
-        backgroundStyle={{backgroundColor: '#FEF9F1'}}>
-        {isLoading ? (
-          <View style={{flex: 1, justifyContent: 'center'}}>
-            <ActivityIndicator size="small" color={BACKGROUND_BUTTON_COLOR} />
-          </View>
-        ) : (
-          <>
-            {dataChiTietSanPham == undefined || dataChiTietSanPham == null ? (
-              <View style={{flex: 1, justifyContent: 'center'}}>
-                <Text style={styles.textDa}>Không có sản phẩm</Text>
-              </View>
-            ) : (
-              <>
-                <View style={styles.container}>
-                  {/* header ten san pham*/}
-                  <View style={styles.tenSanPhamVaGiaTienContainer}>
-                    <Text style={styles.textTenSanPham}>
-                      {dataChiTietSanPham.ten_san_pham}
+    <BottomSheet
+      onChange={onChange}
+      enablePanDownToClose={true}
+      ref={bottomSheetRef}
+      index={0} //hiện ở vị trí 0, -1 là ẩn,
+      snapPoints={snapPoints}
+      backgroundStyle={{backgroundColor: '#FEF9F1'}}>
+      {isLoading ? (
+        <View style={{flex: 1, justifyContent: 'center'}}>
+          <ActivityIndicator size="small" color={BACKGROUND_BUTTON_COLOR} />
+        </View>
+      ) : (
+        <>
+          {dataChiTietSanPham == undefined || dataChiTietSanPham == null ? (
+            <View style={{flex: 1, justifyContent: 'center'}}>
+              <Text style={styles.textDa}>Không có sản phẩm</Text>
+            </View>
+          ) : (
+            <>
+              <View style={styles.container}>
+                {/* header ten san pham*/}
+                <View style={styles.tenSanPhamVaGiaTienContainer}>
+                  <Text style={styles.textTenSanPham}>
+                    {dataChiTietSanPham.ten_san_pham}
+                  </Text>
+                  <View style={styles.giaTienContainer}>
+                    <Text style={styles.textGiaTien}>
+                      {dataChiTietSanPham.size[1].giam_gia == 0
+                        ? null
+                        : formatCurrency(dataChiTietSanPham.size[1].giam_gia)}
                     </Text>
-                    <View style={styles.giaTienContainer}>
-                      <Text style={styles.textGiaTien}>
-                        {dataChiTietSanPham.size[1].giam_gia == 0
-                          ? null
-                          : formatCurrency(dataChiTietSanPham.size[1].giam_gia)}
-                      </Text>
-                      <Text style={styles.textGiaTienGiamGia}>
-                        {formatCurrency(dataChiTietSanPham.size[1].gia)}
-                      </Text>
-                    </View>
+                    <Text style={styles.textGiaTienGiamGia}>
+                      {formatCurrency(dataChiTietSanPham.size[1].gia)}
+                    </Text>
                   </View>
+                </View>
 
-                  {/* separate line */}
-                  <View style={styles.separateLine} />
+                {/* separate line */}
+                <View style={styles.separateLine} />
 
-                  <View style={{height: '70%'}}>
-                    <BottomSheetScrollView style={{flex: 1}}>
-                      {/* Size view */}
+                <View style={{height: '70%'}}>
+                  <BottomSheetScrollView style={{flex: 1}}>
+                    {/* Size view */}
+                    <View>
+                      {/* chon size */}
+                      <View style={styles.sectionHeaderContainer}>
+                        <Text style={styles.textDa}>Chọn size</Text>
+                        <Text style={styles.required}>*</Text>
+                      </View>
+
+                      {/* list size */}
+                      <>
+                        {dataSize.map(item => (
+                          <View key={item._id}>{renderSize({item})}</View>
+                        ))}
+                      </>
+                    </View>
+
+                    {/* Topping view */}
+                    {isLoading ? (
+                      <View style={{flex: 1, justifyContent: 'center'}}>
+                        <ActivityIndicator
+                          size="small"
+                          color={BACKGROUND_BUTTON_COLOR}
+                        />
+                      </View>
+                    ) : (
                       <View>
-                        {/* chon size */}
+                        {/* chon topping */}
                         <View style={styles.sectionHeaderContainer}>
-                          <Text style={styles.textDa}>Chọn size</Text>
-                          <Text style={styles.required}>*</Text>
+                          <Text style={styles.textDa}>Chọn topping</Text>
                         </View>
 
-                        {/* list size */}
-                        <>
-                          {dataSize.map(item => (
-                            <View key={item._id}>{renderSize({item})}</View>
-                          ))}
-                        </>
+                        {/* list topping */}
+                        {dataTopping.map(item => (
+                          <View key={item._id}>{renderTopping({item})}</View>
+                        ))}
                       </View>
-
-                      {/* Topping view */}
-                      {isLoading ? (
-                        <View style={{flex: 1, justifyContent: 'center'}}>
-                          <ActivityIndicator
-                            size="small"
-                            color={BACKGROUND_BUTTON_COLOR}
-                          />
-                        </View>
-                      ) : (
-                        <View>
-                          {/* chon topping */}
-                          <View style={styles.sectionHeaderContainer}>
-                            <Text style={styles.textDa}>Chọn topping</Text>
-                          </View>
-
-                          {/* list topping */}
-                          {dataTopping.map(item => (
-                            <View key={item._id}>{renderTopping({item})}</View>
-                          ))}
-                        </View>
-                      )}
-                    </BottomSheetScrollView>
-                  </View>
+                    )}
+                  </BottomSheetScrollView>
                 </View>
+              </View>
 
-                {/* Mua ngay */}
-                <View style={styles.muaNgayContainer}>
-                  {/* so luong va 2 nut tuy chinh */}
-                  <View style={styles.giaTienVaSoLuongContainer}>
-                    {/* so luong */}
-                    <View style={styles.soLuongVaNutTuyChinhContainer}>
-                      <Text style={styles.textSoLuong}>Số lượng</Text>
-                      <View style={styles.soLuongContainer}>
-                        <TouchableOpacity
-                          style={styles.buttonSoLuong}
-                          onPress={() => handleGiamSoLuong()}>
-                          <Icon
-                            name="minus"
-                            size={15}
-                            color={BACKGROUND_BUTTON_COLOR}
-                          />
-                        </TouchableOpacity>
-                        <Text style={styles.textSoLuong}>{quantity}</Text>
-                        <TouchableOpacity
-                          style={styles.buttonSoLuong}
-                          onPress={() => handleTangSoLuong()}>
-                          <Icon
-                            name="plus"
-                            size={15}
-                            color={BACKGROUND_BUTTON_COLOR}
-                          />
-                        </TouchableOpacity>
-                      </View>
+              {/* Mua ngay */}
+              <View style={styles.muaNgayContainer}>
+                {/* so luong va 2 nut tuy chinh */}
+                <View style={styles.giaTienVaSoLuongContainer}>
+                  {/* so luong */}
+                  <View style={styles.soLuongVaNutTuyChinhContainer}>
+                    <Text style={styles.textSoLuong}>Số lượng</Text>
+                    <View style={styles.soLuongContainer}>
+                      <TouchableOpacity
+                        style={styles.buttonSoLuong}
+                        onPress={() => handleGiamSoLuong()}>
+                        <Icon
+                          name="minus"
+                          size={15}
+                          color={BACKGROUND_BUTTON_COLOR}
+                        />
+                      </TouchableOpacity>
+                      <Text style={styles.textSoLuong}>{quantity}</Text>
+                      <TouchableOpacity
+                        style={styles.buttonSoLuong}
+                        onPress={() => handleTangSoLuong()}>
+                        <Icon
+                          name="plus"
+                          size={15}
+                          color={BACKGROUND_BUTTON_COLOR}
+                        />
+                      </TouchableOpacity>
                     </View>
                   </View>
-
-                  <TouchableOpacity
-                    style={styles.muaNgayButtonContainer}
-                    onPress={() =>
-                      handleNavigate({
-                        id_user: user.id_user,
-                        id_san_pham: dataChiTietSanPham._id,
-                        ten_san_pham: dataChiTietSanPham.ten_san_pham,
-                        size: handeSelectedSize().ten_size,
-                        gia: handeSelectedSize().gia,
-                        so_luong: quantity,
-                        topping: handleSelectedTopping(),
-                      })
-                    }>
-                    <Text style={styles.textMuaNgay}>
-                      Mua ngay ({formatCurrency(total * quantity)})
-                    </Text>
-                  </TouchableOpacity>
                 </View>
-              </>
-            )}
-          </>
-        )}
-      </BottomSheet>
-    </>
+
+                <TouchableOpacity
+                  style={styles.muaNgayButtonContainer}
+                  onPress={() =>
+                    handleNavigate({
+                      id_user: user.id_user,
+                      id_san_pham: dataChiTietSanPham._id,
+                      ten_san_pham: dataChiTietSanPham.ten_san_pham,
+                      size: handeSelectedSize().ten_size,
+                      gia: handeSelectedSize().gia,
+                      so_luong: quantity,
+                      topping: handleSelectedTopping(),
+                    })
+                  }>
+                  <Text style={styles.textMuaNgay}>
+                    {console.log('quantity', quantity)}
+                    {console.log('total', total)}
+                    Mua ngay ({formatCurrency(total * quantity)})
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </>
+          )}
+        </>
+      )}
+    </BottomSheet>
   );
 };
 
-export default BottomMuaSanPhamCategories;
+export default React.memo(BottomMuaSanPhamCategories);

@@ -15,6 +15,8 @@ import scoreSlide from './slices/scoreSlide';
 
 import favoriteSlice from './slices/favoriteSlice';
 import muaSanPhamSlice from './slices/muaSanPhamSlice';
+
+import utilsSlice from './slices/utilSlice';
 const rootReducer = combineReducers({
   users: userSlice,
   categories: categoriesSlice,
@@ -29,6 +31,7 @@ const rootReducer = combineReducers({
   scores: scoreSlide,
   favorite: favoriteSlice,
   mua_san_pham: muaSanPhamSlice,
+  utils: utilsSlice,
 });
 
 export default rootReducer;

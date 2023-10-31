@@ -5,8 +5,13 @@ import Map from '../../others/map4D/Map'
 const ListStore = () => {
   return (
     <View style={{flex:1}}>
-        <View></View>
         <Map/>
+        <View style={{position:'absolute',alignSelf:'center'}}>
+            <Text>abc</Text>
+            <Text>abc</Text>
+            <Text>abc</Text>
+        </View>
+
 
     </View>
   )

@@ -72,20 +72,40 @@ const BottomMuaSanPham = ({isOpen, onChangeOpen, data, handleNavigate}) => {
   const [dataTopping, setDataTopping] = useState(dataToppingFetch);
   const [dataSize, setDataSize] = useState(data.size);
 
-  console.log('data topping', dataTopping);
-  const handleChangeSize = id => {
-    constantPrice = data.size[1].gia;
-    setDataSize(prevState => {
-      return prevState.map(item => {
-        if (item._id === id) {
-          setTotal(item.gia);
-          return {...item, isSelected: true};
-        } else {
-          return {...item, isSelected: false};
-        }
-      });
-    });
+
+  const handleChangeSize = (id) => {
+    // Lấy ra size hiện tại đã được chọn
+    const currentSelectedSize = dataSize.find((item) => item.isSelected);
+  
+    // Tìm ra size mới dựa trên id
+    const newSize = dataSize.find((item) => item._id === id);
+  
+    // Kiểm tra nếu size mới khác size hiện tại
+    if (currentSelectedSize !== newSize) {
+      // Loại bỏ isSelected cho size hiện tại
+      if (currentSelectedSize) {
+        setDataSize((prevState) =>
+          prevState.map((item) =>
+            item._id === currentSelectedSize._id ? { ...item, isSelected: false } : item
+          )
+        );
+      }
+  
+      // Cập nhật isSelected cho size mới
+      setDataSize((prevState) =>
+        prevState.map((item) =>
+          item._id === id ? { ...item, isSelected: true } : item
+        )
+      );
+  
+      // Tính toán và cập nhật giá
+      if (currentSelectedSize) {
+        const priceDifference = newSize.gia - currentSelectedSize.gia;
+        setTotal((total) => total + priceDifference);
+      }
+    }
   };
+  
   const handleChangeTopping = id => {
     setDataTopping(prevState => {
       return prevState.map(item => {
@@ -127,6 +147,9 @@ const BottomMuaSanPham = ({isOpen, onChangeOpen, data, handleNavigate}) => {
 
   // render size
   const renderSize = ({item}) => {
+    const defaultgia = data.size[1].gia;
+    const gia = item.gia-defaultgia;
+
     return (
       <TouchableOpacity
         key={item._id}
@@ -134,7 +157,9 @@ const BottomMuaSanPham = ({isOpen, onChangeOpen, data, handleNavigate}) => {
         onPress={() => handleChangeSize(item._id)}>
         <Text style={styles.textTopping}>{item.ten_size}</Text>
         <View style={styles.tienToppingContainer}>
-          <Text style={styles.textTien}>+{formatCurrency(item.gia)}</Text>
+        {gia>0?<Text style={styles.textTien}>+{formatCurrency(gia)}</Text>:<Text style={styles.textTien}>{formatCurrency(gia)}</Text>}
+
+          {/* <Text style={styles.textTien}>+{formatCurrency(item.gia)}</Text> */}
           <Icon
             style={styles.toppingChecked}
             name={item.isSelected ? 'circle-dot' : 'circle'}

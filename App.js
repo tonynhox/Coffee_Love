@@ -15,7 +15,6 @@ export const navigationRef = createNavigationContainerRef();
 
 const App = () => {
   return (
-
     <Provider store={store}>
 
       <NavigationContainer ref={navigationRef}>

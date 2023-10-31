@@ -6,6 +6,7 @@ const initialState = {
   isLoading: false,
   toaDoCuaHang: {},
   myLocation: {},
+  route: {},
 };
 
 export const locationMapSlice = createSlice({
@@ -26,6 +27,7 @@ export const locationMapSlice = createSlice({
       console.log('getLocationMapFetch');
       state.isLoading = true;
     },
+
     getLocationStoreSuccess: (state, action) => {
       state.toaDoCuaHang = action.payload;
       state.isLoading = false;
@@ -33,6 +35,17 @@ export const locationMapSlice = createSlice({
     },
     setMyLocation: (state, action) => {
       state.myLocation = action.payload;
+    },
+    //logation route
+    getLocationRouteFetch: state => {
+      console.log('getroute');
+      state.isLoading = true;
+    },
+    //action success
+    getLocationRouteSuccess: (state, action) => {
+      state.route = action.payload;
+      state.isLoading = false;
+      console.log('get route success');
     },
     //action fail
     getLocationMapFail: (state, action) => {
@@ -42,7 +55,15 @@ export const locationMapSlice = createSlice({
   },
 });
 
-export const {getLocationMapFetch, getLocationMapSuccess,getLocationStoreFetch,getLocationStoreSuccess,setMyLocation, getLocationMapFail} =
-  locationMapSlice.actions;
+export const {
+  getLocationMapFetch,
+  getLocationMapSuccess,
+  getLocationStoreFetch,
+  getLocationStoreSuccess,
+  setMyLocation,
+  getLocationRouteFetch,
+  getLocationRouteSuccess,
+  getLocationMapFail,
+} = locationMapSlice.actions;
 
 export default locationMapSlice.reducer;

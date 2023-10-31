@@ -4,11 +4,9 @@ import {styles} from '../styles';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useNavigation} from '@react-navigation/native';
 import BarcodeGenerator from './barcode/BarcodeGenerator';
-import {useSelector} from 'react-redux';
 
-const CardUser = () => {
+const CardUser = ({user}) => {
   const navigation = useNavigation();
-  const user = useSelector(state => state.users?.user);
   const islogin = user?.id_user || '';
 
   console.log('islogin', islogin);

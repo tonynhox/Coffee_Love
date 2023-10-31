@@ -10,8 +10,10 @@ import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {styles} from '../styles';
 import {useNavigation} from '@react-navigation/native';
-import {useSelector} from 'react-redux';
-const Menu = ({openBottomMuaHang}) => {
+import {useDispatch, useSelector} from 'react-redux';
+import { setIDSanPham, setOpenBottomSheet } from '../../../../redux/reducers/slices/utilSlice';
+const Menu = () => {
+  const dispatch = useDispatch();
   const navigation = useNavigation();
   const data = useSelector(state => state.products.data);
   const isLoading = useSelector(state => state.products.isLoading);
@@ -42,7 +44,10 @@ const Menu = ({openBottomMuaHang}) => {
           <View style={styles.cardItemBottom}>
             <Text style={styles.txtTitle}>{size[1].gia}</Text>
             <TouchableOpacity
-              onPress={() => openBottomMuaHang({id: item.item._id})}
+              onPress={() => {
+                  dispatch(setIDSanPham(item.item._id));
+                  dispatch(setOpenBottomSheet(true));
+              }}
               style={{
                 borderRadius: 100,
                 backgroundColor: '#df7a00',
@@ -66,7 +71,7 @@ const Menu = ({openBottomMuaHang}) => {
       </Text>
       <FlatList
         data={data}
-        columnWrapperStyle={{justifyContent: 'space-between'}}
+        columnWrapperStyle={{justifyContent: 'space-between',flex:1}}
         numColumns={2}
         renderItem={renderItem}
         keyExtractor={item => item._id.toString()}

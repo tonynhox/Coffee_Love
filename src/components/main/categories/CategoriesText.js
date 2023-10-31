@@ -10,17 +10,23 @@ import {
   FlatList,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import { setIDSanPham, setOpenBottomSheet } from '../../../redux/reducers/slices/utilSlice';
 
 const CategoriesText = ({openBottomMuaHang}) => {
+  const dispatch = useDispatch();
   const bigData = useSelector(state => state.categories.data);
+
+  //data ảo để chèn vào flatlist
   const trashData = [-1, 0];
+  //gộp data ảo và data thật
   const customBigData = [...trashData, ...bigData];
   const [firstFlatListItems, setFirstFlatListItems] = useState(8);
   const ref = useRef(null);
   const navigation = useNavigation();
   const [index, setIndex] = useState(-1);
 
+  //scoll tới vị trí category được chọn +2 vì có 2 item ảo
   useEffect(() => {
     if (index != -1)
       ref.current.scrollToIndex({animated: false, index: index + 2});
@@ -124,7 +130,14 @@ const CategoriesText = ({openBottomMuaHang}) => {
         style={{flexDirection: 'row', marginVertical: 10, borderRadius: 4}}
         onPress={() => handleNavigate(item._id)}>
         <TouchableOpacity
-          onPress={() => openBottomMuaHang({id: item._id})}
+          onPress={() => {
+            dispatch(setIDSanPham(item._id))
+            dispatch(setOpenBottomSheet(true))
+          }
+            // openBottomMuaHang({id: item._id})
+
+
+          }
           style={{
             position: 'absolute',
             bottom: 0,

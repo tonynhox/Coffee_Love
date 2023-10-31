@@ -19,7 +19,6 @@ export const voucherSlide = createSlice({
       state.voucher = action.payload.data;
       // console.log('store của voucher', state.voucher);
       state.isLoading = false;
-      ToastAndroid.show('Lấy All Voucher Thành công', ToastAndroid.SHORT);
     },
   },
 
@@ -27,7 +26,6 @@ export const voucherSlide = createSlice({
   getVoucherFail: (state, action) => {
     state.isLoading = false;
     console.log('action.payload voucher faile', action.payload);
-    ToastAndroid.show(action.payload, ToastAndroid.SHORT);
   },
 });
 

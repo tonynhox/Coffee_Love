@@ -27,6 +27,7 @@ import {
   getChangeFavoriteRequest,
   getFavoriteRequest,
 } from '../../../redux/reducers/slices/favoriteSlice';
+import { getAddCartPaymentFetch } from '../../../redux/reducers/slices/cartPaymentSlice';
 
 const ProductDetail = props => {
   const {navigation, route} = props;
@@ -60,7 +61,9 @@ const ProductDetail = props => {
   const [isOpen, setIsOpen] = React.useState(false);
 
   const navigateToBuyProduct = dataToBuy => {
-    console.log('DATA: ', dataToBuy);
+    // console.log('DATA: ', dataToBuy);
+    dispatch(getAddCartPaymentFetch({data:dataToBuy,navigation}));
+    
   };
 
   const onCheckIsLiked = () => {

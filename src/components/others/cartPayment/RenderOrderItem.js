@@ -2,10 +2,20 @@ import {Image, Pressable, StyleSheet, Text, TouchableOpacity, View} from 'react-
 import React from 'react';
 // import americanoImage from '../../../assets/images/americano.png';
 import { BACKGROUND_BUTTON_COLOR } from '../../../utils/contanst';
+import { useDispatch } from 'react-redux';
+import { setIDSanPham, setItemGioHang, setOpenBottomSheet } from '../../../redux/reducers/slices/utilSlice';
 
 const RenderOrderItem = ({item}) => {
+  const dispatch = useDispatch();
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity 
+      onPress={() => {
+        console.log('item',item);
+        dispatch(setIDSanPham(item.id_san_pham));
+        dispatch(setItemGioHang(item));
+        dispatch(setOpenBottomSheet(true));
+      }}
+      style={styles.container}>
       {/* Image va thong tin san pham */}
       <View style={styles.sanPhamContainer}>
         <Image

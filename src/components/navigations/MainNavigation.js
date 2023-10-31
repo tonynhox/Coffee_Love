@@ -16,16 +16,20 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import ModalCartOrder from '../../utils/Modals/ModalCartOrder';
 import {useDispatch, useSelector} from 'react-redux';
 import {getCartPaymentFetch} from '../../redux/reducers/slices/cartPaymentSlice';
-import Storage from '../../utils/Storage';
+
 import CategoriesText from '../main/categories/CategoriesText';
 import Geolocation from 'react-native-geolocation-service';
-import {getLocationMapFetch, setMyLocation} from '../../redux/reducers/slices/locationMapSlice';
+import {
+  getLocationMapFetch,
+  setMyLocation,
+} from '../../redux/reducers/slices/locationMapSlice';
 import {getVoucherFetch} from '../../redux/reducers/slices/voucherSlide';
 import {getScoreFetch} from '../../redux/reducers/slices/scoreSlide';
 import ListStore from '../main/listStore/ListStore';
-import BottomMuaSanPham from '../main/home/item/BottomMuaSanPham';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import BottomMuaSanPhamCategories from '../main/categories/BottomMuaSanPhamCategories';
+import { setIsVisibleModalCart } from '../../redux/reducers/slices/utilSlice';
+import { formatCurrency } from '../../utils/formatCurrency';
 
 const Tab = createBottomTabNavigator();
 
@@ -82,105 +86,128 @@ const MainNavigation = () => {
     }
   }, [id_user]);
 
+  const isOpenBottomMuaHang = useSelector(state => state.utils.openBottomSheet);
+  
   return (
-    
-    <Tab.Navigator
-      screenOptions={({route}) => ({
-        headerShown: false,
-        tabBarActiveTintColor: '#FF8C00',
-        tabBarIcon: ({focused}) => {
-          if (route.name == 'Home') {
-            if (!focused) {
-              return <Icon name="home-outline" size={25} color="#000" />;
-            } else {
-              return <Icon name="home-outline" size={25} color="#FF8C00" />;
+    <GestureHandlerRootView style={{flex: 1}}>
+      <View style={{flex:1,zIndex:-1}} >
+      <ModalCartOrder />
+        
+      <Tab.Navigator
+        screenOptions={({route}) => ({
+          headerShown: false,
+          tabBarActiveTintColor: '#FF8C00',
+          tabBarIcon: ({focused}) => {
+            if (route.name == 'Home') {
+              if (!focused) {
+                return <Icon name="home-outline" size={25} color="#000" />;
+              } else {
+                return <Icon name="home-outline" size={25} color="#FF8C00" />;
+              }
+            } else if (route.name == 'Categories') {
+              if (!focused) {
+                return <Icon name="coffee-outline" size={25} color="#000" />;
+              } else {
+                return <Icon name="coffee-outline" size={25} color="#FF8C00" />;
+              }
+            } else if (route.name == 'ListStore') {
+              if (!focused) {
+                return (
+                  <Icon name="store-search-outline" size={25} color="#000" />
+                );
+              } else {
+                return (
+                  <Icon name="store-search-outline" size={25} color="#FF8C00" />
+                );
+              }
+            } else if (route.name == 'Voucher') {
+              if (!focused) {
+                return (
+                  <Icon name="ticket-percent-outline" size={25} color="#000" />
+                );
+              } else {
+                return (
+                  <Icon
+                    name="ticket-percent-outline"
+                    size={25}
+                    color="#FF8C00"
+                  />
+                );
+              }
+            } else if (route.name == 'Profile') {
+              if (!focused) {
+                return (
+                  <Icon name="account-circle-outline" size={25} color="#000" />
+                );
+              } else {
+                return (
+                  <Icon
+                    name="account-circle-outline"
+                    size={25}
+                    color="#FF8C00"
+                  />
+                );
+              }
             }
-          } else if (route.name == 'Categories') {
-            if (!focused) {
-              return <Icon name="coffee-outline" size={25} color="#000" />;
-            } else {
-              return <Icon name="coffee-outline" size={25} color="#FF8C00" />;
-            }
-          } else if (route.name == 'ListStore') {
-            if (!focused) {
-              return <Icon name="store-search-outline" size={25} color="#000" />;
-            } else {
-              return <Icon name="store-search-outline" size={25} color="#FF8C00" />;
-            }
-          } else if (route.name == 'Voucher') {
-            if (!focused) {
-              return (
-                <Icon name="ticket-percent-outline" size={25} color="#000" />
-              );
-            } else {
-              return (
-                <Icon name="ticket-percent-outline" size={25} color="#FF8C00" />
-              );
-            }
-          } else if (route.name == 'Profile') {
-            if (!focused) {
-              return (
-                <Icon name="account-circle-outline" size={25} color="#000" />
-              );
-            } else {
-              return (
-                <Icon name="account-circle-outline" size={25} color="#FF8C00" />
-              );
-            }
-          }
-        },
-      })}>
-      <Tab.Screen
-        name="Home"
-        component={HomeWithExtraView}
-        options={{
-          presentation: 'modal',
-          animationTypeForReplace: 'push',
-          animation: 'slide_from_right',
-          tabBarLabel: 'Home',
-        }}
-      />
-      <Tab.Screen
-        name="Categories"
-        component={CategoriesWithExtraView}
-        options={{
-          presentation: 'modal',
-          animationTypeForReplace: 'push',
-          animation: 'slide_from_right',
-          tabBarLabel: 'Categories',
-        }}
-      />
-      <Tab.Screen
-        name="ListStore"
-        component={ListStore}
-        options={{
-          presentation: 'modal',
-          animationTypeForReplace: 'push',
-          animation: 'slide_from_right',
-          tabBarLabel: 'ListStore',
-        }}
-      />
-      <Tab.Screen
-        name="Voucher"
-        component={ListVoucher}
-        options={{
-          tabBarLabel: 'Voucher',
-        }}
-      />
-      <Tab.Screen
-        name="Profile"
-        component={Profile}
-        options={{
-          tabBarLabel: 'Profile',
-        }}
-      />
-    </Tab.Navigator>
+          },
+        })}>
+        <Tab.Screen
+          name="Home"
+          component={HomeWithExtraView}
+          options={{
+            presentation: 'modal',
+            animationTypeForReplace: 'push',
+            animation: 'slide_from_right',
+            tabBarLabel: 'Home',
+          }}
+        />
+        <Tab.Screen
+          name="Categories"
+          component={CategoriesWithExtraView}
+          options={{
+            presentation: 'modal',
+            animationTypeForReplace: 'push',
+            animation: 'slide_from_right',
+            tabBarLabel: 'Categories',
+          }}
+        />
+        <Tab.Screen
+          name="ListStore"
+          component={ListStore}
+          options={{
+            presentation: 'modal',
+            animationTypeForReplace: 'push',
+            animation: 'slide_from_right',
+            tabBarLabel: 'ListStore',
+          }}
+        />
+        <Tab.Screen
+          name="Voucher"
+          component={ListVoucher}
+          options={{
+            tabBarLabel: 'Voucher',
+          }}
+        />
+        <Tab.Screen
+          name="Profile"
+          component={Profile}
+          options={{
+            tabBarLabel: 'Profile',
+          }}
+        />
+      </Tab.Navigator>
+      </View>
+
+          {isOpenBottomMuaHang &&
+      <BottomMuaSanPhamCategories />}
+    </GestureHandlerRootView>
   );
 };
 
 const ExtraView = ({setModalVisible}) => {
   const nameLocation = useSelector(state => state.locationMap.data.address);
-
+  const cart = useSelector(state => state.cartPayment.cart);
+  const dispatch = useDispatch();
   return (
     <Pressable
       style={{
@@ -206,13 +233,18 @@ const ExtraView = ({setModalVisible}) => {
         <Text
           style={{maxWidth: 200, color: 'black', fontSize: 14}}
           numberOfLines={1}
-          ellipsizeMode="tail">
+          ellipsizeMode="tail"
+          >
           {nameLocation}
         </Text>
       </View>
       <Pressable
         onPress={() => {
-          setModalVisible(true);
+          // setModalVisible(true);
+          // dispatch(setIsVisibleModalCart(true));
+          dispatch(setIsVisibleModalCart(true));
+
+
         }}
         style={{
           flexDirection: 'row',
@@ -238,11 +270,11 @@ const ExtraView = ({setModalVisible}) => {
               color: '#df7a00',
               fontWeight: '600',
             }}>
-            2
+            {cart?.quantity||0}
           </Text>
         </View>
         <Text style={{color: '#fff', fontSize: 15, fontWeight: '500'}}>
-          30.000đ
+          {formatCurrency(cart?.price||0)}
         </Text>
         <Text style={{fontSize: 14, color: '#fff'}}>{'>'}</Text>
       </Pressable>
@@ -251,66 +283,28 @@ const ExtraView = ({setModalVisible}) => {
 };
 
 const HomeWithExtraView = () => {
-  const [isModalVisible, setIsModalVisible] = useState(false);
-
-  //bottom tab home screen
-  const [isOpenBottomMuaHang, setIsOpenBottomMuaHang] = useState(false);
-  const [idFromMenu, setIdFromMenu] = useState('');
-
-  const openBottomMuaHang = id => {
-    setIdFromMenu(id);
-    setIsOpenBottomMuaHang(true);
-  };
-
   return (
-    <GestureHandlerRootView style={{flex: 1}}>
-      <Home openBottomMuaHang={openBottomMuaHang} />
-      <ExtraView setModalVisible={setIsModalVisible} />
-      <ModalCartOrder
+    <>
+      <Home />
+      <ExtraView  />
+      {/* <ModalCartOrder
         isVisible={isModalVisible}
         setIsVisible={setIsModalVisible}
-      />
-      {isOpenBottomMuaHang && (
-        <BottomMuaSanPham
-          isOpen={isOpenBottomMuaHang}
-          onChangeOpen={() => setIsOpenBottomMuaHang(false)}
-          id={idFromMenu}
-          // handleNavigate={navigateToBuyProduct}
-        />
-      )}
-    </GestureHandlerRootView>
+      /> */}
+    </>
   );
 };
 
 const CategoriesWithExtraView = () => {
-  const [isModalVisible, setIsModalVisible] = useState(false);
-
-  //bottom tab home screen
-  const [isOpenBottomMuaHang, setIsOpenBottomMuaHang] = useState(false);
-  const [idFromMenu, setIdFromMenu] = useState('');
-
-  const openBottomMuaHang = id => {
-    setIdFromMenu(id);
-    setIsOpenBottomMuaHang(true);
-  };
-
   return (
-    <GestureHandlerRootView style={{flex: 1}}>
-      <CategoriesText openBottomMuaHang={openBottomMuaHang} />
-      <ExtraView setModalVisible={setIsModalVisible} />
-      <ModalCartOrder
+    <>
+      <CategoriesText />
+      <ExtraView />
+      {/* <ModalCartOrder
         isVisible={isModalVisible}
         setIsVisible={setIsModalVisible}
-      />
-      {isOpenBottomMuaHang && (
-        <BottomMuaSanPhamCategories
-          isOpen={isOpenBottomMuaHang}
-          onChangeOpen={() => setIsOpenBottomMuaHang(false)}
-          id={idFromMenu}
-          // handleNavigate={navigateToBuyProduct}
-        />
-      )}
-    </GestureHandlerRootView>
+      /> */}
+    </>
   );
 };
 

@@ -13,6 +13,7 @@ import {BACKGROUND_BUTTON_COLOR} from '../../../utils/contanst';
 // import { ScrollView } from 'react-native-virtualized-view';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useSelector} from 'react-redux';
+import { formatCurrency } from '../../../utils/formatCurrency';
 const diachiArr = [
   {
     ten_dia_chi: 'yolo',
@@ -38,6 +39,7 @@ const diachiArr = [
 const CartPayment = () => {
 
   const [diaChi, setDiaChi] = useState({});
+  const cart = useSelector(state => state.cartPayment.cart);
   useEffect(() => {
     if (diachiArr.length > 0) {
       const defaultAddress = diachiArr.find(item => item.mac_dinh === 1);
@@ -115,13 +117,13 @@ const CartPayment = () => {
 
         <View style={styles.phiGiaoHangContainer}>
           <Text style={styles.textPhiGiaoHang}>Thành tiền</Text>
-          <Text style={styles.textPhiGiaoHang}>15.000₫</Text>
+          <Text style={styles.textPhiGiaoHang}>{formatCurrency(cart?.price||0)}</Text>
         </View>
 
         {/* phi giao hang container */}
         <View style={styles.phiGiaoHangContainer}>
           <Text style={styles.textPhiGiaoHang}>Phí giao hàng</Text>
-          <Text style={styles.textPhiGiaoHang}>15.000₫</Text>
+          <Text style={styles.textPhiGiaoHang}>15.000 ₫</Text>
         </View>
 
         {/* phi giam gia container */}
@@ -133,9 +135,11 @@ const CartPayment = () => {
               styles.textPhiGiaoHang,
               {fontSize: 13.5, color: 'blue', fontWeight: '500'},
             ]}>
-            Chọn khuyến mãi/đổi điểm
+            Chọn khuyến mãi/đổi điểm | Khuyến mãi
           </Text>
-          <Icon name="chevron-right" size={18} color="blue" />
+
+          {/* <Icon name="chevron-right" size={18} color="blue" /> */}
+          <Text style={styles.textPhiGiaoHang}>-10 đ</Text>
         </TouchableOpacity>
       </View>
 
@@ -145,7 +149,7 @@ const CartPayment = () => {
       {/* tong tien container */}
       <View style={styles.tongTienContainer}>
         <Text style={styles.textTongTien}>Tổng</Text>
-        <Text style={styles.textTongTien}>100.100₫</Text>
+        <Text style={styles.textTongTien}>100.100 ₫</Text>
       </View>
 
       {/* separate line */}

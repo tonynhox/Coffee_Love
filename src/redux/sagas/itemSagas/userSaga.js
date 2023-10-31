@@ -26,7 +26,6 @@ function* Login(action) {
       instance.post('users/dang-nhap-username', payload),
     );
 
-    console.log('user: ', response.data);
 
     if (response.data.trang_thai) {
       //lưu local

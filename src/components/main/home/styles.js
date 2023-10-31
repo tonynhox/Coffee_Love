@@ -109,7 +109,7 @@ export const styles = StyleSheet.create({
 
   cardProduct: {
     marginVertical: 12,
-    height: 195,
+    // height: 215,
     width: 170,
     // marginHorizontal:24,
     backgroundColor: '#fff',
@@ -131,7 +131,7 @@ export const styles = StyleSheet.create({
   },
   cardImg: {
     width: '100%',
-    height: '50%',
+    height: 90,
   },
 
   rows: {
@@ -149,6 +149,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     height: '100%',
     padding: 16,
+    width: '70%',
   },
   cardTopOrder: {
     height: 140,
@@ -158,7 +159,7 @@ export const styles = StyleSheet.create({
     paddingLeft: 12,
     paddingEnd: 28,
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    // justifyContent: 'space-between',
     alignItems: 'center',
     borderWidth: 0.6,
     borderColor: 'lightgray',

@@ -21,7 +21,8 @@ function* fetchItem(action) {
 }
 function* fetchItemFromMenu(action) {
   try {
-    const {id} = action.payload.id;
+    const {id} = action.payload;
+
     const response = yield call(() =>
       instance.get(`api/san-pham/get-san-pham-by-id/${id}`),
     );

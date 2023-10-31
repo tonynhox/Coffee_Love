@@ -3,6 +3,10 @@ import {createSlice} from '@reduxjs/toolkit';
 //state
 const initialState = {
   data: [],
+  cart: {
+    quantity: 0,
+    price: 0,
+  },
   isLoading: false,
 };
 
@@ -16,8 +20,66 @@ export const cartPaymentSlice = createSlice({
     },
     //action success
     getCartPaymentSuccess: (state, action) => {
-      state.data = action.payload;
+      const data = action.payload;
+      state.data = data;
       state.isLoading = false;
+      state.cart.quantity = 0;
+      state.cart.price = 0;
+      data.forEach((item, index) => {
+        state.cart.quantity += item.so_luong;
+        state.cart.price += item.gia * item.so_luong;
+        item.topping.forEach(toping => {
+          state.cart.price += toping?.gia || 0 * item.so_luong;
+        });
+      });
+      console.log('cart', state.cart);
+    },
+
+    getAddCartPaymentFetch: (state, action) => {
+      console.log('getAddCartPaymentFetch');
+      state.isLoading = true;
+    },
+    getAddCartPaymentSuccess: (state, action) => {
+      const data = action.payload;
+      state.data = data;
+      state.isLoading = false;
+
+      //macidnh
+      state.cart.quantity = 0;
+      state.cart.price = 0;
+      data.forEach((item, index) => {
+        state.cart.quantity += item.so_luong;
+        state.cart.price += item.gia * item.so_luong;
+        item.topping.forEach(toping => {
+          state.cart.price += toping?.gia || 0 * item.so_luong;
+        });
+      });
+      console.log('cart', state.cart);
+    },
+
+    getUpdateCartPaymentFetch: (state, action) => {
+      console.log('getAddCartPaymentFetch');
+      state.isLoading = true;
+    },
+    getUpdateCartPaymentSuccess: (state, action) => {
+      const data = action.payload;
+      state.data = data;
+      state.isLoading = false;
+
+      //mac dinh
+      state.cart.quantity = 0;
+      state.cart.price = 0;
+      data.forEach((item, index) => {
+        state.cart.quantity += item.so_luong;
+        state.cart.price += item.gia * item.so_luong;
+        item.topping.forEach(toping => {
+          state.cart.price += toping?.gia || 0 * item.so_luong;
+        });
+      });
+    },
+    getDeleteCartPaymentFetch: (state, action) => {
+      state.isLoading = true;
+
     },
     //action fail
     getCartPaymentFail: (state, action) => {
@@ -27,7 +89,15 @@ export const cartPaymentSlice = createSlice({
   },
 });
 
-export const {getCartPaymentFetch, getCartPaymentSuccess, getCartPaymentFail} =
-  cartPaymentSlice.actions;
+export const {
+  getCartPaymentFetch,
+  getCartPaymentSuccess,
+  getAddCartPaymentFetch,
+  getAddCartPaymentSuccess,
+  getUpdateCartPaymentFetch,
+  getUpdateCartPaymentSuccess,
+  getDeleteCartPaymentFetch,
+  getCartPaymentFail,
+} = cartPaymentSlice.actions;
 
 export default cartPaymentSlice.reducer;
