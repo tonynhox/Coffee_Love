@@ -40,4 +40,5 @@ export const code_trang_thai_yeu_thich = {
 export const modal_color_don_hang = {
   background: '#FBDD9F',
   button: '#E98001',
+  gift: '#C74404'
 }

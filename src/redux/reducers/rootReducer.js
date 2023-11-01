@@ -19,6 +19,7 @@ import favoriteSlice from './slices/favoriteSlice';
 import muaSanPhamSlice from './slices/muaSanPhamSlice';
 
 import utilsSlice from './slices/utilSlice';
+import vongQuayMayManSlice from './slices/vongQuayMayManSlice';
 const rootReducer = combineReducers({
   users: userSlice,
   categories: categoriesSlice,
@@ -36,6 +37,7 @@ const rootReducer = combineReducers({
   utils: utilsSlice,
   historyScores: historyScoreSlide,
   searchs: searchSlice,
+  vong_quay_may_man: vongQuayMayManSlice,
 });
 
 export default rootReducer;

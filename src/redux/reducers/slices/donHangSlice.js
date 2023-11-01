@@ -25,6 +25,7 @@ const donHangSlice = createSlice({
       state.isChiTietDonHangLoading = true;
     },
     getDonHangSuccess: (state, action) => {
+      // console.log('THANH CONG: ', action.payload.result);
       let counterProcess = 0; // đếm số item của for
       const dangGiaoArray = [];
       const danhGiaArray = [];
@@ -59,6 +60,8 @@ const donHangSlice = createSlice({
           state.isThayDoiTrangThaiDonHangLoading = false;
         }
       }
+
+      console.log("DATA DANG GIAO", state.dataDangGiao)
     },
 
     getChiTietDonHangSuccess: (state, action) => {
