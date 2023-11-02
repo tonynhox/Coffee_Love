@@ -25,6 +25,7 @@ import {getProductAllFetch} from '../../redux/reducers/slices/productSlice';
 import Storage from '../../utils/Storage';
 import {navigationRef} from '../../../App';
 import ScoreHistory from '../others/scoreHistory/ScoreHistory';
+import VoucherCart from '../others/cartPayment/VoucherCart';
 // add other navigation functions that you need and export them
 
 const Stack = createNativeStackNavigator();
@@ -196,6 +197,17 @@ const AppNavigation = props => {
           presentation: 'modal',
           // animationTypeForReplace: 'push',
           animation: 'fade',
+        }}
+      />
+            <Stack.Screen
+
+        name="VoucherCart"
+        component={VoucherCart}
+        options={{
+          presentation: 'modal',
+          headerShown: true,
+          animationTypeForReplace: 'push',
+          animation: 'slide_from_right',
         }}
       />
     </Stack.Navigator>

@@ -83,13 +83,12 @@ export const userSlice = createSlice({
       state.user = action.payload;
       ToastAndroid.show('Chỉnh sửa thành công', ToastAndroid.SHORT);
     },
-  },
-
-  //error
-  getUserFail: (state, action) => {
-    state.isLoading = false;
-    console.log('action.payload user faile', action.payload);
-    ToastAndroid.show(action.payload, ToastAndroid.SHORT);
+    //error
+    getUserFail: (state, action) => {
+      state.isLoading = false;
+      console.log('action.payload user faile', action.payload);
+      ToastAndroid.show(action.payload, ToastAndroid.SHORT);
+    },
   },
 });
 

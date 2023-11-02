@@ -35,14 +35,12 @@ export const scoreSlide = createSlice({
       state.isLoading = false;
       ToastAndroid.show('Đổi Điểm Thành công', ToastAndroid.SHORT);
     },
-
-  },
-
-  //error
-  getScoreFail: (state, action) => {
-    state.isLoading = false;
-    console.log('action.payload score faile', action.payload);
-    ToastAndroid.show(action.payload, ToastAndroid.SHORT);
+    //error
+    getScoreFail: (state, action) => {
+      state.isLoading = false;
+      console.log('action.payload score faile', action.payload);
+      ToastAndroid.show(action.payload, ToastAndroid.SHORT);
+    },
   },
 });
 

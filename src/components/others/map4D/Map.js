@@ -383,9 +383,8 @@ const Map = () => {
 //         return Alert.alert('Thông báo', 'Không tìm thấy đường đi');
 //     }
 //   })
-    const route = useSelector(state => state.locationMap.route);
-  
 
+  const route = useSelector(state => state.locationMap.route);
 
   useEffect(() => {
     if(route.result)

@@ -36,8 +36,7 @@ const Tab = createBottomTabNavigator();
 
 const MainNavigation = () => {
   // const [position, setPosition] = useState({});
-  const position = useSelector(state => state.locationMap.data.myLocation);
-
+  const position = useSelector(state => state.locationMap.myLocation);
   //vị trí hiện tại
   const getCurrentPosition = async () => {
     if (Platform.OS === 'android') {
@@ -69,7 +68,6 @@ const MainNavigation = () => {
           lat: position?.latitude,
         }),
       );
-      // console.log(position.coords);
     }
   }, [position]);
 
@@ -218,9 +216,9 @@ const ExtraView = ({setModalVisible}) => {
         position: 'absolute',
         bottom: 10,
         alignSelf: 'center',
-        width: '86%',
+        width: '84%',
         borderRadius: 20,
-        padding: 10,
+        padding: 8,
         backgroundColor: 'white',
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -261,8 +259,8 @@ const ExtraView = ({setModalVisible}) => {
           style={{
             backgroundColor: '#fff6e7',
             borderRadius: 40,
-            width: 24,
-            height: 24,
+            width: 20,
+            height: 20,
             justifyContent: 'center',
           }}>
           <Text

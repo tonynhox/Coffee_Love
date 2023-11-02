@@ -12,25 +12,24 @@ export const searchSlice = createSlice({
   initialState,
   reducers: {
     getSearchFetch: state => {
-        state.isLoading = true;
-      },
-      //action success
-      getSearchSuccess: (state, action) => {
-        state.search = action.payload.data;
-        // console.log('data>>>>>>>> ', action.payload.data);
-        state.isLoading = false;
-      },
-  },
-
-  //error
-  getSearchFail: (state, action) => {
-    state.isLoading = false;
-    console.log('action.payload faile', action.payload);
-    ToastAndroid.show(action.payload, ToastAndroid.SHORT);
+      state.isLoading = true;
+    },
+    //action success
+    getSearchSuccess: (state, action) => {
+      state.search = action.payload.data;
+      // console.log('data>>>>>>>> ', action.payload.data);
+      state.isLoading = false;
+    },
+    //error
+    getSearchFail: (state, action) => {
+      state.isLoading = false;
+      console.log('action.payload faile', action.payload);
+      ToastAndroid.show(action.payload, ToastAndroid.SHORT);
+    },
   },
 });
 
 export const {getSearchFetch, getSearchSuccess, getSearchFail} =
-searchSlice.actions;
+  searchSlice.actions;
 
 export default searchSlice.reducer;

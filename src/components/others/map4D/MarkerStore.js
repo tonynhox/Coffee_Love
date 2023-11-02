@@ -21,8 +21,6 @@ const MarkerStore = props => {
 
   useEffect(() => {
     if (distance) {
-      console.log('distance', distance[0].coordinate);
-      console.log('myLocation', myLocation);
       map.current?.fitBounds({
         bounds: {
           northEast: {

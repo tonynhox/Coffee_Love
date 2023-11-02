@@ -4,6 +4,7 @@ import Storage from '../../../utils/Storage';
 //state
 const initialState = {
   voucher: {},
+  useVoucher: {},
   isLoading: false,
 };
 
@@ -20,16 +21,19 @@ export const voucherSlide = createSlice({
       // console.log('store của voucher', state.voucher);
       state.isLoading = false;
     },
-  },
-
-  //error
-  getVoucherFail: (state, action) => {
-    state.isLoading = false;
-    console.log('action.payload voucher faile', action.payload);
+    setUseVoucher: (state, action) => {
+      state.useVoucher = action.payload;
+      console.log('store của voucher', state.useVoucher);
+    },
+    //error
+    getVoucherFail: (state, action) => {
+      state.isLoading = false;
+      console.log('action.payload voucher faile', action.payload);
+    },
   },
 });
 
-export const {getVoucherFetch, getVoucherSuccess, getVoucherFail} =
+export const {getVoucherFetch, getVoucherSuccess,setUseVoucher, getVoucherFail} =
   voucherSlide.actions;
 
 export default voucherSlide.reducer;

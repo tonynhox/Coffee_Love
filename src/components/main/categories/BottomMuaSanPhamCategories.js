@@ -43,6 +43,13 @@ const BottomMuaSanPhamCategories = ({isOpenBottom}) => {
   // ref
   const bottomSheetRef = useRef(null);
   const [total, setTotal] = useState(0);
+  const [giaTopping, setGiaTopping] = useState(0);
+  const [giaSP, setGiaSP] = useState(0);
+  const [quantity, setQuantity] = useState(1);
+
+  useEffect(() => {
+    setTotal((giaTopping + giaSP) * quantity);
+  }, [giaTopping, giaSP, quantity]);
 
   const dataToppingFetch = useSelector(state => state.topping.data);
   const user = useSelector(state => state.users.user);
@@ -67,7 +74,7 @@ const BottomMuaSanPhamCategories = ({isOpenBottom}) => {
         ...dataChiTietSP,
         size: dataChiTietSP.size.map(item => {
           if (item.ten_size === itemGioHang.size) {
-            setTotal(item.gia);
+            setGiaSP(item.gia_da_giam);
             return {...item, isSelected: true};
           } else {
             return {...item, isSelected: false};
@@ -80,6 +87,7 @@ const BottomMuaSanPhamCategories = ({isOpenBottom}) => {
       //toping
 
       if (itemGioHang.topping.length > 0) {
+        let giaToppingTemp = 0;
         // console.log('itemGioHang?.topping',itemGioHang?.topping);
         setDataTopping(prevState => {
           return prevState.map(item => {
@@ -88,9 +96,10 @@ const BottomMuaSanPhamCategories = ({isOpenBottom}) => {
                 itemTopping => itemTopping.ten_topping === item.ten_topping,
               )
             ) {
-              setTotal(prevState => prevState + item.gia);
+              giaToppingTemp += item.gia;
               return {...item, isSelected: true};
             }
+            setGiaTopping(giaToppingTemp);
             return item;
           });
         });
@@ -104,7 +113,9 @@ const BottomMuaSanPhamCategories = ({isOpenBottom}) => {
     if (dataChiTietSanPham) {
       setDataSize(dataChiTietSanPham.size);
       if (!itemGioHang) {
-        setTotal(dataChiTietSanPham.size[1].gia);
+        dataChiTietSanPham.size[1].gia_da_giam != 0
+          ? setGiaSP(dataChiTietSanPham.size[1].gia_da_giam)
+          : setGiaSP(dataChiTietSanPham.size[1].gia);
       }
     }
   }, [dataChiTietSanPham]);
@@ -122,8 +133,6 @@ const BottomMuaSanPhamCategories = ({isOpenBottom}) => {
   useEffect(() => {
     setDataTopping(dataToppingFetch);
   }, [dataToppingFetch]);
-
-  const [quantity, setQuantity] = useState(1);
 
   const handleTangSoLuong = () => {
     setQuantity(quantity + 1);
@@ -209,8 +218,11 @@ const BottomMuaSanPhamCategories = ({isOpenBottom}) => {
 
       // Tính toán và cập nhật giá
       if (currentSelectedSize) {
-        const priceDifference = newSize.gia - currentSelectedSize.gia;
-        setTotal(total => total + priceDifference);
+        // const priceDifference = (newSize.gia - currentSelectedSize.gia);
+        // setTotal(total => total + priceDifference);
+        newSize.giam_gia != 0
+          ? setGiaSP(newSize.gia_da_giam)
+          : setGiaSP(newSize.gia);
       }
     }
   };
@@ -221,9 +233,9 @@ const BottomMuaSanPhamCategories = ({isOpenBottom}) => {
         if (item._id === id) {
           // nếu chưa được chọn thì cộng tiền vào, nếu đã chọn rồi thì trừ tiền ra
           if (item.isSelected == false) {
-            setTotal(total + item.gia);
+            setGiaTopping(gia => gia + item.gia);
           } else {
-            setTotal(total - item.gia);
+            setGiaTopping(gia => gia - item.gia);
           }
           return {...item, isSelected: !item.isSelected};
         }
@@ -253,8 +265,8 @@ const BottomMuaSanPhamCategories = ({isOpenBottom}) => {
 
   // render size
   const renderSize = ({item, index}) => {
-    const defaultgia = dataChiTietSanPham.size[1].gia;
-    const gia = item.gia - defaultgia;
+    // const defaultgia = dataChiTietSanPham.size[1].gia;
+    // const gia = item.gia - defaultgia;
     return (
       <TouchableOpacity
         key={item._id}
@@ -262,10 +274,16 @@ const BottomMuaSanPhamCategories = ({isOpenBottom}) => {
         onPress={() => handleChangeSize(item._id)}>
         <Text style={styles.textTopping}>{item.ten_size}</Text>
         <View style={styles.tienToppingContainer}>
-          {gia > 0 ? (
-            <Text style={styles.textTien}>+{formatCurrency(gia)}</Text>
+          {item.giam_gia != 0 ? (
+            <>
+              <Text style={styles.textGiaTien}>{formatCurrency(item.gia)}</Text>
+              <Text style={styles.textTien}>
+                {' '}
+                {formatCurrency(item.gia_da_giam)}{' '}
+              </Text>
+            </>
           ) : (
-            <Text style={styles.textTien}>{formatCurrency(gia)}</Text>
+            <Text style={styles.textTien}>+{formatCurrency(item.gia)}</Text>
           )}
 
           <Icon
@@ -326,16 +344,19 @@ const BottomMuaSanPhamCategories = ({isOpenBottom}) => {
                   <Text style={styles.textTenSanPham}>
                     {dataChiTietSanPham.ten_san_pham}
                   </Text>
-                  <View style={styles.giaTienContainer}>
+                  {/* <View style={styles.giaTienContainer}>
                     <Text style={styles.textGiaTien}>
                       {dataChiTietSanPham.size[1].giam_gia == 0
                         ? null
-                        : formatCurrency(dataChiTietSanPham.size[1].giam_gia)}
+                        : formatCurrency(dataChiTietSanPham.size[1].gia)}
                     </Text>
                     <Text style={styles.textGiaTienGiamGia}>
-                      {formatCurrency(dataChiTietSanPham.size[1].gia)}
+                    {dataChiTietSanPham.size[1].giam_gia == 0
+                        ? formatCurrency(dataChiTietSanPham.size[1].gia)
+                        : formatCurrency(dataChiTietSanPham.size[1].gia_da_giam)
+                        }
                     </Text>
-                  </View>
+                  </View> */}
                 </View>
 
                 {/* separate line */}
@@ -429,9 +450,7 @@ const BottomMuaSanPhamCategories = ({isOpenBottom}) => {
                     })
                   }>
                   <Text style={styles.textMuaNgay}>
-                    {console.log('quantity', quantity)}
-                    {console.log('total', total)}
-                    Mua ngay ({formatCurrency(total * quantity)})
+                    Mua ngay ({formatCurrency(total)})
                   </Text>
                 </TouchableOpacity>
               </View>

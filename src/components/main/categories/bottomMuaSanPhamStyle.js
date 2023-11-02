@@ -9,8 +9,8 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   tenSanPhamVaGiaTienContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    // flexDirection: 'row',
+    // justifyContent: 'space-between',
     alignItems: 'center',
     width: '100%',
   },
@@ -26,11 +26,12 @@ export const styles = StyleSheet.create({
     marginVertical: 10,
   },
   textTenSanPham: {
-    fontSize: 20,
+    fontSize: 22,
     color: 'black',
-    fontWeight: '500',
+    fontWeight: '600',
     marginLeft: 10,
-    width: '50%',
+    // width: '50%',
+    alignSelf: 'center',
   },
   textGiaTien: {
     fontSize: 16,

@@ -6,6 +6,7 @@ const initialState = {
   isLoading: false,
   toaDoCuaHang: {},
   myLocation: {},
+  routeCart: {},
   route: {},
 };
 
@@ -52,6 +53,12 @@ export const locationMapSlice = createSlice({
       console.log('getLocationMapFail', action);
       state.isLoading = false;
     },
+    getRouteCartFetch: state => {
+      console.log('getroute');
+    },
+    setRouteCart: (state, action) => {
+      state.routeCart = action.payload;
+    }
   },
 });
 
@@ -64,6 +71,8 @@ export const {
   getLocationRouteFetch,
   getLocationRouteSuccess,
   getLocationMapFail,
+  setRouteCart,
+  getRouteCartFetch,
 } = locationMapSlice.actions;
 
 export default locationMapSlice.reducer;

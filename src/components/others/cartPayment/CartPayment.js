@@ -6,49 +6,129 @@ import {
   FlatList,
   ScrollView,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import RenderOrderItem from './RenderOrderItem';
 import {BACKGROUND_BUTTON_COLOR} from '../../../utils/contanst';
 // import { ScrollView } from 'react-native-virtualized-view';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {useSelector} from 'react-redux';
-import { formatCurrency } from '../../../utils/formatCurrency';
-const diachiArr = [
-  {
-    ten_dia_chi: 'yolo',
-    so_dien_thoai: '090909090',
-    so_nha: '20',
-    tinh: 'dong nai',
-    mac_dinh: 0,
-    status: 1,
-    _id: '65316033ab77492e0b68df1b',
-    nguoi_nhan: 'cac',
-  },
-  {
-    ten_dia_chi: 'lagi',
-    so_dien_thoai: '142313123',
-    so_nha: '20',
-    tinh: 'binh thuan',
-    mac_dinh: 1,
-    status: 1,
-    _id: '65316033ab77492e0b68df1b',
-    nguoi_nhan: 'huy',
-  },
-];
-const CartPayment = () => {
+import {useDispatch, useSelector} from 'react-redux';
+import {formatCurrency} from '../../../utils/formatCurrency';
+import {findNearestCoordinate} from '../map4D/tinhKhoangCach';
+import {
+  getLocationRouteFetch,
+  getRouteCartFetch,
+} from '../../../redux/reducers/slices/locationMapSlice';
+import {giaGiaoHang} from '../map4D/tinhGiaGiaoHang';
+import {useNavigation} from '@react-navigation/native';
+import { setUseVoucher } from '../../../redux/reducers/slices/voucherSlide';
 
-  const [diaChi, setDiaChi] = useState({});
+const CartPayment = ({setPrice}) => {
+  const navigation = useNavigation();
   const cart = useSelector(state => state.cartPayment.cart);
+  const dispatch = useDispatch();
+  const diaChi = useSelector(state => state.locationMap.data.address);
+  const user = useSelector(state => state.users.user);
+  const data = useSelector(state => state.cartPayment.data);
+  const [tongSanPham, setTongSanPham] = useState(0);
+  //voucher đã chọn sử dụng
+  const sales = useSelector(state => state.vouchers.useVoucher);
+  //giá sale voucher
+  const [sale, setSale] = useState(0);
+  //data cửa hàng
+  const dataStore = useSelector(state => state.locationMap.toaDoCuaHang);
+  //data vị trí hiện tại
+  const myLocation = useSelector(state => state.locationMap.myLocation);
+
+  //tính giá` sale
   useEffect(() => {
-    if (diachiArr.length > 0) {
-      const defaultAddress = diachiArr.find(item => item.mac_dinh === 1);
-      setDiaChi(defaultAddress);
+    if (sales) {
+
+      switch (sales.status) {
+        case 1:
+          setSale(priceShip*(-1));
+          break;
+        case 2:
+          setSale(sales.gia_tri*(-1));
+          break;
+        case 3:
+          setSale(((cart?.price) * (sales.giam_gia / 100))*(-1));
+          break;
+        default:
+          console.log('không có sale');
+          setSale(0);
+          break;
+      }
     }
+  }, [sales]);
+
+  //tính khoảng cách gần nhất
+  // let distance;
+  const [locationGanNhat, setLocationGanNhat] = useState(null);
+  useEffect(() => {
+    setLocationGanNhat(
+      findNearestCoordinate(
+        (origin = {
+          latitude: myLocation.latitude,
+          longitude: myLocation.longitude,
+        }),
+        (coordinates = dataStore.map(item => {
+          item.location.x = parseFloat(item.location.x);
+          item.location.y = parseFloat(item.location.y);
+          return item.location;
+          // latitude: parseFloat(distance[0].coordinate.x),
+          //       longitude: parseFloat(distance[0].coordinate.y),
+        })),
+      ),
+    );
   }, []);
 
+  const dispatchGiaoHang = async () => {
+    dispatch(
+      getRouteCartFetch({
+        locationStart: {
+          latitude: myLocation.latitude,
+          longitude: myLocation.longitude,
+        },
+        locationEnd: {
+          latitude: parseFloat(locationGanNhat[0].coordinate.x),
+          longitude: parseFloat(locationGanNhat[0].coordinate.y),
+        },
+      }),
+    );
+  };
+  //chi tiết đường đi và khoảng cách của cửa hàng gần nhất
+  const routeCart = useSelector(state => state.locationMap.routeCart);
+  const [priceShip, setPriceShip] = useState(15000);
+  useEffect(() => {
+    if (routeCart) {
+      const ham = async () => {
+        const giane = await giaGiaoHang(
+          routeCart?.result?.routes[0]?.legs[0]?.distance?.value,
+        );
+
+        setPriceShip(giane || 15000);
+      };
+      ham();
+    }
+  }, [routeCart]);
+
+  //Đóng lại do tốn tiền quá
+  // useEffect(() => {
+  //   if (locationGanNhat) dispatchGiaoHang();
+  // }, [locationGanNhat]);
+
+  // tính giá tiền tổng tất cả
+  useEffect(() => {
+    console.log('sale', sale);
+    const price = ((cart?.price || 0) + priceShip) + sale;
+    setTongSanPham(price);
+    setPrice(price);
+  }, [priceShip, cart?.price, sale]);
+
+  // end
   //data giỏ hàng
-  const data = useSelector(state => state.cartPayment.data);
 
   return (
     <View style={styles.container}>
@@ -64,13 +144,18 @@ const CartPayment = () => {
           Thông tin - địa chỉ giao hàng
         </Text>
         <View style={{marginLeft: 6}}>
-          <Text style={styles.textThongTin}>{diaChi?.nguoi_nhan}</Text>
-          <Text style={styles.textThongTin}>{diaChi?.so_dien_thoai}</Text>
+          <Text style={styles.textThongTin}>
+            {user?.ho_ten || 'Chưa có họ tên'}
+          </Text>
+          <Text style={styles.textThongTin}>
+            {user?.so_dien_thoai || 'Chưa có số điện thoại'}
+          </Text>
           <Text
             style={[styles.textThongTin, {width: '86%'}]}
             numberOfLines={2}
             ellipsizeMode="tail">
-            Địa chỉ: {diaChi?.so_nha}, {diaChi?.tinh}
+            {/* Địa chỉ: {diaChi?.so_nha}, {diaChi?.tinh} */}
+            {diaChi || 'Chưa có địa chỉ giao hàng'}
           </Text>
         </View>
       </TouchableOpacity>
@@ -104,43 +189,70 @@ const CartPayment = () => {
         style={[styles.separateLine, {marginLeft: -20, width: '110%', left: 0}]}
       />
 
-      {/* tong tien container */}
-      {/* <View style={styles.tongTienContainer}>
-        <Text style={styles.textTongTien}>Tổng</Text>
-        <Text style={styles.textTongTien}>100.100₫</Text>
-      </View> */}
-      {/* <Text style={styles.textDonHang}>Tổng cộng</Text> */}
-
       {/* chi phi giao hang */}
       <View>
         <Text style={styles.textDonHang}>Tổng cộng</Text>
 
         <View style={styles.phiGiaoHangContainer}>
           <Text style={styles.textPhiGiaoHang}>Thành tiền</Text>
-          <Text style={styles.textPhiGiaoHang}>{formatCurrency(cart?.price||0)}</Text>
+          <Text style={styles.textPhiGiaoHang}>
+            {formatCurrency(cart?.price || 0)}
+          </Text>
         </View>
 
         {/* phi giao hang container */}
         <View style={styles.phiGiaoHangContainer}>
           <Text style={styles.textPhiGiaoHang}>Phí giao hàng</Text>
-          <Text style={styles.textPhiGiaoHang}>15.000 ₫</Text>
+          <Text style={styles.textPhiGiaoHang}>
+            {formatCurrency(priceShip)}
+          </Text>
         </View>
 
         {/* phi giam gia container */}
-        <TouchableOpacity style={[styles.phiGiaoHangContainer, {marginTop: 5}]}>
-          {/* <Text style={[styles.textPhiGiaoHang]}>Khuyến mãi</Text>
-          <Text style={styles.textPhiGiaoHang}>-10.000₫</Text> */}
-          <Text
-            style={[
-              styles.textPhiGiaoHang,
-              {fontSize: 13.5, color: 'blue', fontWeight: '500'},
-            ]}>
-            Chọn khuyến mãi/đổi điểm | Khuyến mãi
-          </Text>
+
+          {sale!=0 ? 
+                       <TouchableOpacity
+                       onPress={() => {
+                         Alert.alert(sales.ten_voucher, 'Bạn muốn sử dụng sau?', [
+                            {
+                              text: 'Huỷ',
+                              onPress: () => console.log('Cancel Pressed'),
+                              style: 'cancel',
+                            },
+                            {
+                              text: 'Xác nhận',
+                              onPress: () => {
+                                dispatch(setUseVoucher(null));
+                                setSale(0);
+                              },
+                            },
+                          ]);
+                       }}
+                       style={[styles.phiGiaoHangContainer, {marginTop: 5}]}>
+              <Text style={[styles.textPhiGiaoHang,
+                  {fontSize: 13.5, color: 'blue', fontWeight: '500'}]}>Khuyến mãi</Text>
+              <Text style={[styles.textPhiGiaoHang,
+                  {fontSize: 13.5, color: 'blue', fontWeight: '500'}]}>{formatCurrency(sale)}</Text>
+            </TouchableOpacity>
+           : 
+           <TouchableOpacity
+           onPress={() => {
+             navigation.push('VoucherCart');
+           }}
+           style={[styles.phiGiaoHangContainer, {marginTop: 5}]}>
+              <Text
+                style={[
+                  styles.textPhiGiaoHang,
+                  {fontSize: 13.5, color: 'blue', fontWeight: '500'},
+                ]}>
+                Chọn khuyến mãi/đổi điểm
+              </Text>
+          
 
           {/* <Icon name="chevron-right" size={18} color="blue" /> */}
           <Text style={styles.textPhiGiaoHang}>-10 đ</Text>
-        </TouchableOpacity>
+          </TouchableOpacity>}
+
       </View>
 
       {/* separate line */}
@@ -149,7 +261,7 @@ const CartPayment = () => {
       {/* tong tien container */}
       <View style={styles.tongTienContainer}>
         <Text style={styles.textTongTien}>Tổng</Text>
-        <Text style={styles.textTongTien}>100.100 ₫</Text>
+        <Text style={styles.textTongTien}>{formatCurrency(tongSanPham)}</Text>
       </View>
 
       {/* separate line */}

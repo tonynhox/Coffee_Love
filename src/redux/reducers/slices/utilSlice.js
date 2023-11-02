@@ -6,7 +6,6 @@ const initialState = {
   idSanPham: null,
   isVisibleModalCart: false,
   itemGioHang: null,
-
 };
 
 export const utilSlice = createSlice({
@@ -27,13 +26,17 @@ export const utilSlice = createSlice({
       state.isVisibleModalCart = action.payload;
     },
     setItemGioHang: (state, action) => {
-      console.log('setItemGioHang',action.payload);
+      console.log('setItemGioHang', action.payload);
       state.itemGioHang = action.payload;
-    }
-
+    },
   },
 });
 
-export const {setOpenBottomSheet,setIDSanPham,setIsVisibleModalCart,setItemGioHang} = utilSlice.actions;
+export const {
+  setOpenBottomSheet,
+  setIDSanPham,
+  setIsVisibleModalCart,
+  setItemGioHang,
+} = utilSlice.actions;
 
 export default utilSlice.reducer;

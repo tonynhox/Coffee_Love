@@ -23,13 +23,12 @@ export const historyScoreSlide = createSlice({
         ToastAndroid.SHORT,
       );
     },
-  },
-
-  //error
-  getHistoryScoreFail: (state, action) => {
-    state.isLoading = false;
-    console.log('action.payload history score faile', action.payload);
-    ToastAndroid.show(action.payload, ToastAndroid.SHORT);
+    //error
+    getHistoryScoreFail: (state, action) => {
+      state.isLoading = false;
+      console.log('action.payload history score faile', action.payload);
+      ToastAndroid.show(action.payload, ToastAndroid.SHORT);
+    },
   },
 });
 

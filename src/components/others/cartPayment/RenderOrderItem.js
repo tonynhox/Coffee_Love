@@ -10,7 +10,6 @@ const RenderOrderItem = ({item}) => {
   return (
     <TouchableOpacity 
       onPress={() => {
-        console.log('item',item);
         dispatch(setIDSanPham(item.id_san_pham));
         dispatch(setItemGioHang(item));
         dispatch(setOpenBottomSheet(true));
@@ -30,8 +29,13 @@ const RenderOrderItem = ({item}) => {
             <Text style={styles.textTenSanPham}>{item.ten_san_pham}</Text>
             {/* Gia */}
             <View style={styles.giaTienContainer}>
-              <Text style={[styles.textTien, styles.amount]}>{item.gia*0==0??''}</Text>
-              <Text style={styles.textGiaSale}>{item.gia}₫</Text>
+              {item.giam_gia !=0 ? <>
+                <Text style={[styles.textTien, styles.amount]}>{item.gia}</Text>
+                <Text style={[styles.textTien, styles.textGiaSale]}>{item.gia_da_giam}</Text>
+              </>
+              :<Text style={[styles.textTien, styles.textGiaSale]}>{item.gia}</Text>
+              }
+              {/* <Text style={styles.textGiaSale}>{item.gia}₫</Text>  */}
             </View>
           </View>
           <View style={styles.sizeContainer}>
