@@ -20,6 +20,9 @@ import muaSanPhamSlice from './slices/muaSanPhamSlice';
 
 import utilsSlice from './slices/utilSlice';
 import vongQuayMayManSlice from './slices/vongQuayMayManSlice';
+
+import deviceTokenSlice from './slices/deviceTokenSlice';
+
 const rootReducer = combineReducers({
   users: userSlice,
   categories: categoriesSlice,
@@ -38,6 +41,7 @@ const rootReducer = combineReducers({
   historyScores: historyScoreSlide,
   searchs: searchSlice,
   vong_quay_may_man: vongQuayMayManSlice,
+  deviceToken: deviceTokenSlice,
 });
 
 export default rootReducer;

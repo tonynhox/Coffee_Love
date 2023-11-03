@@ -1,0 +1,113 @@
+{
+  "project_info": {
+    "project_number": "52700740590",
+    "project_id": "login-143c8",
+    "storage_bucket": "login-143c8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:52700740590:android:223fe7bebc2dd6b3a7acff",
+        "android_client_info": {
+          "package_name": "com.awesomeproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "52700740590-t3uae4l11gjt5g38c8jbcnq5m6fg5v2v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJgAvcYdxOTyY5aX5-p93_lzoBycy_hDc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "52700740590-gjo1air7oqvseliq4vghjd4vobpnof4d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:52700740590:android:e93ef2a650b830f2a7acff",
+        "android_client_info": {
+          "package_name": "com.coffeelove"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "52700740590-t3uae4l11gjt5g38c8jbcnq5m6fg5v2v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJgAvcYdxOTyY5aX5-p93_lzoBycy_hDc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "52700740590-gjo1air7oqvseliq4vghjd4vobpnof4d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:52700740590:android:5b2e57c17252370aa7acff",
+        "android_client_info": {
+          "package_name": "com.example.myfpolyapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "52700740590-lm6b49gj58hir4b8loq5qcj5rp361mqg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.myfpolyapp",
+            "certificate_hash": "a72a3960e3db118a1a3a2882bf12d4839e913c7c"
+          }
+        },
+        {
+          "client_id": "52700740590-tpuvp5gnsfncfu61ol6vhrmd9r468a65.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.myfpolyapp",
+            "certificate_hash": "bad274f756c951708ca016efd7309a47fc91a5d4"
+          }
+        },
+        {
+          "client_id": "52700740590-t3uae4l11gjt5g38c8jbcnq5m6fg5v2v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJgAvcYdxOTyY5aX5-p93_lzoBycy_hDc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "52700740590-gjo1air7oqvseliq4vghjd4vobpnof4d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

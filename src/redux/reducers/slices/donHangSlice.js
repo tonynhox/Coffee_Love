@@ -61,7 +61,7 @@ const donHangSlice = createSlice({
         }
       }
 
-      console.log("DATA DANG GIAO", state.dataDangGiao)
+      console.log('DATA DANG GIAO', state.dataDangGiao);
     },
 
     getChiTietDonHangSuccess: (state, action) => {
@@ -134,7 +134,7 @@ const donHangSlice = createSlice({
 
     // real-time check trang thai
     re_checkTrangThaiDonHangRequest: state => {
-      console.log("EXECUTED")
+      console.log('EXECUTED');
     },
   },
 });
@@ -152,6 +152,7 @@ export const {
   getDanhGiaRequest,
   getDanhGiaSuccess,
   getDanhGiaFail,
-  re_checkTrangThaiDonHangRequest
+  re_checkTrangThaiDonHangRequest,
 } = donHangSlice.actions;
+
 export default donHangSlice.reducer;
