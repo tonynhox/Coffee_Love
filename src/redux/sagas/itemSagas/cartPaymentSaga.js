@@ -4,6 +4,7 @@ import {
   getAddCartPaymentSuccess,
   getCartPaymentFail,
   getCartPaymentSuccess,
+  getPaymentSuccess,
 } from '../../reducers/slices/cartPaymentSlice';
 import { setOpenBottomSheet } from '../../reducers/slices/utilSlice';
 
@@ -102,6 +103,26 @@ function* WorkerDeleteCartPayment(action) {
   }
 }
 
+function* WorkerPayment(action) {
+  try {
+    // const {da} = action.payload;
+
+    const response = yield call(() =>
+      instance.post(`api/don-hang/them-don-hang`,action.payload),
+    );
+    const result = response.data;
+    if (result.status) {
+      yield put(getPaymentSuccess());
+      console.log('Thành công', result);
+    } else {
+      yield put(getCartPaymentFail(result.message));
+    }
+  } catch (error) {
+    console.log('error', error);
+    yield put(getCartPaymentFail('Lỗi kết nối'));
+  }
+}
+
 function* cartPaymentSaga() {
   yield takeEvery('cartPayment/getCartPaymentFetch', WorkercartPayment);
 
@@ -110,6 +131,9 @@ function* cartPaymentSaga() {
   yield takeEvery('cartPayment/getUpdateCartPaymentFetch', WorkerUpdateCartPayment);
 
   yield takeEvery('cartPayment/getDeleteCartPaymentFetch', WorkerDeleteCartPayment);
+
+  yield takeEvery('cartPayment/getPaymentFetch', WorkerPayment);
+
 
 }
 

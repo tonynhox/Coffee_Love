@@ -2,7 +2,6 @@
 function haversineDistance(lat1, lon1, lat2, lon2) {
     const R = 6371; // Bán kính trái đất (km)
 
-    console.log('lat2', lat2);
     // Chuyển đổi độ thành radian
     const lat1Rad = toRadians(lat1);
     const lon1Rad = toRadians(lon1);

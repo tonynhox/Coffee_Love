@@ -7,6 +7,27 @@ const initialState = {
     quantity: 0,
     price: 0,
   },
+  dataPayment:     {
+    "id_user":"651e8c5baa3c5378de775821", 
+    "id_chi_nhanh":"6522818a2639141f25388250", 
+    "loai_don_hang":"order Online", 
+    "dia_chi":{
+        "ten_dia_chi": "212312",
+        "so_dien_thoai":"" , 
+        "so_nha":"", 
+        "tinh":"",
+        "nguoi_nhan":"huy tran"
+    }, 
+    "san_pham":[], 
+    "ghi_chu":"", 
+    "giam_gia": 10000, 
+    "phi_van_chuyen": 15000,
+    "thanh_toan":{
+        "ten_thanh_toan":"ZaloPay",
+        "ma_thanh_toan":"",
+        "trang_thai": 2
+    }
+},
   isLoading: false,
 };
 
@@ -77,9 +98,19 @@ export const cartPaymentSlice = createSlice({
         });
       });
     },
+
     getDeleteCartPaymentFetch: (state, action) => {
       state.isLoading = true;
 
+    },
+    setDataPayment: (state, action) => {
+      state.dataPayment = action.payload;
+    },
+    getPaymentFetch: (state, action) => {
+      state.isLoading = true;
+    },
+    getPaymentSuccess: (state, action) => {
+      state.isLoading = false;
     },
     //action fail
     getCartPaymentFail: (state, action) => {
@@ -97,6 +128,9 @@ export const {
   getUpdateCartPaymentFetch,
   getUpdateCartPaymentSuccess,
   getDeleteCartPaymentFetch,
+  setDataPayment,
+  getPaymentFetch,
+  getPaymentSuccess,
   getCartPaymentFail,
 } = cartPaymentSlice.actions;
 

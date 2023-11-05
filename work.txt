@@ -1,1 +1,39 @@
 Hiện tại ở saga location đang đón lại location và ở cartpayment đang đóng lại tính toán giao hàng do tốn tiền quá :v
+
+//giỏ hàng
+- thiếu đổi địa chỉ giao hàng
+- thiếu đổi địa chỉ chi nhánh
+- thiếu đổi phương thức thanh toán
+- thiếu hiển thị voucher
+- thiếu hiển thị giá trị voucher
+- thiếu input chú thích
+- thiếu thanh toán thành công bật orderdetail
+- sửa lại alert của chọn voucher và huỷ voucher
+- sửa lại hàm xoá ở saga
+//realtime detail
+- chưa load lại khi đã giao hàng
+- thêm thông báo khi đã giao hàng thành công
+//chỉnh lại animation cho giỏ hàng ở dưới
+//thiếu data thể loại
+//thiếu quét QR
+//thiếu up hình
+// thiếu field thành viên theo điểm
+//thiếu link extension ở home
+//tìm kiếm chưa test cần sửa lại giao diện
+//fix màu giao diện cho đều ko đc đậm
+//thêm giảm giá theo ngày
+//thiếu header đa số luôn
+//header animation theo loại, và bấm đc top thể loại
+//sửa lại chi tiết sản phẩm
+//sửa lại các nút lúc thêm vào giỏ hàng
+// chưa bấm được nút tất cả đánh giá
+//goback còn lỏ ở chỗ giỏ hàng
+//Map chưa có hiện thỉ tất cả các chi nhánh
+//chưa realtime position
+//chưa đổi đc avatar
+//chưa có chức năng thêm địa chỉ
+//chưa hiển thị mấy item đầu cho màn hình voucher
+//chưa lọc + giao diện ngày sắp hết hạn voucher
+//alert đăng xuất xấu
+//chưa clear ẩn giỏ hàng khi đăng xuất
+//check phải đăng nhập mới cho order trên app

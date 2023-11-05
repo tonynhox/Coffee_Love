@@ -88,7 +88,22 @@ const BottomMuaSanPhamCategories = ({isOpenBottom}) => {
 
       if (itemGioHang.topping.length > 0) {
         let giaToppingTemp = 0;
-        // console.log('itemGioHang?.topping',itemGioHang?.topping);
+      
+        // Create a map of topping names to their prices
+        const toppingPricesMap = {};
+        dataTopping.forEach(item => {
+          toppingPricesMap[item.ten_topping] = item.gia;
+        });
+      
+        // Calculate the total price of selected toppings
+        itemGioHang.topping.forEach(itemTopping => {
+          const toppingPrice = toppingPricesMap[itemTopping.ten_topping];
+          if (toppingPrice) {
+            giaToppingTemp += toppingPrice;
+          }
+        });
+      
+        // Update dataTopping to mark selected toppings
         setDataTopping(prevState => {
           return prevState.map(item => {
             if (
@@ -96,14 +111,15 @@ const BottomMuaSanPhamCategories = ({isOpenBottom}) => {
                 itemTopping => itemTopping.ten_topping === item.ten_topping,
               )
             ) {
-              giaToppingTemp += item.gia;
-              return {...item, isSelected: true};
+              return { ...item, isSelected: true };
             }
-            setGiaTopping(giaToppingTemp);
             return item;
           });
         });
+      
+        setGiaTopping(giaToppingTemp);
       }
+      
     } else if (dataChiTietSP) {
       setDataChiTietSanPham(dataChiTietSP);
     }

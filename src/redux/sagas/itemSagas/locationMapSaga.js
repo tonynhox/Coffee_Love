@@ -97,7 +97,7 @@ function* WorkerCartRoute(action) {
 }
 
 function* locationMapSaga() {
-  // yield takeLatest('locationMap/getLocationMapFetch', WorkerGetMyLocation);
+  yield takeLatest('locationMap/getLocationMapFetch', WorkerGetMyLocation);
 
   yield takeLatest('locationMap/getLocationStoreFetch', WorkerGetDSCN);
 

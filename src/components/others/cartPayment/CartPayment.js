@@ -8,7 +8,12 @@ import {
   TouchableOpacity,
   Alert,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {
+  useEffect,
+  useState,
+  useImperativeHandle,
+  forwardRef,
+} from 'react';
 import RenderOrderItem from './RenderOrderItem';
 import {BACKGROUND_BUTTON_COLOR} from '../../../utils/contanst';
 // import { ScrollView } from 'react-native-virtualized-view';
@@ -22,15 +27,17 @@ import {
 } from '../../../redux/reducers/slices/locationMapSlice';
 import {giaGiaoHang} from '../map4D/tinhGiaGiaoHang';
 import {useNavigation} from '@react-navigation/native';
-import { setUseVoucher } from '../../../redux/reducers/slices/voucherSlide';
+import {setUseVoucher} from '../../../redux/reducers/slices/voucherSlide';
+import {getPaymentFetch} from '../../../redux/reducers/slices/cartPaymentSlice';
 
-const CartPayment = ({setPrice}) => {
+const CartPayment = forwardRef(({setPrice}, ref) => {
   const navigation = useNavigation();
   const cart = useSelector(state => state.cartPayment.cart);
   const dispatch = useDispatch();
   const diaChi = useSelector(state => state.locationMap.data.address);
   const user = useSelector(state => state.users.user);
   const data = useSelector(state => state.cartPayment.data);
+  //tổng giá sản phẩm
   const [tongSanPham, setTongSanPham] = useState(0);
   //voucher đã chọn sử dụng
   const sales = useSelector(state => state.vouchers.useVoucher);
@@ -40,28 +47,7 @@ const CartPayment = ({setPrice}) => {
   const dataStore = useSelector(state => state.locationMap.toaDoCuaHang);
   //data vị trí hiện tại
   const myLocation = useSelector(state => state.locationMap.myLocation);
-
-  //tính giá` sale
-  useEffect(() => {
-    if (sales) {
-
-      switch (sales.status) {
-        case 1:
-          setSale(priceShip*(-1));
-          break;
-        case 2:
-          setSale(sales.gia_tri*(-1));
-          break;
-        case 3:
-          setSale(((cart?.price) * (sales.giam_gia / 100))*(-1));
-          break;
-        default:
-          console.log('không có sale');
-          setSale(0);
-          break;
-      }
-    }
-  }, [sales]);
+  const [tencuahang, setTenCuaHang] = useState(null);
 
   //tính khoảng cách gần nhất
   // let distance;
@@ -97,6 +83,11 @@ const CartPayment = ({setPrice}) => {
         },
       }),
     );
+    const tencuahangTemp = dataStore.filter(
+      item => item.location.x == locationGanNhat[0].coordinate.x,
+    );
+    // setTenCuaHang(tencuahangTemp[0].ten_chi_nhanh+ ' \n'+tencuahangTemp[0].dia_chi);
+    setTenCuaHang(tencuahangTemp[0]);
   };
   //chi tiết đường đi và khoảng cách của cửa hàng gần nhất
   const routeCart = useSelector(state => state.locationMap.routeCart);
@@ -115,20 +106,114 @@ const CartPayment = ({setPrice}) => {
   }, [routeCart]);
 
   //Đóng lại do tốn tiền quá
-  // useEffect(() => {
-  //   if (locationGanNhat) dispatchGiaoHang();
-  // }, [locationGanNhat]);
+  useEffect(() => {
+    if (locationGanNhat) dispatchGiaoHang();
+  }, [locationGanNhat]);
+
+  //tính giá` sale
+  useEffect(() => {
+    if (sales) {
+      switch (sales.status) {
+        case 1:
+          setSale(priceShip * -1);
+          break;
+        case 2:
+          setSale(sales.gia_tri * -1);
+          break;
+        case 3:
+          setSale(cart?.price * (sales.giam_gia / 100) * -1);
+          break;
+        default:
+          console.log('không có sale');
+          setSale(0);
+          break;
+      }
+    }
+  }, [priceShip, sales]);
 
   // tính giá tiền tổng tất cả
   useEffect(() => {
     console.log('sale', sale);
-    const price = ((cart?.price || 0) + priceShip) + sale;
+    const price = (cart?.price || 0) + priceShip + sale;
     setTongSanPham(price);
     setPrice(price);
   }, [priceShip, cart?.price, sale]);
 
   // end
   //data giỏ hàng
+
+  //onpress mua hàng
+  const handlePayment = () => {
+    dispatch(
+      getPaymentFetch({
+        id_user: user?.id_user,
+        id_chi_nhanh: tencuahang?._id,
+        loai_don_hang: 'order Online',
+        dia_chi: {
+          ten_dia_chi: diaChi,
+          so_dien_thoai: user?.so_dien_thoai,
+          so_nha: '',
+          tinh: '',
+          nguoi_nhan: user?.ho_ten,
+        },
+        san_pham: data.map(item => {
+          return {
+            id_san_pham: item.id_san_pham,
+            ten_san_pham: item.ten_san_pham,
+            size: item.size,
+            so_luong: item.so_luong,
+            gia: item.gia_da_giam,
+            topping: item.topping,
+          };
+        }),
+        ghi_chu: '',
+        giam_gia: sale,
+        phi_van_chuyen: priceShip,
+        thanh_tien: tongSanPham,
+        thanh_toan: {
+          ten_thanh_toan: 'Thanh Toán Khi Nhận Hàng',
+          ma_thanh_toan: '',
+          trang_thai: 1,
+        },
+      }),
+    );
+  };
+
+  useImperativeHandle(ref, () => ({
+    open() {
+      handlePayment();
+      // console.log('componentBRef', {
+      //   id_user: user?.id_user,
+      //   id_chi_nhanh: tencuahang?._id,
+      //   loai_don_hang: 'order Online',
+      //   dia_chi: {
+      //     ten_dia_chi: diaChi,
+      //     so_dien_thoai: user?.so_dien_thoai,
+      //     so_nha: '',
+      //     tinh: '',
+      //     nguoi_nhan: user?.ho_ten,
+      //   },
+      //   san_pham: data.map(item => {
+      //     return {
+      //       id_san_pham: item.id_san_pham,
+      //       ten_san_pham: item.ten_san_pham,
+      //       size: item.size,
+      //       so_luong: item.so_luong,
+      //       gia: item.gia_da_giam,
+      //       topping: item.topping
+      //     };
+      //   }),
+      //   ghi_chu: '',
+      //   giam_gia: sale,
+      //   phi_van_chuyen: priceShip,
+      //   thanh_toan: {
+      //     ten_thanh_toan: 'Thanh Toán Khi Nhận Hàng',
+      //     ma_thanh_toan: '',
+      //     trang_thai: 1,
+      //   },
+      // });
+    },
+  }));
 
   return (
     <View style={styles.container}>
@@ -159,6 +244,32 @@ const CartPayment = ({setPrice}) => {
           </Text>
         </View>
       </TouchableOpacity>
+      {/* separate line */}
+      <View
+        style={[styles.separateLine, {marginLeft: -20, width: '110%', left: 0}]}
+      />
+      {/* chi nhánh */}
+      <TouchableOpacity style={styles.thongTinDiaChiContainer}>
+        <View style={{position: 'absolute', top: 20, right: 0}}>
+          {/* <Text style={styles.textDonHang}>Đổi</Text> */}
+          <Icon name="chevron-right" size={30} color="black" />
+        </View>
+        <Text style={styles.textThongTinDiaChi}>Địa điểm chi nhánh</Text>
+        <View style={{marginLeft: 6}}>
+          <Text
+            style={[styles.textThongTin, {width: '86%'}]}
+            numberOfLines={2}
+            ellipsizeMode="tail">
+            {/* Địa chỉ: {diaChi?.so_nha}, {diaChi?.tinh} */}
+
+            {tencuahang?.ten_chi_nhanh + '\n' + tencuahang?.dia_chi ||
+              'Chưa có địa chỉ cửa hàng'}
+          </Text>
+          {/* <Text style={styles.textThongTin}>
+            {user?.so_dien_thoai || 'Chưa có số điện thoại'}
+          </Text> */}
+        </View>
+      </TouchableOpacity>
 
       {/* separate line */}
       <View
@@ -168,23 +279,12 @@ const CartPayment = ({setPrice}) => {
       {/* Don hang */}
       <View>
         <Text style={styles.textDonHang}>Đơn hàng</Text>
-        {/* <FlatList
-          // height={210}
-          scrollEnabled={false} 
-          data={data}
-          renderItem={RenderOrderItem}
-          keyExtractor={item => item._id}
-        /> */}
+
         {data.map((item, index) => {
           return <RenderOrderItem key={index} item={item} index={index} />;
         })}
-        {/* <Text style={[styles.textTongSanPham, {marginTop: 10}]}>
-          Tổng sản phẩm: 3
-        </Text> */}
       </View>
 
-      {/* separate line
-      <View style={styles.separateLine} /> */}
       <View
         style={[styles.separateLine, {marginLeft: -20, width: '110%', left: 0}]}
       />
@@ -210,49 +310,57 @@ const CartPayment = ({setPrice}) => {
 
         {/* phi giam gia container */}
 
-          {sale!=0 ? 
-                       <TouchableOpacity
-                       onPress={() => {
-                         Alert.alert(sales.ten_voucher, 'Bạn muốn sử dụng sau?', [
-                            {
-                              text: 'Huỷ',
-                              onPress: () => console.log('Cancel Pressed'),
-                              style: 'cancel',
-                            },
-                            {
-                              text: 'Xác nhận',
-                              onPress: () => {
-                                dispatch(setUseVoucher(null));
-                                setSale(0);
-                              },
-                            },
-                          ]);
-                       }}
-                       style={[styles.phiGiaoHangContainer, {marginTop: 5}]}>
-              <Text style={[styles.textPhiGiaoHang,
-                  {fontSize: 13.5, color: 'blue', fontWeight: '500'}]}>Khuyến mãi</Text>
-              <Text style={[styles.textPhiGiaoHang,
-                  {fontSize: 13.5, color: 'blue', fontWeight: '500'}]}>{formatCurrency(sale)}</Text>
-            </TouchableOpacity>
-           : 
-           <TouchableOpacity
-           onPress={() => {
-             navigation.push('VoucherCart');
-           }}
-           style={[styles.phiGiaoHangContainer, {marginTop: 5}]}>
-              <Text
-                style={[
-                  styles.textPhiGiaoHang,
-                  {fontSize: 13.5, color: 'blue', fontWeight: '500'},
-                ]}>
-                Chọn khuyến mãi/đổi điểm
-              </Text>
-          
+        {sale != 0 && sales ? (
+          <TouchableOpacity
+            onPress={() => {
+              Alert.alert(sales.ten_voucher, 'Bạn muốn sử dụng sau?', [
+                {
+                  text: 'Huỷ',
+                  onPress: () => console.log('Cancel Pressed'),
+                  style: 'cancel',
+                },
+                {
+                  text: 'Xác nhận',
+                  onPress: () => {
+                    dispatch(setUseVoucher(null));
+                    setSale(0);
+                  },
+                },
+              ]);
+            }}
+            style={[styles.phiGiaoHangContainer, {marginTop: 5}]}>
+            <Text
+              style={[
+                styles.textPhiGiaoHang,
+                {fontSize: 13.5, color: 'blue', fontWeight: '500'},
+              ]}>
+              Khuyến mãi
+            </Text>
+            <Text
+              style={[
+                styles.textPhiGiaoHang,
+                {fontSize: 13.5, color: 'blue', fontWeight: '500'},
+              ]}>
+              {formatCurrency(sale)}
+            </Text>
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            onPress={() => {
+              navigation.push('VoucherCart');
+            }}
+            style={[styles.phiGiaoHangContainer, {marginTop: 5}]}>
+            <Text
+              style={[
+                styles.textPhiGiaoHang,
+                {fontSize: 13.5, color: 'blue', fontWeight: '500'},
+              ]}>
+              Chọn khuyến mãi/đổi điểm
+            </Text>
 
-          {/* <Icon name="chevron-right" size={18} color="blue" /> */}
-          <Text style={styles.textPhiGiaoHang}>-10 đ</Text>
-          </TouchableOpacity>}
-
+            <Icon name="chevron-right" size={18} color="blue" />
+          </TouchableOpacity>
+        )}
       </View>
 
       {/* separate line */}
@@ -313,7 +421,7 @@ const CartPayment = ({setPrice}) => {
       </View>
     </View>
   );
-};
+});
 
 export default React.memo(CartPayment);
 
