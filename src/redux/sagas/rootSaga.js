@@ -7,13 +7,14 @@ import topOrderSaga from './itemSagas/topOrderSaga';
 import productSaga from './itemSagas/productSaga';
 import voucherSaga from './itemSagas/voucherSaga';
 import scoreSaga from './itemSagas/scoreSaga';
-import {donHangSaga,chiTietDonHangSaga } from './itemSagas/donHangSaga';
+import {donHangSaga, chiTietDonHangSaga} from './itemSagas/donHangSaga';
 
 import locationMapSaga from './itemSagas/locationMapSaga';
 import toppingSaga from './itemSagas/toppingSaga';
 import favoriteSaga from './itemSagas/favoriteSaga';
 import historyScoreSaga from './itemSagas/historyScoreSaga';
 import searchSaga from './itemSagas/searchSaga';
+import vongQuayMayManSaga from './itemSagas/vongQuayMayManSaga';
 
 export default function* rootSaga() {
   yield all([
@@ -34,5 +35,6 @@ export default function* rootSaga() {
     favoriteSaga(),
     historyScoreSaga(),
     searchSaga(),
+    vongQuayMayManSaga(),
   ]);
 }

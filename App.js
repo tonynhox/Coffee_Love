@@ -11,29 +11,25 @@ import {createNavigationContainerRef} from '@react-navigation/native';
 import Map from './src/components/others/map4D/Map';
 import ModalHuyDonHang from './src/components/others/oders/item/ModalHuyDonHang';
 import ModalDanhGia from './src/components/others/oders/item/ModalDanhGia';
+import ModalVongQuayMayMan from './src/components/others/wheelOfFortune/ModelVongQuayMayMan';
+import NotificationHandler from './src/notification/NotificationHandler';
+import ModalNotification from './src/notification/ModalNotification';
+import OnScreenNotification from './src/notification/OnScreenNotification';
 
 export const navigationRef = createNavigationContainerRef();
-
 
 const App = () => {
   return (
     <Provider store={store}>
-      {/* <ModalCartOrder/> */}
-      {/* <Demo/> */}
-      {/* <AppNavigation  /> */}
       <NavigationContainer ref={navigationRef}>
-        <ManHinhCHao/>
-        {/* <ModalDanhGia/> */}
-        {/* <ModalHuyDonHang/> */}
-        {/* <Map /> */}
-        {/* <Map /> */}
-        {/* <AppNavigation  /> */}
+        <NotificationHandler />
+        {/* <ModalNotification /> */}
+        <ManHinhCHao />
       </NavigationContainer>
-
+      {/* <ModalVongQuayMayMan/> */}
     </Provider>
   );
 };
-
 
 export default App;
 

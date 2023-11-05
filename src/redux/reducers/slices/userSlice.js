@@ -89,6 +89,22 @@ export const userSlice = createSlice({
       console.log('action.payload user faile', action.payload);
       ToastAndroid.show(action.payload, ToastAndroid.SHORT);
     },
+
+    //vong quay may man
+    getQuayThanhCongUser: (state, action) => {
+      state.user.tich_diem = state.user.tich_diem - 100;
+      console.log("DIEM THUONG: ", state.user.tich_diem)
+    },
+    getThemDiemFail: (state, action) =>{
+      state.user.tich_diem = state.user.tich_diem + 100;
+    }
+  },
+
+  //error
+  getUserFail: (state, action) => {
+    state.isLoading = false;
+    console.log('action.payload user faile', action.payload);
+    ToastAndroid.show(action.payload, ToastAndroid.SHORT);
   },
 });
 
@@ -109,6 +125,8 @@ export const {
   editUser,
   editUserSuccess,
   getUserFail,
+  getQuayThanhCongUser,
+  getThemDiemFail
 } = userSlice.actions;
 
 export default userSlice.reducer;

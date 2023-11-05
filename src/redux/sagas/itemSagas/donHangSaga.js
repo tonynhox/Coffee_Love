@@ -1,5 +1,6 @@
 import {takeLatest, call, put, delay} from 'redux-saga/effects';
 import {
+  addSanPhamDaGiaoVaoLichSuRealTime,
   getChiTietDonHangFail,
   getChiTietDonHangSuccess,
   getDanhGiaFail,
@@ -70,12 +71,11 @@ function* fetchDanhGiaDonHangAsync(action) {
 function* re_checkTrangThaiDonHangAsync(action) {
   //nếu đang giao, đã giao, đã hủy, đã đánh giá thì ko cần check
 
-  const dieu_kien_dung = trang_thai_don_hang.dang_giao;
+  const dieu_kien_dung = trang_thai_don_hang.da_giao;
   let dieu_kien_hien_tai = '';
   let data;
   const id_don_hang = action.payload.id_don_hang;
   if (
-    id_don_hang == trang_thai_don_hang.da_giao ||
     id_don_hang == trang_thai_don_hang.da_huy ||
     id_don_hang == trang_thai_don_hang.da_danh_gia
   ) {
@@ -92,6 +92,11 @@ function* re_checkTrangThaiDonHangAsync(action) {
       );
       data = response.data;
       dieu_kien_hien_tai = response.data.result.ma_trang_thai;
+      if (dieu_kien_hien_tai == dieu_kien_dung) {
+        break;
+      } else if (dieu_kien_hien_tai == trang_thai_don_hang.dang_giao) {
+        yield put(getChiTietDonHangSuccess(data));
+      }
     } catch (error) {
       console.log('LOI ROI: ', error.message);
     }
@@ -101,6 +106,7 @@ function* re_checkTrangThaiDonHangAsync(action) {
   }
   // while đã dừng
   yield put(getChiTietDonHangSuccess(data));
+  yield put(addSanPhamDaGiaoVaoLichSuRealTime(data.result));
 }
 
 export function* donHangSaga() {
@@ -110,7 +116,7 @@ export function* donHangSaga() {
     fetchThayDoiTrangThaiDonHangAsync,
   );
   yield takeLatest('don_hang/getDanhGiaRequest', fetchDanhGiaDonHangAsync);
-  
+
   //  loop check trang thai
   yield takeLatest(
     'don_hang/re_checkTrangThaiDonHangRequest',

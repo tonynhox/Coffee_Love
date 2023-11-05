@@ -165,6 +165,7 @@ class PropsWheelOfFortune extends Component {
     });
   };
 
+  // text phần thưởng
   _textRender = (x, y, number, i) => (
     <Text
       x={x - number.length * 5}

@@ -25,6 +25,7 @@ const donHangSlice = createSlice({
       state.isChiTietDonHangLoading = true;
     },
     getDonHangSuccess: (state, action) => {
+      // console.log('THANH CONG: ', action.payload.result);
       let counterProcess = 0; // đếm số item của for
       const dangGiaoArray = [];
       const danhGiaArray = [];
@@ -59,6 +60,8 @@ const donHangSlice = createSlice({
           state.isThayDoiTrangThaiDonHangLoading = false;
         }
       }
+
+      // console.log('DATA DANG GIAO', state.dataDangGiao);
     },
 
     getChiTietDonHangSuccess: (state, action) => {
@@ -131,7 +134,15 @@ const donHangSlice = createSlice({
 
     // real-time check trang thai
     re_checkTrangThaiDonHangRequest: state => {
-      console.log("EXECUTED")
+      console.log('EXECUTED');
+    },
+
+    // add sản phẩm đã giao thành công vào danh sách lịch sử (đối với real-time)
+    addSanPhamDaGiaoVaoLichSuRealTime: (state, action) => {
+      state.dataDangGiao = state.dataDangGiao.filter(
+        item => item._id !== action.payload._id,
+      );
+      state.dataLichSu.unshift(action.payload);
     },
   },
 });
@@ -149,6 +160,8 @@ export const {
   getDanhGiaRequest,
   getDanhGiaSuccess,
   getDanhGiaFail,
-  re_checkTrangThaiDonHangRequest
+  re_checkTrangThaiDonHangRequest,
+  addSanPhamDaGiaoVaoLichSuRealTime,
 } = donHangSlice.actions;
+
 export default donHangSlice.reducer;
