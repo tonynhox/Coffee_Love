@@ -25,18 +25,20 @@ const ModalNotification = ({value, onCancel}) => {
       style={{justifyContent: 'center', alignItems: 'center'}}>
       <View style={styles.modalContainer}>
         {/* ten va loi chao */}
-        <Text style={styles.textTitle}>{value?.notification?.title}</Text>
+        <Text style={styles.textTitle}>
+          {value?.data?.notification_message}
+        </Text>
         {/* hinh anh va noi dung */}
         <View style={styles.noiDungContainer}>
           <Image
             style={styles.img}
             source={{
-              uri: 'https://fastly.picsum.photos/id/349/200/200.jpg?hmac=8Cc9fPp4rsCZgc9k4BDMpTIMvfWPvylEu6r7aEuPafw',
+              uri: value?.notification?.android?.imageUrl,
             }}
           />
           <View style={{flexDirection: 'row'}}>
-            <Text style={styles.textTen}>Abc ơi, </Text>
-            <Text style={styles.textNoiDung}>{value?.notification?.body}</Text>
+            <Text style={styles.textTen}>{value?.notification?.title}ơi, </Text>
+            <Text style={styles.textNoiDung}>{value?.data?.body}</Text>
           </View>
         </View>
 

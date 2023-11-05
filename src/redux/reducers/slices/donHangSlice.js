@@ -61,7 +61,7 @@ const donHangSlice = createSlice({
         }
       }
 
-      console.log('DATA DANG GIAO', state.dataDangGiao);
+      // console.log('DATA DANG GIAO', state.dataDangGiao);
     },
 
     getChiTietDonHangSuccess: (state, action) => {
@@ -136,6 +136,14 @@ const donHangSlice = createSlice({
     re_checkTrangThaiDonHangRequest: state => {
       console.log('EXECUTED');
     },
+
+    // add sản phẩm đã giao thành công vào danh sách lịch sử (đối với real-time)
+    addSanPhamDaGiaoVaoLichSuRealTime: (state, action) => {
+      state.dataDangGiao = state.dataDangGiao.filter(
+        item => item._id !== action.payload._id,
+      );
+      state.dataLichSu.unshift(action.payload);
+    },
   },
 });
 
@@ -153,6 +161,7 @@ export const {
   getDanhGiaSuccess,
   getDanhGiaFail,
   re_checkTrangThaiDonHangRequest,
+  addSanPhamDaGiaoVaoLichSuRealTime,
 } = donHangSlice.actions;
 
 export default donHangSlice.reducer;

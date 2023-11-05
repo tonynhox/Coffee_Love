@@ -6,6 +6,7 @@ import {getToken} from './ultis';
 import {useDispatch} from 'react-redux';
 import {setDeviceToken} from '../redux/reducers/slices/deviceTokenSlice';
 import ModalNotification from './ModalNotification';
+import OnScreenNotification from './OnScreenNotification';
 
 const NotificationHandler = () => {
   const dispatch = useDispatch();
@@ -68,10 +69,17 @@ const NotificationHandler = () => {
 
   return (
     <>
-      {isVisible.isVisible && (
+      {/* {isVisible.isVisible && (
         <ModalNotification
           value={isVisible.value}
           onCancel={() => setIsVisible({isVisible: false, value: ''})}
+        />
+      )} */}
+      {isVisible.isVisible && (
+        <OnScreenNotification
+        isVisible={isVisible.isVisible}
+          value={isVisible.value}
+          // onCancel={() => setIsVisible({isVisible: false, value: ''})}
         />
       )}
     </>

@@ -12,10 +12,14 @@ import TheoDoiDonHang from './TheoDoiDonHang';
 import {
   BACKGROUND_BUTTON_COLOR,
   style_text_khong_co_du_lieu,
+  trang_thai_thanh_toan,
 } from '../../../utils/contanst';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
-import {getChiTietDonHangRequest, re_checkTrangThaiDonHangRequest} from '../../../redux/reducers/slices/donHangSlice';
+import {
+  getChiTietDonHangRequest,
+  re_checkTrangThaiDonHangRequest,
+} from '../../../redux/reducers/slices/donHangSlice';
 import {ActivityIndicator} from 'react-native';
 import {formatCurrency} from '../../../utils/formatCurrency';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
@@ -174,7 +178,12 @@ const OrderDetail = () => {
           ) : (
             <ScrollView style={styles.container}>
               <View style={styles.theoDoiDonHangContainer}>
-                <TheoDoiDonHang maTrangThai={data.ma_trang_thai} />
+                <TheoDoiDonHang
+                  maTrangThai={data.ma_trang_thai}
+                  thoiGianDatHang={data.ngay_cap_nhat_1}
+                  thoiGianDangGiao={data?.ngay_cap_nhat_3}
+                  thoiGianHoanThanh={data?.ngay_cap_nhat_4}
+                />
               </View>
 
               {/* separate line */}
@@ -260,7 +269,10 @@ const OrderDetail = () => {
               {/* Hinh thuc thanh toan */}
               <View>
                 <Text style={styles.textThanhToanKhiNhanHang}>
-                  (Thanh toán khi nhận hàng)
+                  {data.thanh_toan.trang_thai ==
+                  trang_thai_thanh_toan.chua_thanh_toan
+                    ? '(Thanh toán khi nhận hàng)'
+                    : '(Đã thanh toán)'}
                 </Text>
               </View>
 

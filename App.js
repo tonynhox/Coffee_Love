@@ -14,6 +14,7 @@ import ModalDanhGia from './src/components/others/oders/item/ModalDanhGia';
 import ModalVongQuayMayMan from './src/components/others/wheelOfFortune/ModelVongQuayMayMan';
 import NotificationHandler from './src/notification/NotificationHandler';
 import ModalNotification from './src/notification/ModalNotification';
+import OnScreenNotification from './src/notification/OnScreenNotification';
 
 export const navigationRef = createNavigationContainerRef();
 

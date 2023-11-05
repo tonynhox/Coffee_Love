@@ -40,5 +40,10 @@ export const code_trang_thai_yeu_thich = {
 export const modal_color_don_hang = {
   background: '#FBDD9F',
   button: '#E98001',
-  gift: '#C74404'
-}
+  gift: '#C74404',
+};
+
+export const trang_thai_thanh_toan = {
+  chua_thanh_toan: 0,
+  da_thanh_toan: 1,
+};

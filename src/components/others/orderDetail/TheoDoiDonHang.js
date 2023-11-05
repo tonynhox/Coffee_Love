@@ -6,8 +6,14 @@ import {
   trang_thai_don_hang,
 } from '../../../utils/contanst';
 import Header from '../../../utils/Header';
+import moment from 'moment';
 
-const TheoDoiDonHang = ({maTrangThai}) => {
+const TheoDoiDonHang = ({
+  maTrangThai,
+  thoiGianDatHang,
+  thoiGianDangGiao,
+  thoiGianHoanThanh,
+}) => {
   const da_huy = maTrangThai === trang_thai_don_hang.da_huy;
 
   const da_dat_hang =
@@ -39,7 +45,9 @@ const TheoDoiDonHang = ({maTrangThai}) => {
                 <Text style={[styles.textTrangThai, {paddingVertical: 8}]}>
                   Đã đặt
                 </Text>
-                <Text style={styles.textThoiGianDatHang}>19:11</Text>
+                <Text style={styles.textThoiGianDatHang}>
+                  {moment(thoiGianDatHang).format('HH:mm')}
+                </Text>
               </View>
 
               {/* separate line */}
@@ -63,7 +71,11 @@ const TheoDoiDonHang = ({maTrangThai}) => {
                 <Text style={[styles.textTrangThai, {paddingVertical: 8}]}>
                   Đang giao hàng
                 </Text>
-                <Text style={styles.textThoiGianDatHang}>19:11</Text>
+                <Text style={styles.textThoiGianDatHang}>
+                  {thoiGianDangGiao
+                    ? moment(thoiGianDangGiao).format('HH:mm')
+                    : ''}
+                </Text>
               </View>
 
               {/* separate line */}
@@ -81,7 +93,9 @@ const TheoDoiDonHang = ({maTrangThai}) => {
                 <Text style={[styles.textTrangThai, {paddingVertical: 8}]}>
                   Giao thành công
                 </Text>
-                <Text style={styles.textThoiGianDatHang}>19:11</Text>
+                <Text style={styles.textThoiGianDatHang}>{thoiGianHoanThanh
+                    ? moment(thoiGianHoanThanh).format('HH:mm')
+                    : ''}</Text>
               </View>
             </View>
           </View>
