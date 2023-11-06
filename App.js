@@ -15,6 +15,7 @@ import ModalVongQuayMayMan from './src/components/others/wheelOfFortune/ModelVon
 import NotificationHandler from './src/notification/NotificationHandler';
 import ModalNotification from './src/notification/ModalNotification';
 import OnScreenNotification from './src/notification/OnScreenNotification';
+import StoreCoffee from './src/components/others/storeCoffee/StoreCoffee';
 
 export const navigationRef = createNavigationContainerRef();
 

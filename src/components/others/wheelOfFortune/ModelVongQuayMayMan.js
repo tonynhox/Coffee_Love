@@ -42,7 +42,6 @@ const ModelVongQuayMayMan = ({isVisible, data, onChangeSoLanQuay}) => {
   }, [nhanThuongThanhCong]);
 
   const nhanQua = () => {
-    console.log('QUA NE: ', data.ten_vong_quay);
     dispatch(
       getThemDiemChoUserRequest({
         id_user: user.id_user,

@@ -31,7 +31,6 @@ function* fetchVongQuay() {
 function* fetchChuanBiQuay(action) {
   try {
     const {id_user} = action.payload;
-    console.log('ID USER', id_user);
     const response = yield call(() =>
       instance.get(`api/vong-quay/su-dung-vong-quay/${id_user}`),
     );
@@ -49,7 +48,6 @@ function* fetchChuanBiQuay(action) {
 function* fetchThemDiemChoUser(action) {
   try {
     const payload = action.payload;
-    console.log('PAYLOAD', payload);
     const response = yield call(() =>
       instance.post('api/vong-quay/them-voucher-user', payload),
     );

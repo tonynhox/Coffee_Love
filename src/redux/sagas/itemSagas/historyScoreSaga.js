@@ -9,7 +9,6 @@ function* HistoryScore(action) {
       id_user: id_user,
     };
 
-    // console.log("id user>>>>>>>>>>>>>>: ", id_user);
     const response = yield call(() =>
       instance.post('users/lich-su-dung-diem', payload),
     );

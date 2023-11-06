@@ -21,7 +21,6 @@ const Orders = () => {
   const id_user = useSelector(state => state.users.user.id_user);
   useEffect(() => {
     const fetchDonHang = () => {
-      console.log('id_user: ', id_user);
       dispatch(getDonHangRequest({id_user: id_user}));
     };
     fetchDonHang();

@@ -19,7 +19,6 @@ const Changepassword = () => {
 
   const handleChagePass = () => {
     if (Object.is(mat_khau_moi, pass)) {
-      console.log('id: ', id);
       dispatch(changePass({id_user: id, mat_khau_cu, mat_khau_moi, navigation}));
     }
   };

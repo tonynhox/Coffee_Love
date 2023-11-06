@@ -20,7 +20,6 @@ import {useSelector} from 'react-redux';
 const SearchSuccess = () => {
   const navigation = useNavigation();
   const data = useSelector(state => state.searchs.search);
-  console.log("dataS>>> ", data);
 
   const showAlert = () => {
     Alert.alert(

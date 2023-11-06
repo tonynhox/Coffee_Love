@@ -53,11 +53,9 @@ export const cartPaymentSlice = createSlice({
           state.cart.price += toping?.gia || 0 * item.so_luong;
         });
       });
-      console.log('cart', state.cart);
     },
 
     getAddCartPaymentFetch: (state, action) => {
-      console.log('getAddCartPaymentFetch');
       state.isLoading = true;
     },
     getAddCartPaymentSuccess: (state, action) => {
@@ -75,7 +73,6 @@ export const cartPaymentSlice = createSlice({
           state.cart.price += toping?.gia || 0 * item.so_luong;
         });
       });
-      console.log('cart', state.cart);
     },
 
     getUpdateCartPaymentFetch: (state, action) => {

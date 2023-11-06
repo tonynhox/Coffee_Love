@@ -21,6 +21,7 @@ import CategoriesText from '../main/categories/CategoriesText';
 import Geolocation from 'react-native-geolocation-service';
 import {
   getLocationMapFetch,
+  getLocationStoreSuccess,
   setMyLocation,
 } from '../../redux/reducers/slices/locationMapSlice';
 import {getVoucherFetch} from '../../redux/reducers/slices/voucherSlide';
@@ -31,6 +32,7 @@ import BottomMuaSanPhamCategories from '../main/categories/BottomMuaSanPhamCateg
 import { setIsVisibleModalCart } from '../../redux/reducers/slices/utilSlice';
 import { formatCurrency } from '../../utils/formatCurrency';
 import { getHistoryScoreFetch } from '../../redux/reducers/slices/historyScoreSlide';
+import { findNearestCoordinate, sortStore } from '../others/map4D/tinhKhoangCach';
 
 const Tab = createBottomTabNavigator();
 
@@ -61,7 +63,7 @@ const MainNavigation = () => {
   }, []);
 
   useEffect(() => {
-    if (position) {
+    if (position?.longitude && position?.latitude) {
       dispatch(
         getLocationMapFetch({
           lng: position?.longitude,
@@ -70,8 +72,23 @@ const MainNavigation = () => {
       );
     }
   }, [position]);
-
   // end vị trí hiện tại
+
+
+  //sort map
+  // const data = useSelector(state => state.locationMap.toaDoCuaHang);
+  // useEffect(() => {
+  //   if(data?.length>0&&position?.longitude&&position?.latitude){
+  //     const sortStoreTemp = sortStore(
+  //       (origin = {
+  //         latitude: position.latitude,
+  //         longitude: position.longitude,
+  //       }),
+  //       data
+  //     )
+  //     dispatch(getLocationStoreSuccess(sortStoreTemp));
+  //   }
+  // }, [position]);
 
   const dispatch = useDispatch();
   // const id_user =  Storage.getItem('id_user');

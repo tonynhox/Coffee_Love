@@ -1,6 +1,5 @@
 export const giaGiaoHang = async (distaince) => {
     distaince=Math.floor(distaince);
-    console.log('distaince',distaince);
     if(distaince<1000){
         return 15000;
     }else{

@@ -26,6 +26,7 @@ import Storage from '../../utils/Storage';
 import {navigationRef} from '../../../App';
 import ScoreHistory from '../others/scoreHistory/ScoreHistory';
 import VoucherCart from '../others/cartPayment/VoucherCart';
+import StoreCoffee from '../others/storeCoffee/StoreCoffee';
 // add other navigation functions that you need and export them
 
 const Stack = createNativeStackNavigator();
@@ -199,10 +200,19 @@ const AppNavigation = props => {
           animation: 'fade',
         }}
       />
-            <Stack.Screen
-
+      <Stack.Screen
         name="VoucherCart"
         component={VoucherCart}
+        options={{
+          presentation: 'modal',
+          headerShown: true,
+          animationTypeForReplace: 'push',
+          animation: 'slide_from_right',
+        }}
+      />
+      <Stack.Screen
+        name="StoreCoffee"
+        component={StoreCoffee}
         options={{
           presentation: 'modal',
           headerShown: true,

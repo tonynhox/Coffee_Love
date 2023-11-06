@@ -13,7 +13,6 @@ function* Search(action) {
     const response = yield call(() =>
       instance.get(`api/san-pham/tim-kiem-san-pham/${item}`),
     );
-    console.log('sanp: ', response.data);
     if (response.data.success) {
       navigation.navigate('SearchSuccess', {ten_san_pham: item});
       yield put(getSearchSuccess(response.data));

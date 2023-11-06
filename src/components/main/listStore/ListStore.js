@@ -6,13 +6,6 @@ const ListStore = () => {
   return (
     <View style={{flex:1}}>
         <Map/>
-        <View style={{position:'absolute',alignSelf:'center'}}>
-            <Text>abc</Text>
-            <Text>abc</Text>
-            <Text>abc</Text>
-        </View>
-
-
     </View>
   )
 }

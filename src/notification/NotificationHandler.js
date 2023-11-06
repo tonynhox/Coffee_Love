@@ -57,7 +57,6 @@ const NotificationHandler = () => {
             remoteMessage.notification,
           );
           setInitialRoute(remoteMessage.data.type); // e.g. "Settings"
-          console.log('remoteMessage.data.type: ', remoteMessage.data.type);
         }
         setLoading(false);
       });

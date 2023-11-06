@@ -75,7 +75,6 @@ const ProductDetail = props => {
 
   const handleLike = () => {
     if (!user || user.id_user == '') {
-      console.log('USER: ', user.id_user)
       ToastAndroid.show('Bạn cần đăng nhập để yêu thích', 1000);
       return;
     }

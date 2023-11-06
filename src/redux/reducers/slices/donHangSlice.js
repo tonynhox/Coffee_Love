@@ -76,7 +76,6 @@ const donHangSlice = createSlice({
     getDonHangFail: (state, action) => {
       console.log('THAT BAI');
       state.isLoading = false;
-      console.log(action.payload);
     },
 
     // thay doi trang thai don hang

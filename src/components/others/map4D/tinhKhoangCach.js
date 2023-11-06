@@ -1,42 +1,75 @@
-
 function haversineDistance(lat1, lon1, lat2, lon2) {
-    const R = 6371; // Bán kính trái đất (km)
+  const R = 6371; // Bán kính trái đất (km)
 
-    // Chuyển đổi độ thành radian
-    const lat1Rad = toRadians(lat1);
-    const lon1Rad = toRadians(lon1);
-    const lat2Rad = toRadians(lat2);
-    const lon2Rad = toRadians(lon2);
+  // Chuyển đổi độ thành radian
+  const lat1Rad = toRadians(lat1);
+  const lon1Rad = toRadians(lon1);
+  const lat2Rad = toRadians(lat2);
+  const lon2Rad = toRadians(lon2);
 
-    // Tính toạ độ haversine
-    const dlat = lat2Rad - lat1Rad;
-    const dlon = lon2Rad - lon1Rad;
-    const a = Math.sin(dlat / 2) ** 2 + Math.cos(lat1Rad) * Math.cos(lat2Rad) * Math.sin(dlon / 2) ** 2;
+  // Tính toạ độ haversine
+  const dlat = lat2Rad - lat1Rad;
+  const dlon = lon2Rad - lon1Rad;
+  const a =
+    Math.sin(dlat / 2) ** 2 +
+    Math.cos(lat1Rad) * Math.cos(lat2Rad) * Math.sin(dlon / 2) ** 2;
 
-    // Tính khoảng cách
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    const distance = R * c;
-
-    return distance;
+  // Tính khoảng cách
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  const distance = R * c;
+  return distance;
 }
 
 function toRadians(degrees) {
-    return degrees * (Math.PI / 180);
+  return degrees * (Math.PI / 180);
 }
 
 export function findNearestCoordinate(origin, coordinates) {
+  let distances = [];
 
-    console.log('origin', coordinates);
-    let distances = [];
+  for (const coord of coordinates) {
+    const distance = haversineDistance(
+      origin.latitude,
+      origin.longitude,
+      coord.x,
+      coord.y,
+    );
+    distances.push({coordinate: coord, distance});
+  }
 
-    for (const coord of coordinates) {
-        const distance = haversineDistance(origin.latitude, origin.longitude, coord.x, coord.y);
-        distances.push({ coordinate: coord, distance });
+  distances.sort((a, b) => a.distance - b.distance);
+
+  return distances;
+}
+
+export function sortStore(origin, data) {
+//   data.forEach(item => {
+//     //   item.distance = haversineDistance(origin.latitude, origin.longitude, parseFloat(item.location.x), parseFloat(item.location.y));
+//     item = {
+//       ...item,
+//       distance: haversineDistance(
+//         origin.latitude,
+//         origin.longitude,
+//         parseFloat(item.location.x),
+//         parseFloat(item.location.y),
+//       ),
+//     };
+//   });
+    data = data.map(item => {
+        return {
+            ...item,
+            distance: haversineDistance(
+                origin.latitude,
+                origin.longitude,
+                parseFloat(item.location.x),
+                parseFloat(item.location.y),
+            ),
+        };
     }
+    );
 
-    distances.sort((a, b) => a.distance - b.distance);
-
-    return distances;
+  data.sort((a, b) => a.distance - b.distance);
+  return data;
 }
 
 // Ví dụ sử dụng

@@ -48,27 +48,7 @@ const CartPayment = forwardRef(({setPrice}, ref) => {
   //data vị trí hiện tại
   const myLocation = useSelector(state => state.locationMap.myLocation);
   const [tencuahang, setTenCuaHang] = useState(null);
-
-  //tính khoảng cách gần nhất
-  // let distance;
-  const [locationGanNhat, setLocationGanNhat] = useState(null);
-  useEffect(() => {
-    setLocationGanNhat(
-      findNearestCoordinate(
-        (origin = {
-          latitude: myLocation.latitude,
-          longitude: myLocation.longitude,
-        }),
-        (coordinates = dataStore.map(item => {
-          item.location.x = parseFloat(item.location.x);
-          item.location.y = parseFloat(item.location.y);
-          return item.location;
-          // latitude: parseFloat(distance[0].coordinate.x),
-          //       longitude: parseFloat(distance[0].coordinate.y),
-        })),
-      ),
-    );
-  }, []);
+  const locationDefault = useSelector( state => state.locationMap.locationDefault);
 
   const dispatchGiaoHang = async () => {
     dispatch(
@@ -78,16 +58,11 @@ const CartPayment = forwardRef(({setPrice}, ref) => {
           longitude: myLocation.longitude,
         },
         locationEnd: {
-          latitude: parseFloat(locationGanNhat[0].coordinate.x),
-          longitude: parseFloat(locationGanNhat[0].coordinate.y),
+          latitude: parseFloat(locationDefault.location.x),
+          longitude: parseFloat(locationDefault.location.y),
         },
       }),
     );
-    const tencuahangTemp = dataStore.filter(
-      item => item.location.x == locationGanNhat[0].coordinate.x,
-    );
-    // setTenCuaHang(tencuahangTemp[0].ten_chi_nhanh+ ' \n'+tencuahangTemp[0].dia_chi);
-    setTenCuaHang(tencuahangTemp[0]);
   };
   //chi tiết đường đi và khoảng cách của cửa hàng gần nhất
   const routeCart = useSelector(state => state.locationMap.routeCart);
@@ -107,8 +82,11 @@ const CartPayment = forwardRef(({setPrice}, ref) => {
 
   //Đóng lại do tốn tiền quá
   useEffect(() => {
-    if (locationGanNhat) dispatchGiaoHang();
-  }, [locationGanNhat]);
+    
+    if (locationDefault) 
+      dispatchGiaoHang();
+      console.log('locationDefault',locationDefault);
+  }, [locationDefault]);
 
   //tính giá` sale
   useEffect(() => {
@@ -133,7 +111,6 @@ const CartPayment = forwardRef(({setPrice}, ref) => {
 
   // tính giá tiền tổng tất cả
   useEffect(() => {
-    console.log('sale', sale);
     const price = (cart?.price || 0) + priceShip + sale;
     setTongSanPham(price);
     setPrice(price);
@@ -147,7 +124,7 @@ const CartPayment = forwardRef(({setPrice}, ref) => {
     dispatch(
       getPaymentFetch({
         id_user: user?.id_user,
-        id_chi_nhanh: tencuahang?._id,
+        id_chi_nhanh: locationDefault?._id,
         loai_don_hang: 'order Online',
         dia_chi: {
           ten_dia_chi: diaChi,
@@ -249,7 +226,11 @@ const CartPayment = forwardRef(({setPrice}, ref) => {
         style={[styles.separateLine, {marginLeft: -20, width: '110%', left: 0}]}
       />
       {/* chi nhánh */}
-      <TouchableOpacity style={styles.thongTinDiaChiContainer}>
+      <TouchableOpacity
+        onPress={() => {
+          navigation.push('StoreCoffee');
+        }}
+        style={styles.thongTinDiaChiContainer}>
         <View style={{position: 'absolute', top: 20, right: 0}}>
           {/* <Text style={styles.textDonHang}>Đổi</Text> */}
           <Icon name="chevron-right" size={30} color="black" />
@@ -262,7 +243,7 @@ const CartPayment = forwardRef(({setPrice}, ref) => {
             ellipsizeMode="tail">
             {/* Địa chỉ: {diaChi?.so_nha}, {diaChi?.tinh} */}
 
-            {tencuahang?.ten_chi_nhanh + '\n' + tencuahang?.dia_chi ||
+            {locationDefault?.ten_chi_nhanh + '\n' + locationDefault?.dia_chi ||
               'Chưa có địa chỉ cửa hàng'}
           </Text>
           {/* <Text style={styles.textThongTin}>
