@@ -1,21 +1,42 @@
+import React, {useCallback, useMemo, useRef, useEffect} from 'react';
 import {
-  StyleSheet,
-  Text,
   View,
-  FlatList,
+  Text,
+  StyleSheet,
   Image,
-  TouchableOpacity,
+  FlatList,
   Dimensions,
 } from 'react-native';
-import React from 'react';
-import Icon from 'react-native-vector-icons/FontAwesome6';
+import BottomSheet, {BottomSheetFlatList} from '@gorhom/bottom-sheet';
 import {BACKGROUND_BUTTON_COLOR} from '../../../utils/contanst';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import Icon from 'react-native-vector-icons/FontAwesome6';
 import moment from 'moment';
-import {lamTronSo} from '../../../utils/lamTronSo';
 import {useSelector} from 'react-redux';
 
-const DanhSachDanhGia = ({onOpenDanhGia}) => {
-  const data = useSelector(state => state.chi_tiet_san_pham.data);
+const BottomDanhGia = ({isVisible, onClose}) => {
+  const data = useSelector(state => state.chi_tiet_san_pham.data.danh_gia);
+
+  useEffect(() => {
+    if (isVisible) {
+      bottomSheetDanhGiaRef.current?.expand();
+    } else {
+      bottomSheetDanhGiaRef.current?.close();
+    }
+  }, [isVisible]);
+
+  // ref
+  const bottomSheetDanhGiaRef = useRef(null);
+
+  // variables
+  const snapPoints = useMemo(() => ['60%'], []);
+
+  // callbacks
+  const handleSheetChanges = useCallback(index => {
+    if (index === -1) {
+      onClose();
+    }
+  }, []);
 
   const renderHinhAnhDanhGia = ({item}) => {
     return (
@@ -50,7 +71,7 @@ const DanhSachDanhGia = ({onOpenDanhGia}) => {
               marginVertical: 15,
               width: Dimensions.get('window').width - 115,
             }}>
-            <FlatList
+            <BottomSheetFlatList
               data={item.hinh_anh_danh_gia}
               renderItem={renderHinhAnhDanhGia}
               horizontal={true}
@@ -88,71 +109,43 @@ const DanhSachDanhGia = ({onOpenDanhGia}) => {
     );
   };
 
+  // renders
   return (
-    <View>
-      <View style={styles.danhGiaSanPhamContainer}>
-        {/* danh gia, sao, vote, xem tat ca */}
-        <View style={styles.danhGiaXemTatCaContainer}>
-          {/* danh gia, so sao */}
-          <View>
-            <Text style={styles.textDanhGia}>Đánh giá</Text>
-            {/* danh gia sao */}
-            <View style={styles.danhGiaSaoContainer}>
-              <View style={{width: 'auto'}}>
-                {/* <FlatList
-                  data={dataDanhGia}
-                  renderItem={renderSaoDanhGia}
-                  horizontal={true}
-                  keyExtractor={item => item.id}
-                  showsHorizontalScrollIndicator={false}
-                /> */}
-              </View>
-              <Text style={styles.textSao}>{lamTronSo(data.tong_sao)}/5</Text>
-              <Icon name="star" solid size={20} color={'#FC9702'} />
-              <Text style={styles.textSao}> ({data.so_luong_danh_gia})</Text>
-            </View>
+    // <GestureHandlerRootView style={styles.container}>
+    <BottomSheet
+      ref={bottomSheetDanhGiaRef}
+      index={-1}
+      snapPoints={snapPoints}
+      onChange={handleSheetChanges}
+      enablePanDownToClose={true}
+      backgroundStyle={{backgroundColor: '#FEF9F1'}}>
+      <View style={styles.contentContainer}>
+        <Text style={styles.textTatCaDanhGia}>Tất cả đánh giá</Text>
+        {data.length === 0 ? (
+          <View
+            style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+            <Text style={styles.textChuaCoDanhGia}>Chưa có đánh giá nào</Text>
           </View>
-          {/* tat ca danh gia, arrow */}
-          <TouchableOpacity
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-            onPress={() => onOpenDanhGia()}>
-            <Text style={styles.textTatCaDanhGia}>Tất cả đánh giá</Text>
-            <Icon
-              name="angle-right"
-              size={20}
-              color={BACKGROUND_BUTTON_COLOR}
-            />
-          </TouchableOpacity>
-        </View>
+        ) : (
+          <BottomSheetFlatList
+            data={data}
+            renderItem={RenderChiTietDanhGia}
+            keyExtractor={item => item._id.toString()}
+          />
+        )}
       </View>
-
-      {/* separate line */}
-      <View style={styles.separateLine} />
-
-      {/* danh sach danh gia */}
-      {/* <FlatList
-        data={dataChiTietDanhGia}
-        renderItem={renderChiTietDanhGia}
-        keyExtractor={item => item.id}
-      /> */}
-      {data.danh_gia.slice(0, 3).map(item => {
-        return (
-          <View key={item._id}>
-            <RenderChiTietDanhGia item={item} />
-          </View>
-        );
-      })}
-    </View>
+    </BottomSheet>
+    //  </GestureHandlerRootView>
   );
 };
 
-export default DanhSachDanhGia;
-
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  contentContainer: {
+    flex: 1,
+  },
   danhGiaSanPhamContainer: {
     marginTop: 30,
   },
@@ -166,7 +159,6 @@ const styles = StyleSheet.create({
     color: 'black',
     fontWeight: '500',
     marginLeft: 5,
-    marginRight: 3,
   },
   textDanhGia: {
     fontSize: 18,
@@ -208,7 +200,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
-    marginVertical: 12,
+    marginVertical: 7,
+    paddingVertical: 10,
+    marginHorizontal: 10,
+    backgroundColor: 'white',
+    elevation: 5,
+    borderRadius: 10,
   },
   textName: {
     fontSize: 15,
@@ -226,4 +223,21 @@ const styles = StyleSheet.create({
     color: 'black',
     fontWeight: '400',
   },
+  textTatCaDanhGia: {
+    fontSize: 15,
+    color: 'black',
+    fontWeight: '500',
+    marginRight: 5,
+    alignSelf: 'center',
+    marginBottom: 10,
+  },
+  textChuaCoDanhGia: {
+    fontSize: 15,
+    color: 'black',
+    fontWeight: '500',
+    alignSelf: 'center',
+    marginBottom: 10,
+  },
 });
+
+export default BottomDanhGia;

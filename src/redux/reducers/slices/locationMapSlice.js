@@ -1,5 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
-import { sortStore } from '../../../components/others/map4D/tinhKhoangCach';
+import {sortStore} from '../../../components/others/map4D/tinhKhoangCach';
 
 //state
 const initialState = {
@@ -9,7 +9,7 @@ const initialState = {
   myLocation: {},
   routeCart: {},
   route: {},
-  locationDefault: {}
+  locationDefault: {},
 };
 
 export const locationMapSlice = createSlice({
@@ -28,7 +28,6 @@ export const locationMapSlice = createSlice({
       state.data = action.payload;
       state.isLoading = false;
       console.log('getLocationMapSuccess');
-
     },
     getLocationStoreFetch: state => {
       console.log('getLocationMapFetch');
@@ -36,16 +35,16 @@ export const locationMapSlice = createSlice({
     },
 
     getLocationStoreSuccess: (state, action) => {
-      while(state.myLocation.latitude==undefined){
-        console.log('wait');
-      }
+      // while(!state.myLocation.latitude){
+      //   console.log('wait');
+      // }
       const sortStoreTemp = sortStore(
         (origin = {
           latitude: state.myLocation.latitude,
           longitude: state.myLocation.longitude,
         }),
-        data=action.payload
-      )
+        (data = action.payload),
+      );
       state.toaDoCuaHang = sortStoreTemp;
       state.locationDefault = sortStoreTemp[0];
       state.isLoading = false;
@@ -74,7 +73,7 @@ export const locationMapSlice = createSlice({
     },
     setRouteCart: (state, action) => {
       state.routeCart = action.payload;
-    }
+    },
   },
 });
 

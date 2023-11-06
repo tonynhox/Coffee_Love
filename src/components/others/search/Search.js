@@ -22,7 +22,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {saveValueToStorage} from '../../../utils/saveSearchHistoryToStorage';
 import {useSelector, useDispatch} from 'react-redux';
 import {lamTronSo} from '../../../utils/lamTronSo';
-import { getSearchFetch } from '../../../redux/reducers/slices/searchSlice';
+import {getSearchFetch} from '../../../redux/reducers/slices/searchSlice';
 
 const Search = () => {
   const navigation = useNavigation();
@@ -109,7 +109,7 @@ const Search = () => {
       saveValueToStorage(KEY_SEARCH_HISTORY, item.item.text);
       setSearch(item.item.text);
     }
-    dispatch(getSearchFetch({item, navigation}))
+    dispatch(getSearchFetch({item, navigation}));
     // console.log('text: ', item);
     // navigation.navigate('SearchSuccess', {ten_san_pham: item.ten_san_pham})
   };
@@ -189,6 +189,7 @@ const Search = () => {
   };
 
   const renderTimKiem = ({item}) => {
+    console.log('ITEM TIM KIEM: ', item);
     // nếu search rỗng thì hàm tìm kiếm (handleSearch) vẫn chưa chạy
     // lúc này item.text chính là name vì giá trị của mảng hint từ component cha truyền vào
     // chỉ có field là một object giống như này:
@@ -200,16 +201,23 @@ const Search = () => {
     // goi item.item de lay gia tri name
     let name;
     if (search == '') {
+      console.log('Search rong');
       name = item.text;
     } else {
-      name = item.item.text;
+      console.log('Search ko rong');
+
+      name = item?.item?.text;
+      if (name == undefined) {
+        name = item.text;
+      }
     }
     // console.log("item s>> ", item);
+    console.log('NAME: ', name);
     return (
       <TouchableOpacity
         style={styles.timKiemContainer}
         onPress={() => {
-          handleChonSanPham(name)
+          handleChonSanPham(name);
         }}>
         <Icon name={'magnifying-glass'} size={18} color="gray" />
         <Text style={styles.textLichSuTimKiem}>{name}</Text>
@@ -232,9 +240,8 @@ const Search = () => {
     const fuse = new Fuse(dataTimKiem, options);
     const filteredItems = fuse.search(textSearch);
     console.log('filteredItems', filteredItems);
-    
+
     setFilteredData(filteredItems);
-    
   };
 
   return (
@@ -262,8 +269,7 @@ const Search = () => {
           />
 
           {/* Find */}
-          <TouchableOpacity 
-            onPress={() => handleChonSanPham(search)}>
+          <TouchableOpacity onPress={() => handleChonSanPham(search)}>
             <Icon
               name={'magnifying-glass'}
               size={20}
@@ -333,7 +339,6 @@ const Search = () => {
           </View>
         </View>
       )}
-      
     </View>
   );
 };
@@ -395,7 +400,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: '500',
     marginLeft: 10,
-    color: '#6E6E6E',
+    color: 'black',
   },
   danhSachDaTimKiemContainer: {
     marginLeft: 10,
