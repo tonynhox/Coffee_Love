@@ -204,7 +204,7 @@ const OrderDetail = () => {
                   style={styles.textThongTin}
                   numberOfLines={2}
                   ellipsizeMode="tail">
-                  Địa chỉ: {data.dia_chi.so_nha} {data.dia_chi.tinh}
+                  Địa chỉ: {data.dia_chi.ten_dia_chi}
                 </Text>
               </View>
 

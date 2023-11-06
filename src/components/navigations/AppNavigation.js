@@ -112,6 +112,7 @@ const AppNavigation = props => {
         name="OrderDetail"
         component={OrderDetail}
         options={{
+          headerShown: true,
           presentation: 'modal',
           // animationTypeForReplace: 'push',
           animation: 'fade',

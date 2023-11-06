@@ -5,6 +5,10 @@ import {
   View,
   Switch,
   TouchableOpacity,
+  ScrollView,
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
 } from 'react-native';
 import React, {useState} from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome6';
@@ -16,14 +20,12 @@ const AddAddress = () => {
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
   return (
-    <View style={addAddressStyle.container}>
+    <View
+      style={addAddressStyle.container}
+    >
       {/* Thong tin lien he */}
-      <View style={{width:'100%'}}>
-      <Header
-          headerText="Thêm địa chỉ"
-          rightComponent={true}
-        
-      />
+      <View style={{width: '100%'}}>
+        <Header headerText="Thêm địa chỉ" rightComponent={true} />
       </View>
       <View>
         <Text style={addAddressStyle.textThongTin}>Thông tin liên hệ</Text>
@@ -53,27 +55,29 @@ const AddAddress = () => {
         <Text style={addAddressStyle.textThongTin}>Địa chỉ</Text>
 
         {/* Textinput ho va ten */}
-        <View style={addAddressStyle.inputContainer}>
+        <Pressable 
+          style={addAddressStyle.inputContainer}>
           <TextInput
+            editable={false}
             style={addAddressStyle.input}
-            placeholder="Số nhà, Tên đường, Tòa nhà,... "
+            placeholder="Chọn địa chỉ"
             placeholderTextColor="#999"
           />
           <Icon name="location-dot" size={20} color={BACKGROUND_BUTTON_COLOR} />
-        </View>
+        </Pressable>
 
         {/* Textinput sdt */}
         <View style={addAddressStyle.inputContainer}>
           <TextInput
             style={addAddressStyle.input}
-            placeholder="Phường/Xã, Quận/Huyện, Tỉnh/Thành phố... "
+            placeholder="Hướng dẫn giao hàng"
             placeholderTextColor="#999"
           />
           <Icon name="location-dot" size={20} color={BACKGROUND_BUTTON_COLOR} />
         </View>
 
         {/* Dat mac dinh */}
-        <View style={addAddressStyle.defaultLocationContainer}>
+        {/* <View style={addAddressStyle.defaultLocationContainer}>
           <Text style={addAddressStyle.textThongTin}>
             Đặt làm địa chỉ mặc định
           </Text>
@@ -84,11 +88,17 @@ const AddAddress = () => {
             onValueChange={toggleSwitch}
             value={isEnabled}
           />
-        </View>
+        </View> */}
       </View>
-      <TouchableOpacity style={addAddressStyle.addAddressContainer}>
-        <Text style={addAddressStyle.textAddAddress}>Thêm địa chỉ</Text>
-      </TouchableOpacity>
+      <KeyboardAvoidingView 
+        style={{flex:1}}  
+        behavior={"padding"} 
+
+        >
+        <TouchableOpacity style={addAddressStyle.addAddressContainer}>
+          <Text style={addAddressStyle.textAddAddress}>Thêm địa chỉ</Text>
+        </TouchableOpacity>
+      </KeyboardAvoidingView>
     </View>
   );
 };

@@ -47,3 +47,18 @@ export const trang_thai_thanh_toan = {
   chua_thanh_toan: 0,
   da_thanh_toan: 1,
 };
+
+export const hinh_thuc_thanh_toan = {
+  tien_mat: {
+    state: 0,
+    name: 'Tiền mặt',
+  },
+  zalopay: {
+    state: 1,
+    name: 'ZaloPay',
+  },
+  momo: {
+    state: 2,
+    name: 'Momo',
+  },
+};

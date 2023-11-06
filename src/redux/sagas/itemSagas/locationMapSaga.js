@@ -61,7 +61,7 @@ function* WorkerGetDSCN(action) {
       instance.get(`api/chi-nhanh/lay-danh-sach-chi-nhanh`),
     );
 
-    if (response.data.status) {
+    if (response.data.status) { 
       yield put(getLocationStoreSuccess(response.data.result));
     } else {
       yield put(getLocationMapFail('không lấy được danh sách chi nhánh'));

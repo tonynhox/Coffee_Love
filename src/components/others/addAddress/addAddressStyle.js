@@ -3,29 +3,29 @@ import {BACKGROUND_BUTTON_COLOR} from '../../../utils/contanst';
 
 export const addAddressStyle = StyleSheet.create({
   container: {
-    flex: 1,
+    // flex: 1,
+    flex:1,
     padding: 10,
-    backgroundColor:'#fcf9f6',
-    flexDirection: 'column',
-    alignItems: 'center',
+    backgroundColor:'#f1f1f1',
+
   },
 
   inputContainer: {
     width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
-    borderColor: BACKGROUND_BUTTON_COLOR,
+    borderColor: 'lightgray',
     borderWidth: 1,
-    borderRadius: 8,
+    borderRadius: 6,
+    backgroundColor: 'white',
     paddingHorizontal: 10,
-    borderWidth: 1.5,
-    marginTop: 6,
+    marginTop: 12,
   },
   textThongTin: {
-    fontWeight: '400',
+    fontWeight: '500',
     fontSize: 15,
     color: 'black',
-    marginBottom: 3,
+    marginBottom: 0,
   },
   input: {
     flex: 1,
@@ -40,23 +40,21 @@ export const addAddressStyle = StyleSheet.create({
 
   },
   textAddAddress: {
-    fontWeight: '500',
+    fontWeight: '700',
     fontSize: 17,
-    color: BACKGROUND_BUTTON_COLOR,
+    color: '#f1f1f1',
     lineHeight: 23,
     marginLeft: 10,
   },
   addAddressContainer: {
     position: 'absolute',
-    flexDirection: 'row',
-    justifyContent: 'center',
+    alignSelf: 'center',
     alignItems: 'center',
-    borderColor: BACKGROUND_BUTTON_COLOR,
-    borderWidth: 2,
-    width: '90%',
+    justifyContent: 'center',
+    backgroundColor: BACKGROUND_BUTTON_COLOR,
+    width: '87%',
     height: 50,
-    bottom: 20,
-    backgroundColor: 'white',
-    
+    bottom: 40,
+    borderRadius: 10,
   },
 });

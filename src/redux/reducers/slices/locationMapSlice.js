@@ -49,7 +49,6 @@ export const locationMapSlice = createSlice({
       state.toaDoCuaHang = sortStoreTemp;
       state.locationDefault = sortStoreTemp[0];
       state.isLoading = false;
-
     },
     setMyLocation: (state, action) => {
       state.myLocation = action.payload;

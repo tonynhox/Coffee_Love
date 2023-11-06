@@ -16,6 +16,8 @@ import NotificationHandler from './src/notification/NotificationHandler';
 import ModalNotification from './src/notification/ModalNotification';
 import OnScreenNotification from './src/notification/OnScreenNotification';
 import StoreCoffee from './src/components/others/storeCoffee/StoreCoffee';
+import BottomSheetDanhSachCuaHang from './src/components/main/listStore/BottomSheetDanhSachCuaHang';
+import MapAddAddress from './src/components/others/addAddress/MapAddAddress';
 
 export const navigationRef = createNavigationContainerRef();
 
@@ -24,8 +26,9 @@ const App = () => {
     <Provider store={store}>
       <NavigationContainer ref={navigationRef}>
         <NotificationHandler />
-        {/* <ModalNotification /> */}
-        <ManHinhCHao />
+        {/* <BottomSheetDanhSachCuaHang /> */}
+        {/* <ManHinhCHao /> */}
+        <MapAddAddress />
       </NavigationContainer>
       {/* <ModalVongQuayMayMan/> */}
     </Provider>
