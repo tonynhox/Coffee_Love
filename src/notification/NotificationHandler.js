@@ -77,7 +77,7 @@ const NotificationHandler = () => {
       )} */}
       {isVisible.isVisible && (
         <OnScreenNotification
-        isVisible={isVisible.isVisible}
+          isVisible={isVisible.isVisible}
           value={isVisible.value}
           // onCancel={() => setIsVisible({isVisible: false, value: ''})}
         />

@@ -15,6 +15,7 @@ import ModalVongQuayMayMan from './src/components/others/wheelOfFortune/ModelVon
 import NotificationHandler from './src/notification/NotificationHandler';
 import ModalNotification from './src/notification/ModalNotification';
 import OnScreenNotification from './src/notification/OnScreenNotification';
+import BottomSheetDanhSachCuaHang from './src/components/main/listStore/BottomSheetDanhSachCuaHang';
 
 export const navigationRef = createNavigationContainerRef();
 
@@ -23,7 +24,7 @@ const App = () => {
     <Provider store={store}>
       <NavigationContainer ref={navigationRef}>
         <NotificationHandler />
-        {/* <ModalNotification /> */}
+        {/* <BottomSheetDanhSachCuaHang /> */}
         <ManHinhCHao />
       </NavigationContainer>
       {/* <ModalVongQuayMayMan/> */}

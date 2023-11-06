@@ -7,6 +7,8 @@ import {
   ScrollView,
   TouchableOpacity,
   Alert,
+  LayoutAnimation,
+  Image,
 } from 'react-native';
 import React, {
   useEffect,
@@ -15,7 +17,10 @@ import React, {
   forwardRef,
 } from 'react';
 import RenderOrderItem from './RenderOrderItem';
-import {BACKGROUND_BUTTON_COLOR} from '../../../utils/contanst';
+import {
+  BACKGROUND_BUTTON_COLOR,
+  hinh_thuc_thanh_toan,
+} from '../../../utils/contanst';
 // import { ScrollView } from 'react-native-virtualized-view';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useDispatch, useSelector} from 'react-redux';
@@ -141,6 +146,42 @@ const CartPayment = forwardRef(({setPrice}, ref) => {
 
   // end
   //data giỏ hàng
+
+  // animation
+  const transition = {
+    duration: 250, // You can adjust the duration as needed
+    create: {
+      type: LayoutAnimation.Types.easeInEaseOut,
+      property: LayoutAnimation.Properties.opacity,
+    },
+    update: {
+      type: LayoutAnimation.Types.easeInEaseOut,
+    },
+    delete: {
+      type: LayoutAnimation.Types.easeInEaseOut,
+      property: LayoutAnimation.Properties.opacity,
+    },
+  };
+  const [hinhThucThanhToan, setHinhThucThanhToan] = useState(
+    hinh_thuc_thanh_toan.tien_mat,
+  );
+
+  const [isExpand, setIsExpand] = React.useState(false);
+  const handleAnimation = () => {
+    LayoutAnimation.configureNext(transition);
+    setIsExpand(!isExpand);
+  };
+
+  const changeHinhThucThanhToan = state => {
+    if (state === hinh_thuc_thanh_toan.tien_mat.state) {
+      setHinhThucThanhToan(hinh_thuc_thanh_toan.tien_mat);
+    } else if (state === hinh_thuc_thanh_toan.zalopay.state) {
+      setHinhThucThanhToan(hinh_thuc_thanh_toan.zalopay);
+    } else if (state === hinh_thuc_thanh_toan.momo.state) {
+      setHinhThucThanhToan(hinh_thuc_thanh_toan.momo);
+    }
+    handleAnimation();
+  };
 
   //onpress mua hàng
   const handlePayment = () => {
@@ -380,17 +421,123 @@ const CartPayment = forwardRef(({setPrice}, ref) => {
       {/* Hinh thuc hanh toan */}
       <View>
         <Text style={styles.textDonHang}>Hình thức thanh toán</Text>
-
-        <TouchableOpacity style={styles.phiGiaoHangContainer}>
+        {/* //hình thức đang chọn */}
+        <TouchableOpacity
+          style={styles.phiGiaoHangContainer}
+          onPress={() => handleAnimation()}>
           {/* <Text style={styles.textPhiGiaoHang}>15.000₫</Text> */}
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <Icon name="cash" size={20} color="green" />
-            <Text style={styles.textPhiGiaoHang}> Tiền mặt</Text>
+            {hinhThucThanhToan.state === hinh_thuc_thanh_toan.tien_mat.state ? (
+              <Icon name="cash" size={20} color="green" />
+            ) : (
+              <>
+                {hinhThucThanhToan.state ===
+                hinh_thuc_thanh_toan.zalopay.state ? (
+                  <Image
+                    source={require('../../../assets/images/zalopay.png')}
+                    style={styles.zalopay}
+                  />
+                ) : (
+                  <Image
+                    source={require('../../../assets/images/momo.png')}
+                    style={styles.zalopay}
+                  />
+                )}
+              </>
+            )}
+            <Text style={styles.textPhiGiaoHang}>
+              {' '}
+              {hinhThucThanhToan.name}
+            </Text>
           </View>
 
           {/* <Text style={styles.textPhiGiaoHang}>15.000₫</Text> */}
-          <Icon name="chevron-right" size={20} color="black" />
+          <Icon name="chevron-down" size={20} color="black" />
         </TouchableOpacity>
+
+        {/* ========================================== */}
+        {/* Lựa chọn hình thức thanh toán animation */}
+        {isExpand && (
+          <View style={styles.hinhThucThanhToanContainer}>
+            {/* Tiền mặt  */}
+            <TouchableOpacity
+              style={styles.phiGiaoHangContainer}
+              onPress={() =>
+                changeHinhThucThanhToan(hinh_thuc_thanh_toan.tien_mat.state)
+              }>
+              {/* <Text style={styles.textPhiGiaoHang}>15.000₫</Text> */}
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <Icon name="cash" size={20} color="green" />
+                <Text style={styles.textPhiGiaoHang}>
+                  {' '}
+                  {hinh_thuc_thanh_toan.tien_mat.name}
+                </Text>
+              </View>
+
+              {/* <Text style={styles.textPhiGiaoHang}>15.000₫</Text> */}
+              {hinhThucThanhToan.state ===
+              hinh_thuc_thanh_toan.tien_mat.state ? (
+                <Icon name="check" size={20} color="black" />
+              ) : null}
+            </TouchableOpacity>
+
+            {/* separate line */}
+            <View style={styles.separateLine} />
+
+            {/* ZaloPay */}
+            <TouchableOpacity
+              style={styles.phiGiaoHangContainer}
+              onPress={() =>
+                changeHinhThucThanhToan(hinh_thuc_thanh_toan.zalopay.state)
+              }>
+              {/* <Text style={styles.textPhiGiaoHang}>15.000₫</Text> */}
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <Image
+                  source={require('../../../assets/images/zalopay.png')}
+                  style={styles.zalopay}
+                />
+                <Text style={styles.textPhiGiaoHang}>
+                  {' '}
+                  {hinh_thuc_thanh_toan.zalopay.name}
+                </Text>
+              </View>
+
+              {/* <Text style={styles.textPhiGiaoHang}>15.000₫</Text> */}
+
+              {hinhThucThanhToan.state ===
+              hinh_thuc_thanh_toan.zalopay.state ? (
+                <Icon name="check" size={20} color="black" />
+              ) : null}
+            </TouchableOpacity>
+
+            {/* separate line */}
+            <View style={styles.separateLine} />
+
+            {/* Momo */}
+            <TouchableOpacity
+              style={styles.phiGiaoHangContainer}
+              onPress={() =>
+                changeHinhThucThanhToan(hinh_thuc_thanh_toan.momo.state)
+              }>
+              {/* <Text style={styles.textPhiGiaoHang}>15.000₫</Text> */}
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <Image
+                  source={require('../../../assets/images/momo.png')}
+                  style={styles.momo}
+                />
+                <Text style={styles.textPhiGiaoHang}>
+                  {' '}
+                  {hinh_thuc_thanh_toan.momo.name}
+                </Text>
+              </View>
+
+              {/* <Text style={styles.textPhiGiaoHang}>15.000₫</Text> */}
+              {hinhThucThanhToan.state === hinh_thuc_thanh_toan.momo.state ? (
+                <Icon name="check" size={20} color="black" />
+              ) : null}
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
       {/* Hinh thuc thanh toan */}
       {/* <View>
@@ -526,5 +673,19 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     marginHorizontal: 10,
     marginBottom: 5,
+  },
+  hinhThucThanhToanContainer: {
+    padding: 15,
+  },
+  separateLine: {height: 10, width: '100%', backgroundColor: 'transparent'},
+  zalopay: {
+    width: 25,
+    height: 25,
+    resizeMode: 'contain',
+  },
+  momo: {
+    width: 25,
+    height: 25,
+    resizeMode: 'contain',
   },
 });

@@ -63,7 +63,7 @@ function* WorkerGetDSCN(action) {
       instance.get(`api/chi-nhanh/lay-danh-sach-chi-nhanh`),
     );
 
-    if (response.data.status) {
+    if (response.data.status) { 
       yield put(getLocationStoreSuccess(response.data.result));
       console.log('response.data', response.data.result);
     } else {

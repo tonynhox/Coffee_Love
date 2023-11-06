@@ -33,7 +33,6 @@ export const locationMapSlice = createSlice({
     getLocationStoreSuccess: (state, action) => {
       state.toaDoCuaHang = action.payload;
       state.isLoading = false;
-
     },
     setMyLocation: (state, action) => {
       state.myLocation = action.payload;
