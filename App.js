@@ -18,6 +18,7 @@ import OnScreenNotification from './src/notification/OnScreenNotification';
 import StoreCoffee from './src/components/others/storeCoffee/StoreCoffee';
 import BottomSheetDanhSachCuaHang from './src/components/main/listStore/BottomSheetDanhSachCuaHang';
 import MapAddAddress from './src/components/others/addAddress/MapAddAddress';
+import BottomDanhGia from './src/components/others/product/BottomDanhGia';
 
 export const navigationRef = createNavigationContainerRef();
 
@@ -25,7 +26,7 @@ const App = () => {
   return (
     <Provider store={store}>
       <NavigationContainer ref={navigationRef}>
-        <NotificationHandler />
+        {/* <NotificationHandler /> */}
         {/* <BottomSheetDanhSachCuaHang /> */}
         <ManHinhCHao />
         {/* <MapAddAddress /> */}

@@ -4,7 +4,7 @@ const initialState = {
   isLoading: true,
   data: null,
   dataFromMenu: null,
-  isMenuLoading: true
+  isMenuLoading: true,
 };
 
 const chiTietSanPhamSlice = createSlice({

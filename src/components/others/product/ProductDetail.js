@@ -28,7 +28,8 @@ import {
   getChangeFavoriteRequest,
   getFavoriteRequest,
 } from '../../../redux/reducers/slices/favoriteSlice';
-import { getAddCartPaymentFetch } from '../../../redux/reducers/slices/cartPaymentSlice';
+import {getAddCartPaymentFetch} from '../../../redux/reducers/slices/cartPaymentSlice';
+import BottomDanhGia from './BottomDanhGia';
 
 const ProductDetail = props => {
   const {navigation, route} = props;
@@ -63,8 +64,7 @@ const ProductDetail = props => {
 
   const navigateToBuyProduct = dataToBuy => {
     // console.log('DATA: ', dataToBuy);
-    dispatch(getAddCartPaymentFetch({data:dataToBuy,navigation}));
-    
+    dispatch(getAddCartPaymentFetch({data: dataToBuy, navigation}));
   };
 
   const onCheckIsLiked = () => {
@@ -93,6 +93,16 @@ const ProductDetail = props => {
   //     dispatch(getFavoriteRequest({id_user: user.id_user}));
   //   }
   // }, [isLiked]);
+
+  // danh gia
+  const [isBottomDanhGiaVisible, setIsBottomDanhGiaVisible] =
+    React.useState(false);
+  const hanldeCloseBottomDanhGia = () => {
+    setIsBottomDanhGiaVisible(false);
+  };
+  const handleOpenBottomDanhGia = () => {
+    setIsBottomDanhGiaVisible(true);
+  };
 
   const chonSanPhamDexuat = id => {
     dispatch(getChiTietSanPhamRequest(id));
@@ -296,14 +306,22 @@ const ProductDetail = props => {
                 />
               </View>
 
-              <DanhSachDanhGia data={dataChiTietSanPham} />
+              <DanhSachDanhGia
+                data={dataChiTietSanPham}
+                onOpenDanhGia={() => handleOpenBottomDanhGia()}
+              />
             </ScrollView>
 
-            <BottomMuaSanPham
+            {/* <BottomMuaSanPham
               isOpen={isOpen}
               onChangeOpen={() => setIsOpen(false)}
               data={dataChiTietSanPham}
               handleNavigate={navigateToBuyProduct}
+            /> */}
+
+            <BottomDanhGia
+              isVisible={isBottomDanhGiaVisible}
+              onClose={() => hanldeCloseBottomDanhGia()}
             />
           </SafeAreaView>
         </GestureHandlerRootView>
