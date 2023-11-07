@@ -219,7 +219,7 @@ const BottomMuaSanPham = ({isOpen, onChangeOpen, data, handleNavigate}) => {
           {/* header ten san pham*/}
           <View style={styles.tenSanPhamVaGiaTienContainer}>
             <Text style={styles.textTenSanPham}>{data.ten_san_pham}</Text>
-            <View style={styles.giaTienContainer}>
+            {/* <View style={styles.giaTienContainer}>
               <Text style={styles.textGiaTien}>
                 {data.size[1].giam_gia == 0
                   ? null
@@ -228,7 +228,7 @@ const BottomMuaSanPham = ({isOpen, onChangeOpen, data, handleNavigate}) => {
               <Text style={styles.textGiaTienGiamGia}>
                 {formatCurrency(data.size[1].gia)}
               </Text>
-            </View>
+            </View> */}
           </View>
 
           {/* separate line */}

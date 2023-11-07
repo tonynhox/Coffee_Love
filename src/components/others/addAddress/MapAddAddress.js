@@ -1,26 +1,31 @@
 import {Image, StyleSheet, Text, View} from 'react-native';
 import React, {useEffect} from 'react';
 import {MFMapView, MFDirectionsRenderer} from 'react-native-map4d-map';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {fetchNearbySearch} from 'react-native-map4d-services';
+import { useNavigation } from '@react-navigation/native';
+import { setListAddress } from '../../../redux/reducers/slices/utilSlice';
+import ListAddress from './ListAddress';
 
 const MapAddAddress = () => {
   const myLocation = useSelector(state => state.locationMap?.myLocation);
-
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
   const locationNear = (location,text='') =>
     fetchNearbySearch({
       location: {
         latitude: location?.latitude,
         longitude: location?.longitude,
       },
-      radius: 15,
+      radius: 30,
       text: text,
       types: ['point','other'],
 
     }).then(response => {
       if (response.code == 'ok') {
-        console.log('Geocode Results:', response.result);
+        // console.log('Geocode Results:', response.result);
+        dispatch(setListAddress(response.result));
       } else {
         console.log(
           `Error code: ${response.code}, message: ${response.message}`,
@@ -28,18 +33,20 @@ const MapAddAddress = () => {
       }
     });
   return (
-    <View style={{flex: 1}}>
+  <>
+
+    <View style={{flex: 0.7}}>
       <MFMapView
         mapType={'roadmap'}
-        // camera={{
-        //   center: {
-        //     latitude: myLocation.latitude,
-        //     longitude: myLocation.longitude,
-        //   },
-        //   zoom: 18,
-        //   bearing: 0,
-        //   tilt: 0,
-        // }}
+        camera={{
+          center: {
+            latitude: myLocation.latitude,
+            longitude: myLocation.longitude,
+          },
+          zoom: 18,
+          bearing: 0,
+          tilt: 0,
+        }}
         showsMyLocation={true}
         style={{flex: 1}}
         onCameraIdle={e => {
@@ -53,12 +60,18 @@ const MapAddAddress = () => {
           position: 'absolute',
           alignSelf: 'center',
           top: 0,
-          bottom: 20,
+          bottom: 34,
           justifyContent: 'center',
         }}>
         <Icon name="pin" size={40} color="red" />
       </View>
     </View>
+
+      <View style={{flex:0.3,backgroundColor:'white'}}>
+          <ListAddress/>
+      </View>
+  </>
+
   );
 };
 

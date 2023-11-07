@@ -6,6 +6,7 @@ const initialState = {
   idSanPham: null,
   isVisibleModalCart: false,
   itemGioHang: null,
+  listAddress: [],
 };
 
 export const utilSlice = createSlice({
@@ -29,6 +30,9 @@ export const utilSlice = createSlice({
       console.log('setItemGioHang', action.payload);
       state.itemGioHang = action.payload;
     },
+    setListAddress: (state, action) => {
+      state.listAddress = action.payload;
+    },
   },
 });
 
@@ -37,6 +41,7 @@ export const {
   setIDSanPham,
   setIsVisibleModalCart,
   setItemGioHang,
+  setListAddress,
 } = utilSlice.actions;
 
 export default utilSlice.reducer;

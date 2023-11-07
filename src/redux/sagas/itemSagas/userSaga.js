@@ -8,6 +8,7 @@ import {
   SignUpSuccess,
   changePassOtpSuccess,
   editUserSuccess,
+  getAddAddressSuccess,
 } from '../../reducers/slices/userSlice';
 import instance from '../../../axios/instance';
 import Header from '../../../utils/Header';
@@ -25,7 +26,6 @@ function* Login(action) {
     const response = yield call(() =>
       instance.post('users/dang-nhap-username', payload),
     );
-
 
     if (response.data.trang_thai) {
       //lưu local
@@ -217,6 +217,35 @@ function* EditUser(action) {
   }
 }
 
+function* WorkAddAddress(action) {
+  try {
+    const {id_user, nguoi_nhan, address, so_dien_thoai,navigation} = action.payload;
+    const payload = {
+      id_user: id_user,
+      ten_dia_chi: address,
+      so_dien_thoai: so_dien_thoai,
+      so_nha: '',
+      tinh: '',
+      nguoi_nhan: nguoi_nhan,
+    };
+
+    //api
+    const response = yield call(() =>
+      instance.post('users/them-dia-chi', payload),
+    );
+
+    if (response.data.trang_thai) {
+      yield put(getAddAddressSuccess(payload));
+      navigation.goBack();
+    } else {
+      yield put(getUserFail('Cap nhat that bai'));
+    }
+  } catch (error) {
+    console.log('error', error);
+    yield put(getUserFail('Lỗi kết nối'));
+  }
+}
+
 function* userSaga() {
   yield takeLatest('users/getUserFetch', Login);
 
@@ -234,6 +263,9 @@ function* userSaga() {
   yield takeLatest('users/changePass', ChangePass);
 
   yield takeLatest('users/editUser', EditUser);
+
+  //addaddress
+  yield takeLatest('users/getAddAddress', WorkAddAddress);
 }
 
 export default userSaga;

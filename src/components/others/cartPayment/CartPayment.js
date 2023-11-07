@@ -3,8 +3,6 @@ import {
   Text,
   View,
   TextInput,
-  FlatList,
-  ScrollView,
   TouchableOpacity,
   Alert,
   LayoutAnimation,
@@ -21,7 +19,7 @@ import {
   BACKGROUND_BUTTON_COLOR,
   hinh_thuc_thanh_toan,
 } from '../../../utils/contanst';
-// import { ScrollView } from 'react-native-virtualized-view';
+
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useDispatch, useSelector} from 'react-redux';
 import {formatCurrency} from '../../../utils/formatCurrency';
@@ -51,10 +49,8 @@ const CartPayment = forwardRef(({setPrice}, ref) => {
   const [ghiChu, setGhiChu] = useState('');
   //data vị trí hiện tại
   const myLocation = useSelector(state => state.locationMap.myLocation);
-  const [tencuahang, setTenCuaHang] = useState(null);
+  //vị trí mặc định
   const locationDefault = useSelector( state => state.locationMap.locationDefault);
-
-  console.log('dataCArt',data);
 
   const dispatchGiaoHang = async () => {
     dispatch(
@@ -201,37 +197,7 @@ const CartPayment = forwardRef(({setPrice}, ref) => {
   useImperativeHandle(ref, () => ({
     open() {
       handlePayment();
-      // console.log('componentBRef', {
-      //   id_user: user?.id_user,
-      //   id_chi_nhanh: tencuahang?._id,
-      //   loai_don_hang: 'order Online',
-      //   dia_chi: {
-      //     ten_dia_chi: diaChi,
-      //     so_dien_thoai: user?.so_dien_thoai,
-      //     so_nha: '',
-      //     tinh: '',
-      //     nguoi_nhan: user?.ho_ten,
-      //   },
-      //   san_pham: data.map(item => {
-      //     return {
-      //       id_san_pham: item.id_san_pham,
-      //       ten_san_pham: item.ten_san_pham,
-      //       size: item.size,
-      //       so_luong: item.so_luong,
-      //       gia: item.gia_da_giam,
-      //       topping: item.topping
-      //     };
-      //   }),
-      //   ghi_chu: '',
-      //   giam_gia: sale,
-      //   phi_van_chuyen: priceShip,
-      //   thanh_toan: {
-      //     ten_thanh_toan: 'Thanh Toán Khi Nhận Hàng',
-      //     ma_thanh_toan: '',
-      //     trang_thai: 1,
-      //   },
-      // });
-    },
+    }
   }));
 
   return (

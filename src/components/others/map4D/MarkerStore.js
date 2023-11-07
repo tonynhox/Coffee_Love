@@ -18,10 +18,10 @@ const MarkerStore = props => {
     })),
   );
   // console.log('distance', distance);
-
-  useEffect(() => {
+  // tính toán toạ độ của camra và fitbounds
+  const cameraFprFitbounds = async () => {
     if (distance) {
-      map.current?.fitBounds({
+      const camera = await map.current?.cameraForBounds({
         bounds: {
           northEast: {
             latitude: myLocation.latitude,
@@ -34,7 +34,11 @@ const MarkerStore = props => {
         },
         padding: {top: 1, right: 2, bottom: 3, left: 4},
       });
+      map.current?.animateCamera(camera);
     }
+  };
+  useEffect(() => {
+    cameraFprFitbounds();
   }, []);
 
   const dispath = useDispatch();
@@ -69,20 +73,36 @@ const MarkerStore = props => {
               //   zoom: 17,
               //   bearing: 0,
               // });
-
-              map.current?.fitBounds({
-                bounds: {
-                  northEast: {
-                    latitude: myLocation.latitude,
-                    longitude: myLocation.longitude,
+              const cameraFprFitbounds = async () => {
+                const cameraBound = await map.current?.cameraForBounds({
+                  bounds: {
+                    northEast: {
+                      latitude: myLocation.latitude,
+                      longitude: myLocation.longitude,
+                    },
+                    southWest: {
+                      latitude: location.latitude,
+                      longitude: location.longitude,
+                    },
                   },
-                  southWest: {
-                    latitude: location.latitude,
-                    longitude: location.longitude,
-                  }
-                },
-                padding: {top: 1, right: 2, bottom: 3, left: 4},
-              });
+                  padding: {top: 1, right: 2, bottom: 3, left: 4},
+                });
+                map.current?.animateCamera(cameraBound);
+              };
+              cameraFprFitbounds();
+              // map.current?.fitBounds({
+              //   bounds: {
+              //     northEast: {
+              //       latitude: myLocation.latitude,
+              //       longitude: myLocation.longitude,
+              //     },
+              //     southWest: {
+              //       latitude: location.latitude,
+              //       longitude: location.longitude,
+              //     }
+              //   },
+              //   padding: {top: 1, right: 2, bottom: 3, left: 4},
+              // });
             }}
             icon={{
               uri: require('../../../assets/images/img_cafe.png'),

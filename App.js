@@ -27,8 +27,8 @@ const App = () => {
       <NavigationContainer ref={navigationRef}>
         <NotificationHandler />
         {/* <BottomSheetDanhSachCuaHang /> */}
-        {/* <ManHinhCHao /> */}
-        <MapAddAddress />
+        <ManHinhCHao />
+        {/* <MapAddAddress /> */}
       </NavigationContainer>
       {/* <ModalVongQuayMayMan/> */}
     </Provider>

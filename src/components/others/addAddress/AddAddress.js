@@ -10,15 +10,50 @@ import {
   Platform,
   Pressable,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome6';
 import {addAddressStyle} from './addAddressStyle';
 import {BACKGROUND_BUTTON_COLOR} from '../../../utils/contanst';
 import Header from '../../../utils/Header';
+import { useNavigation } from '@react-navigation/native';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAddAddress } from '../../../redux/reducers/slices/userSlice';
 
-const AddAddress = () => {
+const AddAddress = (props) => {
+  const {route} = props;
+  const dispatch = useDispatch();
+  const location = route?.params?.item;
+  const navigation = useNavigation();
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+  const id_user = useSelector(state => state.users?.user?.id_user);
+
+  //data nhập vào
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [address, setAddress] = useState('');
+  const [guide, setGuide] = useState('');
+
+  useEffect(() => {
+    // console.log(location);
+    if(location){
+      setAddress(location.address);
+    }
+  }
+  , [location])
+
+  const handleAddAddress = () => {
+    // console.log('handleAddAddress');
+    dispatch(getAddAddress({
+      id_user:id_user,
+      address: address,
+      so_dien_thoai:phone,
+      nguoi_nhan:name,
+      navigation:navigation,
+    })
+    );
+
+  }
   return (
     <View
       style={addAddressStyle.container}
@@ -33,6 +68,8 @@ const AddAddress = () => {
         {/* Textinput ho va ten */}
         <View style={addAddressStyle.inputContainer}>
           <TextInput
+            value={name}
+            onChangeText={setName}
             style={addAddressStyle.input}
             placeholder="Họ và tên... "
             placeholderTextColor="#999"
@@ -43,6 +80,8 @@ const AddAddress = () => {
         {/* Textinput sdt */}
         <View style={addAddressStyle.inputContainer}>
           <TextInput
+            value={phone}
+            onChangeText={setPhone}
             style={addAddressStyle.input}
             placeholder="Số điện thoại... "
             placeholderTextColor="#999"
@@ -54,10 +93,15 @@ const AddAddress = () => {
       <View style={{marginTop: 15}}>
         <Text style={addAddressStyle.textThongTin}>Địa chỉ</Text>
 
-        {/* Textinput ho va ten */}
+        {/* Textinput diahchi */}
         <Pressable 
-          style={addAddressStyle.inputContainer}>
+          onPress={()=>navigation.navigate('MapAddAddress')}
+          style={addAddressStyle.inputContainer}
+          >
           <TextInput
+            multiline={true}
+            value={address}
+            onChangeText={setAddress}
             editable={false}
             style={addAddressStyle.input}
             placeholder="Chọn địa chỉ"
@@ -69,6 +113,8 @@ const AddAddress = () => {
         {/* Textinput sdt */}
         <View style={addAddressStyle.inputContainer}>
           <TextInput
+            value={guide}
+            onChangeText={setGuide}
             style={addAddressStyle.input}
             placeholder="Hướng dẫn giao hàng"
             placeholderTextColor="#999"
@@ -95,7 +141,9 @@ const AddAddress = () => {
         behavior={"padding"} 
 
         >
-        <TouchableOpacity style={addAddressStyle.addAddressContainer}>
+        <TouchableOpacity
+          onPress={()=>handleAddAddress()}
+           style={addAddressStyle.addAddressContainer}>
           <Text style={addAddressStyle.textAddAddress}>Thêm địa chỉ</Text>
         </TouchableOpacity>
       </KeyboardAvoidingView>

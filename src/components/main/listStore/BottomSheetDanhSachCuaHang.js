@@ -25,7 +25,7 @@ const BottomSheetDanhSachCuaHang = ({isVisible, onClose}) => {
   const bottomSheetRef = useRef(null);
 
   // variables
-  const snapPoints = useMemo(() => ['8%', '50%'], []);
+  const snapPoints = useMemo(() => ['10%', '50%'], []);
 
   // callbacks
   const handleSheetChanges = useCallback(index => {
@@ -35,34 +35,7 @@ const BottomSheetDanhSachCuaHang = ({isVisible, onClose}) => {
   }, []);
 
   const renderChiNhanh = ({item}) => {
-    // {
-    //   __v: 2,
-    //   _id: '6522818a2639141f25388250',
-    //   ban: [
-    //     {
-    //       _id: '6522846a6c551a9d05e370b4',
-    //       khu_vuc: 'trệt ',
-    //       ten_ban: 'Bàn 01',
-    //       trang_thai: 0,
-    //     },
-    //     {
-    //       _id: '6522846a6c551a9d05e370b5',
-    //       khu_vuc: 'lầu 3 ',
-    //       ten_ban: 'Bàn 09',
-    //       trang_thai: 0,
-    //     },
-    //     {
-    //       _id: '6522846a6c551a9d05e370b6',
-    //       khu_vuc: 'trệt ',
-    //       ten_ban: 'Bàn 02',
-    //       trang_thai: 0,
-    //     },
-    //   ],
-    //   dia_chi: '1900 p3 Nguyễn Kiệm, Gò Vấp',
-    //   location: {x: '10.802331', y: '106.678928'},
-    //   status: 1,
-    //   ten_chi_nhanh: 'Nguyễn Kiệm 4',
-    // };
+
     return (
       <TouchableOpacity
         style={styles.itemContainer}

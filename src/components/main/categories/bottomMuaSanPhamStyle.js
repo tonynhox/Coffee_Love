@@ -29,7 +29,6 @@ export const styles = StyleSheet.create({
     fontSize: 22,
     color: 'black',
     fontWeight: '600',
-    marginLeft: 10,
     // width: '50%',
     alignSelf: 'center',
   },

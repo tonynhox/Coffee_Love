@@ -367,6 +367,10 @@ const Map = () => {
   const myLocation = useSelector(state => state.locationMap.myLocation);
   const refRoute = useRef(null);
 
+  // useEffect(() => {
+  //   mapRef.current = map.current;
+  // }, [map]);
+  
 //   const duongDi = (locationEnd) => fetchDirections({
 //     origin: { latitude: myLocation.latitude, longitude: myLocation.longitude },
 //     destination: { latitude: locationEnd.latitude, longitude: locationEnd.longitude },

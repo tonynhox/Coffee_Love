@@ -9,7 +9,7 @@ import {useSelector} from 'react-redux';
 
 const MyAddress = () => {
   const navigation = useNavigation();
-  const diachi = useSelector(state => state.users.user.dia_chi);
+  const diachi = useSelector(state => state.users?.user?.dia_chi);
 
   console.log('diachi: ', diachi);
   const data = [
@@ -43,7 +43,6 @@ const MyAddress = () => {
     },
   ];
 
-
   const renderItemAddress = ({item, index}) => {
     return (
       <View style={myAddressStyle.containerItem}>
@@ -59,29 +58,31 @@ const MyAddress = () => {
         <TouchableOpacity style={myAddressStyle.containerAddress}>
           {/* View ten va sdt */}
           <View style={myAddressStyle.nameAndPhoneContainer}>
-            <Text style={myAddressStyle.textName}>{item.nguoi_nhan}</Text>
-            <Text style={myAddressStyle.textPhone}>{item.so_dien_thoai}</Text>
-            <View />
-            <View />
+            <Text style={myAddressStyle.textName}>{item?.nguoi_nhan}</Text>
           </View>
           {/* View so nha va ten duong */}
-          <View>
-            <Text style={myAddressStyle.textAddress}>Số {item.so_nha}</Text>
-          </View>
           {/* View phuong va quan */}
           <View>
-            <Text style={myAddressStyle.textAddress}>{item.tinh}</Text>
+            <Text style={myAddressStyle.textAddress}>
+              {item?.so_dien_thoai}
+            </Text>
+          </View>
+
+          <View>
+            <Text style={myAddressStyle.textAddress}>
+              Địa chỉ: {item?.ten_dia_chi}
+            </Text>
           </View>
 
           {/* View mac dinh */}
-          {item.mac_dinh?
+          {/* {item.mac_dinh?
 
-          <View style={myAddressStyle.defaultContainer}>
-            <Text style={myAddressStyle.textDefault}>
+          <View style={myAddressStyle?.defaultContainer}>
+            <Text style={myAddressStyle?.textDefault}>
               Mặc định
             </Text>
           </View>
-          : null }
+          : null } */}
         </TouchableOpacity>
 
         {/* View button sua */}

@@ -27,6 +27,7 @@ import {navigationRef} from '../../../App';
 import ScoreHistory from '../others/scoreHistory/ScoreHistory';
 import VoucherCart from '../others/cartPayment/VoucherCart';
 import StoreCoffee from '../others/storeCoffee/StoreCoffee';
+import MapAddAddress from '../others/addAddress/MapAddAddress';
 // add other navigation functions that you need and export them
 
 const Stack = createNativeStackNavigator();
@@ -219,6 +220,18 @@ const AppNavigation = props => {
           headerShown: true,
           animationTypeForReplace: 'push',
           animation: 'slide_from_right',
+        }}
+      />
+      <Stack.Screen
+        name="MapAddAddress"
+        component={MapAddAddress}
+
+        options={{
+          title: 'Chọn địa chỉ',
+          headerShown: true,
+          presentation: 'modal',
+          animationTypeForReplace: 'push',
+          // animation: 'slide_from_right',
         }}
       />
     </Stack.Navigator>

@@ -2,8 +2,6 @@ Hiện tại ở saga location đang đón lại location và ở cartpayment đ
 
 //giỏ hàng
 - thiếu đổi địa chỉ giao hàng
-- thiếu đổi địa chỉ chi nhánh
-- thiếu đổi phương thức thanh toán
 - thiếu hiển thị voucher
 - thiếu hiển thị giá trị voucher
 - thiếu input chú thích
@@ -11,7 +9,7 @@ Hiện tại ở saga location đang đón lại location và ở cartpayment đ
 - sửa lại alert của chọn voucher và huỷ voucher
 - sửa lại hàm xoá ở saga
 //realtime detail
-- chưa load lại khi đã giao hàng
+- chưa load lại khi đã giao hàng (đã fix)
 - thêm thông báo khi đã giao hàng thành công
 //chỉnh lại animation cho giỏ hàng ở dưới
 //thiếu data thể loại

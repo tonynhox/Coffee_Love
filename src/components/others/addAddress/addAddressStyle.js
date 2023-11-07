@@ -29,8 +29,9 @@ export const addAddressStyle = StyleSheet.create({
   },
   input: {
     flex: 1,
-    height: 40,
-    color: 'blue',
+    // height: 40,
+    padding:4,
+    color: 'black',
   },
   defaultLocationContainer:{
     width: '100%',

@@ -83,6 +83,14 @@ export const userSlice = createSlice({
       state.user = action.payload;
       ToastAndroid.show('Chỉnh sửa thành công', ToastAndroid.SHORT);
     },
+    getAddAddress: state => {
+      state.isLoading = true;
+    },
+    getAddAddressSuccess: (state, action) => {
+      state.isLoading = false;
+      console.log('action.payload user faile', action.payload);
+      state.user.dia_chi.push(action.payload);
+    },
     //error
     getUserFail: (state, action) => {
       state.isLoading = false;
@@ -126,7 +134,9 @@ export const {
   editUserSuccess,
   getUserFail,
   getQuayThanhCongUser,
-  getThemDiemFail
+  getThemDiemFail,
+  getAddAddress,
+  getAddAddressSuccess,
 } = userSlice.actions;
 
 export default userSlice.reducer;
