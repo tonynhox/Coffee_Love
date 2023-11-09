@@ -19,18 +19,25 @@ import StoreCoffee from './src/components/others/storeCoffee/StoreCoffee';
 import BottomSheetDanhSachCuaHang from './src/components/main/listStore/BottomSheetDanhSachCuaHang';
 import MapAddAddress from './src/components/others/addAddress/MapAddAddress';
 import BottomDanhGia from './src/components/others/product/BottomDanhGia';
+// import Camera from './src/testCam/Camera';
+import PickImage from './src/testCam/PickImage';
+import Camera from './src/testCam/Camera';
+import CameraComponent from './src/testCam/CameraComponent';
+import TakingPhoto from './src/testCam/TakingPhoto';
+import VisionCamera from './src/testCam/VisionCamera';
 
 export const navigationRef = createNavigationContainerRef();
 
 const App = () => {
   return (
     <Provider store={store}>
-      <NavigationContainer ref={navigationRef}>
+      {/* <NavigationContainer ref={navigationRef}> */}
         {/* <NotificationHandler /> */}
         {/* <BottomSheetDanhSachCuaHang /> */}
-        <ManHinhCHao />
+        {/* <ManHinhCHao /> */}
+        <VisionCamera />
         {/* <MapAddAddress /> */}
-      </NavigationContainer>
+      {/* </NavigationContainer> */}
       {/* <ModalVongQuayMayMan/> */}
     </Provider>
   );

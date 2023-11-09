@@ -62,3 +62,5 @@ export const hinh_thuc_thanh_toan = {
     name: 'Momo',
   },
 };
+
+export const MY_BUCKET_URL = 'coffeelove12e7053999e242d7aac86a0af0c26c79130559-dev'
