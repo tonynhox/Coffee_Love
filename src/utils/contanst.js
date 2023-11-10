@@ -63,4 +63,10 @@ export const hinh_thuc_thanh_toan = {
   },
 };
 
-export const MY_BUCKET_URL = 'coffeelove12e7053999e242d7aac86a0af0c26c79130559-dev'
+// export const MY_BUCKET_URL = 'coffeelove12e7053999e242d7aac86a0af0c26c79130559-dev'
+export const BUCKET_NAME = 'public-coffeelove';
+
+export const pick_image_options = {
+  thu_vien: 0,
+  camera: 1,
+};

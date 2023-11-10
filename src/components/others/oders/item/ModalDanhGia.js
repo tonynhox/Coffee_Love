@@ -6,16 +6,85 @@ import {
   TouchableOpacity,
   TextInput,
   Dimensions,
+  Image
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Modal from 'react-native-modal';
-import {modal_color_don_hang} from '../../../../utils/contanst';
+import {
+  modal_color_don_hang,
+  pick_image_options,
+} from '../../../../utils/contanst';
 import Icon from 'react-native-vector-icons/FontAwesome6';
+import ModalTuyChonHinhAnh from './ModalTuyChonHinhAnh';
+import {launchImageLibrary} from 'react-native-image-picker';
+import VisionCamera from './VisionCamera';
+import {useDispatch} from 'react-redux';
+import {getChangeCameraVisible} from '../../../../redux/reducers/slices/cameraSlice';
+
 
 const ModalDanhGia = ({isVisible, onCancel, sendRate}) => {
+  const dispatch = useDispatch();
+
   const dataRateStar = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5}];
   const [start, setStart] = useState(4);
   const [nhanXet, setNhanXet] = useState('');
+
+  // Image picker
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [valueChoosingModal, setValueChoosingModal] = useState({
+    isVisible: false,
+    value: '',
+  });
+  const [currentOptions, setCurrentOptions] = useState(null);
+  const [cameraValue, setCameraValue] = useState({isVisible: false, value: ''});
+
+  useEffect(() => {
+    if (currentOptions === null) {
+      return;
+    }
+    if (currentOptions === pick_image_options.camera) {
+      handleTakePicture();
+    } else if (currentOptions === pick_image_options.thu_vien) {
+      handleImageFromLibrary();
+    }
+  }, [currentOptions]);
+
+  const openChoosingModal = () => {
+    setValueChoosingModal({isVisible: true, value: ''});
+  };
+
+  // chon anh tu thu vien
+  const handleImageFromLibrary = () => {
+    const options = {
+      title: 'Select Image',
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+
+    launchImageLibrary(options, response => {
+      if (response.didCancel) {
+        setCurrentOptions(null);
+      } else if (response.error) {
+        setCurrentOptions(null);
+      } else {
+        const source = {uri: response.uri};
+        setSelectedImage(source);
+      }
+    });
+  };
+
+  // mo camera len
+  const handleTakePicture = () => {
+    setCameraValue({isVisible: true, value: ''});
+  };
+
+  const handleTakingPhoto = ({isVisible, value}) => {
+    setCameraValue({isVisible: isVisible, value: value});
+    setValueChoosingModal({isVisible: false, value: ''});
+    setCurrentOptions(null);
+  };
 
   const onConfirm = () => {
     sendRate({
@@ -49,72 +118,95 @@ const ModalDanhGia = ({isVisible, onCancel, sendRate}) => {
     );
   };
   return (
-    <Modal
-      isVisible={isVisible.isVisible}
-      onBackdropPress={() => toggleModal()}
-      animationIn="zoomIn"
-      animationOut={'zoomOut'}
-      backdropOpacity={0.3}
-      backdropTransitionOutTiming={0}>
-      <View style={{justifyContent: 'center', alignItems: 'center'}}>
-        <View style={styles.container}>
-          {/* danhs gia san pham & loi cam on */}
-          <Text style={styles.textDanhGia}>Đánh giá sản phẩm</Text>
+    <>
+      <Modal
+        isVisible={isVisible.isVisible}
+        onBackdropPress={() => toggleModal()}
+        animationIn="zoomIn"
+        animationOut={'zoomOut'}
+        backdropOpacity={0.3}
+        backdropTransitionOutTiming={0}>
+        <View style={{justifyContent: 'center', alignItems: 'center'}}>
+          <View style={styles.container}>
+            {/* danhs gia san pham & loi cam on */}
+            <Text style={styles.textDanhGia}>Đánh giá sản phẩm</Text>
 
-          {/* View rate sao */}
-          <View style={styles.listStarContainer}>
-            <FlatList
-              horizontal={true}
-              data={dataRateStar}
-              renderItem={rateStar}
-              keyExtractor={(item, index) => index.toString()}
-            />
+            {/* View rate sao */}
+            <View style={styles.listStarContainer}>
+              <FlatList
+                horizontal={true}
+                data={dataRateStar}
+                renderItem={rateStar}
+                keyExtractor={(item, index) => index.toString()}
+              />
+            </View>
+
+            {/* View input text  nhan xet*/}
+            <View>
+              <Text style={styles.textNhanXet}>Nhận xét của bạn</Text>
+              <TextInput
+                multiline
+                textAlignVertical="top"
+                placeholder="Nhận xét của bạn"
+                style={styles.inputNhanXet}
+                onChangeText={text => setNhanXet(text)}
+                value={nhanXet}
+              />
+            </View>
+
+            {/* View hinh anh */}
+
+            {cameraValue.value !== '' ? (
+              <>
+                <Image
+                  source={{uri: cameraValue.value}}
+                  style={{width: 100, height: 100, resizeMode: 'contain', alignSelf: 'center'}}
+                />
+              </>
+            ) : (
+              <TouchableOpacity
+                style={styles.themHinhAnhContainer}
+                onPress={() => openChoosingModal()}>
+                <Icon name="camera" size={25} color="#E98001" />
+                <Text style={styles.textThemHinhAnh}>Thêm hình ảnh</Text>
+              </TouchableOpacity>
+            )}
+
+            {/* View button huy va gui */}
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-around',
+              }}>
+              <TouchableOpacity
+                style={styles.buttonContainer}
+                onPress={() => toggleModal()}>
+                <Text style={styles.textCancel}>Hủy</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.buttonContainer}
+                onPress={() => onConfirm()}>
+                <Text style={styles.textCancel}>Gửi</Text>
+              </TouchableOpacity>
+            </View>
+
+            {/* Loi cam on */}
+            <Text style={styles.textVui}>
+              Coffee.Love rất vui khi nhận được đánh giá của bạn
+            </Text>
           </View>
-
-          {/* View input text  nhan xet*/}
-          <View>
-            <Text style={styles.textNhanXet}>Nhận xét của bạn</Text>
-            <TextInput
-              multiline
-              textAlignVertical="top"
-              placeholder="Nhận xét của bạn"
-              style={styles.inputNhanXet}
-              onChangeText={text => setNhanXet(text)}
-              value={nhanXet}
-            />
-          </View>
-
-          {/* View hinh anh */}
-          <View style={styles.themHinhAnhContainer}>
-            <Icon name="camera" size={25} color="#E98001" />
-            <Text style={styles.textThemHinhAnh}>Thêm hình ảnh</Text>
-          </View>
-
-          {/* View button huy va gui */}
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-around',
-            }}>
-            <TouchableOpacity
-              style={styles.buttonContainer}
-              onPress={() => toggleModal()}>
-              <Text style={styles.textCancel}>Hủy</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.buttonContainer}
-              onPress={() => onConfirm()}>
-              <Text style={styles.textCancel}>Gửi</Text>
-            </TouchableOpacity>
-          </View>
-
-          {/* Loi cam on */}
-          <Text style={styles.textVui}>
-            Coffee.Love rất vui khi nhận được đánh giá của bạn
-          </Text>
         </View>
-      </View>
-    </Modal>
+      </Modal>
+      <ModalTuyChonHinhAnh
+        isVisible={valueChoosingModal.isVisible}
+        onClose={() => setValueChoosingModal({isVisible: false, value: ''})}
+        onPickImage={value => setCurrentOptions(value)}
+      />
+      <VisionCamera
+        isVisible={cameraValue.isVisible}
+        onTakingPhoto={handleTakingPhoto}
+      />
+    </>
   );
 };
 

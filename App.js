@@ -25,19 +25,20 @@ import Camera from './src/testCam/Camera';
 import CameraComponent from './src/testCam/CameraComponent';
 import TakingPhoto from './src/testCam/TakingPhoto';
 import VisionCamera from './src/testCam/VisionCamera';
+import ModalTuyChonHinhAnh from './src/components/others/oders/item/ModalTuyChonHinhAnh';
 
 export const navigationRef = createNavigationContainerRef();
 
 const App = () => {
   return (
     <Provider store={store}>
-      {/* <NavigationContainer ref={navigationRef}> */}
+      <NavigationContainer ref={navigationRef}>
         {/* <NotificationHandler /> */}
         {/* <BottomSheetDanhSachCuaHang /> */}
-        {/* <ManHinhCHao /> */}
-        <VisionCamera />
+        <ManHinhCHao />
+        {/* <VisionCamera /> */}
         {/* <MapAddAddress /> */}
-      {/* </NavigationContainer> */}
+      </NavigationContainer>
       {/* <ModalVongQuayMayMan/> */}
     </Provider>
   );
