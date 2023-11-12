@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   TextInput,
   Dimensions,
-  Image
+  Image,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import Modal from 'react-native-modal';
@@ -20,7 +20,9 @@ import {launchImageLibrary} from 'react-native-image-picker';
 import VisionCamera from './VisionCamera';
 import {useDispatch} from 'react-redux';
 import {getChangeCameraVisible} from '../../../../redux/reducers/slices/cameraSlice';
-
+import uuid from 'react-native-uuid';
+import ModalChiTietHinhAnhDanhGia from './ModalChiTietHinhAnhDanhGia';
+import ImagePicker from 'react-native-image-crop-picker';
 
 const ModalDanhGia = ({isVisible, onCancel, sendRate}) => {
   const dispatch = useDispatch();
@@ -36,7 +38,10 @@ const ModalDanhGia = ({isVisible, onCancel, sendRate}) => {
     value: '',
   });
   const [currentOptions, setCurrentOptions] = useState(null);
-  const [cameraValue, setCameraValue] = useState({isVisible: false, value: ''});
+  const [cameraValue, setCameraValue] = useState({
+    isVisible: false,
+    value: [],
+  });
 
   useEffect(() => {
     if (currentOptions === null) {
@@ -55,33 +60,41 @@ const ModalDanhGia = ({isVisible, onCancel, sendRate}) => {
 
   // chon anh tu thu vien
   const handleImageFromLibrary = () => {
-    const options = {
-      title: 'Select Image',
-      storageOptions: {
-        skipBackup: true,
-        path: 'images',
-      },
-    };
-
-    launchImageLibrary(options, response => {
-      if (response.didCancel) {
-        setCurrentOptions(null);
-      } else if (response.error) {
-        setCurrentOptions(null);
-      } else {
-        const source = {uri: response.uri};
-        setSelectedImage(source);
-      }
-    });
+    setValueChoosingModal({isVisible: false, value: ''});
+    setCurrentOptions(null);
+    ImagePicker.openPicker({
+      multiple: true,
+    })
+      .then(images => {
+        console.log(images);
+        const newArray = images.map(item => ({
+          id: uuid.v4(), // Assuming you have the uuid library
+          uri: item.path,
+        }));
+        setCameraValue(prevCameraValue => ({
+          isVisible: false,
+          value: [...prevCameraValue.value, ...newArray],
+        }));
+      })
+      .catch(error => {
+        console.log('ERROR SELECTING IMAGE: ', error);
+      });
   };
 
   // mo camera len
   const handleTakePicture = () => {
-    setCameraValue({isVisible: true, value: ''});
+    setCameraValue(prevCameraValue => ({
+      isVisible: true,
+      value: [...prevCameraValue.value],
+    }));
   };
 
+  // da chup anh
   const handleTakingPhoto = ({isVisible, value}) => {
-    setCameraValue({isVisible: isVisible, value: value});
+    setCameraValue(prevCameraValue => ({
+      isVisible: false,
+      value: [...prevCameraValue.value, {id: uuid.v4(), uri: value}],
+    }));
     setValueChoosingModal({isVisible: false, value: ''});
     setCurrentOptions(null);
   };
@@ -117,10 +130,75 @@ const ModalDanhGia = ({isVisible, onCancel, sendRate}) => {
       </TouchableOpacity>
     );
   };
+
+  const [currentId, setCurrentId] = useState(-1);
+
+  const handleXoaAnh = index => {
+    const newData = cameraValue.value.filter((item, i) => i !== index);
+    setCameraValue({isVisible: false, value: newData});
+    if (index == 0) {
+      setCurrentId(-1);
+    } else if (index == cameraValue.value.length - 1) {
+      setCurrentId(index - 1);
+    }
+  };
+
+  const RenderHinhAnhDanhGia = ({item, index}) => {
+    isFourthItem = index === 3 ? true : false;
+    isHidden = index > 3 ? true : false;
+    return (
+      <>
+        {/* Cách hình ảnh thứ 4 trở đi thì sẽ bị ẩn */}
+        {isHidden || (
+          <>
+            <TouchableOpacity
+              onPress={() => setCurrentId(index)}
+              activeOpacity={0.9}
+              style={{padding: 1}}>
+              <Image
+                source={{
+                  uri: item.uri,
+                }}
+                style={{
+                  width: 90,
+                  height: 120,
+                  resizeMode: 'contain',
+                  alignSelf: 'center',
+                }}
+              />
+              {/* Dấu + cho các hình ảnh còn lại */}
+              {isFourthItem && (
+                <View style={styles.floatingSeeMoreContainer}>
+                  <Icon
+                    name="eye"
+                    size={25}
+                    color="white"
+                    style={styles.floatingPlusIcon}
+                  />
+                  <Text style={styles.textXemThem}>Xem thêm</Text>
+                </View>
+              )}
+            </TouchableOpacity>
+          </>
+        )}
+      </>
+    );
+  };
+
+  const onCloseCamera = () => {
+    setCurrentOptions(null);
+    setValueChoosingModal({isVisible: false, value: ''});
+
+    setCameraValue(prevCameraValue => ({
+      isVisible: false,
+      value: [...prevCameraValue.value],
+    }));
+  };
   return (
     <>
       <Modal
-        isVisible={isVisible.isVisible}
+        // isVisible={isVisible.isVisible}
+        isVisible={true}
         onBackdropPress={() => toggleModal()}
         animationIn="zoomIn"
         animationOut={'zoomOut'}
@@ -155,22 +233,25 @@ const ModalDanhGia = ({isVisible, onCancel, sendRate}) => {
             </View>
 
             {/* View hinh anh */}
+            <View style={styles.danhSachHinhAnhContainer}>
+              {cameraValue.value.length == 0 ||
+                cameraValue.value.map((item, index) => {
+                  return (
+                    <RenderHinhAnhDanhGia
+                      key={item.id}
+                      item={item}
+                      index={index}
+                    />
+                  );
+                })}
+            </View>
 
-            {cameraValue.value !== '' ? (
-              <>
-                <Image
-                  source={{uri: cameraValue.value}}
-                  style={{width: 100, height: 100, resizeMode: 'contain', alignSelf: 'center'}}
-                />
-              </>
-            ) : (
-              <TouchableOpacity
-                style={styles.themHinhAnhContainer}
-                onPress={() => openChoosingModal()}>
-                <Icon name="camera" size={25} color="#E98001" />
-                <Text style={styles.textThemHinhAnh}>Thêm hình ảnh</Text>
-              </TouchableOpacity>
-            )}
+            <TouchableOpacity
+              style={styles.themHinhAnhContainer}
+              onPress={() => openChoosingModal()}>
+              <Icon name="camera" size={25} color="#E98001" />
+              <Text style={styles.textThemHinhAnh}>Thêm hình ảnh</Text>
+            </TouchableOpacity>
 
             {/* View button huy va gui */}
             <View
@@ -205,6 +286,13 @@ const ModalDanhGia = ({isVisible, onCancel, sendRate}) => {
       <VisionCamera
         isVisible={cameraValue.isVisible}
         onTakingPhoto={handleTakingPhoto}
+        onClose={onCloseCamera}
+      />
+      <ModalChiTietHinhAnhDanhGia
+        data={cameraValue.value}
+        selectedIndex={currentId}
+        onClose={() => setCurrentId(-1)}
+        onXoaAnh={handleXoaAnh}
       />
     </>
   );
@@ -284,5 +372,31 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingVertical: 15,
+  },
+  floatingPlusIcon: {},
+  danhSachHinhAnhContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: 20,
+    borderRadius: 10,
+    marginVertical: 5,
+  },
+  floatingSeeMoreContainer: {
+    position: 'absolute',
+    backgroundColor: 'rgba(128, 128, 128, 0.7)',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  textXemThem: {
+    color: 'white',
+    fontSize: 15,
+    fontWeight: '600',
+    paddingTop: 5,
   },
 });

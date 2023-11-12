@@ -26,6 +26,7 @@ import CameraComponent from './src/testCam/CameraComponent';
 import TakingPhoto from './src/testCam/TakingPhoto';
 import VisionCamera from './src/testCam/VisionCamera';
 import ModalTuyChonHinhAnh from './src/components/others/oders/item/ModalTuyChonHinhAnh';
+import ModalChiTietHinhAnhDanhGia from './src/components/others/oders/item/ModalChiTietHinhAnhDanhGia';
 
 export const navigationRef = createNavigationContainerRef();
 
@@ -35,7 +36,7 @@ const App = () => {
       <NavigationContainer ref={navigationRef}>
         {/* <NotificationHandler /> */}
         {/* <BottomSheetDanhSachCuaHang /> */}
-        <ManHinhCHao />
+        <ModalDanhGia />
         {/* <VisionCamera /> */}
         {/* <MapAddAddress /> */}
       </NavigationContainer>
