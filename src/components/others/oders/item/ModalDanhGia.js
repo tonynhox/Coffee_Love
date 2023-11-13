@@ -7,10 +7,12 @@ import {
   TextInput,
   Dimensions,
   Image,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import Modal from 'react-native-modal';
 import {
+  BUCKET_NAME,
   modal_color_don_hang,
   pick_image_options,
 } from '../../../../utils/contanst';
@@ -23,6 +25,10 @@ import {getChangeCameraVisible} from '../../../../redux/reducers/slices/cameraSl
 import uuid from 'react-native-uuid';
 import ModalChiTietHinhAnhDanhGia from './ModalChiTietHinhAnhDanhGia';
 import ImagePicker from 'react-native-image-crop-picker';
+import {Storage} from 'aws-amplify';
+import {S3} from 'aws-sdk';
+import {ACCESS_KEY_ID, SECRET_ACCESS_KEY} from '../../../../PrivateKey';
+import {ToastAndroid} from 'react-native';
 
 const ModalDanhGia = ({isVisible, onCancel, sendRate}) => {
   const dispatch = useDispatch();
@@ -99,17 +105,50 @@ const ModalDanhGia = ({isVisible, onCancel, sendRate}) => {
     setCurrentOptions(null);
   };
 
-  const onConfirm = () => {
+  const [isUploading, setIsUploading] = useState(false);
+  // up ảnh lên s3
+  const uploadImagesToS3 = async () => {
+    try {
+      const uploadPromises = cameraValue.value.map(async photo => {
+        const response = await fetch(photo.uri);
+        const blob = await response.blob();
+        const result = await Storage.put(uuid.v4(), blob, {
+          contentType: 'image/jpeg',
+          level: 'public',
+          bucket: BUCKET_NAME,
+        });
+        console.log('Image uploaded successfully', result.key);
+        const s3Link = `https://${BUCKET_NAME}.s3.ap-southeast-1.amazonaws.com/public/${result.key}`;
+        return {ten_hinh_anh: s3Link};
+      });
+
+      const uploadedImageKeys = await Promise.all(uploadPromises);
+
+      // Now, you have an array of keys for the uploaded images.
+      console.log('Uploaded image keys:', uploadedImageKeys);
+      setIsUploading(false);
+      onConfirm(uploadedImageKeys);
+    } catch (error) {
+      setIsUploading(false);
+      console.log('ERROR UPLOADING FILES: ', error);
+      ToastAndroid.show('Đã xảy ra lỗi khi gửi ảnh đi!', ToastAndroid.SHORT);
+    }
+  };
+
+  // gửi đánh giá
+  const onConfirm = uploadedImageKeys => {
+    console.log('RENDER X LAN');
     sendRate({
       id_don_hang: isVisible.id,
       so_sao: start,
       danh_gia: nhanXet,
-      hinh_anh_danh_gia: [],
+      hinh_anh_danh_gia: uploadedImageKeys,
       email: '',
       ten_user: '',
     });
     clearAll();
   };
+
   const toggleModal = () => {
     onCancel();
     clearAll();
@@ -118,6 +157,8 @@ const ModalDanhGia = ({isVisible, onCancel, sendRate}) => {
   const clearAll = () => {
     setStart(4);
     setNhanXet('');
+    setCameraValue({isVisible: false, value: []});
+    setCurrentId(-1);
   };
 
   const rateStar = ({item}) => {
@@ -197,8 +238,8 @@ const ModalDanhGia = ({isVisible, onCancel, sendRate}) => {
   return (
     <>
       <Modal
-        // isVisible={isVisible.isVisible}
-        isVisible={true}
+        isVisible={isVisible.isVisible}
+        // isVisible={true}
         onBackdropPress={() => toggleModal()}
         animationIn="zoomIn"
         animationOut={'zoomOut'}
@@ -266,7 +307,10 @@ const ModalDanhGia = ({isVisible, onCancel, sendRate}) => {
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.buttonContainer}
-                onPress={() => onConfirm()}>
+                onPress={() => {
+                  setIsUploading(true);
+                  uploadImagesToS3();
+                }}>
                 <Text style={styles.textCancel}>Gửi</Text>
               </TouchableOpacity>
             </View>
@@ -276,6 +320,14 @@ const ModalDanhGia = ({isVisible, onCancel, sendRate}) => {
               Coffee.Love rất vui khi nhận được đánh giá của bạn
             </Text>
           </View>
+          {isUploading && (
+            <View style={styles.loadingUploadImage}>
+              <ActivityIndicator
+                size={'large'}
+                color={modal_color_don_hang.button}
+              />
+            </View>
+          )}
         </View>
       </Modal>
       <ModalTuyChonHinhAnh
@@ -398,5 +450,14 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: '600',
     paddingTop: 5,
+  },
+  loadingUploadImage: {
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'rgba(180, 180, 180, 0.5)',
+    position: 'absolute',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

@@ -57,7 +57,7 @@ const LichSu = () => {
     setIsVisible({isVisible: !isVisible.isVisible, id: id});
   };
   const sendRate = data => {
-    setIsVisible(!{isVisible: !isVisible.isVisible, id: ''});
+    console.log('RENDER Y LAN');
     const newData = {
       id_don_hang: data.id_don_hang,
       so_sao: data.so_sao,
@@ -181,7 +181,10 @@ const LichSu = () => {
               <ModalDanhGia
                 isVisible={isVisible}
                 onCancel={toggleModal}
-                sendRate={sendRate}
+                sendRate={data => {
+                  setIsVisible({isVisible: !isVisible.isVisible, id: ''});
+                  sendRate(data);
+                }}
               />
             </>
           )}

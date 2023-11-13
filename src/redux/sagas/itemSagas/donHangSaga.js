@@ -63,6 +63,7 @@ function* fetchDanhGiaDonHangAsync(action) {
     }
     yield put(getDanhGiaSuccess(response.data));
   } catch (error) {
+    console.log('ERROR SAGA DANH GIA: ', error);
     yield put(getDanhGiaFail(error.message));
   }
 }

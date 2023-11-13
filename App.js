@@ -36,11 +36,10 @@ const App = () => {
       <NavigationContainer ref={navigationRef}>
         {/* <NotificationHandler /> */}
         {/* <BottomSheetDanhSachCuaHang /> */}
-        <ModalDanhGia />
+        <ManHinhCHao />
         {/* <VisionCamera /> */}
         {/* <MapAddAddress /> */}
       </NavigationContainer>
-      {/* <ModalVongQuayMayMan/> */}
     </Provider>
   );
 };
