@@ -22,8 +22,7 @@ import {
 } from '../../../redux/reducers/slices/donHangSlice';
 import {ActivityIndicator} from 'react-native';
 import {formatCurrency} from '../../../utils/formatCurrency';
-import {GestureHandlerRootView} from 'react-native-gesture-handler';
-
+import Icon from 'react-native-vector-icons/FontAwesome6';
 // import { ScrollView } from 'react-native-virtualized-view';
 
 const OrderDetail = () => {
@@ -181,6 +180,7 @@ const OrderDetail = () => {
                 <TheoDoiDonHang
                   maTrangThai={data.ma_trang_thai}
                   thoiGianDatHang={data.ngay_cap_nhat_1}
+                  thoiGianXacNhan={data.ngay_cap_nhat_2}
                   thoiGianDangGiao={data?.ngay_cap_nhat_3}
                   thoiGianHoanThanh={data?.ngay_cap_nhat_4}
                 />
@@ -194,25 +194,58 @@ const OrderDetail = () => {
                 <Text style={styles.textThongTinDiaChi}>
                   Thông tin - địa chỉ giao hàng
                 </Text>
-                <Text style={styles.textThongTin}>
-                  {data.dia_chi.nguoi_nhan}
-                </Text>
-                <Text style={styles.textThongTin}>
-                  {data.dia_chi.so_dien_thoai}
-                </Text>
-                <Text
-                  style={styles.textThongTin}
-                  numberOfLines={2}
-                  ellipsizeMode="tail">
-                  Địa chỉ: {data.dia_chi.ten_dia_chi}
-                </Text>
+                {/* Nguoi nhan container */}
+                <View style={{flexDirection: 'row', alignItems: 'center', marginTop: 10}}>
+                  <Icon
+                    name="user"
+                    size={15}
+                    color={BACKGROUND_BUTTON_COLOR}
+                    solid
+                    style={{paddingHorizontal: 5}}
+                  />
+                  <Text style={[styles.textThongTin,]}>
+                    Người nhận: {data.dia_chi.nguoi_nhan}
+                  </Text>
+                </View>
+
+                {/* sdt container */}
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                  <Icon
+                    name="phone"
+                    size={15}
+                    color={BACKGROUND_BUTTON_COLOR}
+                    solid
+                    style={{paddingHorizontal: 5}}
+                  />
+                  <Text style={styles.textThongTin}>
+                    Số điện thoại: {data.dia_chi.so_dien_thoai}
+                  </Text>
+                </View>
+
+                {/* Dia chi container */}
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                  <Icon
+                    name="location-dot"
+                    size={15}
+                    color={BACKGROUND_BUTTON_COLOR}
+                    solid
+                    style={{paddingHorizontal: 5}}
+                  />
+
+                  <Text
+                    style={styles.textThongTin}
+                    numberOfLines={2}
+                    ellipsizeMode="tail">
+                    Địa chỉ: {data.dia_chi.ten_dia_chi}
+                  </Text>
+                </View>
               </View>
 
               {/* separate line */}
               <View style={styles.separateLine} />
 
               {/* Don hang */}
-              <View>
+              <View style={{paddingLeft: 5}}>
                 <Text style={styles.textDonHang}>Đơn hàng</Text>
                 <FlatList
                   marginTop={10}
@@ -309,6 +342,7 @@ const styles = StyleSheet.create({
   thongTinDiaChiContainer: {
     flexDirection: 'column',
     justifyContent: 'flex-start',
+    paddingLeft: 5,
   },
   textThongTinDiaChi: {
     fontSize: 15,
@@ -328,8 +362,8 @@ const styles = StyleSheet.create({
   textThongTin: {
     fontSize: 15,
     fontWeight: '400',
-    color: '#404040',
-    paddingVertical: 2,
+    color: 'black',
+    paddingVertical: 7,
   },
   separateLine: {
     height: 1,
@@ -374,14 +408,18 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   chuThichContainer: {
-    width: '100%',
+    width: '95%',
     height: 100,
     borderRadius: 10,
-    backgroundColor: '#FAD89B',
+    backgroundColor: 'white',
+    borderColor: '#FAD89B',
+    borderWidth: 0.7,
+    alignSelf: 'center',
+    marginBottom: 10,
   },
   theoDoiDonHangContainer: {
     width: '100%',
-    height: 150,
+    // height: 150,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',

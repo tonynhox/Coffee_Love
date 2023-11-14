@@ -12,7 +12,6 @@ const NotificationHandler = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const [initialRoute, setInitialRoute] = useState('Home');
-  const [isVisible, setIsVisible] = useState({isVisible: false, value: 'none'});
 
   const waitingForToken = async () => {
     const token = await getToken();
@@ -22,7 +21,10 @@ const NotificationHandler = () => {
   useEffect(() => {
     const unsubscribe = messaging().onMessage(async remoteMessage => {
       console.log('A new FCM message arrived!', JSON.stringify(remoteMessage));
-      setIsVisible({isVisible: true, value: remoteMessage});
+      const type = remoteMessage.data.type;
+      if (type === 'ProductDetail') {
+        return <OnScreenNotification value={remoteMessage} />;
+      }
       // Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
     });
 
@@ -62,6 +64,22 @@ const NotificationHandler = () => {
       });
   }, []);
 
+  useEffect(() => {
+    // Subscribe to the 'new_product' topic
+    const subscribeToTopic = async () => {
+      try {
+        await messaging().subscribeToTopic('new_product');
+        console.log('Subscribed to the new_product topic');
+      } catch (error) {
+        console.error('Error subscribing to the new_product topic', error);
+      }
+    };
+
+    subscribeToTopic();
+
+    // Rest of your code...
+  }, []);
+
   if (loading) {
     return null;
   }
@@ -74,13 +92,6 @@ const NotificationHandler = () => {
           onCancel={() => setIsVisible({isVisible: false, value: ''})}
         />
       )} */}
-      {isVisible.isVisible && (
-        <OnScreenNotification
-          isVisible={isVisible.isVisible}
-          value={isVisible.value}
-          // onCancel={() => setIsVisible({isVisible: false, value: ''})}
-        />
-      )}
     </>
   );
 };

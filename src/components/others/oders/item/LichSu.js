@@ -69,6 +69,25 @@ const LichSu = () => {
     dispatch(getDanhGiaRequest(newData));
   };
 
+  const handleMaTrangThai = ma_trang_thai => {
+    switch (ma_trang_thai) {
+      case 0:
+        return 'Đã hủy';
+      case 1:
+        return 'Đang chờ xác nhận';
+      case 2:
+        return 'Đã xác nhận';
+      case 3:
+        return 'Đang giao hàng';
+      case 4:
+        return 'Đã giao hàng';
+      case 5:
+        return 'Đã đánh giá';
+      default:
+        return 'Đang xử lý';
+    }
+  };
+
   const DaGiaoItem = ({item, id}) => {
     // check đã hủy hàng hay chưa
     const isCanceled = item.ma_trang_thai == trang_thai_don_hang.da_huy;
@@ -83,16 +102,15 @@ const LichSu = () => {
           />
 
           {/* Ten, size, dia chi */}
+          {/* Ten, size, dia chi */}
           <View style={styles.sanPhamContainer}>
             <View style={styles.tenVaSizeContainer}>
               <Text style={styles.textName}>{item.dia_chi.nguoi_nhan}</Text>
-              <Text style={styles.textLocation}>
-                SL: 1{'   '}Size: L {'  '} 113 Quang Trung{' '}
-              </Text>
+              <Text style={styles.textLocation}>{item.dia_chi.so_nha} </Text>
             </View>
             <View>
               <Text style={styles.textHoanThanh}>
-                {isCanceled ? 'Đã hủy' : 'Hoàn thành'}
+                {handleMaTrangThai(item.ma_trang_thai)}
               </Text>
             </View>
           </View>

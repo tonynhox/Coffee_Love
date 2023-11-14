@@ -4,7 +4,6 @@ import {Camera} from 'react-native-vision-camera';
 import uuid from 'react-native-uuid';
 import {Storage} from 'aws-amplify';
 import {BUCKET_NAME, MY_BUCKET_URL} from '../utils/contanst';
-import {S3} from 'aws-sdk';
 import {ACCESS_KEY_ID, SECRET_ACCESS_KEY} from '../PrivateKey';
 
 const VisionCamera = () => {
@@ -14,18 +13,6 @@ const VisionCamera = () => {
       console.log(res);
     });
   }, []);
-
-  const credentials = new AWS.Credentials({
-    accessKeyId: ACCESS_KEY_ID,
-    secretAccessKey: SECRET_ACCESS_KEY,
-    Bucket: BUCKET_NAME,
-  });
-
-  const s3 = new S3({
-    signatureVersion: 'v4',
-    region: 'ap-southeast-1',
-    credentials,
-  });
 
   const devices = Camera.getAvailableCameraDevices();
   const device = devices.find(d => d.position === 'back');
@@ -58,9 +45,6 @@ const VisionCamera = () => {
         Key: `${result.key}.jpeg`,
         Expires: 60 * 60 * 24 * 7,
       };
-
-      const url = await s3.getSignedUrl('getObject', params);
-      console.log('URL: ', url);
 
       // parseUrl(`https://${bucket}.s3.${region}.amazonaws.com/${Key}`)
       const s3Link = `https://${BUCKET_NAME}.s3.ap-southeast-1.amazonaws.com/${result.key}`;

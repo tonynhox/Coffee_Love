@@ -12,6 +12,7 @@ import {
 } from '../../reducers/slices/donHangSlice';
 import instance from '../../../axios/instance';
 import {trang_thai_don_hang} from '../../../utils/contanst';
+import { Alert } from 'react-native';
 
 function* fetchDonHangAsync(action) {
   try {
@@ -20,6 +21,10 @@ function* fetchDonHangAsync(action) {
       instance.get,
       `api/don-hang/lay-don-hang-theo-id-user/${id_user}`,
     );
+    console.log("MESSAGE: ", response.data.message)
+    if(response.data.message == 'Token invalid'){
+      Alert.alert('Phiên đăng nhập hết hạn, vui lòng đăng nhập lại')
+    }
     yield put(getDonHangSuccess(response.data));
   } catch (error) {
     yield put(getDonHangFail(error.message));

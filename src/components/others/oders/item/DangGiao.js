@@ -46,7 +46,6 @@ const DangGiao = () => {
     dispatch(getDonHangRequest({id_user: id_user}));
   };
 
-  const [idProduct, setIdProduct] = React.useState('');
   const [isVisible, setIsVisible] = React.useState({isVisible: false, id: ''});
   const handleShowModalHuyDon = (id) => {
     setIsVisible({isVisible: !isVisible.isVisible, id: id});

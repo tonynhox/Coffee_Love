@@ -26,7 +26,6 @@ import uuid from 'react-native-uuid';
 import ModalChiTietHinhAnhDanhGia from './ModalChiTietHinhAnhDanhGia';
 import ImagePicker from 'react-native-image-crop-picker';
 import {Storage} from 'aws-amplify';
-import {S3} from 'aws-sdk';
 import {ACCESS_KEY_ID, SECRET_ACCESS_KEY} from '../../../../PrivateKey';
 import {ToastAndroid} from 'react-native';
 

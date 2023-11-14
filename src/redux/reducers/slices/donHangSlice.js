@@ -30,6 +30,11 @@ const donHangSlice = createSlice({
       const dangGiaoArray = [];
       const danhGiaArray = [];
       const lichSuArray = [];
+      if (action.payload.result.length == 0) {
+        state.isLoading = false;
+        state.isThayDoiTrangThaiDonHangLoading = false;
+        return;
+      }
 
       for (const item of action.payload.result) {
         const maTrangThai = item.ma_trang_thai;
@@ -84,13 +89,12 @@ const donHangSlice = createSlice({
     },
     getThayDoiSuccess: (state, action) => {
       if (action.payload.result) {
-        let id_match = '';
-        state.dataDangGiao = state.dataDangGiao.reverse().filter(item => {
+        state.dataDangGiao = state.dataDangGiao.filter(item => {
           if (item._id !== action.payload.result._id) {
             return true; // Keep the item in the filtered array
           } else {
-            id_match = item._id; // Set id_match to item._id
-            state.dataLichSu.push(item);
+            state.dataLichSu = [action.payload.result, ...state.dataLichSu];
+            console.log('NEW DATA: ', state.dataLichSu);
             return false; // Exclude this item from the filtered array
           }
         });

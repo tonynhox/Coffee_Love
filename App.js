@@ -34,7 +34,7 @@ const App = () => {
   return (
     <Provider store={store}>
       <NavigationContainer ref={navigationRef}>
-        {/* <NotificationHandler /> */}
+        <NotificationHandler />
         {/* <BottomSheetDanhSachCuaHang /> */}
         <ManHinhCHao />
         {/* <VisionCamera /> */}

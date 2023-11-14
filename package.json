@@ -25,7 +25,6 @@
     "@react-navigation/stack": "^6.3.18",
     "@reduxjs/toolkit": "^1.9.6",
     "aws-amplify": "^5.3.12",
-    "aws-sdk": "^2.1493.0",
     "axios": "^1.5.1",
     "d3-shape": "^3.2.0",
     "fuse.js": "^6.6.2",

@@ -10,20 +10,33 @@ import {RenderTopping} from './RenderTopping';
 const RenderOrderItem = ({item, index, isSelected, onPress}) => {
   isTopping = item.topping.length == 0;
   return (
-    <View style={styles.container}>
+    <View style={isSelected ? styles.selectedContainer : styles.container}>
       {/* Image va thong tin san pham */}
       <TouchableOpacity
+        activeOpacity={0.9}
         style={styles.sanPhamContainer}
         onPress={() => onPress(!isSelected ? index : null)}
         disabled={isTopping}>
-        <View style={{justifyContent: 'center', alignItems: 'center', width: 20}}>
+        <View
+          style={{justifyContent: 'center', alignItems: 'center', width: 20}}>
           {isTopping || (
-            <Icon
-              name="circle-chevron-down"
-              solid
-              size={17}
-              color={BACKGROUND_BUTTON_COLOR}
-            />
+            <>
+              {isSelected ? (
+                <Icon
+                  name="circle-chevron-up"
+                  solid
+                  size={17}
+                  color={BACKGROUND_BUTTON_COLOR}
+                />
+              ) : (
+                <Icon
+                  name="circle-chevron-down"
+                  solid
+                  size={17}
+                  color={BACKGROUND_BUTTON_COLOR}
+                />
+              )}
+            </>
           )}
         </View>
 
