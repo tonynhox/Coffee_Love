@@ -10,13 +10,16 @@ import {RenderTopping} from './RenderTopping';
 const RenderOrderItem = ({item, index, isSelected, onPress}) => {
   isTopping = item.topping.length == 0;
   return (
-    <View style={isSelected ? styles.selectedContainer : styles.container}>
+    <TouchableOpacity
+      onPress={() => onPress(!isSelected ? index : null)}
+      activeOpacity={0.9}
+      style={isSelected ? styles.selectedContainer : styles.container}>
       {/* Image va thong tin san pham */}
-      <TouchableOpacity
-        activeOpacity={0.9}
+      <View
         style={styles.sanPhamContainer}
-        onPress={() => onPress(!isSelected ? index : null)}
-        disabled={isTopping}>
+
+        // disabled={isTopping}
+      >
         <View
           style={{justifyContent: 'center', alignItems: 'center', width: 20}}>
           {isTopping || (
@@ -62,7 +65,7 @@ const RenderOrderItem = ({item, index, isSelected, onPress}) => {
           </View>
           <Text style={styles.textSize}>Size: {item.size}</Text>
         </View>
-      </TouchableOpacity>
+      </View>
 
       {/* topping */}
       {isSelected && (
@@ -81,7 +84,7 @@ const RenderOrderItem = ({item, index, isSelected, onPress}) => {
 
       {/* separate line */}
       <View style={styles.separateLine} />
-    </View>
+    </TouchableOpacity>
   );
 };
 

@@ -6,7 +6,7 @@ import {
   Dimensions,
   TouchableOpacity,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome6';
 import {
   BACKGROUND_BUTTON_COLOR,
@@ -14,6 +14,7 @@ import {
 } from '../../../utils/contanst';
 import Header from '../../../utils/Header';
 import moment from 'moment';
+import 'moment/locale/vi'; // Load Vietnamese locale
 
 const TheoDoiDonHang = ({
   maTrangThai,
@@ -22,6 +23,21 @@ const TheoDoiDonHang = ({
   thoiGianDangGiao,
   thoiGianHoanThanh,
 }) => {
+
+  // const [thoiGianDonHang, setThoiGianDonHang] = React.useState({
+  //   thoiGianXacNhan: '',
+  //   thoiGianDangGiao: '',
+  //   thoiGianHoanThanh: '',
+  // });
+
+  // useEffect(() => {
+  //   setThoiGianDonHang({
+  //     thoiGianXacNhan: thoiGianXacNhan,
+  //     thoiGianDangGiao: thoiGianDangGiao,
+  //     thoiGianHoanThanh: thoiGianHoanThanh,
+  //   });
+  // }, [thoiGianXacNhan, thoiGianDangGiao, thoiGianHoanThanh]);
+
   const da_huy = maTrangThai === trang_thai_don_hang.da_huy;
   const da_xac_nhan = maTrangThai === trang_thai_don_hang.da_xac_nhan;
   const dang_giao_hang = maTrangThai === trang_thai_don_hang.dang_giao;
@@ -74,7 +90,7 @@ const TheoDoiDonHang = ({
 
                 <Icon name="circle" solid size={3} color={'gray'} />
                 <Text style={styles.textThoiGianDatHang}>
-                  {moment(thoiGianDatHang).format('HH:mm DD/MM/yyyy')}
+                  {moment.utc(thoiGianDatHang).format('HH:mm DD/MM/yyyy')}
                 </Text>
               </View>
 
@@ -91,9 +107,17 @@ const TheoDoiDonHang = ({
                   {/* Đã xác nhận container */}
                   <View style={styles.daDatContainer}>
                     <Icon
-                      name={da_xac_nhan ? 'circle-check' : 'circle'}
+                      name={
+                        da_xac_nhan || dang_giao_hang || da_giao_hang
+                          ? 'circle-check'
+                          : 'circle'
+                      }
                       size={15}
-                      solid={da_xac_nhan ? true : false}
+                      solid={
+                        da_xac_nhan || dang_giao_hang || da_giao_hang
+                          ? true
+                          : false
+                      }
                       color={BACKGROUND_BUTTON_COLOR}
                     />
 
@@ -104,7 +128,9 @@ const TheoDoiDonHang = ({
                       <>
                         <Icon name="circle" solid size={3} color={'gray'} />
                         <Text style={styles.textThoiGianDatHang}>
-                          {moment(thoiGianXacNhan).format('HH:mm DD/MM/yyyy')}
+                          {moment.utc(thoiGianXacNhan).format(
+                            'HH:mm DD/MM/yyyy',
+                          )}
                         </Text>
                       </>
                     )}
@@ -120,9 +146,13 @@ const TheoDoiDonHang = ({
                   {/* Đang giao hang container */}
                   <View style={styles.daDatContainer}>
                     <Icon
-                      name={dang_giao_hang ? 'circle-check' : 'circle'}
+                      name={
+                        dang_giao_hang || da_giao_hang
+                          ? 'circle-check'
+                          : 'circle'
+                      }
                       size={15}
-                      solid={dang_giao_hang ? true : false}
+                      solid={dang_giao_hang || da_giao_hang ? true : false}
                       color={BACKGROUND_BUTTON_COLOR}
                     />
 
@@ -133,7 +163,9 @@ const TheoDoiDonHang = ({
                       <>
                         <Icon name="circle" solid size={3} color={'gray'} />
                         <Text style={styles.textThoiGianDatHang}>
-                          {moment(thoiGianDangGiao).format('HH:mm DD/MM/yyyy')}
+                          {moment.utc(thoiGianDangGiao).format(
+                            'HH:mm DD/MM/yyyy',
+                          )}
                         </Text>
                       </>
                     )}
@@ -162,7 +194,9 @@ const TheoDoiDonHang = ({
                       <>
                         <Icon name="circle" solid size={3} color={'gray'} />
                         <Text style={styles.textThoiGianDatHang}>
-                          {moment(thoiGianHoanThanh).format('HH:mm DD/MM/yyyy')}
+                          {moment.utc(thoiGianHoanThanh).format(
+                            'HH:mm DD/MM/yyyy',
+                          )}
                         </Text>
                       </>
                     )}

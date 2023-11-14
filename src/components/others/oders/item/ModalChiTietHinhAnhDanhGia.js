@@ -19,36 +19,12 @@ const ModalChiTietHinhAnhDanhGia = ({
   onXoaAnh,
 }) => {
   const [currentIndex, setCurrentIndex] = useState(-1);
+
   useEffect(() => {
     setCurrentIndex(selectedIndex);
   }, [selectedIndex]);
 
   if (currentIndex === -1) return null;
-
-  const getImageSizeWidth = uri => {
-    Image.getSize(
-      uri,
-      (width, height) => {
-        return width;
-      },
-      error => {
-        console.error('Error getting image size:', error);
-        return '80%';
-      },
-    );
-  };
-  const getImageSizeHeight = uri => {
-    Image.getSize(
-      uri,
-      (width, height) => {
-        return height;
-      },
-      error => {
-        console.error('Error getting image size:', error);
-        return '80%';
-      },
-    );
-  };
 
   const previousImage = () => {
     if (currentIndex === 0) return;
@@ -67,8 +43,6 @@ const ModalChiTietHinhAnhDanhGia = ({
   return (
     <Modal
       onBackdropPress={() => {
-        // setCurrentIndex(-1);
-        // console.log('PRESS');
         onClose();
       }}
       isVisible={true}
@@ -79,7 +53,7 @@ const ModalChiTietHinhAnhDanhGia = ({
       animationOutTiming={0}>
       <View style={styles.container}>
         <>
-          {data[currentIndex] && (
+          {/* {data[currentIndex] && (
             <>
               <View
                 style={{
@@ -96,12 +70,12 @@ const ModalChiTietHinhAnhDanhGia = ({
                     resizeMode: 'contain',
                     alignSelf: 'center',
                   }}
-                />
+                />P
               </View>
 
-              {/* xóa ảnh */}
+              
             </>
-          )}
+          )} */}
         </>
       </View>
 

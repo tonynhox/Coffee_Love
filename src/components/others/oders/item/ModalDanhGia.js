@@ -36,13 +36,15 @@ const ModalDanhGia = ({isVisible, onCancel, sendRate}) => {
   const [start, setStart] = useState(4);
   const [nhanXet, setNhanXet] = useState('');
 
-  // Image picker
-  const [selectedImage, setSelectedImage] = useState(null);
+  //modal chọn thư hiện hay camera
   const [valueChoosingModal, setValueChoosingModal] = useState({
     isVisible: false,
     value: '',
   });
+
+  // lựa chọn hiện tại, 0 là thư viên 1 là camera
   const [currentOptions, setCurrentOptions] = useState(null);
+  // ảnh được lưu trong value
   const [cameraValue, setCameraValue] = useState({
     isVisible: false,
     value: [],
@@ -266,6 +268,7 @@ const ModalDanhGia = ({isVisible, onCancel, sendRate}) => {
                 multiline
                 textAlignVertical="top"
                 placeholder="Nhận xét của bạn"
+                placeholderTextColor={'black'}
                 style={styles.inputNhanXet}
                 onChangeText={text => setNhanXet(text)}
                 value={nhanXet}
@@ -392,13 +395,15 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   inputNhanXet: {
-    borderWidth: 0.5,
-    borderColor: 'black',
+    borderWidth: 0.7,
+    borderColor: '#FABE82',
     borderRadius: 10,
-    paddingHorizontal: 7,
+    paddingHorizontal: 15,
     marginHorizontal: 3,
     paddingVertical: 7,
     height: 100,
+    backgroundColor:'#FDE8D3',
+    color:'black'
   },
   textThemHinhAnh: {
     fontSize: 14,

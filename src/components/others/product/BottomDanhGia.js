@@ -42,7 +42,7 @@ const BottomDanhGia = ({isVisible, onClose}) => {
     return (
       <View style={{paddingRight: 7}}>
         <Image
-          source={require('../../../assets/images/avatar.png')}
+          source={{uri: item.ten_hinh_anh}}
           style={styles.imageDanhGia}
         />
       </View>
@@ -90,7 +90,7 @@ const BottomDanhGia = ({isVisible, onClose}) => {
     );
   };
   const RenderSaoDanhGia = ({number}) => {
-    const itemsArray = Array.from({length: number}, (v, i) => i + 1);
+    const itemsArray = Array.from({length: 5}, (v, i) => i + 1);
     return (
       <>
         {itemsArray.map((item, index) => {
@@ -98,7 +98,7 @@ const BottomDanhGia = ({isVisible, onClose}) => {
             <Icon
               key={index}
               name="star"
-              solid
+              solid={item <= number ? true : false}
               size={16}
               color={'#FC9702'}
               style={{paddingRight: 5, paddingLeft: 2}}
@@ -195,6 +195,7 @@ const styles = StyleSheet.create({
   imageDanhGia: {
     height: 100,
     width: 100,
+    resizeMode: 'contain',
   },
   chiTietDanGiaContainer: {
     flexDirection: 'row',

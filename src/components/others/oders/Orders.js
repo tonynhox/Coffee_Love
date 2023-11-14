@@ -7,13 +7,12 @@ import LichSu from './item/LichSu';
 import DanhGia from './item/DanhGia';
 import Header from '../../../utils/Header';
 import {useDispatch, useSelector} from 'react-redux';
-import { BACKGROUND_BUTTON_COLOR } from '../../../utils/contanst';
-import { getDonHangRequest } from '../../../redux/reducers/slices/donHangSlice';
+import {BACKGROUND_BUTTON_COLOR} from '../../../utils/contanst';
+import {getDonHangRequest} from '../../../redux/reducers/slices/donHangSlice';
 
 const Tab = createMaterialTopTabNavigator();
 
 const Orders = () => {
-
   const dispatch = useDispatch();
 
   const isLoading = useSelector(state => state.don_hang.isLoading);

@@ -94,7 +94,6 @@ const donHangSlice = createSlice({
             return true; // Keep the item in the filtered array
           } else {
             state.dataLichSu = [action.payload.result, ...state.dataLichSu];
-            console.log('NEW DATA: ', state.dataLichSu);
             return false; // Exclude this item from the filtered array
           }
         });
@@ -114,13 +113,11 @@ const donHangSlice = createSlice({
 
     getDanhGiaSuccess: (state, action) => {
       if (action.payload.result) {
-        let id_match = '';
-        state.dataLichSu = state.dataLichSu.reverse().filter(item => {
+        state.dataLichSu = state.dataLichSu.filter(item => {
           if (item._id !== action.payload.result._id) {
             return true; // Keep the item in the filtered array
           } else {
-            id_match = item._id; // Set id_match to item._id
-            state.dataDanhGia.unshift(action.payload.result);
+            state.dataDanhGia = [action.payload.result, ...state.dataDanhGia];
             return false; // Exclude this item from the filtered array
           }
         });

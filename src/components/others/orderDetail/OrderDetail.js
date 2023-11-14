@@ -169,7 +169,7 @@ const OrderDetail = () => {
         </View>
       ) : (
         <>
-          {data == null ? (
+          {!data ? (
             <View
               style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
               <Text style={style_text_khong_co_du_lieu}>Không có dữ liệu</Text>
@@ -181,8 +181,8 @@ const OrderDetail = () => {
                   maTrangThai={data.ma_trang_thai}
                   thoiGianDatHang={data.ngay_cap_nhat_1}
                   thoiGianXacNhan={data.ngay_cap_nhat_2}
-                  thoiGianDangGiao={data?.ngay_cap_nhat_3}
-                  thoiGianHoanThanh={data?.ngay_cap_nhat_4}
+                  thoiGianDangGiao={data.ngay_cap_nhat_3}
+                  thoiGianHoanThanh={data.ngay_cap_nhat_4}
                 />
               </View>
 
@@ -195,7 +195,12 @@ const OrderDetail = () => {
                   Thông tin - địa chỉ giao hàng
                 </Text>
                 {/* Nguoi nhan container */}
-                <View style={{flexDirection: 'row', alignItems: 'center', marginTop: 10}}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    marginTop: 10,
+                  }}>
                   <Icon
                     name="user"
                     size={15}
@@ -203,7 +208,7 @@ const OrderDetail = () => {
                     solid
                     style={{paddingHorizontal: 5}}
                   />
-                  <Text style={[styles.textThongTin,]}>
+                  <Text style={[styles.textThongTin]}>
                     Người nhận: {data.dia_chi.nguoi_nhan}
                   </Text>
                 </View>
@@ -273,7 +278,21 @@ const OrderDetail = () => {
               <View>
                 {/* phi giao hang container */}
                 <View style={styles.phiGiaoHangContainer}>
-                  <Text style={styles.textPhiGiaoHang}>Phí giao hàng</Text>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}>
+                    <Icon
+                      name="truck-fast"
+                      size={15}
+                      color={BACKGROUND_BUTTON_COLOR}
+                      solid
+                      style={{paddingHorizontal: 5}}
+                    />
+                    <Text style={styles.textPhiGiaoHang}>Phí giao hàng</Text>
+                  </View>
                   <Text style={styles.textPhiGiaoHang}>
                     {formatCurrency(data.phi_van_chuyen)}
                   </Text>
@@ -281,7 +300,15 @@ const OrderDetail = () => {
 
                 {/* phi giam gia container */}
                 <View style={[styles.phiGiaoHangContainer, {marginTop: 5}]}>
+                <View
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}>
+                      <Icon name="circle-dollar-to-slot" size={15} color={BACKGROUND_BUTTON_COLOR} solid style={{paddingHorizontal: 5}}/>
                   <Text style={styles.textPhiGiaoHang}>Giảm giá</Text>
+                    </View>
                   <Text style={styles.textPhiGiaoHang}>
                     -{formatCurrency(data.giam_gia)}
                   </Text>

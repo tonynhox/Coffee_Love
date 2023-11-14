@@ -47,11 +47,11 @@ const DangGiao = () => {
   };
 
   const [isVisible, setIsVisible] = React.useState({isVisible: false, id: ''});
-  const handleShowModalHuyDon = (id) => {
+  const handleShowModalHuyDon = id => {
     setIsVisible({isVisible: !isVisible.isVisible, id: id});
   };
 
-  const handelComfirmCancel = (id_don_hang) => {
+  const handelComfirmCancel = id_don_hang => {
     setIsVisible({isVisible: !isVisible.isVisible, id: id_don_hang});
     dispatch(
       thayDoiTrangThaiDonHangRequest({
@@ -85,6 +85,21 @@ const DangGiao = () => {
         return 'Đã giao hàng';
       case 5:
         return 'Đã đánh giá';
+      default:
+        return 'Đang xử lý';
+    }
+  };
+
+  const handleTextTrangThai = ma_trang_thai => {
+    switch (ma_trang_thai) {
+      case 0:
+        return 'Bạn có thể hủy đơn hàng vào lúc này';
+      case 1:
+        return 'Đơn hàng của bạn đang chờ xác nhận';
+      case 2:
+        return 'Đơn hàng đang được chuẩn bị';
+      case 3:
+        return 'Đơn hàng đang được giao đến bạn';
       default:
         return 'Đang xử lý';
     }
@@ -144,7 +159,7 @@ const DangGiao = () => {
             navigation.navigate('OrderDetail', {id_don_hang: item._id})
           }>
           <Text style={styles.textDonHangDangChoXacNhan}>
-            Đơn hàng đang chờ xác nhận{' '}
+            {handleTextTrangThai(item.ma_trang_thai)}{' '}
           </Text>
           <Icon name="angle-right" size={18} color={'#424141'} />
         </TouchableOpacity>
