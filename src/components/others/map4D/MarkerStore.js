@@ -41,6 +41,13 @@ const MarkerStore = props => {
     cameraFprFitbounds();
   }, []);
 
+  const cameraChoose = useSelector(state => state.utils.cameraChoose);
+  useEffect(() => {
+    if(cameraChoose){
+      map.current?.animateCamera(cameraChoose);
+    }
+  }, [cameraChoose]);
+
   const dispath = useDispatch();
   return (
     <>

@@ -1,15 +1,24 @@
 import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React from 'react'
-import { useSelector } from 'react-redux'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { useNavigation } from '@react-navigation/native';
-const ListAddress = () => {
+import { useIsFocused, useNavigation } from '@react-navigation/native';
+import { setMyLocation } from '../../../redux/reducers/slices/locationMapSlice';
+import { setListAddress } from '../../../redux/reducers/slices/utilSlice';
+const ListAddress = ({isCart}) => {
     const navigation = useNavigation();
     const data = useSelector(state => state.utils?.listAddress);
+    const dispatch = useDispatch();
+
+
     const renderOItem = ({ item }) => {
         return (
           <TouchableOpacity 
             onPress={()=>
+              isCart?(
+                dispatch(setMyLocation({latitude:item?.location?.lat,longitude:item?.location?.lng,so_dien_thoai:item.so_dien_thoai,nguoi_nhan:item.ho_ten})),
+                navigation.navigate('Home')
+              ):
                 navigation.navigate('AddAddress',{item:item})
 
             }
@@ -18,8 +27,8 @@ const ListAddress = () => {
                 <Icon name="map-marker-outline" size={20} color={"gray"} />
             </View>
             <View style={{width:'90%'}}>
-                <Text style={styles.text}>{item.name}</Text>
-                <Text style={styles.textItem}>{item.address}</Text>
+                <Text style={styles.text}>{item?.name}</Text>
+                <Text style={styles.textItem}>{item?.address}</Text>
 
             </View>
           </TouchableOpacity>

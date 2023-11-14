@@ -11,7 +11,6 @@ const ListStore = () => {
     <View style={{flex: 1}}>
       <Map mapRef={mapRef}/>
       <BottomView />
-      {/* <BottomSheetDanhSachCuaHang /> */}
     </View>
   );
 };

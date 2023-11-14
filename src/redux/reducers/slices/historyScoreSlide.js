@@ -18,10 +18,6 @@ export const historyScoreSlide = createSlice({
       state.historyScore = action.payload.data;
       // console.log('store của history score: ', state.historyScore);
       state.isLoading = false;
-      ToastAndroid.show(
-        'Lấy Danh sách Đổi Điểm Thành công',
-        ToastAndroid.SHORT,
-      );
     },
     //error
     getHistoryScoreFail: (state, action) => {

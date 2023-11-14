@@ -22,7 +22,7 @@ const Categories = () => {
   };
 
   const renderItem = (item, index) => {
-    const {ten_loai_san_pham} = item;
+    const {ten_loai_san_pham,hinh_anh} = item;
 
     if (index === 7 || ten_loai_san_pham === 'Xem Them') {
       return (
@@ -48,7 +48,7 @@ const Categories = () => {
               {width: 65, height: 65, resizeMode: 'center'},
             ]}
             source={{
-              uri: 'https://www.thegioiphache.com/uploads/d/f/q/H/4/Gsztv_ly-thuy-tinh-ocean-caffe-cappuccino-p02441-p02471-1.png.webp',
+              uri: hinh_anh,
             }}></Image>
         </View>
         <Text numberOfLines={2} style={Styles.nameCard}>
@@ -176,6 +176,7 @@ const Styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 60,
+
   },
 
   card: {

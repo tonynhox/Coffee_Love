@@ -19,10 +19,6 @@ export const scoreSlide = createSlice({
       state.score = action.payload.data;
       //   console.log('store của Score: ', state.score);
       state.isLoading = false;
-      ToastAndroid.show(
-        'Lấy Danh sách Đổi Điểm Thành công',
-        ToastAndroid.SHORT,
-      );
     },
 
     getChangeScoreFetch: state => {

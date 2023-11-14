@@ -5,7 +5,7 @@ export const addAddressStyle = StyleSheet.create({
   container: {
     // flex: 1,
     flex:1,
-    padding: 10,
+    paddingHorizontal: 10,
     backgroundColor:'#f1f1f1',
 
   },

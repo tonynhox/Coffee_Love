@@ -1,10 +1,10 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View,StatusBar} from 'react-native';
 
 export const styles = StyleSheet.create({
   txtName: {
     color: 'white',
     letterSpacing: -0.2,
-    fontSize: 14,
+    fontSize: 15,
     fontWeight: '500',
   },
   txtItem: {

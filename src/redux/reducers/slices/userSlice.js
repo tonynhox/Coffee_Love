@@ -26,7 +26,7 @@ export const userSlice = createSlice({
       state.user = action.payload.data;
       state.isLogin = true;
       state.isLoading = false;
-      ToastAndroid.show('Đăng nhập thành công', ToastAndroid.SHORT);
+      // ToastAndroid.show('Đăng nhập thành công', ToastAndroid.SHORT);
     },
 
     getRegister: state => {
@@ -80,16 +80,29 @@ export const userSlice = createSlice({
 
     editUserSuccess: (state, action) => {
       state.isLoading = false;
-      state.user = action.payload;
+      state.user = {
+        ...state.user,
+        ho_ten: action.payload.ho_ten,
+        so_dien_thoai: action.payload.so_dien_thoai,
+        email: action.payload.email,
+      };
       ToastAndroid.show('Chỉnh sửa thành công', ToastAndroid.SHORT);
     },
     getAddAddress: state => {
       state.isLoading = true;
     },
     getAddAddressSuccess: (state, action) => {
-      state.isLoading = false;
-      console.log('action.payload user faile', action.payload);
-      state.user.dia_chi.push(action.payload);
+      const {user} = state;
+      const updatedUser = {
+        ...user,
+        dia_chi: [...user.dia_chi, action.payload],
+      };
+
+      return {
+        ...state,
+        isLoading: false,
+        user: updatedUser,
+      };
     },
     //error
     getUserFail: (state, action) => {
@@ -101,18 +114,11 @@ export const userSlice = createSlice({
     //vong quay may man
     getQuayThanhCongUser: (state, action) => {
       state.user.tich_diem = state.user.tich_diem - 100;
-      console.log("DIEM THUONG: ", state.user.tich_diem)
+      console.log('DIEM THUONG: ', state.user.tich_diem);
     },
-    getThemDiemFail: (state, action) =>{
+    getThemDiemFail: (state, action) => {
       state.user.tich_diem = state.user.tich_diem + 100;
-    }
-  },
-
-  //error
-  getUserFail: (state, action) => {
-    state.isLoading = false;
-    console.log('action.payload user faile', action.payload);
-    ToastAndroid.show(action.payload, ToastAndroid.SHORT);
+    },
   },
 });
 

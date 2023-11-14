@@ -50,7 +50,9 @@ const CartPayment = forwardRef(({setPrice}, ref) => {
   //data vị trí hiện tại
   const myLocation = useSelector(state => state.locationMap.myLocation);
   //vị trí mặc định
-  const locationDefault = useSelector( state => state.locationMap.locationDefault);
+  const locationDefault = useSelector(
+    state => state.locationMap.locationDefault,
+  );
 
   const dispatchGiaoHang = async () => {
     dispatch(
@@ -84,11 +86,8 @@ const CartPayment = forwardRef(({setPrice}, ref) => {
 
   //Đóng lại do tốn tiền quá
   useEffect(() => {
-    
-    if (locationDefault) 
-      dispatchGiaoHang();
-      console.log('locationDefault',locationDefault);
-  }, [locationDefault]);
+    if (locationDefault) dispatchGiaoHang();
+  }, [locationDefault, myLocation]);
 
   //tính giá` sale
   useEffect(() => {
@@ -166,10 +165,10 @@ const CartPayment = forwardRef(({setPrice}, ref) => {
         loai_don_hang: 'order Online',
         dia_chi: {
           ten_dia_chi: diaChi,
-          so_dien_thoai: user?.so_dien_thoai,
+          so_dien_thoai: myLocation?.so_dien_thoai || user?.so_dien_thoai,
           so_nha: '',
           tinh: '',
-          nguoi_nhan: user?.ho_ten,
+          nguoi_nhan: myLocation?.nguoi_nhan || user?.ho_ten,
         },
         san_pham: data.map(item => {
           return {
@@ -190,6 +189,8 @@ const CartPayment = forwardRef(({setPrice}, ref) => {
           ma_thanh_toan: '',
           trang_thai: hinhThucThanhToan.state,
         },
+        navigation: navigation,
+        dispatch: dispatch,
       }),
     );
   };
@@ -197,7 +198,7 @@ const CartPayment = forwardRef(({setPrice}, ref) => {
   useImperativeHandle(ref, () => ({
     open() {
       handlePayment();
-    }
+    },
   }));
 
   return (
@@ -205,21 +206,19 @@ const CartPayment = forwardRef(({setPrice}, ref) => {
       {/* separate line */}
 
       {/* Dia chi giao hang */}
-      <TouchableOpacity style={styles.thongTinDiaChiContainer}>
+      <TouchableOpacity
+        onPress={() => {
+          navigation.push('MyAddress', {isCart: true});
+        }}
+        style={styles.thongTinDiaChiContainer}>
         <View style={{position: 'absolute', top: 30, right: 0}}>
           {/* <Text style={styles.textDonHang}>Đổi</Text> */}
-          <Icon name="chevron-right" size={30} color="black" />
+          {/* <Icon name="chevron-right" size={30} color="black" /> */}
         </View>
         <Text style={styles.textThongTinDiaChi}>
           Thông tin - địa chỉ giao hàng
         </Text>
-        <View style={{marginLeft: 6}}>
-          <Text style={styles.textThongTin}>
-            {user?.ho_ten || 'Chưa có họ tên'}
-          </Text>
-          <Text style={styles.textThongTin}>
-            {user?.so_dien_thoai || 'Chưa có số điện thoại'}
-          </Text>
+        <View style={{marginLeft: 2}}>
           <Text
             style={[styles.textThongTin, {width: '86%'}]}
             numberOfLines={2}
@@ -229,36 +228,50 @@ const CartPayment = forwardRef(({setPrice}, ref) => {
           </Text>
         </View>
       </TouchableOpacity>
+
       {/* separate line */}
       <View
-        style={[styles.separateLine, {marginLeft: -20, width: '110%', left: 0}]}
+        style={{borderWidth: 0.6, borderColor: 'lightgray', marginTop: 10,marginBottom:6}}
       />
-      {/* chi nhánh */}
-      <TouchableOpacity
-        onPress={() => {
-          navigation.push('StoreCoffee');
-        }}
-        style={styles.thongTinDiaChiContainer}>
-        <View style={{position: 'absolute', top: 20, right: 0}}>
-          {/* <Text style={styles.textDonHang}>Đổi</Text> */}
-          <Icon name="chevron-right" size={30} color="black" />
-        </View>
-        <Text style={styles.textThongTinDiaChi}>Địa điểm chi nhánh</Text>
-        <View style={{marginLeft: 6}}>
-          <Text
-            style={[styles.textThongTin, {width: '86%'}]}
-            numberOfLines={2}
-            ellipsizeMode="tail">
-            {/* Địa chỉ: {diaChi?.so_nha}, {diaChi?.tinh} */}
 
-            {locationDefault?.ten_chi_nhanh + '\n' + locationDefault?.dia_chi ||
-              'Chưa có địa chỉ cửa hàng'}
+      <View style={{flexDirection:'row',flex:1}}>
+        <View style={styles.caseDiaChi}>
+          <Text style={[styles.txtCaseDiaChi,{fontWeight:'600',fontSize:15}]}>
+            {myLocation?.nguoi_nhan || user?.ho_ten || 'Chưa có họ tên'}
           </Text>
-          {/* <Text style={styles.textThongTin}>
-            {user?.so_dien_thoai || 'Chưa có số điện thoại'}
-          </Text> */}
+          <Text style={styles.txtCaseDiaChi}>
+            {myLocation.so_dien_thoai ||
+              user?.so_dien_thoai ||
+              'Chưa có số điện thoại'}
+          </Text>
         </View>
-      </TouchableOpacity>
+        <View style={{width:0.5,height:'90%',borderWidth:0.6,borderColor:'lightgray'}} />
+
+        <TouchableOpacity
+          onPress={() => {
+            navigation.push('StoreCoffee');
+          }}
+          style={[styles.caseDiaChi]}> 
+          <View style={{marginLeft: 6}}>
+            <Text
+              style={[styles.txtCaseDiaChi, {fontWeight:'600',fontSize:15}]}
+              numberOfLines={1}
+              ellipsizeMode="tail">
+              {/* Địa chỉ: {diaChi?.so_nha}, {diaChi?.tinh} */}
+
+              {locationDefault?.ten_chi_nhanh || 'Tên chi nhánh'}
+            </Text>
+            <Text
+              style={[styles.txtCaseDiaChi]}
+              numberOfLines={2}
+              ellipsizeMode="tail">
+              {
+                locationDefault?.dia_chi || 'Chưa có địa chỉ cửa hàng'}
+            </Text>
+          </View>
+        </TouchableOpacity>
+      </View>
+      {/* chi nhánh */}
 
       {/* separate line */}
       <View
@@ -527,8 +540,21 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     // justifyContent: 'flex-start',
     padding: 12,
-    // borderRadius:20,
-    marginTop: 20,
+    borderRadius:16,
+    // marginTop: 20,
+  },
+  txtCaseDiaChi: {
+    fontSize: 14,
+    color: 'black',
+  },
+  caseDiaChi: {
+    flex:0.5,
+    borderBottomWidth:1,
+    borderColor:'#a7a7a7',
+    borderStyle:'dashed',
+    marginHorizontal:6,
+    paddingBottom:10,
+    // justifyContent:'center',  
   },
   thongTinDiaChiContainer: {
     flexDirection: 'column',
@@ -562,7 +588,7 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: 'gray',
     marginVertical: 10,
-    borderWidth: 0.1,
+    borderWidth: 1,
   },
   textPhiGiaoHang: {
     fontSize: 14,
@@ -605,7 +631,9 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 100,
     borderRadius: 10,
-    backgroundColor: '#FAD89B',
+    backgroundColor: '#f1f1f1',
+    // borderWidth: 1,
+    // borderColor: 'lightgray',
   },
   theoDoiDonHangContainer: {
     width: '100%',

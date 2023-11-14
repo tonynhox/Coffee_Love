@@ -15,11 +15,11 @@ import Icon from 'react-native-vector-icons/FontAwesome6';
 import {addAddressStyle} from './addAddressStyle';
 import {BACKGROUND_BUTTON_COLOR} from '../../../utils/contanst';
 import Header from '../../../utils/Header';
-import { useNavigation } from '@react-navigation/native';
-import { useDispatch, useSelector } from 'react-redux';
-import { getAddAddress } from '../../../redux/reducers/slices/userSlice';
+import {useNavigation} from '@react-navigation/native';
+import {useDispatch, useSelector} from 'react-redux';
+import {getAddAddress} from '../../../redux/reducers/slices/userSlice';
 
-const AddAddress = (props) => {
+const AddAddress = props => {
   const {route} = props;
   const dispatch = useDispatch();
   const location = route?.params?.item;
@@ -35,34 +35,51 @@ const AddAddress = (props) => {
   const [guide, setGuide] = useState('');
 
   useEffect(() => {
-    // console.log(location);
-    if(location){
+    if (location) {
       setAddress(location.address);
     }
-  }
-  , [location])
+  }, [location]);
 
   const handleAddAddress = () => {
-    // console.log('handleAddAddress');
-    dispatch(getAddAddress({
-      id_user:id_user,
-      address: address,
-      so_dien_thoai:phone,
-      nguoi_nhan:name,
-      navigation:navigation,
-    })
+    dispatch(
+      getAddAddress({
+        id_user: id_user,
+        address: address,
+        so_dien_thoai: phone,
+        nguoi_nhan: name,
+        latitude: location?.location?.lat,
+        longitude: location?.location?.lng,
+        navigation: navigation,
+      }),
     );
-
-  }
+  };
+  
   return (
-    <View
-      style={addAddressStyle.container}
-    >
+    <View style={addAddressStyle.container}>
       {/* Thong tin lien he */}
       <View style={{width: '100%'}}>
-        <Header headerText="Thêm địa chỉ" rightComponent={true} />
+        <Header
+          containerStyle={{
+            // paddingHorizontal: -10,
+            marginHorizontal: -10,
+            backgroundColor: 'white',
+            shadowColor: '#000',
+            shadowOffset: {
+              width: 0,
+              height: 2,
+            },
+            shadowOpacity: 0.25,
+            shadowRadius: 3.84,
+
+            elevation: 5,
+          }}
+          headerText="Thêm địa chỉ"
+          rightComponent={true}
+        />
       </View>
-      <View>
+      <View 
+        style={{marginTop: 17}}
+      >
         <Text style={addAddressStyle.textThongTin}>Thông tin liên hệ</Text>
 
         {/* Textinput ho va ten */}
@@ -94,10 +111,9 @@ const AddAddress = (props) => {
         <Text style={addAddressStyle.textThongTin}>Địa chỉ</Text>
 
         {/* Textinput diahchi */}
-        <Pressable 
-          onPress={()=>navigation.navigate('MapAddAddress')}
-          style={addAddressStyle.inputContainer}
-          >
+        <Pressable
+          onPress={() => navigation.push('MapAddAddress')}
+          style={addAddressStyle.inputContainer}>
           <TextInput
             multiline={true}
             value={address}
@@ -136,14 +152,10 @@ const AddAddress = (props) => {
           />
         </View> */}
       </View>
-      <KeyboardAvoidingView 
-        style={{flex:1}}  
-        behavior={"padding"} 
-
-        >
+      <KeyboardAvoidingView style={{flex: 1}} behavior={'padding'}>
         <TouchableOpacity
-          onPress={()=>handleAddAddress()}
-           style={addAddressStyle.addAddressContainer}>
+          onPress={() => handleAddAddress()}
+          style={addAddressStyle.addAddressContainer}>
           <Text style={addAddressStyle.textAddAddress}>Thêm địa chỉ</Text>
         </TouchableOpacity>
       </KeyboardAvoidingView>

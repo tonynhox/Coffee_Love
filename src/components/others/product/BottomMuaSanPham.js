@@ -27,6 +27,15 @@ const BottomMuaSanPham = ({isOpen, onChangeOpen, data, handleNavigate}) => {
   const isLoading = useSelector(state => state.topping.isLoading);
   const dataToppingFetch = useSelector(state => state.topping.data);
   const user = useSelector(state => state.users.user);
+  const [total, setTotal] = useState(0);
+  const [giaSP, setGiaSP] = useState(data.size[1].gia_da_giam);
+  const [giaTopping, setGiaTopping] = useState(0);
+  const [quantity, setQuantity] = useState(1);
+
+  //tinhtong
+  useEffect(() => {
+    setTotal((giaSP + giaTopping) * quantity);
+  }, [giaSP, giaTopping,quantity]);
 
   useEffect(() => {
     if (isOpen) {
@@ -35,7 +44,7 @@ const BottomMuaSanPham = ({isOpen, onChangeOpen, data, handleNavigate}) => {
   }, [isOpen]);
 
   useEffect(() => {
-    setTotal(data.size[1].gia);
+    setGiaSP(data.size[1].gia_da_giam);
   }, [data]);
 
   const onChange = index => {
@@ -56,8 +65,6 @@ const BottomMuaSanPham = ({isOpen, onChangeOpen, data, handleNavigate}) => {
     getToppingRequest();
   }, []);
 
-  const [quantity, setQuantity] = useState(1);
-  const [total, setTotal] = useState(data.size[1].gia);
 
   const handleTangSoLuong = () => {
     setQuantity(quantity + 1);
@@ -98,10 +105,12 @@ const BottomMuaSanPham = ({isOpen, onChangeOpen, data, handleNavigate}) => {
         )
       );
   
-      // Tính toán và cập nhật giá
       if (currentSelectedSize) {
-        const priceDifference = newSize.gia - currentSelectedSize.gia;
-        setTotal((total) => total + priceDifference);
+        // const priceDifference = (newSize.gia - currentSelectedSize.gia);
+        // setTotal(total => total + priceDifference);
+        newSize.giam_gia != 0
+          ? setGiaSP(newSize.gia_da_giam)
+          : setGiaSP(newSize.gia);
       }
     }
   };
@@ -126,9 +135,9 @@ const BottomMuaSanPham = ({isOpen, onChangeOpen, data, handleNavigate}) => {
         if (item._id === id) {
           // nếu chưa được chọn thì cộng tiền vào, nếu đã chọn rồi thì trừ tiền ra
           if (item.isSelected == false) {
-            setTotal(total + item.gia);
+            setGiaTopping(gia => gia + item.gia);
           } else {
-            setTotal(total - item.gia);
+            setGiaTopping(gia => gia - item.gia);
           }
           return {...item, isSelected: !item.isSelected};
         }
@@ -161,27 +170,36 @@ const BottomMuaSanPham = ({isOpen, onChangeOpen, data, handleNavigate}) => {
 
   // render size
   const renderSize = ({item}) => {
-    const defaultgia = data.size[1].gia;
-    const gia = item.gia-defaultgia;
+    // const defaultgia = data.size[1].gia;
+    // const gia = item.gia-defaultgia;
 
     return (
-      <TouchableOpacity
-        key={item._id}
-        style={styles.toppingContainer}
-        onPress={() => handleChangeSize(item._id)}>
-        <Text style={styles.textTopping}>{item.ten_size}</Text>
-        <View style={styles.tienToppingContainer}>
-        {gia>0?<Text style={styles.textTien}>+{formatCurrency(gia)}</Text>:<Text style={styles.textTien}>{formatCurrency(gia)}</Text>}
-
-          {/* <Text style={styles.textTien}>+{formatCurrency(item.gia)}</Text> */}
-          <Icon
-            style={styles.toppingChecked}
-            name={item.isSelected ? 'circle-dot' : 'circle'}
-            size={20}
-            color={BACKGROUND_BUTTON_COLOR}
-          />
-        </View>
-      </TouchableOpacity>
+        <TouchableOpacity
+          key={item._id}
+          style={styles.toppingContainer}
+          onPress={() => handleChangeSize(item._id)}>
+          <Text style={styles.textTopping}>{item.ten_size}</Text>
+          <View style={styles.tienToppingContainer}>
+            {item.giam_gia != 0 ? (
+              <>
+                <Text style={styles.textGiaTien}>{formatCurrency(item.gia)}</Text>
+                <Text style={styles.textTien}>
+                  {' '}
+                  {formatCurrency(item.gia_da_giam)}{' '}
+                </Text>
+              </>
+            ) : (
+              <Text style={styles.textTien}>+{formatCurrency(item.gia)}</Text>
+            )}
+  
+            <Icon
+              style={styles.toppingChecked}
+              name={item.isSelected ? 'circle-dot' : 'circle'}
+              size={20}
+              color={BACKGROUND_BUTTON_COLOR}
+            />
+          </View>
+        </TouchableOpacity>
     );
   };
 
@@ -318,7 +336,7 @@ const BottomMuaSanPham = ({isOpen, onChangeOpen, data, handleNavigate}) => {
               })
             }>
             <Text style={styles.textMuaNgay}>
-              Mua ngay ({formatCurrency(total * quantity)})
+              Thêm ({formatCurrency(total)})
             </Text>
           </TouchableOpacity>
         </View>

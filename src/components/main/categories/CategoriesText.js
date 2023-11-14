@@ -11,7 +11,10 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useDispatch, useSelector} from 'react-redux';
-import { setIDSanPham, setOpenBottomSheet } from '../../../redux/reducers/slices/utilSlice';
+import {
+  setIDSanPham,
+  setOpenBottomSheet,
+} from '../../../redux/reducers/slices/utilSlice';
 
 const CategoriesText = ({openBottomMuaHang}) => {
   const dispatch = useDispatch();
@@ -37,18 +40,23 @@ const CategoriesText = ({openBottomMuaHang}) => {
   };
 
   const renderItem = (item, index) => {
-    const {ten_loai_san_pham} = item;
+    const {ten_loai_san_pham, hinh_anh} = item;
 
     if (index === 7 || ten_loai_san_pham === 'Xem Them') {
       return (
-        <TouchableOpacity
-          style={Styles.card}
-          onPress={() => {
-            setFirstFlatListItems(firstFlatListItems + 8);
-          }}>
-          <View style={[Styles.imgCard]}></View>
+        <TouchableOpacity  style={Styles.card}>
+          <View style={[Styles.imgCard,{borderWidth:0.5,borderRadius:70,borderColor:'lightgray'}]}>
+            <Image
+              style={[
+                Styles.imgCardBackground,
+                {width: 65, height: 65, resizeMode: 'center'},
+              ]}
+              source={{
+                uri: 'https://media.istockphoto.com/id/1453921450/vi/vec-to/d%E1%BA%A5u-ch%E1%BA%A5m-l%E1%BB%ADng-bi%E1%BB%83u-t%C6%B0%E1%BB%A3ng-c%C3%B3-h%C3%ACnh-%E1%BA%A3nh-ph%E1%BA%A3n-chi%E1%BA%BFu-tr%C3%AAn-n%E1%BB%81n-tr%E1%BA%AFng.jpg?s=612x612&w=0&k=20&c=5Cy2Z6gk3p3IB4SITinVn3wALKv3DIHxcKkmaUYBD8s=',
+              }}></Image>
+          </View>
           <Text numberOfLines={2} style={Styles.nameCard}>
-            Xem Them
+            Xem thêm
           </Text>
         </TouchableOpacity>
       );
@@ -63,7 +71,7 @@ const CategoriesText = ({openBottomMuaHang}) => {
               {width: 65, height: 65, resizeMode: 'center'},
             ]}
             source={{
-              uri: 'https://www.thegioiphache.com/uploads/d/f/q/H/4/Gsztv_ly-thuy-tinh-ocean-caffe-cappuccino-p02441-p02471-1.png.webp',
+              uri: hinh_anh,
             }}></Image>
         </View>
         <Text numberOfLines={2} style={Styles.nameCard}>
@@ -130,13 +138,12 @@ const CategoriesText = ({openBottomMuaHang}) => {
         style={{flexDirection: 'row', marginVertical: 10, borderRadius: 4}}
         onPress={() => handleNavigate(item._id)}>
         <TouchableOpacity
-          onPress={() => {
-            dispatch(setIDSanPham(item._id))
-            dispatch(setOpenBottomSheet(true))
-          }
+          onPress={
+            () => {
+              dispatch(setIDSanPham(item._id));
+              dispatch(setOpenBottomSheet(true));
+            }
             // openBottomMuaHang({id: item._id})
-
-
           }
           style={{
             position: 'absolute',
@@ -220,7 +227,7 @@ const Styles = StyleSheet.create({
   card: {
     marginVertical: 4,
     alignItems: 'center',
-    marginHorizontal: 5,
+    marginHorizontal: 8,
     flexDirection: 'column',
     justifyContent: 'center',
   },

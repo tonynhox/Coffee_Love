@@ -466,7 +466,7 @@ const BottomMuaSanPhamCategories = ({isOpenBottom}) => {
                     })
                   }>
                   <Text style={styles.textMuaNgay}>
-                    Mua ngay ({formatCurrency(total)})
+                    Thêm ({formatCurrency(total)})
                   </Text>
                 </TouchableOpacity>
               </View>

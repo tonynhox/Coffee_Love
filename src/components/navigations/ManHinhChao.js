@@ -19,9 +19,13 @@ import {getScoreFetch} from '../../redux/reducers/slices/scoreSlide';
 import { getLocationStoreFetch } from '../../redux/reducers/slices/locationMapSlice';
 import {getFavoriteRequest} from '../../redux/reducers/slices/favoriteSlice';
 import {getDataToppingRequest} from '../../redux/reducers/slices/toppingSlice';
-const Stack = createNativeStackNavigator();
+import {StatusBar} from 'react-native';
 
+const Stack = createNativeStackNavigator();
 const ManHinh = () => {
+  StatusBar.setTranslucent(true);
+  StatusBar.setBackgroundColor('transparent');
+  StatusBar.setBarStyle("dark-content");
   //check vao app lan dau
   const getDataUserLocal = async () => {
     if (navigationRef.isReady()) {

@@ -18,7 +18,7 @@ export const RenderTopping = React.memo(({item, index}) => {
           <Text style={styles.textTenTopping}>{item.ten_topping}</Text>
           {/* Gia */}
           <View style={styles.giaTienContainer}>
-            <Text style={styles.textGiaTopping}>9000</Text>
+            <Text style={styles.textGiaTopping}>{item.gia}</Text>
           </View>
         </View>
       </View>

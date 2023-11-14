@@ -48,13 +48,14 @@ export const cartPaymentSlice = createSlice({
       state.cart.price = 0;
       data.forEach((item, index) => {
         state.cart.quantity += item.so_luong;
-        state.cart.price += item.gia_da_giam * item.so_luong;
+        state.cart.price += item.gia_da_giam * state.cart.quantity;
         item.topping.forEach(toping => {
-          state.cart.price += toping?.gia || 0 * item.so_luong;
+          state.cart.price += (toping?.gia || 0) * state.cart.quantity;
+          console.log('state.cart.price', toping?.gia );
+
         });
       });
     },
-
     getAddCartPaymentFetch: (state, action) => {
       state.isLoading = true;
     },
@@ -109,6 +110,17 @@ export const cartPaymentSlice = createSlice({
     getPaymentSuccess: (state, action) => {
       state.isLoading = false;
     },
+    //delete cart
+    getDeleteCartFetch: (state, action) => {
+      state.isLoading = true;
+    },
+    getDeleteCartSuccess: (state, action) => {
+      state.data = [];
+      state.isLoading = false;
+      state.cart.quantity = 0;
+      state.cart.price = 0;
+      
+    },
     //action fail
     getCartPaymentFail: (state, action) => {
       console.log('getCartPaymentSliceFail', action.payload);
@@ -128,6 +140,8 @@ export const {
   setDataPayment,
   getPaymentFetch,
   getPaymentSuccess,
+  getDeleteCartFetch,
+  getDeleteCartSuccess,
   getCartPaymentFail,
 } = cartPaymentSlice.actions;
 

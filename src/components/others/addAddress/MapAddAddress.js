@@ -1,14 +1,16 @@
 import {Image, StyleSheet, Text, View} from 'react-native';
 import React, {useEffect} from 'react';
-import {MFMapView, MFDirectionsRenderer} from 'react-native-map4d-map';
+import {MFMapView} from 'react-native-map4d-map';
 import {useDispatch, useSelector} from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {fetchNearbySearch} from 'react-native-map4d-services';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { setListAddress } from '../../../redux/reducers/slices/utilSlice';
 import ListAddress from './ListAddress';
 
 const MapAddAddress = () => {
+  const route = useRoute();
+  const isCart = route.params?.isCart || false;
   const myLocation = useSelector(state => state.locationMap?.myLocation);
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -68,7 +70,7 @@ const MapAddAddress = () => {
     </View>
 
       <View style={{flex:0.3,backgroundColor:'white'}}>
-          <ListAddress/>
+          <ListAddress isCart={isCart}/>
       </View>
   </>
 

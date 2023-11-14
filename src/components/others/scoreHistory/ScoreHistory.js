@@ -4,17 +4,18 @@ import {styles} from './styles';
 import Icon from 'react-native-vector-icons/FontAwesome6';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
+import Header from '../../../utils/Header';
 
 const ScoreHistory = () => {
 
   const historyScore = useSelector(state => state.historyScores.historyScore);
   // console.log("historyScore: ", historyScore);
 
-  const date = (item) =>{
-    const Date = item.ngay_doi;
-    const isValid = moment(Date).format('MMMM Do YYYY, h:mm:ss a');
-    return isValid;
-  }
+  // const date = (item) =>{
+  //   // const Date = item.ngay_doi;
+  //   const isValid = ;
+  //   return isValid;
+  // }
 
 
   const renderItem = item => {
@@ -22,17 +23,29 @@ const ScoreHistory = () => {
     return (
       <View style={styles.cardScore}>
         <View>
-          <Text style={styles.datetimetxt}>{date(item)}</Text>
+          <Text style={styles.datetimetxt}>{moment(ngay_doi).format('HH:ss - L')}</Text>
           <Text style={styles.txtname}>{ten_doi_diem}</Text>
         </View>
-        <Text style={styles.score}>{so_diem}</Text>
+        <Text style={
+          [styles.score,{ color: so_diem < 0 ? '#e80000' : '#00d800' }]
+          }>{so_diem}</Text>
       </View>
     );
   };
   return (
     <View style={styles.container}>
       <View style={styles.container2}>
-        <Text style={styles.titleContainer}>ScoreHistory</Text>
+      <Header
+          headerText="Lịch sử đổi điểm"
+          containerStyle={{
+            backgroundColor: 'white',
+            borderBottomWidth: 1,
+            borderBottomColor: 'lightgray',
+          }}
+          rightComponent={
+            true
+          }
+        />
         <FlatList
           data={historyScore}
           renderItem={renderItem}
@@ -44,4 +57,4 @@ const ScoreHistory = () => {
 };
 
 export default ScoreHistory;
-var data = [{id: 1}, {id: 2}, {id: 3}, {id: 4}];
+

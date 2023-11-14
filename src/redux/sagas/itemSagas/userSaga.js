@@ -207,7 +207,7 @@ function* EditUser(action) {
     const response = yield call(() => instance.post('users/sua-user', payload));
 
     if (response.data.trang_thai) {
-      yield put(editUserSuccess(response.data.data));
+      yield put(editUserSuccess(payload));
     } else {
       yield put(getUserFail('Cap nhat that bai'));
     }
@@ -219,13 +219,15 @@ function* EditUser(action) {
 
 function* WorkAddAddress(action) {
   try {
-    const {id_user, nguoi_nhan, address, so_dien_thoai,navigation} = action.payload;
+    const {id_user, nguoi_nhan, address, so_dien_thoai,latitude,longitude,navigation} = action.payload;
     const payload = {
       id_user: id_user,
       ten_dia_chi: address,
       so_dien_thoai: so_dien_thoai,
       so_nha: '',
       tinh: '',
+      latitude: latitude,
+      longitude: longitude,
       nguoi_nhan: nguoi_nhan,
     };
 

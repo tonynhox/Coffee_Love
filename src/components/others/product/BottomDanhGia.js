@@ -118,7 +118,7 @@ const BottomDanhGia = ({isVisible, onClose}) => {
       snapPoints={snapPoints}
       onChange={handleSheetChanges}
       enablePanDownToClose={true}
-      backgroundStyle={{backgroundColor: '#FEF9F1'}}>
+      backgroundStyle={{backgroundColor: '#f1f1f1'}}>
       <View style={styles.contentContainer}>
         <Text style={styles.textTatCaDanhGia}>Tất cả đánh giá</Text>
         {data.length === 0 ? (

@@ -414,7 +414,6 @@ const Map = () => {
     >
       <MarkerStore 
         map={map} 
-        // duongDi={duongDi}
       
       />
       <MFDirectionsRenderer
@@ -428,7 +427,7 @@ const Map = () => {
   );
 };
 
-export default Map;
+export default React.memo(Map);
 
 const styles = StyleSheet.create({
   container: {

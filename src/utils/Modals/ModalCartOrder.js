@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -49,6 +49,13 @@ const ModalCartOrder = () => {
 
   const [price, setPrice] = useState(0);
 
+  const dataCart = useSelector(state => state.cartPayment.data);
+  useEffect(() => {
+    if (dataCart.length < 1) {
+      closeModal();
+    }
+  }, [dataCart]);
+
   return (
     <Modal
       testID={'modal'}
@@ -65,7 +72,11 @@ const ModalCartOrder = () => {
       style={styles.modal}>
       <View style={styles.scrollableModal}>
         <ScrollView
-          style={{marginTop: 0, backgroundColor: 'white'}}
+          style={{
+            backgroundColor: 'white',
+            borderTopLeftRadius: 20,
+            borderTopRightRadius: 20,
+          }}
           ref={scrollViewRef}
           onScroll={handleOnScroll}
           scrollEventThrottle={16}>
@@ -79,7 +90,7 @@ const ModalCartOrder = () => {
             zIndex: 10,
             width: '100%',
             padding: 16,
-            backgroundColor: 'orange',
+            backgroundColor: '#e07900',
             justifyContent: 'space-between',
             alignItems: 'center',
           }}>
@@ -105,7 +116,7 @@ const ModalCartOrder = () => {
             }}>
             <Text
               style={{
-                color: 'orange',
+                color: '#e07900',
                 fontWeight: '600',
                 fontSize: 16,
                 padding: 0,
@@ -122,14 +133,12 @@ const ModalCartOrder = () => {
 const styles = StyleSheet.create({
   modal: {
     justifyContent: 'flex-end',
-    margin: 0,
-    borderTopEndRadius: 20,
-    borderTopStartRadius: 20,
+    marginHorizontal: 0,
+    marginBottom: 0,
   },
   scrollableModal: {
     // flex: 0.96,
     flex: 1,
-    // borderRadius:20,
   },
   scrollableModalContent1: {
     height: 200,

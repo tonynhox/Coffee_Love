@@ -59,9 +59,10 @@ export const styles = StyleSheet.create({
   },
   txtTitle: {
     marginLeft: 8,
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 8,
+    fontSize: 20,
+    fontWeight: '500',
+    marginBottom: 12,
+    marginTop: 4,
     color: '#000',
   
   },

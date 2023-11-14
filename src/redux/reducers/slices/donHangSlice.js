@@ -55,7 +55,7 @@ const donHangSlice = createSlice({
         if (counterProcess === action.payload.result.length) {
           state.dataDangGiao = dangGiaoArray.reverse();
           state.dataDanhGia = danhGiaArray.reverse();
-          state.dataLichSu = lichSuArray.reverse();
+          state.dataLichSu = lichSuArray;
           state.isLoading = false;
           state.isThayDoiTrangThaiDonHangLoading = false;
         }

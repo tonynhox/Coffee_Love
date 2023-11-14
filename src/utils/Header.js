@@ -1,6 +1,6 @@
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity, StatusBar} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const Header = props => {
@@ -11,18 +11,29 @@ const Header = props => {
     styleIconhdLeft,
     containerStyle,
     headerStyle,
-    leftComponent,
+    leftComponent ,
     rightComponent,
     customComponent,
   } = props;
 
   const renderLeftIcon = () => {
     if (leftComponent) {
+      if(leftComponent === true){
+        return (
+          <TouchableOpacity
+            style={{marginRight: 16}}>
+            <Icon
+              name="magnify"
+              style={[styleIconhdRight, {fontSize: 26, color: 'transparent'}]}
+            />
+          </TouchableOpacity>
+        );
+      }
       return leftComponent;
     } else {
       return (
         <TouchableOpacity
-          style={{position: 'absolute', left: 0}}
+          style={{marginLeft:8}}
           onPress={() => {
             navigation.goBack();
           }}>
@@ -37,11 +48,22 @@ const Header = props => {
 
   const renderRightIcon = () => {
     if (rightComponent) {
+      if(rightComponent === true){
+        return (
+          <TouchableOpacity
+            style={{marginRight: 16}}>
+            <Icon
+              name="magnify"
+              style={[styleIconhdRight, {fontSize: 26, color: 'transparent'}]}
+            />
+          </TouchableOpacity>
+        );
+      }
       return rightComponent;
     } else {
       return (
         <TouchableOpacity
-          style={{position: 'absolute', right: 16}}
+          style={{marginRight: 16}}
           onPress={() => {
             navigation.navigate('Notification');
           }}>
@@ -74,11 +96,14 @@ const styles = StyleSheet.create({
     // backgroundColor: 'transparent',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
+    // justifyContent: 'center',
+    paddingTop: StatusBar.currentHeight*0.6,
+    paddingBottom:8,
+    justifyContent:'space-between'
   },
   headerText: {
-    fontSize: 25,
-    fontWeight: 'bold',
+    fontSize: 22,
+    fontWeight: '600',
     margin: 10,
     color: '#000',
   },

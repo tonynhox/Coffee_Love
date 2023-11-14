@@ -202,7 +202,16 @@ class PropsWheelOfFortune extends Component {
   _renderSvgWheel = () => {
     return (
       <View style={styles.container}>
-        {this._renderKnob()}
+        {/* {this._renderKnob()} */}
+        <Image
+                source={require('./assets/images/Kimquay.png')}
+                style={{
+                  zIndex: 1,
+                  width: 80,
+                  height: 80,
+                  position: 'absolute',
+                }}
+              />
         <Animated.View
           style={{
             alignItems: 'center',
@@ -361,6 +370,7 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
     alignItems: 'center',
+    marginTop: 20,
   },
 //   content: {
     // alignItems: 'center',

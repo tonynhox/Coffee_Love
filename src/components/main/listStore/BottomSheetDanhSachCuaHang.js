@@ -2,10 +2,12 @@ import React, {useCallback, useEffect, useMemo, useRef} from 'react';
 import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import BottomSheet, {BottomSheetFlatList} from '@gorhom/bottom-sheet';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import { setCameraChoose } from '../../../redux/reducers/slices/utilSlice';
 
 const BottomSheetDanhSachCuaHang = ({isVisible, onClose}) => {
   const data = useSelector(state => state.locationMap.toaDoCuaHang);
+  const dispath = useDispatch();
   useEffect(() => {
     if (isVisible) {
       bottomSheetRef.current?.expand();
@@ -14,11 +16,18 @@ const BottomSheetDanhSachCuaHang = ({isVisible, onClose}) => {
     }
   }, [isVisible]);
 
-  const chonChiNhanh = () => {
+  const chonChiNhanh = async (item) => {
+    console.log('item', item);
+    await dispath(setCameraChoose({
+      center: {
+        latitude: parseFloat(item.location.x),
+        longitude: parseFloat(item.location.y),
+      },
+      zoom: 15,
+      tilt: 0,
+      bearing: 0,
+    }));
     onClose();
-    // =================== đưa sự kiện vào đây ===================
-    // Yêu chị quản lý vl
-    // ============================================================
   };
 
   // ref
@@ -39,7 +48,7 @@ const BottomSheetDanhSachCuaHang = ({isVisible, onClose}) => {
     return (
       <TouchableOpacity
         style={styles.itemContainer}
-        onPress={() => chonChiNhanh()}>
+        onPress={() => chonChiNhanh(item)}>
         {/* hinh anh chi nhanh + thong tin chi nhanh */}
         <Image
           source={{

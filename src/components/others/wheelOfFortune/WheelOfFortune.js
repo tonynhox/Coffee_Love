@@ -124,17 +124,6 @@ const WheelOfFortune = () => {
                   }}
                 />
               </View>
-
-              <Image
-                source={require('./item/assets/images/Kimquay.png')}
-                style={{
-                  width: 80,
-                  height: 80,
-                  position: 'absolute',
-                  top: '48%',
-                  left: '40%',
-                }}
-              />
             </View>
           </View>
 
@@ -252,6 +241,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
   },
   tryAgainButton: {
+    marginTop: 50,
     padding: 10,
     // backgroundColor: 'rgba(0,0,0,0.5)',
     backgroundColor: '#F68C1F',

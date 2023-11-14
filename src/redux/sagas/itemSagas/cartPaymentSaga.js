@@ -4,9 +4,11 @@ import {
   getAddCartPaymentSuccess,
   getCartPaymentFail,
   getCartPaymentSuccess,
+  getDeleteCartSuccess,
   getPaymentSuccess,
 } from '../../reducers/slices/cartPaymentSlice';
 import { setOpenBottomSheet } from '../../reducers/slices/utilSlice';
+import { setUseVoucher } from '../../reducers/slices/voucherSlide';
 
 function* WorkercartPayment(action) {
   try {
@@ -105,7 +107,7 @@ function* WorkerDeleteCartPayment(action) {
 
 function* WorkerPayment(action) {
   try {
-    // const {da} = action.payload;
+    const {navigation,id_user,dispatch} = action.payload;
 
     const response = yield call(() =>
       instance.post(`api/don-hang/them-don-hang`,action.payload),
@@ -113,7 +115,9 @@ function* WorkerPayment(action) {
     const result = response.data;
     if (result.status) {
       yield put(getPaymentSuccess());
-      console.log('Thành công', result);
+      yield DeleteAllCart({payload: {id_user: id_user}});
+      dispatch(setUseVoucher(null));
+      navigation.navigate('OrderDetail',{id_don_hang: result.result._id});
     } else {
       yield put(getCartPaymentFail(result.message));
     }
@@ -122,6 +126,24 @@ function* WorkerPayment(action) {
     yield put(getCartPaymentFail('Lỗi kết nối'));
   }
 }
+
+function* DeleteAllCart(action) {
+  try {
+    const {id_user} = action.payload;
+    const response = yield call(() =>
+      instance.get(`https://coffee.thaihoa.software/api/gio-hang/xoa-gio-hang/${id_user}`),
+    );
+    const result = response.data;
+    if (result.status) {
+      yield put(getDeleteCartSuccess());
+      
+    } 
+  } catch (error) {
+    console.log('error', error);
+    yield put(getCartPaymentFail('Lỗi kết nối'));
+  }
+}
+
 
 function* cartPaymentSaga() {
   yield takeEvery('cartPayment/getCartPaymentFetch', WorkercartPayment);

@@ -312,12 +312,12 @@ const ProductDetail = props => {
               />
             </ScrollView>
 
-            {/* <BottomMuaSanPham
+            <BottomMuaSanPham
               isOpen={isOpen}
               onChangeOpen={() => setIsOpen(false)}
               data={dataChiTietSanPham}
               handleNavigate={navigateToBuyProduct}
-            /> */}
+            />
 
             <BottomDanhGia
               isVisible={isBottomDanhGiaVisible}

@@ -18,24 +18,19 @@ import ToRate from '../others/toRate/ToRate';
 import Changepassword from '../others/changepassword/Changepassword';
 import AllVoucher from '../others/allVoucher/AllVoucher';
 import AllScore from '../others/allScore/AllScore';
-import {useDispatch} from 'react-redux';
-import {getCategoryFetch} from '../../redux/reducers/slices/categoriesSlice';
-import {getTopOrderFetch} from '../../redux/reducers/slices/topOrderSlice';
-import {getProductAllFetch} from '../../redux/reducers/slices/productSlice';
-import Storage from '../../utils/Storage';
-import {navigationRef} from '../../../App';
+
 import ScoreHistory from '../others/scoreHistory/ScoreHistory';
 import VoucherCart from '../others/cartPayment/VoucherCart';
 import StoreCoffee from '../others/storeCoffee/StoreCoffee';
 import MapAddAddress from '../others/addAddress/MapAddAddress';
 // add other navigation functions that you need and export them
-
 const Stack = createNativeStackNavigator();
 
 const AppNavigation = props => {
   // const dispatch = useDispatch();
 
   //get api khi vào app
+
 
   return (
     <Stack.Navigator

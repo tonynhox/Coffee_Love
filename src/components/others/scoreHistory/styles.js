@@ -25,18 +25,18 @@ export const styles = StyleSheet.create({
   },
   datetimetxt: {
     fontSize: 15,
-    color: '#A9A9A9',
+    color: 'gray',
     fontWeight: '300',
   },
   txtname:{
-    fontSize: 18,
+    fontSize: 16,
     color: '#000',
     fontWeight: '600',
   },
   score: {
-    fontSize: 15,
-    color: '#00FF00',
-    fontWeight: '700',
+    fontSize: 14,
+    color: '#00d800',
+    fontWeight: '500',
     alignSelf: 'center',
   },
 });

@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {StatusBar, StyleSheet, Text, View} from 'react-native';
 
 export const styles = StyleSheet.create({
   txtall: {
@@ -19,7 +19,9 @@ export const styles = StyleSheet.create({
     backgroundColor: '#FF8C00',
     // padding: 24,
     paddingHorizontal: 20,
-    paddingVertical: 10,
+    // paddingVertical: 10,
+    paddingBottom: 14,
+    paddingTop: StatusBar.currentHeight,
   },
   txtfc: {
     fontWeight: '400',
@@ -43,7 +45,8 @@ export const styles = StyleSheet.create({
     padding: 4,
   },
   txtfc3: {
-    color: '#FF4500',
+    color: '#e77300',
+    fontWeight: '500',
     fontSize: 15,
   },
   cardRowfc: {

@@ -7,6 +7,7 @@ const initialState = {
   isVisibleModalCart: false,
   itemGioHang: null,
   listAddress: [],
+  cameraChoose: null,
 };
 
 export const utilSlice = createSlice({
@@ -33,6 +34,9 @@ export const utilSlice = createSlice({
     setListAddress: (state, action) => {
       state.listAddress = action.payload;
     },
+    setCameraChoose: (state, action) => {
+      state.cameraChoose = action.payload;
+    },
   },
 });
 
@@ -42,6 +46,7 @@ export const {
   setIsVisibleModalCart,
   setItemGioHang,
   setListAddress,
+  setCameraChoose
 } = utilSlice.actions;
 
 export default utilSlice.reducer;

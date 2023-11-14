@@ -115,6 +115,8 @@ dependencies {
     //
     implementation 'com.google.android.gms:play-services-location:21.0.1'
 
+    //gif
+    implementation 'com.facebook.fresco:animated-gif:2.0.0'
     // firebase
     //
     implementation 'com.google.firebase:firebase-analytics'

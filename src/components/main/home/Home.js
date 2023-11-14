@@ -1,4 +1,12 @@
-import {Animated, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  Animated,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  Dimensions,
+  StatusBar,
+} from 'react-native';
 import React, {useState} from 'react';
 import {styles} from './styles';
 import Header from '../../../utils/Header';
@@ -10,6 +18,9 @@ import CardUser from './item/CardUser';
 import Extention from './item/Extention';
 import {useNavigation} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
+import LinearGradient from 'react-native-linear-gradient';
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 const Home = () => {
   const [scrollY] = useState(new Animated.Value(0));
@@ -19,13 +30,13 @@ const Home = () => {
 
   const HeaderName = () => {
     return (
-      <View style={{flexDirection: 'row', position: 'absolute', left: 20}}>
+      <View style={{flexDirection: 'row'}}>
         <Text style={{fontSize: 30, color: 'red'}}>♨</Text>
         <View
           style={{flexDirection: 'row', alignItems: 'center', paddingLeft: 3}}>
           <Text style={{fontSize: 18, color: 'black'}}>Hi, </Text>
           <Text style={{fontSize: 18, color: 'black', fontWeight: 'bold'}}>
-            { user?.ho_ten || 'Khách'}
+            {user?.ho_ten || 'Khách'}
           </Text>
         </View>
       </View>
@@ -34,16 +45,31 @@ const Home = () => {
 
   const HeaderSearch = () => {
     return (
-      <TouchableOpacity
-        onPress={() => navigation.navigate('Search')}
-        style={{position: 'absolute', right: '14%'}}>
-        <Icon name="magnify" style={{fontSize: 26, color: 'black'}} />
-      </TouchableOpacity>
+      <View
+        style={{
+          flexDirection: 'row',
+          marginTop:6
+        }}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Search')}
+          style={{}}>
+          <Icon name="magnify" style={{fontSize: 26, color: 'black'}} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{
+            marginLeft: 8,
+          }}
+          onPress={() => {
+            navigation.navigate('Notification');
+          }}>
+          <Icon name="bell-outline" style={[{fontSize: 25, color: 'black'}]} />
+        </TouchableOpacity>
+      </View>
     );
   };
 
   const opacity = scrollY.interpolate({
-    inputRange: [0, 100], // Khi cuộn từ 0px đến 100px
+    inputRange: [0, 300], // Khi cuộn từ 0px đến 100px
     outputRange: [1, 0], // Giá trị opacity từ 1 (không mờ) đến 0 (mờ hoàn toàn)
     extrapolate: 'clamp', // Giữ giá trị trong khoảng inputRange
   });
@@ -52,21 +78,26 @@ const Home = () => {
     <View style={{flex: 1}}>
       <Animated.View
         style={[
-          styles.backgroundContainer,
           {
-            opacity, // Áp dụng opacity
+            position: 'absolute',
+            width: '100%',
+            opacity, // Apply opacity
           },
-        ]}></Animated.View>
+        ]}>
+        <LinearGradient
+          style={{height: windowHeight * 0.45}}
+          colors={['#fffce4', '#fffef0', '#f1f1f1']}
+        />
+      </Animated.View>
       <Header
         customComponent={HeaderName()}
         containerStyle={{
-          height: 60,
+          // height: 60,
           paddingHorizontal: 16,
           backgroundColor: 'transparent',
         }}
-        styleIconhdRight={{top: 0}}
-        headerStyle={{}}
-        leftComponent={HeaderSearch()}
+        leftComponent={<></>}
+        rightComponent={HeaderSearch()}
       />
 
       <ScrollView
@@ -80,7 +111,6 @@ const Home = () => {
         <Extention />
         <TopOrder />
         <Menu />
-        
       </ScrollView>
     </View>
   ); //aaaaaaaaaaaaaaaaaaaa

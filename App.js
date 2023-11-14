@@ -19,6 +19,8 @@ import StoreCoffee from './src/components/others/storeCoffee/StoreCoffee';
 import BottomSheetDanhSachCuaHang from './src/components/main/listStore/BottomSheetDanhSachCuaHang';
 import MapAddAddress from './src/components/others/addAddress/MapAddAddress';
 import BottomDanhGia from './src/components/others/product/BottomDanhGia';
+import ListVoucherNotLG from './src/components/main/voucher/ListVoucherNotLG';
+import Card from './src/components/main/voucher/item/Card';
 
 export const navigationRef = createNavigationContainerRef();
 
@@ -26,10 +28,12 @@ const App = () => {
   return (
     <Provider store={store}>
       <NavigationContainer ref={navigationRef}>
-        {/* <NotificationHandler /> */}
+        <NotificationHandler />
         {/* <BottomSheetDanhSachCuaHang /> */}
         <ManHinhCHao />
         {/* <MapAddAddress /> */}
+        {/* <ListVoucherNotLG /> */}
+        {/* <Card /> */}
       </NavigationContainer>
       {/* <ModalVongQuayMayMan/> */}
     </Provider>

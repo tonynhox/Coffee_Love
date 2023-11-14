@@ -39,25 +39,29 @@ export const myAddressStyle = StyleSheet.create({
     backgroundColor: 'white',
   },
   containerButtonChecked: {
-    width: '7%',
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
+    width: '12%',
+    // flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    // justifyContent: 'flex-end',
   },
   containerButtonChange: {
-    width: '9%',
+    width: '10%',
     marginLeft: 5,
   },
   containerAddress: {
     // width:'87%',
     flex: 1,
-    marginLeft: 10,
+    // marginLeft: 10,
   },
   nameAndPhoneContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
   checkedButtonContainer: {
-    marginTop: 7,
+    // marginTop: 7,
+    // width: '7%',
+    alignItems: 'center',
   },
   changeButtonContainer: {
     marginTop: 7,
@@ -65,7 +69,7 @@ export const myAddressStyle = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    alignItems: 'center',
+    // alignItems: 'center',
     backgroundColor: '#fcf9f6',
   },
   textName: {
