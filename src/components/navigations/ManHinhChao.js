@@ -19,6 +19,7 @@ import {getScoreFetch} from '../../redux/reducers/slices/scoreSlide';
 import { getLocationStoreFetch } from '../../redux/reducers/slices/locationMapSlice';
 import {getFavoriteRequest} from '../../redux/reducers/slices/favoriteSlice';
 import {getDataToppingRequest} from '../../redux/reducers/slices/toppingSlice';
+import { setCurrentDeviceToken } from '../../redux/reducers/slices/deviceTokenSlice';
 const Stack = createNativeStackNavigator();
 
 const ManHinh = () => {

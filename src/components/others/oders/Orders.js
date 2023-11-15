@@ -13,6 +13,7 @@ import {getDonHangRequest} from '../../../redux/reducers/slices/donHangSlice';
 const Tab = createMaterialTopTabNavigator();
 
 const Orders = () => {
+  console.log('RENDER');
   const dispatch = useDispatch();
 
   const isLoading = useSelector(state => state.don_hang.isLoading);
@@ -23,7 +24,8 @@ const Orders = () => {
       dispatch(getDonHangRequest({id_user: id_user}));
     };
     fetchDonHang();
-  }, []);
+    return () => {};
+  }, [id_user]);
 
   return (
     <>

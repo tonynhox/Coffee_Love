@@ -42,7 +42,7 @@ const rootReducer = combineReducers({
   historyScores: historyScoreSlide,
   searchs: searchSlice,
   vong_quay_may_man: vongQuayMayManSlice,
-  deviceToken: deviceTokenSlice,
+  device_token: deviceTokenSlice,
   camera: cameraSlice,
 });
 

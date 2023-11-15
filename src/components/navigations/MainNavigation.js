@@ -29,10 +29,11 @@ import {getScoreFetch} from '../../redux/reducers/slices/scoreSlide';
 import ListStore from '../main/listStore/ListStore';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import BottomMuaSanPhamCategories from '../main/categories/BottomMuaSanPhamCategories';
-import { setIsVisibleModalCart } from '../../redux/reducers/slices/utilSlice';
-import { formatCurrency } from '../../utils/formatCurrency';
-import { getHistoryScoreFetch } from '../../redux/reducers/slices/historyScoreSlide';
-import { findNearestCoordinate, sortStore } from '../others/map4D/tinhKhoangCach';
+import {setIsVisibleModalCart} from '../../redux/reducers/slices/utilSlice';
+import {formatCurrency} from '../../utils/formatCurrency';
+import {getHistoryScoreFetch} from '../../redux/reducers/slices/historyScoreSlide';
+import {findNearestCoordinate, sortStore} from '../others/map4D/tinhKhoangCach';
+import {getDeviceTokenRequest} from '../../redux/reducers/slices/deviceTokenSlice';
 
 const Tab = createBottomTabNavigator();
 
@@ -58,6 +59,28 @@ const MainNavigation = () => {
     }
   };
 
+  const user = useSelector(state => state.users.user);
+  const device_token = useSelector(state => state.device_token.deviceToken);
+  console.log('TOKEN USER: ', user.device_token, device_token);
+  useEffect(() => {
+    console.log('RUNNNNNNNNNNNNNNNNNNNNNNN');
+    if (
+      device_token !== user.device_token &&
+      user?.device_token !== undefined
+    ) {
+      dispatch(
+        getDeviceTokenRequest({
+          id_user: user.id_user,
+          ho_ten: user.ho_ten,
+          avatar: user.avatar,
+          email: user.email,
+          so_dien_thoai: user.so_dien_thoai,
+          device_token: device_token,
+        }),
+      );
+    }
+  }, [user.device_token]);
+
   useEffect(() => {
     getCurrentPosition();
   }, []);
@@ -73,7 +96,6 @@ const MainNavigation = () => {
     }
   }, [position]);
   // end vị trí hiện tại
-
 
   //sort map
   // const data = useSelector(state => state.locationMap.toaDoCuaHang);
@@ -104,119 +126,132 @@ const MainNavigation = () => {
   }, [id_user]);
 
   const isOpenBottomMuaHang = useSelector(state => state.utils.openBottomSheet);
-  
+
   return (
     <GestureHandlerRootView style={{flex: 1}}>
-      <View style={{flex:1,zIndex:-1}} >
-      <ModalCartOrder />
-        
-      <Tab.Navigator
-        screenOptions={({route}) => ({
-          headerShown: false,
-          tabBarActiveTintColor: '#FF8C00',
-          tabBarIcon: ({focused}) => {
-            if (route.name == 'Home') {
-              if (!focused) {
-                return <Icon name="home-outline" size={25} color="#000" />;
-              } else {
-                return <Icon name="home-outline" size={25} color="#FF8C00" />;
+      <View style={{flex: 1, zIndex: -1}}>
+        <ModalCartOrder />
+
+        <Tab.Navigator
+          screenOptions={({route}) => ({
+            headerShown: false,
+            tabBarActiveTintColor: '#FF8C00',
+            tabBarIcon: ({focused}) => {
+              if (route.name == 'Home') {
+                if (!focused) {
+                  return <Icon name="home-outline" size={25} color="#000" />;
+                } else {
+                  return <Icon name="home-outline" size={25} color="#FF8C00" />;
+                }
+              } else if (route.name == 'Categories') {
+                if (!focused) {
+                  return <Icon name="coffee-outline" size={25} color="#000" />;
+                } else {
+                  return (
+                    <Icon name="coffee-outline" size={25} color="#FF8C00" />
+                  );
+                }
+              } else if (route.name == 'ListStore') {
+                if (!focused) {
+                  return (
+                    <Icon name="store-search-outline" size={25} color="#000" />
+                  );
+                } else {
+                  return (
+                    <Icon
+                      name="store-search-outline"
+                      size={25}
+                      color="#FF8C00"
+                    />
+                  );
+                }
+              } else if (route.name == 'Voucher') {
+                if (!focused) {
+                  return (
+                    <Icon
+                      name="ticket-percent-outline"
+                      size={25}
+                      color="#000"
+                    />
+                  );
+                } else {
+                  return (
+                    <Icon
+                      name="ticket-percent-outline"
+                      size={25}
+                      color="#FF8C00"
+                    />
+                  );
+                }
+              } else if (route.name == 'Profile') {
+                if (!focused) {
+                  return (
+                    <Icon
+                      name="account-circle-outline"
+                      size={25}
+                      color="#000"
+                    />
+                  );
+                } else {
+                  return (
+                    <Icon
+                      name="account-circle-outline"
+                      size={25}
+                      color="#FF8C00"
+                    />
+                  );
+                }
               }
-            } else if (route.name == 'Categories') {
-              if (!focused) {
-                return <Icon name="coffee-outline" size={25} color="#000" />;
-              } else {
-                return <Icon name="coffee-outline" size={25} color="#FF8C00" />;
-              }
-            } else if (route.name == 'ListStore') {
-              if (!focused) {
-                return (
-                  <Icon name="store-search-outline" size={25} color="#000" />
-                );
-              } else {
-                return (
-                  <Icon name="store-search-outline" size={25} color="#FF8C00" />
-                );
-              }
-            } else if (route.name == 'Voucher') {
-              if (!focused) {
-                return (
-                  <Icon name="ticket-percent-outline" size={25} color="#000" />
-                );
-              } else {
-                return (
-                  <Icon
-                    name="ticket-percent-outline"
-                    size={25}
-                    color="#FF8C00"
-                  />
-                );
-              }
-            } else if (route.name == 'Profile') {
-              if (!focused) {
-                return (
-                  <Icon name="account-circle-outline" size={25} color="#000" />
-                );
-              } else {
-                return (
-                  <Icon
-                    name="account-circle-outline"
-                    size={25}
-                    color="#FF8C00"
-                  />
-                );
-              }
-            }
-          },
-        })}>
-        <Tab.Screen
-          name="Home"
-          component={HomeWithExtraView}
-          options={{
-            presentation: 'modal',
-            animationTypeForReplace: 'push',
-            animation: 'slide_from_right',
-            tabBarLabel: 'Home',
-          }}
-        />
-        <Tab.Screen
-          name="Categories"
-          component={CategoriesWithExtraView}
-          options={{
-            presentation: 'modal',
-            animationTypeForReplace: 'push',
-            animation: 'slide_from_right',
-            tabBarLabel: 'Categories',
-          }}
-        />
-        <Tab.Screen
-          name="ListStore"
-          component={ListStore}
-          options={{
-            presentation: 'modal',
-            animationTypeForReplace: 'push',
-            animation: 'slide_from_right',
-            tabBarLabel: 'ListStore',
-          }}
-        />
-        <Tab.Screen
-          name="Voucher"
-          component={ListVoucher}
-          options={{
-            tabBarLabel: 'Voucher',
-          }}
-        />
-        <Tab.Screen
-          name="Profile"
-          component={Profile}
-          options={{
-            tabBarLabel: 'Profile',
-          }}
-        />
-      </Tab.Navigator>
+            },
+          })}>
+          <Tab.Screen
+            name="Home"
+            component={HomeWithExtraView}
+            options={{
+              presentation: 'modal',
+              animationTypeForReplace: 'push',
+              animation: 'slide_from_right',
+              tabBarLabel: 'Home',
+            }}
+          />
+          <Tab.Screen
+            name="Categories"
+            component={CategoriesWithExtraView}
+            options={{
+              presentation: 'modal',
+              animationTypeForReplace: 'push',
+              animation: 'slide_from_right',
+              tabBarLabel: 'Categories',
+            }}
+          />
+          <Tab.Screen
+            name="ListStore"
+            component={ListStore}
+            options={{
+              presentation: 'modal',
+              animationTypeForReplace: 'push',
+              animation: 'slide_from_right',
+              tabBarLabel: 'ListStore',
+            }}
+          />
+          <Tab.Screen
+            name="Voucher"
+            component={ListVoucher}
+            options={{
+              tabBarLabel: 'Voucher',
+            }}
+          />
+          <Tab.Screen
+            name="Profile"
+            component={Profile}
+            options={{
+              tabBarLabel: 'Profile',
+            }}
+          />
+        </Tab.Navigator>
       </View>
 
-          {isOpenBottomMuaHang &&
-      <BottomMuaSanPhamCategories />}
+      {isOpenBottomMuaHang && <BottomMuaSanPhamCategories />}
     </GestureHandlerRootView>
   );
 };
@@ -250,8 +285,7 @@ const ExtraView = ({setModalVisible}) => {
         <Text
           style={{maxWidth: 200, color: 'black', fontSize: 14}}
           numberOfLines={1}
-          ellipsizeMode="tail"
-          >
+          ellipsizeMode="tail">
           {nameLocation}
         </Text>
       </View>
@@ -260,8 +294,6 @@ const ExtraView = ({setModalVisible}) => {
           // setModalVisible(true);
           // dispatch(setIsVisibleModalCart(true));
           dispatch(setIsVisibleModalCart(true));
-
-
         }}
         style={{
           flexDirection: 'row',
@@ -287,11 +319,11 @@ const ExtraView = ({setModalVisible}) => {
               color: '#df7a00',
               fontWeight: '600',
             }}>
-            {cart?.quantity||0}
+            {cart?.quantity || 0}
           </Text>
         </View>
         <Text style={{color: '#fff', fontSize: 15, fontWeight: '500'}}>
-          {formatCurrency(cart?.price||0)}
+          {formatCurrency(cart?.price || 0)}
         </Text>
         <Text style={{fontSize: 14, color: '#fff'}}>{'>'}</Text>
       </Pressable>
@@ -303,7 +335,7 @@ const HomeWithExtraView = () => {
   return (
     <>
       <Home />
-      <ExtraView  />
+      <ExtraView />
       {/* <ModalCartOrder
         isVisible={isModalVisible}
         setIsVisible={setIsModalVisible}

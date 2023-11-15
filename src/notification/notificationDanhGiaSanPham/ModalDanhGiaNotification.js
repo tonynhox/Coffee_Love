@@ -15,21 +15,18 @@ import {
   BUCKET_NAME,
   modal_color_don_hang,
   pick_image_options,
-} from '../../../../utils/contanst';
+} from '../../utils/contanst';
 import Icon from 'react-native-vector-icons/FontAwesome6';
-import ModalTuyChonHinhAnh from './ModalTuyChonHinhAnh';
-import {launchImageLibrary} from 'react-native-image-picker';
-import VisionCamera from './VisionCamera';
+import ModalTuyChonHinhAnh from '../../components/others/oders/item/ModalTuyChonHinhAnh';
+import VisionCamera from '../../components/others/oders/item/VisionCamera';
 import {useDispatch} from 'react-redux';
-import {getChangeCameraVisible} from '../../../../redux/reducers/slices/cameraSlice';
 import uuid from 'react-native-uuid';
-import ModalChiTietHinhAnhDanhGia from './ModalChiTietHinhAnhDanhGia';
+import ModalChiTietHinhAnhDanhGia from '../../components/others/oders/item/ModalChiTietHinhAnhDanhGia';
 import ImagePicker from 'react-native-image-crop-picker';
 import {Storage} from 'aws-amplify';
-import {ACCESS_KEY_ID, SECRET_ACCESS_KEY} from '../../../../PrivateKey';
 import {ToastAndroid} from 'react-native';
 
-const ModalDanhGia = ({isVisible, onCancel, sendRate}) => {
+const ModalDanhGiaNotification = ({isVisible, onCancel, sendRate}) => {
   const dispatch = useDispatch();
 
   const dataRateStar = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5}];
@@ -351,7 +348,7 @@ const ModalDanhGia = ({isVisible, onCancel, sendRate}) => {
   );
 };
 
-export default ModalDanhGia;
+export default ModalDanhGiaNotification;
 
 const styles = StyleSheet.create({
   container: {
@@ -401,8 +398,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 3,
     paddingVertical: 7,
     height: 100,
-    backgroundColor:'#FDE8D3',
-    color:'black'
+    backgroundColor: '#FDE8D3',
+    color: 'black',
   },
   textThemHinhAnh: {
     fontSize: 14,
@@ -455,7 +452,7 @@ const styles = StyleSheet.create({
     paddingTop: 5,
   },
   loadingUploadImage: {
-    width: '100%',
+    width: Dimensions.get('window').width,
     height: '100%',
     backgroundColor: 'rgba(180, 180, 180, 0.5)',
     position: 'absolute',

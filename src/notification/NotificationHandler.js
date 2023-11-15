@@ -4,7 +4,7 @@ import {PermissionsAndroid} from 'react-native';
 import messaging from '@react-native-firebase/messaging';
 import {getToken} from './ultis';
 import {useDispatch} from 'react-redux';
-import {setDeviceToken} from '../redux/reducers/slices/deviceTokenSlice';
+import {setCurrentDeviceToken, setDeviceToken} from '../redux/reducers/slices/deviceTokenSlice'
 import ModalNotification from './ModalNotification';
 import OnScreenNotification from './OnScreenNotification';
 
@@ -15,7 +15,7 @@ const NotificationHandler = () => {
 
   const waitingForToken = async () => {
     const token = await getToken();
-    dispatch(setDeviceToken(token));
+    dispatch(setCurrentDeviceToken(token));
   };
 
   useEffect(() => {

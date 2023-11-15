@@ -15,6 +15,7 @@ import favoriteSaga from './itemSagas/favoriteSaga';
 import historyScoreSaga from './itemSagas/historyScoreSaga';
 import searchSaga from './itemSagas/searchSaga';
 import vongQuayMayManSaga from './itemSagas/vongQuayMayManSaga';
+import deviceTokenSaga from './itemSagas/deviceTokenSaga';
 
 export default function* rootSaga() {
   yield all([
@@ -24,7 +25,6 @@ export default function* rootSaga() {
     chiTietSanPhamSaga(),
     topOrderSaga(),
     productSaga(),
-    donHangSaga(),
     chiTietDonHangSaga(),
     donHangSaga(),
     chiTietDonHangSaga(),
@@ -36,5 +36,6 @@ export default function* rootSaga() {
     historyScoreSaga(),
     searchSaga(),
     vongQuayMayManSaga(),
+    deviceTokenSaga(),
   ]);
 }
