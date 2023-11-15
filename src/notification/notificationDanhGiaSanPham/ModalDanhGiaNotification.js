@@ -19,19 +19,25 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome6';
 import ModalTuyChonHinhAnh from '../../components/others/oders/item/ModalTuyChonHinhAnh';
 import VisionCamera from '../../components/others/oders/item/VisionCamera';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import uuid from 'react-native-uuid';
 import ModalChiTietHinhAnhDanhGia from '../../components/others/oders/item/ModalChiTietHinhAnhDanhGia';
 import ImagePicker from 'react-native-image-crop-picker';
 import {Storage} from 'aws-amplify';
 import {ToastAndroid} from 'react-native';
+import {getDanhGiaRequest} from '../../redux/reducers/slices/donHangSlice';
 
-const ModalDanhGiaNotification = ({isVisible, onCancel, sendRate}) => {
+const ModalDanhGiaNotification = ({value, user}) => {
+  console.log("============================")
   const dispatch = useDispatch();
 
   const dataRateStar = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5}];
   const [start, setStart] = useState(4);
   const [nhanXet, setNhanXet] = useState('');
+  const [isVisible, setIsVisible] = useState(false);
+  const isDanhGiaLoading = useSelector(
+    state => state.don_hang.isDanhGiaLoading,
+  );
 
   //modal chọn thư hiện hay camera
   const [valueChoosingModal, setValueChoosingModal] = useState({
@@ -46,6 +52,10 @@ const ModalDanhGiaNotification = ({isVisible, onCancel, sendRate}) => {
     isVisible: false,
     value: [],
   });
+
+  useEffect(() => {
+    setIsVisible(true);
+  }, [value]);
 
   useEffect(() => {
     if (currentOptions === null) {
@@ -135,14 +145,16 @@ const ModalDanhGiaNotification = ({isVisible, onCancel, sendRate}) => {
 
   // gửi đánh giá
   const onConfirm = uploadedImageKeys => {
-    sendRate({
-      id_don_hang: isVisible.id,
+    const newData = {
+      id_don_hang: data.id_don_hang, //sua id don hang vao day ==========
       so_sao: start,
       danh_gia: nhanXet,
       hinh_anh_danh_gia: uploadedImageKeys,
-      email: '',
-      ten_user: '',
-    });
+      email: user.email, // sua o day
+      ten_user: user.ho_ten, // sua o day
+      hinh_anh_user: user.avatar
+    };
+    dispatch(getDanhGiaRequest(newData));
     clearAll();
   };
 
@@ -235,7 +247,7 @@ const ModalDanhGiaNotification = ({isVisible, onCancel, sendRate}) => {
   return (
     <>
       <Modal
-        isVisible={isVisible.isVisible}
+        isVisible={isVisible}
         // isVisible={true}
         onBackdropPress={() => toggleModal()}
         animationIn="zoomIn"
@@ -318,7 +330,7 @@ const ModalDanhGiaNotification = ({isVisible, onCancel, sendRate}) => {
               Coffee.Love rất vui khi nhận được đánh giá của bạn
             </Text>
           </View>
-          {isUploading && (
+          {(isUploading || isDanhGiaLoading) && (
             <View style={styles.loadingUploadImage}>
               <ActivityIndicator
                 size={'large'}

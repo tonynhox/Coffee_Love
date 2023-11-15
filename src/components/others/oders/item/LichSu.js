@@ -32,8 +32,8 @@ const LichSu = () => {
   const data = useSelector(state => state.don_hang.dataLichSu);
   const isLoading = useSelector(state => state.don_hang.isLoading);
   const id_user = useSelector(state => state.users.user.id_user);
-  const email = useSelector(state => state.users.user.email);
-  const ho_ten = useSelector(state => state.users.user.ho_ten);
+  const user = useSelector(state => state.users.user);
+
   const isDanhGiaLoading = useSelector(
     state => state.don_hang.isDanhGiaLoading,
   );
@@ -57,14 +57,14 @@ const LichSu = () => {
     setIsVisible({isVisible: !isVisible.isVisible, id: id});
   };
   const sendRate = data => {
-    console.log('RENDER Y LAN');
     const newData = {
       id_don_hang: data.id_don_hang,
       so_sao: data.so_sao,
       danh_gia: data.danh_gia,
       hinh_anh_danh_gia: data.hinh_anh_danh_gia,
-      email: email,
-      ten_user: ho_ten,
+      email: user.email,
+      ten_user: user.ho_ten,
+      hinh_anh_user: user.avatar,
     };
     dispatch(getDanhGiaRequest(newData));
   };

@@ -3,15 +3,21 @@ import React, {useEffect, useState} from 'react';
 import {PermissionsAndroid} from 'react-native';
 import messaging from '@react-native-firebase/messaging';
 import {getToken} from './ultis';
-import {useDispatch} from 'react-redux';
-import {setCurrentDeviceToken, setDeviceToken} from '../redux/reducers/slices/deviceTokenSlice'
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  setCurrentDeviceToken,
+  setDeviceToken,
+} from '../redux/reducers/slices/deviceTokenSlice';
 import ModalNotification from './ModalNotification';
 import OnScreenNotification from './OnScreenNotification';
+import ModalDanhGiaNotification from './notificationDanhGiaSanPham/ModalDanhGiaNotification';
 
 const NotificationHandler = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const [initialRoute, setInitialRoute] = useState('Home');
+  const [type, setType] = useState(null);
+  const [remoteMessage, setRemoteMessage] = useState('');
 
   const waitingForToken = async () => {
     const token = await getToken();
@@ -21,10 +27,17 @@ const NotificationHandler = () => {
   useEffect(() => {
     const unsubscribe = messaging().onMessage(async remoteMessage => {
       console.log('A new FCM message arrived!', JSON.stringify(remoteMessage));
-      const type = remoteMessage.data.type;
-      if (type === 'ProductDetail') {
-        return <OnScreenNotification value={remoteMessage} />;
-      }
+      setRemoteMessage(remoteMessage);
+      // console.log('TYPE==============', type);
+      // if (type === 'ProductDetail' || type === 'OrderDelivering') {
+      //   console.log('RUN DELIVERING =================');
+      //   return <OnScreenNotification value={remoteMessage} />;
+      // }
+      // if (type === 'OrderArrived') {
+      //   console.log('RUN ARRIVED =================');
+
+      //   return <ModalDanhGiaNotification value={remoteMessage} user={user} />;
+      // }
       // Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
     });
 
@@ -86,12 +99,16 @@ const NotificationHandler = () => {
 
   return (
     <>
-      {/* {isVisible.isVisible && (
-        <ModalNotification
-          value={isVisible.value}
-          onCancel={() => setIsVisible({isVisible: false, value: ''})}
-        />
-      )} */}
+      {remoteMessage?.data?.type === 'ProductDetail' ||
+      remoteMessage?.data?.type === 'OrderDelivering' ? (
+        <OnScreenNotification value={remoteMessage} />
+      ) : (
+        <>
+          {remoteMessage?.data?.type === 'OrderArrived' && (
+            <ModalDanhGiaNotification value={remoteMessage} user={{}} />
+          )}
+        </>
+      )}
     </>
   );
 };
