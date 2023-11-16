@@ -8,6 +8,8 @@ import {
   TouchableOpacity,
   ScrollView,
   FlatList,
+  Animated,
+  StatusBar,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useDispatch, useSelector} from 'react-redux';
@@ -15,11 +17,15 @@ import {
   setIDSanPham,
   setOpenBottomSheet,
 } from '../../../redux/reducers/slices/utilSlice';
+import Header from '../../../utils/Header';
 
 const CategoriesText = ({openBottomMuaHang}) => {
   const dispatch = useDispatch();
   const bigData = useSelector(state => state.categories.data);
 
+  useEffect(() => {
+    StatusBar.setBarStyle('dark-content');
+  }, []);
   //data ảo để chèn vào flatlist
   const trashData = [-1, 0];
   //gộp data ảo và data thật
@@ -29,10 +35,27 @@ const CategoriesText = ({openBottomMuaHang}) => {
   const navigation = useNavigation();
   const [index, setIndex] = useState(-1);
 
+  //thay đổi tên danh mục ở header
+  const [headerText, setHeaderText] = useState('Danh mục');
+  const onViewableItemsChanged = useRef(({viewableItems}) => {
+    if (viewableItems.length > 0) {
+      const visibleIndex = viewableItems[0].item.ten_loai_san_pham;
+      if (visibleIndex || index > 1) {
+        setHeaderText(visibleIndex);
+      } else {
+        setHeaderText('Danh mục');
+      }
+    }
+  });
+
   //scoll tới vị trí category được chọn +2 vì có 2 item ảo
   useEffect(() => {
     if (index != -1)
-      ref.current.scrollToIndex({animated: false, index: index + 2});
+      ref.current.scrollToIndex({
+        animated: true,
+        index: index + 2,
+        viewOffset: -0.5,
+      });
   }, [index]);
 
   const handleNavigate = id => {
@@ -44,8 +67,12 @@ const CategoriesText = ({openBottomMuaHang}) => {
 
     if (index === 7 || ten_loai_san_pham === 'Xem Them') {
       return (
-        <TouchableOpacity  style={Styles.card}>
-          <View style={[Styles.imgCard,{borderWidth:0.5,borderRadius:70,borderColor:'lightgray'}]}>
+        <TouchableOpacity style={Styles.card}>
+          <View
+            style={[
+              Styles.imgCard,
+              {borderWidth: 0.5, borderRadius: 70, borderColor: 'lightgray'},
+            ]}>
             <Image
               style={[
                 Styles.imgCardBackground,
@@ -116,7 +143,7 @@ const CategoriesText = ({openBottomMuaHang}) => {
       const {ten_loai_san_pham, san_pham} = item;
 
       return (
-        <View key={ten_loai_san_pham}>
+        <View style={{paddingTop: 8}} key={ten_loai_san_pham}>
           <Text style={{color: '#000', fontWeight: '500', fontSize: 18}}>
             {ten_loai_san_pham}
           </Text>
@@ -183,21 +210,82 @@ const CategoriesText = ({openBottomMuaHang}) => {
       </TouchableOpacity>
     );
   };
+  const scrollY = useRef(new Animated.Value(0)).current;
+  const diftClamp = Animated.diffClamp(scrollY, 0, 80);
+  const translateY = diftClamp.interpolate({
+    inputRange: [0, 80],
+    outputRange: [0, -80],
+  });
 
   return (
-    <FlatList
-      onScrollToIndexFailed={info => {
-        const wait = new Promise(resolve => setTimeout(resolve, 500));
-        wait.then(() => {
-          ref.current?.scrollToIndex({index: info.index, animated: true});
-        });
-      }}
-      ref={ref}
-      style={Styles.container}
-      data={customBigData}
-      renderItem={({item, index}) => renderCategory(item, index)}
-      keyExtractor={(item, index) => index.toString()}
-    />
+    <View style={{flex: 1,backgroundColor:'#fff'}}>
+      <Animated.View
+        style={[
+          Styles.header,
+          {
+            transform: [{translateY}],
+            zIndex: 100,
+          },
+        ]}>
+        <Header
+          // headerText={headerText}
+          rightComponent={true}
+          leftComponent={
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}
+            >
+              <Icon name="view-grid" style={{fontSize: 18, color: '#000'}} />
+              <Text
+                style={{
+                  marginLeft: 8,
+                  fontSize: 18,
+                  fontWeight: '600',
+                  color: '#000',
+                }}
+              >{headerText}</Text>
+            </View>
+          }
+          containerStyle={{
+            backgroundColor: '#fff',
+            borderBottomWidth: 0.6,
+            borderBottomColor: '#ddd',
+            position: 'absolute',
+            paddingTop: StatusBar.currentHeight*0.8,
+            paddingBottom:-10,
+            paddingHorizontal: 16,
+            margin: 0,
+            top: 0,
+            left: 0,
+            right: 0,
+          }}
+        />
+      </Animated.View>
+      <FlatList
+        onScroll={Animated.event(
+          [{nativeEvent: {contentOffset: {y: scrollY}}}],
+          {useNativeDriver: false},
+        )}
+        onViewableItemsChanged={onViewableItemsChanged.current}
+        // onScrollToIndexFailed={info => {
+        //   const wait = new Promise(resolve => setTimeout(resolve, 500));
+        //   wait.then(() => {
+        //     ref.current?.scrollToIndex({index: info.index, animated: true});
+        //   });
+        // }}
+        contentContainerStyle={{
+          paddingHorizontal: 16,
+          paddingTop: 70,
+          paddingBottom: 60,
+        }}
+        ref={ref}
+        data={customBigData}
+        renderItem={({item, index}) => renderCategory(item, index)}
+        keyExtractor={(item, index) => index.toString()}
+      />
+    </View>
   );
 };
 
@@ -233,8 +321,6 @@ const Styles = StyleSheet.create({
   },
 
   container: {
-    flex: 1,
     backgroundColor: '#ffffff',
-    paddingHorizontal: 16,
   },
 });

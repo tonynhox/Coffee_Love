@@ -62,7 +62,9 @@ const Categories = () => {
     const {ten_loai_san_pham, san_pham} = item;
     categoryPositions.push(index);
     return (
-      <View key={ten_loai_san_pham}>
+      <View 
+        style={{marginVertical: 16, borderRadius: 10}}
+        key={ten_loai_san_pham}>
         <Text style={{color: '#000', fontWeight: '500', fontSize: 18}}>
           {ten_loai_san_pham}
         </Text>

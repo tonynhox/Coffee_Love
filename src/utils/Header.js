@@ -97,15 +97,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     // justifyContent: 'center',
-    paddingTop: StatusBar.currentHeight*0.6,
+    paddingTop: StatusBar.currentHeight*0.8,
     paddingBottom:8,
-    justifyContent:'space-between'
+    justifyContent:'space-between',
+    height: 70,
+
   },
   headerText: {
     fontSize: 22,
     fontWeight: '600',
-    margin: 10,
+    // margin: 10,
     color: '#000',
+    
   },
 });
 
