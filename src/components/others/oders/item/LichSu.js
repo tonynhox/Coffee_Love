@@ -97,7 +97,7 @@ const LichSu = () => {
         {/* Hinh anh, ten, so luong, size, dia chi */}
         <View style={styles.imageAndDescribeContainer}>
           <Image
-            source={{uri: item.san_pham[0].hinh_anh_sp}}
+            source={{uri: item.san_pham[0].hinh_anh_sp||'https://i.stack.imgur.com/y9DpT.jpg'}}
             style={styles.imageProduct}
           />
 
