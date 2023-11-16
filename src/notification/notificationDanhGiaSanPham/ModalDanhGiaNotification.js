@@ -27,8 +27,7 @@ import {Storage} from 'aws-amplify';
 import {ToastAndroid} from 'react-native';
 import {getDanhGiaRequest} from '../../redux/reducers/slices/donHangSlice';
 
-const ModalDanhGiaNotification = ({value, user}) => {
-  console.log("============================")
+const ModalDanhGiaNotification = ({value}) => {
   const dispatch = useDispatch();
 
   const dataRateStar = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5}];
@@ -146,20 +145,20 @@ const ModalDanhGiaNotification = ({value, user}) => {
   // gửi đánh giá
   const onConfirm = uploadedImageKeys => {
     const newData = {
-      id_don_hang: data.id_don_hang, //sua id don hang vao day ==========
+      id_don_hang: value.data.idDonHang, //sua id don hang vao day ==========
       so_sao: start,
       danh_gia: nhanXet,
       hinh_anh_danh_gia: uploadedImageKeys,
-      email: user.email, // sua o day
-      ten_user: user.ho_ten, // sua o day
-      hinh_anh_user: user.avatar
+      email: value.data.email, // sua o day
+      ten_user: value.data.tenUser, // sua o day
+      hinh_anh_user: value.data.avatar,
     };
     dispatch(getDanhGiaRequest(newData));
     clearAll();
   };
 
   const toggleModal = () => {
-    onCancel();
+    // setIsVisible(false);
     clearAll();
   };
 
@@ -168,6 +167,7 @@ const ModalDanhGiaNotification = ({value, user}) => {
     setNhanXet('');
     setCameraValue({isVisible: false, value: []});
     setCurrentId(-1);
+    setIsVisible(false);
   };
 
   const rateStar = ({item}) => {
@@ -271,7 +271,10 @@ const ModalDanhGiaNotification = ({value, user}) => {
 
             {/* View input text  nhan xet*/}
             <View>
-              <Text style={styles.textNhanXet}>Nhận xét của bạn</Text>
+              <Text style={styles.textNhanXet}>
+                Đơn hàng đã giao thành công, bạn hãy đánh giá giúp Coffee.Love
+                nhé
+              </Text>
               <TextInput
                 multiline
                 textAlignVertical="top"
@@ -401,6 +404,7 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     color: 'black',
     paddingBottom: 10,
+    alignSelf: 'center',
   },
   inputNhanXet: {
     borderWidth: 0.7,

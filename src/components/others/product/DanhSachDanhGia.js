@@ -137,7 +137,7 @@ const DanhSachDanhGia = ({onOpenDanhGia}) => {
         renderItem={renderChiTietDanhGia}
         keyExtractor={item => item.id}
       /> */}
-      {data.danh_gia.slice(0, 3).map(item => {
+      {[...data.danh_gia].reverse().slice(0, 3).map(item => {
         return (
           <View key={item._id}>
             <RenderChiTietDanhGia item={item} />

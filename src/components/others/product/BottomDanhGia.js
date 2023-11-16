@@ -41,10 +41,7 @@ const BottomDanhGia = ({isVisible, onClose}) => {
   const renderHinhAnhDanhGia = ({item}) => {
     return (
       <View style={{paddingRight: 7}}>
-        <Image
-          source={{uri: item.ten_hinh_anh}}
-          style={styles.imageDanhGia}
-        />
+        <Image source={{uri: item.ten_hinh_anh}} style={styles.imageDanhGia} />
       </View>
     );
   };
@@ -128,7 +125,7 @@ const BottomDanhGia = ({isVisible, onClose}) => {
           </View>
         ) : (
           <BottomSheetFlatList
-            data={data}
+            data={[...data].reverse()}
             renderItem={RenderChiTietDanhGia}
             keyExtractor={item => item._id.toString()}
           />
@@ -201,7 +198,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
-    marginVertical: 7,
+    marginVertical: 3,
     paddingVertical: 10,
     marginHorizontal: 10,
     backgroundColor: 'white',

@@ -67,7 +67,7 @@ const DanhGia = () => {
         {/* Hinh anh, ten, so luong, size, dia chi */}
         <View style={styles.imageAndDescribeContainer}>
           <Image
-            source={require('../../../../assets/images/americano.png')}
+            source={{uri: item.san_pham[0].hinh_anh_sp}}
             style={styles.imageProduct}
           />
 

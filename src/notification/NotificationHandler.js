@@ -105,7 +105,7 @@ const NotificationHandler = () => {
       ) : (
         <>
           {remoteMessage?.data?.type === 'OrderArrived' && (
-            <ModalDanhGiaNotification value={remoteMessage} user={{}} />
+            <ModalDanhGiaNotification value={remoteMessage} />
           )}
         </>
       )}

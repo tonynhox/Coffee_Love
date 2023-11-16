@@ -123,13 +123,17 @@ const donHangSlice = createSlice({
         });
 
         state.isDanhGiaLoading = false;
-        ToastAndroid.show('Đánh giá thành công', ToastAndroid.SHORT);
+        ToastAndroid.show(
+          'Cảm ơn bạn đã đánh giá sản phẩm của Coffee.Love',
+          ToastAndroid.SHORT,
+        );
       }
     },
 
     getDanhGiaFail: (state, action) => {
       console.log('THAT BAI', action.payload);
       state.isDanhGiaLoading = false;
+      ToastAndroid.show('Opps, có lỗi xảy ra rồi bạn ơi', ToastAndroid.SHORT);
     },
 
     // real-time check trang thai

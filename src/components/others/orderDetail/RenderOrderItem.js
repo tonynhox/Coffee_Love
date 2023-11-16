@@ -44,7 +44,7 @@ const RenderOrderItem = ({item, index, isSelected, onPress}) => {
         </View>
 
         <Image
-          source={require('../../../assets/images/americano.png')}
+          source={{uri: item.hinh_anh_sp}}
           style={styles.imageSanPham}
         />
 
