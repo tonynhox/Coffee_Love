@@ -7,6 +7,9 @@ import {name as appName} from './app.json';
 import messaging from '@react-native-firebase/messaging';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import PushNotification from 'react-native-push-notification';
+import {Amplify} from 'aws-amplify';
+import awsmobile from './src/aws-exports';
+Amplify.configure(awsmobile);
 
 // Register background handler
 messaging().setBackgroundMessageHandler(async remoteMessage => {

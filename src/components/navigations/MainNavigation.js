@@ -33,6 +33,7 @@ import {setIsVisibleModalCart} from '../../redux/reducers/slices/utilSlice';
 import {formatCurrency} from '../../utils/formatCurrency';
 import {getHistoryScoreFetch} from '../../redux/reducers/slices/historyScoreSlide';
 import {findNearestCoordinate, sortStore} from '../others/map4D/tinhKhoangCach';
+import {getDeviceTokenRequest} from '../../redux/reducers/slices/deviceTokenSlice';
 
 const Tab = createBottomTabNavigator();
 
@@ -57,6 +58,27 @@ const MainNavigation = () => {
       }
     }
   };
+
+  const user = useSelector(state => state.users?.user);
+  const device_token = useSelector(state => state.device_token?.deviceToken);
+
+  useEffect(() => {
+    if (
+      device_token !== user?.device_token &&
+      user?.device_token !== undefined
+    ) {
+      dispatch(
+        getDeviceTokenRequest({
+          id_user: user.id_user,
+          ho_ten: user.ho_ten,
+          avatar: user.avatar,
+          email: user.email,
+          so_dien_thoai: user.so_dien_thoai,
+          device_token: device_token,
+        }),
+      );
+    }
+  }, [user?.device_token]);
 
   useEffect(() => {
     getCurrentPosition();

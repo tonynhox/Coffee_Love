@@ -10,25 +10,41 @@ import {RenderTopping} from './RenderTopping';
 const RenderOrderItem = ({item, index, isSelected, onPress}) => {
   isTopping = item.topping.length == 0;
   return (
-    <View style={styles.container}>
+    <TouchableOpacity
+      onPress={() => onPress(!isSelected ? index : null)}
+      activeOpacity={0.9}
+      style={isSelected ? styles.selectedContainer : styles.container}>
       {/* Image va thong tin san pham */}
-      <TouchableOpacity
+      <View
         style={styles.sanPhamContainer}
-        onPress={() => onPress(!isSelected ? index : null)}
-        disabled={isTopping}>
-        <View style={{justifyContent: 'center', alignItems: 'center', width: 20}}>
+
+        // disabled={isTopping}
+      >
+        <View
+          style={{justifyContent: 'center', alignItems: 'center', width: 20}}>
           {isTopping || (
-            <Icon
-              name="circle-chevron-down"
-              solid
-              size={17}
-              color={BACKGROUND_BUTTON_COLOR}
-            />
+            <>
+              {isSelected ? (
+                <Icon
+                  name="circle-chevron-up"
+                  solid
+                  size={17}
+                  color={BACKGROUND_BUTTON_COLOR}
+                />
+              ) : (
+                <Icon
+                  name="circle-chevron-down"
+                  solid
+                  size={17}
+                  color={BACKGROUND_BUTTON_COLOR}
+                />
+              )}
+            </>
           )}
         </View>
 
         <Image
-          source={require('../../../assets/images/americano.png')}
+          source={{uri: item.hinh_anh_sp}}
           style={styles.imageSanPham}
         />
 
@@ -49,7 +65,7 @@ const RenderOrderItem = ({item, index, isSelected, onPress}) => {
           </View>
           <Text style={styles.textSize}>Size: {item.size}</Text>
         </View>
-      </TouchableOpacity>
+      </View>
 
       {/* topping */}
       {isSelected && (
@@ -68,7 +84,7 @@ const RenderOrderItem = ({item, index, isSelected, onPress}) => {
 
       {/* separate line */}
       <View style={styles.separateLine} />
-    </View>
+    </TouchableOpacity>
   );
 };
 

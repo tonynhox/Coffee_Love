@@ -1,20 +1,31 @@
 import {createSlice} from '@reduxjs/toolkit';
 
 const deviceTokenSlice = createSlice({
-  name: 'deviceToken',
+  name: 'device_token',
   initialState: {
-    deviceToken: '',
+    deviceToken: 'none',
   },
   reducers: {
-    setDeviceToken: (state, action) => {
+    setCurrentDeviceToken: (state, action) => {
       state.deviceToken = action.payload;
     },
-    clearDeviceToken: () => {
-      state.deviceToken = '';
+
+    getDeviceTokenRequest: (state, action) => {},
+    getDeviceTokenSuccess: (state, action) => {
+      console.log('NEW TOKEN DEVICE: ', action.payload);
+      state.deviceToken = action.payload;
+    },
+    getDeviceTokenFail: (action, payload) => {
+      console.log('FAIL TO SET NEW TOKEN DEVICE', action.payload);
     },
   },
 });
 
-export const {setDeviceToken, clearDeviceToken} = deviceTokenSlice.actions;
+export const {
+  setCurrentDeviceToken,
+  getDeviceTokenFail,
+  getDeviceTokenRequest,
+  getDeviceTokenSuccess,
+} = deviceTokenSlice.actions;
 
 export default deviceTokenSlice.reducer;

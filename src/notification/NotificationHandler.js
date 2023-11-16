@@ -3,26 +3,41 @@ import React, {useEffect, useState} from 'react';
 import {PermissionsAndroid} from 'react-native';
 import messaging from '@react-native-firebase/messaging';
 import {getToken} from './ultis';
-import {useDispatch} from 'react-redux';
-import {setDeviceToken} from '../redux/reducers/slices/deviceTokenSlice';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  setCurrentDeviceToken,
+  setDeviceToken,
+} from '../redux/reducers/slices/deviceTokenSlice';
 import ModalNotification from './ModalNotification';
 import OnScreenNotification from './OnScreenNotification';
+import ModalDanhGiaNotification from './notificationDanhGiaSanPham/ModalDanhGiaNotification';
 
 const NotificationHandler = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const [initialRoute, setInitialRoute] = useState('Home');
-  const [isVisible, setIsVisible] = useState({isVisible: false, value: 'none'});
+  const [type, setType] = useState(null);
+  const [remoteMessage, setRemoteMessage] = useState('');
 
   const waitingForToken = async () => {
     const token = await getToken();
-    dispatch(setDeviceToken(token));
+    dispatch(setCurrentDeviceToken(token));
   };
 
   useEffect(() => {
     const unsubscribe = messaging().onMessage(async remoteMessage => {
       console.log('A new FCM message arrived!', JSON.stringify(remoteMessage));
-      setIsVisible({isVisible: true, value: remoteMessage});
+      setRemoteMessage(remoteMessage);
+      // console.log('TYPE==============', type);
+      // if (type === 'ProductDetail' || type === 'OrderDelivering') {
+      //   console.log('RUN DELIVERING =================');
+      //   return <OnScreenNotification value={remoteMessage} />;
+      // }
+      // if (type === 'OrderArrived') {
+      //   console.log('RUN ARRIVED =================');
+
+      //   return <ModalDanhGiaNotification value={remoteMessage} user={user} />;
+      // }
       // Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
     });
 
@@ -62,24 +77,37 @@ const NotificationHandler = () => {
       });
   }, []);
 
+  useEffect(() => {
+    // Subscribe to the 'new_product' topic
+    const subscribeToTopic = async () => {
+      try {
+        await messaging().subscribeToTopic('new_product');
+        console.log('Subscribed to the new_product topic');
+      } catch (error) {
+        console.error('Error subscribing to the new_product topic', error);
+      }
+    };
+
+    subscribeToTopic();
+
+    // Rest of your code...
+  }, []);
+
   if (loading) {
     return null;
   }
 
   return (
     <>
-      {/* {isVisible.isVisible && (
-        <ModalNotification
-          value={isVisible.value}
-          onCancel={() => setIsVisible({isVisible: false, value: ''})}
-        />
-      )} */}
-      {isVisible.isVisible && (
-        <OnScreenNotification
-          isVisible={isVisible.isVisible}
-          value={isVisible.value}
-          // onCancel={() => setIsVisible({isVisible: false, value: ''})}
-        />
+      {remoteMessage?.data?.type === 'ProductDetail' ||
+      remoteMessage?.data?.type === 'OrderDelivering' ? (
+        <OnScreenNotification value={remoteMessage} />
+      ) : (
+        <>
+          {remoteMessage?.data?.type === 'OrderArrived' && (
+            <ModalDanhGiaNotification value={remoteMessage} />
+          )}
+        </>
       )}
     </>
   );

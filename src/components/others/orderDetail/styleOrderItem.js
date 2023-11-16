@@ -4,7 +4,23 @@ import {BACKGROUND_BUTTON_COLOR} from '../../../utils/contanst';
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#FFFCF9',
+    paddingHorizontal: 5,
+    marginBottom: 5,
+    borderWidth: 0.5,
+    borderColor: '#FDD2AD',
+    borderRadius: 10,
+    paddingTop: 5,
+  },
+  selectedContainer: {
+    flex: 1,
+    backgroundColor: '#FEF1E5',
+    borderRadius: 10,
+    paddingHorizontal: 5,
+    paddingTop: 10,
+    marginBottom: 5,
+    borderWidth: 0.5,
+    borderColor: '#FBC99B',
   },
   imageSanPham: {
     width: 60,

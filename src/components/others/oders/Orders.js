@@ -7,13 +7,13 @@ import LichSu from './item/LichSu';
 import DanhGia from './item/DanhGia';
 import Header from '../../../utils/Header';
 import {useDispatch, useSelector} from 'react-redux';
-import { BACKGROUND_BUTTON_COLOR } from '../../../utils/contanst';
-import { getDonHangRequest } from '../../../redux/reducers/slices/donHangSlice';
+import {BACKGROUND_BUTTON_COLOR} from '../../../utils/contanst';
+import {getDonHangRequest} from '../../../redux/reducers/slices/donHangSlice';
+import OrderLoadingPlaceholder from '../loading/OrderLoadingPlaceholder';
 
 const Tab = createMaterialTopTabNavigator();
 
 const Orders = () => {
-
   const dispatch = useDispatch();
 
   const isLoading = useSelector(state => state.don_hang.isLoading);
@@ -24,13 +24,14 @@ const Orders = () => {
       dispatch(getDonHangRequest({id_user: id_user}));
     };
     fetchDonHang();
-  }, []);
+    return () => {};
+  }, [id_user]);
 
   return (
     <>
       {isLoading ? (
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-          <ActivityIndicator size="large" color={BACKGROUND_BUTTON_COLOR} />
+          <OrderLoadingPlaceholder/>
         </View>
       ) : (
         <>

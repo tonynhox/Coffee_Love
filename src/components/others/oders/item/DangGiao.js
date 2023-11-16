@@ -46,13 +46,12 @@ const DangGiao = () => {
     dispatch(getDonHangRequest({id_user: id_user}));
   };
 
-  const [idProduct, setIdProduct] = React.useState('');
   const [isVisible, setIsVisible] = React.useState({isVisible: false, id: ''});
-  const handleShowModalHuyDon = (id) => {
+  const handleShowModalHuyDon = id => {
     setIsVisible({isVisible: !isVisible.isVisible, id: id});
   };
 
-  const handelComfirmCancel = (id_don_hang) => {
+  const handelComfirmCancel = id_don_hang => {
     setIsVisible({isVisible: !isVisible.isVisible, id: id_don_hang});
     dispatch(
       thayDoiTrangThaiDonHangRequest({
@@ -91,6 +90,21 @@ const DangGiao = () => {
     }
   };
 
+  const handleTextTrangThai = ma_trang_thai => {
+    switch (ma_trang_thai) {
+      case 0:
+        return 'Bạn có thể hủy đơn hàng vào lúc này';
+      case 1:
+        return 'Đơn hàng của bạn đang chờ xác nhận';
+      case 2:
+        return 'Đơn hàng đang được chuẩn bị';
+      case 3:
+        return 'Đơn hàng đang được giao đến bạn';
+      default:
+        return 'Đang xử lý';
+    }
+  };
+
   const DangGiaoItem = ({item, id}) => {
     // check có thể hủy đơn hàng hay không
     const isEnableCancel =
@@ -109,7 +123,7 @@ const DangGiao = () => {
         {/* Hinh anh, ten, so luong, size, dia chi */}
         <View style={styles.imageAndDescribeContainer}>
           <Image
-            source={require('../../../../assets/images/americano.png')}
+            source={{uri: item.san_pham[0].hinh_anh_sp}}
             style={styles.imageProduct}
           />
 
@@ -145,7 +159,7 @@ const DangGiao = () => {
             navigation.navigate('OrderDetail', {id_don_hang: item._id})
           }>
           <Text style={styles.textDonHangDangChoXacNhan}>
-            Đơn hàng đang chờ xác nhận{' '}
+            {handleTextTrangThai(item.ma_trang_thai)}{' '}
           </Text>
           <Icon name="angle-right" size={18} color={'#424141'} />
         </TouchableOpacity>

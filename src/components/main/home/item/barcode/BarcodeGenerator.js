@@ -7,7 +7,7 @@ import {
   Dimensions,
   StyleSheet,
 } from 'react-native';
-import {Button, Icon, Input, Dialog} from '@rneui/themed';
+// import {Button, Icon, Input, Dialog} from '@rneui/themed';
 // import styles from './../styles/Style'
 import Barcode from '@kichiyaki/react-native-barcode-generator';
 

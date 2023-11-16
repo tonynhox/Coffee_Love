@@ -32,8 +32,8 @@ const LichSu = () => {
   const data = useSelector(state => state.don_hang.dataLichSu);
   const isLoading = useSelector(state => state.don_hang.isLoading);
   const id_user = useSelector(state => state.users.user.id_user);
-  const email = useSelector(state => state.users.user.email);
-  const ho_ten = useSelector(state => state.users.user.ho_ten);
+  const user = useSelector(state => state.users.user);
+
   const isDanhGiaLoading = useSelector(
     state => state.don_hang.isDanhGiaLoading,
   );
@@ -57,16 +57,35 @@ const LichSu = () => {
     setIsVisible({isVisible: !isVisible.isVisible, id: id});
   };
   const sendRate = data => {
-    setIsVisible(!{isVisible: !isVisible.isVisible, id: ''});
     const newData = {
       id_don_hang: data.id_don_hang,
       so_sao: data.so_sao,
       danh_gia: data.danh_gia,
       hinh_anh_danh_gia: data.hinh_anh_danh_gia,
-      email: email,
-      ten_user: ho_ten,
+      email: user.email,
+      ten_user: user.ho_ten,
+      hinh_anh_user: user.avatar,
     };
     dispatch(getDanhGiaRequest(newData));
+  };
+
+  const handleMaTrangThai = ma_trang_thai => {
+    switch (ma_trang_thai) {
+      case 0:
+        return 'Đã hủy';
+      case 1:
+        return 'Đang chờ xác nhận';
+      case 2:
+        return 'Đã xác nhận';
+      case 3:
+        return 'Đang giao hàng';
+      case 4:
+        return 'Đã giao hàng';
+      case 5:
+        return 'Đã đánh giá';
+      default:
+        return 'Đang xử lý';
+    }
   };
 
   const DaGiaoItem = ({item, id}) => {
@@ -78,21 +97,20 @@ const LichSu = () => {
         {/* Hinh anh, ten, so luong, size, dia chi */}
         <View style={styles.imageAndDescribeContainer}>
           <Image
-            source={require('../../../../assets/images/americano.png')}
+            source={{uri: item.san_pham[0].hinh_anh_sp}}
             style={styles.imageProduct}
           />
 
           {/* Ten, size, dia chi */}
+          {/* Ten, size, dia chi */}
           <View style={styles.sanPhamContainer}>
             <View style={styles.tenVaSizeContainer}>
               <Text style={styles.textName}>{item.dia_chi.nguoi_nhan}</Text>
-              <Text style={styles.textLocation}>
-                SL: 1{'   '}Size: L {'  '} 113 Quang Trung{' '}
-              </Text>
+              <Text style={styles.textLocation}>{item.dia_chi.so_nha} </Text>
             </View>
             <View>
               <Text style={styles.textHoanThanh}>
-                {isCanceled ? 'Đã hủy' : 'Hoàn thành'}
+                {handleMaTrangThai(item.ma_trang_thai)}
               </Text>
             </View>
           </View>
@@ -181,7 +199,10 @@ const LichSu = () => {
               <ModalDanhGia
                 isVisible={isVisible}
                 onCancel={toggleModal}
-                sendRate={sendRate}
+                sendRate={data => {
+                  setIsVisible({isVisible: !isVisible.isVisible, id: ''});
+                  sendRate(data);
+                }}
               />
             </>
           )}

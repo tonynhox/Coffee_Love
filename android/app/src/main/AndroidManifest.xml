@@ -6,6 +6,11 @@
   <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
   <uses-permission android:name="android.permission.CAMERA" />
+  <uses-permission android:name="WRITE_EXTERNAL_STORAGE "/>
+
+  <!-- mở lên khi nào cần quay video -->
+  <!-- <uses-permission android:name="android.permission.RECORD_AUDIO" /> -->
+  
 
   <!-- optionally, if you want to record audio: -->
   <uses-permission android:name="android.permission.RECORD_AUDIO" />

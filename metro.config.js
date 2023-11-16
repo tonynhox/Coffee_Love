@@ -1,4 +1,4 @@
-const {getDefaultConfig, mergeConfig} = require('@react-native/metro-config');
+// const {getDefaultConfig, mergeConfig} = require('@react-native/metro-config');
 
 /**
  * Metro configuration
@@ -8,4 +8,54 @@ const {getDefaultConfig, mergeConfig} = require('@react-native/metro-config');
  */
 const config = {};
 
-module.exports = mergeConfig(getDefaultConfig(__dirname), config);
+// module.exports = {
+//     resolver: {
+//       blacklistRE: /#current-cloud-backend\/.*/,
+//     },
+//     transformer: {
+//       getTransformOptions: async () => ({
+//         transform: {
+//           experimentalImportSupport: false,
+//           inlineRequires: false,
+//         },
+//       }),
+//     },
+//   };
+
+// module.exports = mergeConfig(getDefaultConfig(__dirname), config);
+
+//======================
+
+// const exclusionList = require('metro-config/src/defaults/exclusionList');
+// module.exports = {
+//   resolver: {
+//     blacklistRE: exclusionList([/#current-cloud-backend\/.*/]),
+//   },
+//   transformer: {
+//     getTransformOptions: async () => ({
+//       transform: {
+//         experimentalImportSupport: false,
+//         inlineRequires: false,
+//       },
+//     }),
+//   },
+// };
+
+const { getDefaultConfig, mergeConfig } = require('@react-native/metro-config');
+
+const exclusionList = require('metro-config/src/defaults/exclusionList');
+
+module.exports = mergeConfig(getDefaultConfig(__dirname), {
+  resolver: {
+    blacklistRE: exclusionList([/#current-cloud-backend\/.*/]),
+  },
+  transformer: {
+    getTransformOptions: async () => ({
+      transform: {
+        experimentalImportSupport: false,
+        inlineRequires: false,
+      },
+    }),
+  },
+});
+

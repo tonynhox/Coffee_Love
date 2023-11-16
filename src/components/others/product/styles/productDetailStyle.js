@@ -239,6 +239,7 @@ export const styles = StyleSheet.create({
   imageSanPhamDeXuat: {
     width: 80,
     height: 80,
+    borderRadius: 10
   },
   textTenSanPhamDeXuat: {
     fontSize: 14,

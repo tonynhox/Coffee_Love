@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {NavigationContainer, useNavigation} from '@react-navigation/native';
 
 import {Text, View} from 'react-native';
 import AppNavigation from './AppNavigation';
 import Storage from '../../utils/Storage';
-import {navigationRef} from '../../../App';
+// import {navigationRef} from '../../../App';
 import {useDispatch} from 'react-redux';
 import {getCategoryFetch} from '../../redux/reducers/slices/categoriesSlice';
 import {getTopOrderFetch} from '../../redux/reducers/slices/topOrderSlice';
@@ -20,25 +19,28 @@ import { getLocationStoreFetch } from '../../redux/reducers/slices/locationMapSl
 import {getFavoriteRequest} from '../../redux/reducers/slices/favoriteSlice';
 import {getDataToppingRequest} from '../../redux/reducers/slices/toppingSlice';
 import {StatusBar} from 'react-native';
-
+import { setCurrentDeviceToken } from '../../redux/reducers/slices/deviceTokenSlice';
+import { useNavigation } from '@react-navigation/native';
 const Stack = createNativeStackNavigator();
+
 const ManHinh = () => {
+  const navigation = useNavigation();
   StatusBar.setTranslucent(true);
   StatusBar.setBackgroundColor('transparent');
   StatusBar.setBarStyle("dark-content");
   //check vao app lan dau
   const getDataUserLocal = async () => {
-    if (navigationRef.isReady()) {
+    // if (navigationRef.isReady()) {
       const data = await Storage.getItem('init');
       //nếu null thì chuyển sang user rồi lưu vô local
       //ko null thì sang main
       if (data === null) {
         Storage.setItem('init', 'true');
-        navigationRef.navigate('AppNavigation', {screen: 'UserNavigation'});
+        navigation.navigate('AppNavigation', {screen: 'UserNavigation'});
       } else {
-        navigationRef.navigate('AppNavigation', {screen: 'MainNavigation'});
+        navigation.navigate('AppNavigation', {screen: 'MainNavigation'});
       }
-    }
+    // }
   };
 
   //call api

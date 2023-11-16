@@ -20,10 +20,7 @@ const DanhSachDanhGia = ({onOpenDanhGia}) => {
   const renderHinhAnhDanhGia = ({item}) => {
     return (
       <View style={{paddingRight: 7}}>
-        <Image
-          source={require('../../../assets/images/avatar.png')}
-          style={styles.imageDanhGia}
-        />
+        <Image source={{uri: item.ten_hinh_anh}} style={styles.imageDanhGia} />
       </View>
     );
   };
@@ -68,8 +65,9 @@ const DanhSachDanhGia = ({onOpenDanhGia}) => {
       </View>
     );
   };
+
   const RenderSaoDanhGia = ({number}) => {
-    const itemsArray = Array.from({length: number}, (v, i) => i + 1);
+    const itemsArray = Array.from({length: 5}, (v, i) => i + 1);
     return (
       <>
         {itemsArray.map((item, index) => {
@@ -77,7 +75,7 @@ const DanhSachDanhGia = ({onOpenDanhGia}) => {
             <Icon
               key={index}
               name="star"
-              solid
+              solid={item <= number ? true : false}
               size={16}
               color={'#FC9702'}
               style={{paddingRight: 5, paddingLeft: 2}}
@@ -139,7 +137,7 @@ const DanhSachDanhGia = ({onOpenDanhGia}) => {
         renderItem={renderChiTietDanhGia}
         keyExtractor={item => item.id}
       /> */}
-      {data.danh_gia.slice(0, 3).map(item => {
+      {[...data.danh_gia].reverse().slice(0, 3).map(item => {
         return (
           <View key={item._id}>
             <RenderChiTietDanhGia item={item} />
@@ -203,6 +201,7 @@ const styles = StyleSheet.create({
   imageDanhGia: {
     height: 100,
     width: 100,
+    resizeMode: 'contain',
   },
   chiTietDanGiaContainer: {
     flexDirection: 'row',

@@ -12,6 +12,7 @@ import {
 } from '../../reducers/slices/donHangSlice';
 import instance from '../../../axios/instance';
 import {trang_thai_don_hang} from '../../../utils/contanst';
+import {Alert} from 'react-native';
 
 function* fetchDonHangAsync(action) {
   try {
@@ -20,6 +21,10 @@ function* fetchDonHangAsync(action) {
       instance.get,
       `api/don-hang/lay-don-hang-theo-id-user/${id_user}`,
     );
+    console.log('MESSAGE: ', response.data.message);
+    if (response.data.message == 'Token invalid') {
+      Alert.alert('Phiên đăng nhập hết hạn, vui lòng đăng nhập lại');
+    }
     yield put(getDonHangSuccess(response.data));
   } catch (error) {
     yield put(getDonHangFail(error.message));
@@ -63,6 +68,7 @@ function* fetchDanhGiaDonHangAsync(action) {
     }
     yield put(getDanhGiaSuccess(response.data));
   } catch (error) {
+    console.log('ERROR SAGA DANH GIA: ', error);
     yield put(getDanhGiaFail(error.message));
   }
 }
@@ -82,8 +88,8 @@ function* re_checkTrangThaiDonHangAsync(action) {
     return;
   }
 
-  // nếu status hiện tại là đã đặt, đang xác nhận thì check liên tục
-  // nếu == 3 (đang giao) thì dừng
+  // nếu status hiện tại là đã đặt, đang xác nhận, đang giao hàng thì check liên tục
+  // nếu == 4 (đã giao thành công) thì dừng
   while (dieu_kien_dung != dieu_kien_hien_tai) {
     try {
       const response = yield call(
@@ -93,8 +99,12 @@ function* re_checkTrangThaiDonHangAsync(action) {
       data = response.data;
       dieu_kien_hien_tai = response.data.result.ma_trang_thai;
       if (dieu_kien_hien_tai == dieu_kien_dung) {
+        console.log('BREAK');
         break;
-      } else if (dieu_kien_hien_tai == trang_thai_don_hang.dang_giao) {
+      } else if (
+        dieu_kien_hien_tai == trang_thai_don_hang.dang_giao ||
+        dieu_kien_hien_tai == trang_thai_don_hang.da_xac_nhan
+      ) {
         yield put(getChiTietDonHangSuccess(data));
       }
     } catch (error) {
@@ -105,6 +115,7 @@ function* re_checkTrangThaiDonHangAsync(action) {
     yield delay(10000);
   }
   // while đã dừng
+  console.log('STOPPPPP');
   yield put(getChiTietDonHangSuccess(data));
   yield put(addSanPhamDaGiaoVaoLichSuRealTime(data.result));
 }
