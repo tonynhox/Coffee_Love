@@ -109,26 +109,30 @@ const ProductDetail = props => {
   };
 
   const renderSanPhamDeXuat = ({item}) => {
-    return (
-      <TouchableOpacity
-        key={item._id}
-        style={styles.containerSanPhamDeXuat}
-        onPress={() => chonSanPhamDexuat(item._id)}>
-        <Image
-          style={styles.imageSanPhamDeXuat}
-          source={{uri: item.hinh_anh_sp[0].hinh_anh_sp}}
-        />
-        <Text
-          numberOfLines={2}
-          ellipsizeMode="tail"
-          style={styles.textTenSanPhamDeXuat}>
-          {item.ten_san_pham}
-        </Text>
-        <Text style={styles.textGiaTienSanPhamDeXuat}>
-          {formatCurrency(item.size[0].gia)}
-        </Text>
-      </TouchableOpacity>
-    );
+    try {
+      return (
+        <TouchableOpacity
+          key={item._id}
+          style={styles.containerSanPhamDeXuat}
+          onPress={() => chonSanPhamDexuat(item._id)}>
+          <Image
+            style={styles.imageSanPhamDeXuat}
+            source={{uri: item.hinh_anh_sp[0].hinh_anh_sp}}
+          />
+          <Text
+            numberOfLines={2}
+            ellipsizeMode="tail"
+            style={styles.textTenSanPhamDeXuat}>
+            {item.ten_san_pham}
+          </Text>
+          <Text style={styles.textGiaTienSanPhamDeXuat}>
+            {formatCurrency(item.size[0].gia)}
+          </Text>
+        </TouchableOpacity>
+      );
+    } catch (error) {
+      console.log('ERROR SAN PHAM DE XUAT: ', error);
+    }
   };
 
   return isLoading ? (
