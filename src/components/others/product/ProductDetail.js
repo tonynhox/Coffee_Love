@@ -125,7 +125,7 @@ const ProductDetail = props => {
           {item.ten_san_pham}
         </Text>
         <Text style={styles.textGiaTienSanPhamDeXuat}>
-          {formatCurrency(item.size[0].gia)}
+          {formatCurrency(item.size[0]?.gia)}
         </Text>
       </TouchableOpacity>
     );

@@ -39,11 +39,11 @@ const Menu = () => {
             <Text style={styles.txtTitle}>{ten_san_pham}</Text>
             <Text style={styles.txtCategory}>
               {' '}
-              {size[1].ten_size} ,{loai_san_pham[0].ten_loai_san_pham}{' '}
+              {size[1]?.ten_size} ,{loai_san_pham[0]?.ten_loai_san_pham}||{' '}
             </Text>
           </View>
           <View style={styles.cardItemBottom}>
-            <Text style={styles.txtTitle}>{size[1].gia}</Text>
+            <Text style={styles.txtTitle}>{size[1]?.gia}</Text>
             <TouchableOpacity
               onPress={() => {
                   dispatch(setIDSanPham(item.item._id));
