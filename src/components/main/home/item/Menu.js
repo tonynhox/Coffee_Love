@@ -31,7 +31,7 @@ const Menu = () => {
         <View style={styles.cardImg}>
           <Image
             style={styles.imgProduct}
-            source={{uri: hinh_anh_sp[0].hinh_anh_sp}}
+            source={{uri: hinh_anh_sp[0]?.hinh_anh_sp}}
           />
         </View>
         <View style={styles.cardBottom}>

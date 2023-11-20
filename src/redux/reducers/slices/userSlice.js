@@ -6,6 +6,8 @@ const initialState = {
   user: null,
   isLoading: false,
   isLogin: false,
+  notifications: [],
+  isNotificationLoading: true,
 };
 
 export const userSlice = createSlice({
@@ -119,6 +121,20 @@ export const userSlice = createSlice({
     getThemDiemFail: (state, action) => {
       state.user.tich_diem = state.user.tich_diem + 100;
     },
+
+    // notification
+    getNotificationRequest: state => {
+      state.isLoading = true;
+    },
+    getNotificationSuccess: (state, action) => {
+      state.isNotificationLoading = false;
+      state.notifications = action.payload;
+    },
+    getNotificationFail: (state, action) => {
+      state.isNotificationLoading = false;
+      state.notifications = [];
+      ToastAndroid.show('Đã xảy ra lỗi nhận thông báo!', ToastAndroid.SHORT);
+    },
   },
 });
 
@@ -143,6 +159,9 @@ export const {
   getThemDiemFail,
   getAddAddress,
   getAddAddressSuccess,
+  getNotificationFail,
+  getNotificationRequest,
+  getNotificationSuccess
 } = userSlice.actions;
 
 export default userSlice.reducer;

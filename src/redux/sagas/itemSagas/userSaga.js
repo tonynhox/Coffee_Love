@@ -9,6 +9,8 @@ import {
   changePassOtpSuccess,
   editUserSuccess,
   getAddAddressSuccess,
+  getNotificationSuccess,
+  getNotificationFail,
 } from '../../reducers/slices/userSlice';
 import instance from '../../../axios/instance';
 import Header from '../../../utils/Header';
@@ -219,7 +221,15 @@ function* EditUser(action) {
 
 function* WorkAddAddress(action) {
   try {
-    const {id_user, nguoi_nhan, address, so_dien_thoai,latitude,longitude,navigation} = action.payload;
+    const {
+      id_user,
+      nguoi_nhan,
+      address,
+      so_dien_thoai,
+      latitude,
+      longitude,
+      navigation,
+    } = action.payload;
     const payload = {
       id_user: id_user,
       ten_dia_chi: address,
@@ -248,6 +258,26 @@ function* WorkAddAddress(action) {
   }
 }
 
+function* getNotificationAsync(action) {
+  try {
+    console.log('ID USER: ', action.payload.id_user);
+    const response = yield call(() =>
+      instance.post('users/lay-thong-bao', {
+        id_user: action.payload.id_user,
+      }),
+    );
+    console.log('THONG BAO: ', response.data);
+    if (response.data.trang_thai) {
+      yield put(getNotificationSuccess(response.data.data));
+    } else {
+      yield put(getNotificationFail());
+    }
+  } catch (error) {
+    console.log('error get notification for specific account', error);
+    yield put(getNotificationFail());
+  }
+}
+
 function* userSaga() {
   yield takeLatest('users/getUserFetch', Login);
 
@@ -268,6 +298,8 @@ function* userSaga() {
 
   //addaddress
   yield takeLatest('users/getAddAddress', WorkAddAddress);
+
+  yield takeLatest('users/getNotificationRequest', getNotificationAsync);
 }
 
 export default userSaga;

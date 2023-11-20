@@ -116,7 +116,7 @@ const ProductDetail = props => {
         onPress={() => chonSanPhamDexuat(item._id)}>
         <Image
           style={styles.imageSanPhamDeXuat}
-          source={{uri: item.hinh_anh_sp[0].hinh_anh_sp}}
+          source={{uri: item.hinh_anh_sp[0]?.hinh_anh_sp}}
         />
         <Text
           numberOfLines={2}
