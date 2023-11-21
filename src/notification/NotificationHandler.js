@@ -11,12 +11,12 @@ import {
 import ModalNotification from './ModalNotification';
 import OnScreenNotification from './OnScreenNotification';
 import ModalDanhGiaNotification from './notificationDanhGiaSanPham/ModalDanhGiaNotification';
+import {getIncreaseCountNotificationByRemote} from '../redux/reducers/slices/userSlice';
 
 const NotificationHandler = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const [initialRoute, setInitialRoute] = useState('Home');
-  const [type, setType] = useState(null);
   const [remoteMessage, setRemoteMessage] = useState('');
 
   const waitingForToken = async () => {
@@ -28,6 +28,7 @@ const NotificationHandler = () => {
     const unsubscribe = messaging().onMessage(async remoteMessage => {
       console.log('A new FCM message arrived!', JSON.stringify(remoteMessage));
       setRemoteMessage(remoteMessage);
+      dispatch(getIncreaseCountNotificationByRemote());
       // console.log('TYPE==============', type);
       // if (type === 'ProductDetail' || type === 'OrderDelivering') {
       //   console.log('RUN DELIVERING =================');

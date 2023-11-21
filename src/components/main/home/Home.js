@@ -27,6 +27,7 @@ const Home = () => {
   const navigation = useNavigation();
 
   const user = useSelector(state => state.users?.user);
+  const countNotification = useSelector(state => state.users?.countNotification)
 
   const HeaderName = () => {
     return (
@@ -48,7 +49,7 @@ const Home = () => {
       <View
         style={{
           flexDirection: 'row',
-          marginTop:6
+          marginTop: 6,
         }}>
         <TouchableOpacity
           onPress={() => navigation.navigate('Search')}
@@ -63,6 +64,19 @@ const Home = () => {
             navigation.navigate('Notification');
           }}>
           <Icon name="bell-outline" style={[{fontSize: 25, color: 'black'}]} />
+          <View
+            style={{
+              position: 'absolute',
+              top: -5,
+              right: -3,
+              height: 'auto',
+              width: 'auto',
+              paddingHorizontal: 4,
+              borderRadius: 100,
+              backgroundColor: '#F66634',
+            }}>
+            <Text style={{color: 'white', fontWeight: 'bold'}}>{countNotification}</Text>
+          </View>
         </TouchableOpacity>
       </View>
     );

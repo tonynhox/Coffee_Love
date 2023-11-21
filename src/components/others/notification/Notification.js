@@ -5,33 +5,52 @@ import {
   Image,
   FlatList,
   TouchableOpacity,
-  ActivityIndicator
+  ActivityIndicator,
 } from 'react-native';
 import React, {useEffect} from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {styles} from './styles';
 import Header from '../../../utils/Header';
 import {useDispatch, useSelector} from 'react-redux';
-import { getNotificationRequest } from '../../../redux/reducers/slices/userSlice';
+import {getNotificationRequest} from '../../../redux/reducers/slices/userSlice';
 
-const Notification = () => {
+const Notification = ({navigation}) => {
   const dispatch = useDispatch();
-  const data = useSelector(state => state.users.notifications);
+  const user = useSelector(state => state.users);
   const isLoading = useSelector(state => state.users.isNotificationLoading);
 
   useEffect(() => {
     const fetchNotification = () => {
-      dispatch(getNotificationRequest({id_user: '651e8c5baa3c5378de775821'}));
+      dispatch(getNotificationRequest({id_user: user.user.id_user}));
     };
 
     fetchNotification();
   }, []);
 
+  const navigateToSpecificScreen = ({title, type, id_product}) => {
+    console.log('TITLE: ', type);
+    if (type === 'NewProduct') {
+      navigation.navigate('ProductDetail', {id: id_product});
+    }
+    if (type === 'Delivering' || type === 'Delivered') {
+      navigation.navigate('OrderDetail', {id_don_hang: id_product});
+    }
+  };
+
   const renderNotification = ({item}) => {
     const isIdOrder =
       item.type === 'NewProduct' ? item.title : `#${item.title}`;
     return (
-      <TouchableOpacity style={styles.itemContainer} activeOpacity={0.9}>
+      <TouchableOpacity
+        style={styles.itemContainer}
+        activeOpacity={0.9}
+        onPress={() =>
+          navigateToSpecificScreen({
+            title: item.title,
+            type: item.type,
+            id_product: item.id_product,
+          })
+        }>
         <View style={styles.vtit}>
           <Image source={{uri: item.image}} style={styles.imgit} />
 
@@ -62,7 +81,7 @@ const Notification = () => {
         </View>
       ) : (
         <FlatList
-          data={data}
+          data={user.notifications}
           renderItem={renderNotification}
           keyExtractor={(item, index) => index.toString()}
           // style={{flex: 1}}

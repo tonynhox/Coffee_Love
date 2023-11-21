@@ -8,6 +8,7 @@ const initialState = {
   isLogin: false,
   notifications: [],
   isNotificationLoading: true,
+  countNotification: 0,
 };
 
 export const userSlice = createSlice({
@@ -128,7 +129,16 @@ export const userSlice = createSlice({
     },
     getNotificationSuccess: (state, action) => {
       state.isNotificationLoading = false;
-      state.notifications = action.payload;
+      state.notifications = [...action.payload].reverse();
+      state.countNotification = 0;
+      action.payload.map(item => {
+        if (!item.isRead) {
+          state.countNotification = state.countNotification + 1;
+        }
+      });
+    },
+    getIncreaseCountNotificationByRemote: (state, action) => {
+      state.countNotification = state.countNotification + 1;
     },
     getNotificationFail: (state, action) => {
       state.isNotificationLoading = false;
@@ -161,7 +171,8 @@ export const {
   getAddAddressSuccess,
   getNotificationFail,
   getNotificationRequest,
-  getNotificationSuccess
+  getNotificationSuccess,
+  getIncreaseCountNotificationByRemote,
 } = userSlice.actions;
 
 export default userSlice.reducer;

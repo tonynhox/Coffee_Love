@@ -266,7 +266,6 @@ function* getNotificationAsync(action) {
         id_user: action.payload.id_user,
       }),
     );
-    console.log('THONG BAO: ', response.data);
     if (response.data.trang_thai) {
       yield put(getNotificationSuccess(response.data.data));
     } else {
