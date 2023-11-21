@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   TextInput,
   Alert,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useState} from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -16,10 +17,12 @@ import Header from '../../../utils/Header';
 import Icon6 from 'react-native-vector-icons/FontAwesome6';
 import LinearGradient from 'react-native-linear-gradient';
 import {useSelector} from 'react-redux';
+import {formatCurrency} from '../../../utils/formatCurrency';
 
 const SearchSuccess = () => {
   const navigation = useNavigation();
   const data = useSelector(state => state.searchs.search);
+  const isLoading = useSelector(state => state.searchs.isLoading);
 
   const showAlert = () => {
     Alert.alert(
@@ -38,9 +41,7 @@ const SearchSuccess = () => {
   const renderItem = ({item}) => {
     return (
       <TouchableOpacity
-        onPress={() =>
-          navigation.navigate('ProductDetail', {id: item.item._id})
-        }
+        onPress={() => navigation.navigate('ProductDetail', {id: item._id})}
         style={styles.cardProduct}>
         <View style={styles.cardImg}>
           <Image
@@ -50,14 +51,17 @@ const SearchSuccess = () => {
         </View>
         <View style={styles.cardBottom}>
           <View style={styles.CardItemMid}>
-            <Text style={styles.txtTitle}>{item.ten_san_pham}</Text>
+            <Text style={styles.txtTitle} numberOfLines={1} ellipsizeMode='tail'>{item.ten_san_pham}</Text>
             <Text style={styles.txtCategory}>
               {' '}
-              {item.size[1].ten_size} ,{item.loai_san_pham[0].ten_loai_san_pham}{' '}
+              {item.size[1]?.ten_size} ,
+              {item.loai_san_pham[0]?.ten_loai_san_pham}{' '}
             </Text>
           </View>
           <View style={styles.cardItemBottom}>
-            <Text style={styles.txtTitle}>{item.size[1].gia}</Text>
+            <Text style={styles.txtTitle}>
+              {item.size[1] && formatCurrency(item.size[1]?.gia)}
+            </Text>
             <TouchableOpacity
               style={{
                 borderRadius: 100,
@@ -71,50 +75,61 @@ const SearchSuccess = () => {
       </TouchableOpacity>
     );
   };
-  
-  
-  return data.length == '' ? (
-    showAlert()
-  ) : (
-    <>
-      <LinearGradient
-        colors={['#CC9F68', '#CC9F68']}
-        style={styles.findAndArrowBackContainer}>
-        <TouchableOpacity
-          style={styles.arrowBack}
-          onPress={() => navigation.navigate('Search')}>
-          <Icon6 name={'arrow-left'} size={20} color="black" />
-        </TouchableOpacity>
-        <View style={styles.inputContainer}>
-          <TextInput
-            placeholderTextColor={'#CC9F68'}
-            style={styles.input}
-            color={'black'}
-            placeholder="Tìm kiếm..."
-            // value={search}
-            // onChangeText={text => handleSearch(text)}
-          />
 
-          {/* Find */}
-          <TouchableOpacity>
-            <Icon6
-              name={'magnifying-glass'}
-              size={20}
-              color="#CC9F68"
-              style={styles.icon}
-            />
-          </TouchableOpacity>
+  return (
+    <>
+      {isLoading ? (
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <ActivityIndicator size="large" color="red" />
         </View>
-      </LinearGradient>
-      <View style={styles.container}>
-        <FlatList
-          data={data}
-          columnWrapperStyle={{justifyContent: 'space-between'}}
-          numColumns={2}
-          renderItem={renderItem}
-          keyExtractor={item => item.id}
-        />
-      </View>
+      ) : (
+        <>
+          {data.length == 0 ? (
+            showAlert()
+          ) : (
+            <>
+              <LinearGradient
+                colors={['#CC9F68', '#CC9F68']}
+                style={styles.findAndArrowBackContainer}>
+                <TouchableOpacity
+                  style={styles.arrowBack}
+                  onPress={() => navigation.navigate('Search')}>
+                  <Icon6 name={'arrow-left'} size={20} color="black" />
+                </TouchableOpacity>
+                <View style={styles.inputContainer}>
+                  <TextInput
+                    placeholderTextColor={'#CC9F68'}
+                    style={styles.input}
+                    color={'black'}
+                    placeholder="Tìm kiếm..."
+                    // value={search}
+                    // onChangeText={text => handleSearch(text)}
+                  />
+
+                  {/* Find */}
+                  <TouchableOpacity>
+                    <Icon6
+                      name={'magnifying-glass'}
+                      size={20}
+                      color="#CC9F68"
+                      style={styles.icon}
+                    />
+                  </TouchableOpacity>
+                </View>
+              </LinearGradient>
+              <View style={styles.container}>
+                <FlatList
+                  data={data}
+                  columnWrapperStyle={{justifyContent: 'space-between'}}
+                  numColumns={2}
+                  renderItem={renderItem}
+                  keyExtractor={item => item._id}
+                />
+              </View>
+            </>
+          )}
+        </>
+      )}
     </>
   );
 };

@@ -9,12 +9,12 @@ import {useSelector} from 'react-redux';
 function* Search(action) {
   try {
     const {item, navigation} = action.payload;
-    
+    console.log("ITEM SEARCH SAGA: ", item)
     const response = yield call(() =>
       instance.get(`api/san-pham/tim-kiem-san-pham/${item}`),
     );
     if (response.data.success) {
-      navigation.navigate('SearchSuccess', {ten_san_pham: item});
+      // navigation.navigate('SearchSuccess', {ten_san_pham: item});
       yield put(getSearchSuccess(response.data));
     } else {
       yield put(getSearchFail(response.data.message));

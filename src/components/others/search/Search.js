@@ -26,6 +26,7 @@ import {getSearchFetch} from '../../../redux/reducers/slices/searchSlice';
 
 const Search = () => {
   const navigation = useNavigation();
+  const allProducts = useSelector(state => state.products.data);
 
   useEffect(() => {
     getValues();
@@ -97,21 +98,21 @@ const Search = () => {
   ];
 
   const [search, setSearch] = React.useState('');
-  const [filteredData, setFilteredData] = React.useState(dataTimKiem);
+  const [filteredData, setFilteredData] = React.useState(allProducts);
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const dispatch = useDispatch();
 
-  const handleChonSanPham = item => {
-    if (item?.item?.text === undefined) {
-      saveValueToStorage(KEY_SEARCH_HISTORY, item);
-      setSearch(item);
-    } else {
-      saveValueToStorage(KEY_SEARCH_HISTORY, item.item.text);
-      setSearch(item.item.text);
-    }
-    dispatch(getSearchFetch({item, navigation}));
-    // console.log('text: ', item);
-    // navigation.navigate('SearchSuccess', {ten_san_pham: item.ten_san_pham})
+  const handleChonSanPham = ({item}) => {
+    saveValueToStorage(KEY_SEARCH_HISTORY, {item: item});
+    setSearch(item);
+
+    const normalizedSearchTerm = item
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '') // Remove diacritics
+      .replace(/\s+/g, ''); // Remove spaces
+
+    dispatch(getSearchFetch({normalizedSearchTerm, navigation}));
+    navigation.navigate('SearchSuccess', {ten_san_pham: item});
   };
 
   const handleTextInputFocused = () => {
@@ -181,7 +182,7 @@ const Search = () => {
     return (
       <TouchableOpacity
         style={styles.timKiemGanDayContainer}
-        onPress={() => handleChonSanPham(item)}>
+        onPress={() => handleChonSanPham({item: item})}>
         <Icon name={'clock-rotate-left'} size={18} color="gray" />
         <Text style={styles.textLichSuTimKiem}>{item}</Text>
       </TouchableOpacity>
@@ -189,7 +190,6 @@ const Search = () => {
   };
 
   const renderTimKiem = ({item}) => {
-    console.log('ITEM TIM KIEM: ', item);
     // nếu search rỗng thì hàm tìm kiếm (handleSearch) vẫn chưa chạy
     // lúc này item.text chính là name vì giá trị của mảng hint từ component cha truyền vào
     // chỉ có field là một object giống như này:
@@ -199,25 +199,14 @@ const Search = () => {
     // nếu search có giá trị (khác rỗng) thì hàm tìm kiếm (handleSearch) đã chạy
     // lúc này mảng đã đổi field, item bây giờ bao gồm 2 field item và refIndex
     // goi item.item de lay gia tri name
-    let name;
-    if (search == '') {
-      console.log('Search rong');
-      name = item.text;
-    } else {
-      console.log('Search ko rong');
 
-      name = item?.item?.text;
-      if (name == undefined) {
-        name = item.text;
-      }
-    }
-    // console.log("item s>> ", item);
-    console.log('NAME: ', name);
+    const name = item.ten_san_pham;
+
     return (
       <TouchableOpacity
         style={styles.timKiemContainer}
         onPress={() => {
-          handleChonSanPham(name);
+          handleChonSanPham({item: name});
         }}>
         <Icon name={'magnifying-glass'} size={18} color="gray" />
         <Text style={styles.textLichSuTimKiem}>{name}</Text>
@@ -226,22 +215,27 @@ const Search = () => {
   };
 
   const options = {
-    keys: ['text', 'category'],
-    threshold: 0.3, // adjust this value to control the fuzziness of the search
+    keys: ['ten_san_pham', 'loai_san_pham.ten_loai_san_pham', 'mo_ta'],
+    threshold: 0.2, // Adjust the threshold based on your desired level of matching
   };
 
   const handleSearch = textSearch => {
     if (textSearch == '') {
       setSearch(textSearch);
-      setFilteredData(dataTimKiem);
+      setFilteredData(allProducts);
       return;
     }
-    setSearch(textSearch);
-    const fuse = new Fuse(dataTimKiem, options);
-    const filteredItems = fuse.search(textSearch);
-    console.log('filteredItems', filteredItems);
+    const normalizedSearchTerm = textSearch
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '') // Remove diacritics
+      .replace(/\s+/g, ''); // Remove spaces
 
-    setFilteredData(filteredItems);
+    setSearch(textSearch);
+    const fuse = new Fuse(allProducts, options);
+    const filteredItems = fuse.search(normalizedSearchTerm);
+    const searchItems = filteredItems.map(item => item.item);
+
+    setFilteredData(searchItems);
   };
 
   return (
@@ -269,7 +263,7 @@ const Search = () => {
           />
 
           {/* Find */}
-          <TouchableOpacity onPress={() => handleChonSanPham(search)}>
+          <TouchableOpacity onPress={() => handleChonSanPham({item: search})}>
             <Icon
               name={'magnifying-glass'}
               size={20}
@@ -285,7 +279,7 @@ const Search = () => {
         <FlatList
           data={filteredData}
           renderItem={renderTimKiem}
-          keyExtractor={(item, index) => index.toString()}
+          keyExtractor={(item, index) => item._id.toString()}
         />
       ) : (
         <View>
@@ -298,7 +292,11 @@ const Search = () => {
               keyExtractor={item => item.id.toString()}
             /> */}
               {dataFromStorage.map((item, index) => {
-                return <View key={index}>{renderLichSuTimKiem({item})}</View>;
+                return (
+                  <View key={index}>
+                    {renderLichSuTimKiem({item: item.item})}
+                  </View>
+                );
               })}
             </View>
           )}

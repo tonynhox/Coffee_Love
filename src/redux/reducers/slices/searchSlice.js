@@ -4,7 +4,7 @@ import Storage from '../../../utils/Storage';
 //state
 const initialState = {
   search: [],
-  isLoading: false,
+  isLoading: true,
 };
 
 export const searchSlice = createSlice({
