@@ -47,11 +47,20 @@ function* fetchChiTietDonHangAsync(action) {
 function* fetchThayDoiTrangThaiDonHangAsync(action) {
   try {
     const {id_don_hang, ma_trang_thai} = action.payload;
+    console.log('ID DON HANG: ', id_don_hang, 'MA TRANG THAI: ', ma_trang_thai);
+    // const response = yield call(
+    //   instance.post,
+    //   'api/don-hang/cap-nhat-trang-thai',
+    //   {id_don_hang: id_don_hang, ma_trang_thai: ma_trang_thai},
+    // );
     const response = yield call(
-      instance.post,
-      `api/don-hang/cap-nhat-trang-thai`,
+      () => instance.post,
+      'api/don-hang/cap-nhat-trang-thai',
       {id_don_hang: id_don_hang, ma_trang_thai: ma_trang_thai},
     );
+    if (response.data.result == false) {
+      yield put(getThayDoiFail(response.message));
+    }
     yield put(getThayDoiSuccess(response.data));
   } catch (error) {
     yield put(getThayDoiFail(error.message));

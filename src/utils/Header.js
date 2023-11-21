@@ -2,8 +2,11 @@ import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {StyleSheet, Text, View, TouchableOpacity, StatusBar} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useSelector } from 'react-redux';
 
 const Header = props => {
+  const countNotification = useSelector(state => state.users?.countNotification)
+
   const navigation = useNavigation();
   const {
     headerText,
@@ -71,6 +74,20 @@ const Header = props => {
             name="bell-outline"
             style={[styleIconhdRight, {fontSize: 25, color: 'black'}]}
           />
+                    <View
+            style={{
+              position: 'absolute',
+              top: -7,
+              right: -9,
+              height: 'auto',
+              width: 'auto',
+              paddingHorizontal: 4,
+              paddingVertical:2,
+              borderRadius: 70,
+              backgroundColor: '#F66634',
+            }}>
+            <Text style={{color: 'white', fontWeight: 'bold',fontSize:10}}>{countNotification}</Text>
+          </View>
         </TouchableOpacity>
       );
     }

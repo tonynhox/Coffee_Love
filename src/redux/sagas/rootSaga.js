@@ -25,7 +25,6 @@ export default function* rootSaga() {
     chiTietSanPhamSaga(),
     topOrderSaga(),
     productSaga(),
-    chiTietDonHangSaga(),
     donHangSaga(),
     chiTietDonHangSaga(),
     locationMapSaga(),

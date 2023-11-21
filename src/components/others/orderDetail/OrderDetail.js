@@ -209,7 +209,7 @@ const OrderDetail = () => {
                     style={{paddingHorizontal: 5}}
                   />
                   <Text style={[styles.textThongTin]}>
-                    Người nhận: {data.dia_chi.nguoi_nhan}
+                    Người nhận: {data?.dia_chi?.nguoi_nhan}
                   </Text>
                 </View>
 

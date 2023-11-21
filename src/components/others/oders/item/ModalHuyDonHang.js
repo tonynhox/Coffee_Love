@@ -4,7 +4,7 @@ import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/FontAwesome6';
 import { modal_color_don_hang } from '../../../../utils/contanst';
 
-const ModalHuyDonHang = ({idProduct, isVisible, toggleModal, onConfirm}) => {
+const ModalHuyDonHang = ({isVisible, toggleModal, onConfirm}) => {
  
   const confirmCancel = () => {
     onConfirm(isVisible.id);

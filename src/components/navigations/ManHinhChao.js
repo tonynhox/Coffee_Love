@@ -11,6 +11,7 @@ import {getTopOrderFetch} from '../../redux/reducers/slices/topOrderSlice';
 import {getProductAllFetch} from '../../redux/reducers/slices/productSlice';
 import {
   LoginSuccess,
+  getNotificationRequest,
   getOneUserFetch,
 } from '../../redux/reducers/slices/userSlice';
 import {getVoucherFetch} from '../../redux/reducers/slices/voucherSlide';
@@ -68,6 +69,8 @@ const ManHinh = () => {
       // dispatch(getVoucherFetch({id_user:user}));
       // dispatch(getScoreFetch());
       dispatch(getFavoriteRequest({id_user: user}));
+      dispatch(getNotificationRequest({id_user: user}));
+
     }
   };
 

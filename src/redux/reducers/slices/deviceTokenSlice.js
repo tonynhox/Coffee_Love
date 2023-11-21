@@ -7,10 +7,13 @@ const deviceTokenSlice = createSlice({
   },
   reducers: {
     setCurrentDeviceToken: (state, action) => {
+      console.log("SET CURRENT TOKE: ", action.payload)
       state.deviceToken = action.payload;
     },
 
-    getDeviceTokenRequest: (state, action) => {},
+    getDeviceTokenRequest: (state, action) => {
+      console.log("DEVICE REQUEST")
+    },
     getDeviceTokenSuccess: (state, action) => {
       console.log('NEW TOKEN DEVICE: ', action.payload);
       state.deviceToken = action.payload;
