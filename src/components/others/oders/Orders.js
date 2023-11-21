@@ -37,7 +37,7 @@ const Orders = () => {
         <>
           <View style={{width: '100%'}}>
             <Header
-              containerStyle={{backgroundColor: '#fff', height: 50}}
+              containerStyle={{backgroundColor: '#fff',height:70}}
               rightComponent={true}
               headerText="Chi tiết đơn mua"
             />

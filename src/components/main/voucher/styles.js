@@ -7,12 +7,13 @@ export const styles = StyleSheet.create({
     height: 30,
     justifyContent: 'center',
     textAlign: 'center',
-    borderRadius: 10,
-    backgroundColor: '#FAFAD2',
-    color: '#FF4500',
-    fontSize: 15,
+    borderRadius: 16,
+    backgroundColor: '#fff5de',
+    color: '#e58500',
+    fontSize: 14,
     paddingVertical: 4,
-    fontWeight: '400',
+    fontWeight: '500',
+    marginRight:-10
   },
   fistCard: {
     // height: 330,
