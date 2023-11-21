@@ -19,7 +19,6 @@ import {formatCurrency} from '../formatCurrency';
 const {height} = Dimensions.get('window');
 const ModalCartOrder = () => {
   // const {isVisible, setIsVisible} = props;
-
   //test
   const componentBRef = useRef(null);
   //end

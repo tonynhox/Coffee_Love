@@ -18,11 +18,13 @@ import {
   setOpenBottomSheet,
 } from '../../../redux/reducers/slices/utilSlice';
 import Header from '../../../utils/Header';
+import ModalAllCategories from './ModalAllCategories';
 
 const CategoriesText = ({openBottomMuaHang}) => {
+  const [isVisible, setIsVisible] = useState(false); // Sử dụng hàm setIsVisible để đóng modal
   const dispatch = useDispatch();
   const bigData = useSelector(state => state.categories.data);
-
+  const user = useSelector(state => state.users.user?.id_user);
   useEffect(() => {
     StatusBar.setBarStyle('dark-content');
   }, []);
@@ -67,7 +69,9 @@ const CategoriesText = ({openBottomMuaHang}) => {
 
     if (index === 7 || ten_loai_san_pham === 'Xem Them') {
       return (
-        <TouchableOpacity style={Styles.card}>
+        <TouchableOpacity 
+          onPress={() => setIsVisible(true)}
+          style={Styles.card}>
           <View
             style={[
               Styles.imgCard,
@@ -167,8 +171,12 @@ const CategoriesText = ({openBottomMuaHang}) => {
         <TouchableOpacity
           onPress={
             () => {
-              dispatch(setIDSanPham(item._id));
-              dispatch(setOpenBottomSheet(true));
+              if(user) {
+                dispatch(setIDSanPham(item._id));
+                dispatch(setOpenBottomSheet(true));
+              } else {
+                navigation.navigate('UserNavigation', {screen: 'Login'});
+              }
             }
             // openBottomMuaHang({id: item._id})
           }
@@ -177,7 +185,7 @@ const CategoriesText = ({openBottomMuaHang}) => {
             bottom: 0,
             right: 0,
             borderRadius: 100,
-            backgroundColor: '#C67C4E',
+            backgroundColor: '#df7a00',
             padding: 5,
           }}>
           <Icon name="plus" style={{fontSize: 26, color: '#fff'}} />
@@ -269,12 +277,7 @@ const CategoriesText = ({openBottomMuaHang}) => {
           {useNativeDriver: false},
         )}
         onViewableItemsChanged={onViewableItemsChanged.current}
-        // onScrollToIndexFailed={info => {
-        //   const wait = new Promise(resolve => setTimeout(resolve, 500));
-        //   wait.then(() => {
-        //     ref.current?.scrollToIndex({index: info.index, animated: true});
-        //   });
-        // }}
+
         contentContainerStyle={{
           paddingHorizontal: 16,
           paddingTop: 70,
@@ -284,6 +287,12 @@ const CategoriesText = ({openBottomMuaHang}) => {
         data={customBigData}
         renderItem={({item, index}) => renderCategory(item, index)}
         keyExtractor={(item, index) => index.toString()}
+      />
+      <ModalAllCategories 
+        data={bigData}
+        isVisible={isVisible}
+        setIndex={setIndex}
+        setIsVisible={setIsVisible}
       />
     </View>
   );

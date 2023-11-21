@@ -75,7 +75,7 @@ const ProductDetail = props => {
 
   const handleLike = () => {
     if (!user || user.id_user == '') {
-      ToastAndroid.show('Bạn cần đăng nhập để yêu thích', 1000);
+      navigation.navigate('UserNavigation', {screen: 'Login'});
       return;
     }
 
@@ -116,7 +116,7 @@ const ProductDetail = props => {
         onPress={() => chonSanPhamDexuat(item._id)}>
         <Image
           style={styles.imageSanPhamDeXuat}
-          source={{uri: item.hinh_anh_sp[0].hinh_anh_sp}}
+          source={{uri: item?.hinh_anh_sp[0]?.hinh_anh_sp}}
         />
         <Text
           numberOfLines={2}
@@ -172,7 +172,7 @@ const ProductDetail = props => {
                   return (
                     <Image
                       key={index}
-                      source={{uri: item.hinh_anh_sp}}
+                      source={{uri: item?.hinh_anh_sp}}
                       style={styles.imageSanPham}
                     />
                   );
@@ -276,7 +276,13 @@ const ProductDetail = props => {
                   {/* <Icon name="heart" size={30} color={'#FC9702'} /> */}
                   <TouchableOpacity
                     style={styles.buttonMuaSanPham}
-                    onPress={() => setIsOpen(true)}>
+                    onPress={() => {
+                      if(user?.id_user)
+                        setIsOpen(true)
+                      else
+                        navigation.navigate('UserNavigation', {screen: 'Login'});
+                      
+                      }}>
                     <Text style={styles.textMua}>Mua</Text>
                     <Icon name="cart-shopping" size={15} color={'white'} />
                   </TouchableOpacity>

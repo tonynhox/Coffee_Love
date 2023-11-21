@@ -12,11 +12,11 @@ const TopOrder = () => {
   const navigation = useNavigation();
   const data = useSelector(state => state.topOrders.data);
   const isLoading = useSelector(state => state.topOrders.isLoading);
-  return isLoading ? (
+  return isLoading&&data ? (
     <Text>Loading...</Text>
   ) : (
     <Swiper style={{height: 140}} showsPagination={false} autoplay={true}>
-      {data.map((item, index) => {
+      {data?.map((item, index) => {
         return (
           <TouchableOpacity
             key={index}
@@ -33,7 +33,7 @@ const TopOrder = () => {
                 <Text style={{color: '#000', fontWeight: '500', fontSize: 14}}>
                   {' '}
                   {/* { item.tong_sao} */}
-                  {lamTronSo(item.tong_sao)}
+                  {lamTronSo(item?.tong_sao)}
                 </Text>
               </View>
               <Text style={{color: '#000', fontWeight: '500', fontSize: 16}}>
@@ -42,7 +42,7 @@ const TopOrder = () => {
               <Text 
               numberOfLines={2}
                 style={{ color: '#000', fontWeight: '600', fontSize: 18}}>
-                {item.ten_san_pham}
+                {item?.ten_san_pham}
               </Text>
               <View style={[styles.rows, {}]}>
                 <Text style={{color: '#F5A646', fontWeight: '500'}}>
@@ -53,7 +53,7 @@ const TopOrder = () => {
             </View>
             <Image
               style={styles.img}
-              source={{uri: item.hinh_anh_sp[0].hinh_anh_sp}}
+              source={{uri: item?.hinh_anh_sp[0]?.hinh_anh_sp}}
             />
           </TouchableOpacity>
         );
