@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useSelector } from 'react-redux';
 
 const Header = props => {
+
   const navigation = useNavigation();
   const {
     headerText,
@@ -75,19 +76,19 @@ const Header = props => {
             name="bell-outline"
             style={[styleIconhdRight, {fontSize: 25, color: 'black'}]}
           />
-
-<View
+                    <View
             style={{
               position: 'absolute',
-              top: -5,
-              right: -3,
+              top: -7,
+              right: -9,
               height: 'auto',
               width: 'auto',
               paddingHorizontal: 4,
-              borderRadius: 100,
+              paddingVertical:2,
+              borderRadius: 70,
               backgroundColor: '#F66634',
             }}>
-            <Text style={{color: 'white', fontWeight: 'bold'}}>{countNotification}</Text>
+            <Text style={{color: 'white', fontWeight: 'bold',fontSize:10}}>{countNotification}</Text>
           </View>
         </TouchableOpacity>
       );

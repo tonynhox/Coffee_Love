@@ -5,20 +5,23 @@ import {
   Image,
   FlatList,
   TouchableOpacity,
-  ToastAndroid
+  ToastAndroid,
 } from 'react-native';
 import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {styles} from '../styles';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
-import { setIDSanPham, setOpenBottomSheet } from '../../../../redux/reducers/slices/utilSlice';
+import {
+  setIDSanPham,
+  setOpenBottomSheet,
+} from '../../../../redux/reducers/slices/utilSlice';
 const Menu = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const data = useSelector(state => state.products.data);
   const isLoading = useSelector(state => state.products.isLoading);
-
+  const user = useSelector(state => state.users.user?.id_user);
   const renderItem = item => {
     const {ten_san_pham, size, hinh_anh_sp, loai_san_pham} = item.item;
 
@@ -39,15 +42,19 @@ const Menu = () => {
             <Text style={styles.txtTitle}>{ten_san_pham}</Text>
             <Text style={styles.txtCategory}>
               {' '}
-              {size[1]?.ten_size} ,{loai_san_pham[0]?.ten_loai_san_pham}||{' '}
+              {size[1]?.ten_size} ,{loai_san_pham[0]?.ten_loai_san_pham}{' '}
             </Text>
           </View>
           <View style={styles.cardItemBottom}>
             <Text style={styles.txtTitle}>{size[1]?.gia}</Text>
             <TouchableOpacity
               onPress={() => {
+                if (user) {
                   dispatch(setIDSanPham(item.item._id));
                   dispatch(setOpenBottomSheet(true));
+                } else {
+                  navigation.navigate('UserNavigation', {screen: 'Login'});
+                }
               }}
               style={{
                 borderRadius: 100,
@@ -61,7 +68,7 @@ const Menu = () => {
       </TouchableOpacity>
     );
   };
-//aaaaaaaaaaaaaaaaaaa
+  //aaaaaaaaaaaaaaaaaaa
   return isLoading ? (
     <Text>Loading...</Text>
   ) : (
@@ -72,7 +79,7 @@ const Menu = () => {
       </Text>
       <FlatList
         data={data}
-        columnWrapperStyle={{justifyContent: 'space-between',flex:1}}
+        columnWrapperStyle={{justifyContent: 'space-between', flex: 1}}
         numColumns={2}
         renderItem={renderItem}
         keyExtractor={item => item._id.toString()}
