@@ -15,12 +15,14 @@ import Header from '../../../utils/Header';
 import {useDispatch, useSelector} from 'react-redux';
 import {appReducer} from '../../../redux/reducers/rootReducer';
 import Storage from '../../../utils/Storage';
-import {LoginSuccess} from '../../../redux/reducers/slices/userSlice';
+import {LoginSuccess, clearNotificationCounter} from '../../../redux/reducers/slices/userSlice';
 import {clearFavorite} from '../../../redux/reducers/slices/favoriteSlice';
 import {
   getDeleteCartSuccess,
   setDataPayment,
 } from '../../../redux/reducers/slices/cartPaymentSlice';
+import { KEY_SEARCH_HISTORY } from '../../../utils/contanst';
+import { getDeviceTokenRequest } from '../../../redux/reducers/slices/deviceTokenSlice';
 
 const Profile = ({navigation}) => {
   const dispatch = useDispatch();
@@ -177,8 +179,20 @@ const Profile = ({navigation}) => {
                       dispatch(LoginSuccess(''));
                       dispatch(clearFavorite());
                       dispatch(getDeleteCartSuccess());
+                      dispatch(
+                        getDeviceTokenRequest({
+                          id_user: user.id_user,
+                          ho_ten: user.ho_ten,
+                          avatar: user.avatar,
+                          email: user.email,
+                          so_dien_thoai: user.so_dien_thoai,
+                          device_token: '',
+                        }),
+                      );
+                      dispatch(clearNotificationCounter())
                       Storage.removeToken();
                       Storage.removeItem('id_user');
+                      Storage.removeItem(KEY_SEARCH_HISTORY)
                     },
                   },
                 ]);

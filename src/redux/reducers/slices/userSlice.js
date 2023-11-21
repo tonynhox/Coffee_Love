@@ -140,6 +140,9 @@ export const userSlice = createSlice({
     getIncreaseCountNotificationByRemote: (state, action) => {
       state.countNotification = state.countNotification + 1;
     },
+    clearNotificationCounter: state => {
+      state.countNotification = 0;
+    },
     getNotificationFail: (state, action) => {
       state.isNotificationLoading = false;
       state.notifications = [];
@@ -173,6 +176,7 @@ export const {
   getNotificationRequest,
   getNotificationSuccess,
   getIncreaseCountNotificationByRemote,
+  clearNotificationCounter
 } = userSlice.actions;
 
 export default userSlice.reducer;
