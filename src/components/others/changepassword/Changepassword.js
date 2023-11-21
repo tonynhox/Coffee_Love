@@ -5,6 +5,7 @@ import {styles} from './styles';
 import {useDispatch, useSelector} from 'react-redux';
 import {changePass} from '../../../redux/reducers/slices/userSlice';
 import {useNavigation} from '@react-navigation/native';
+import Header from '../../../utils/Header';
 
 const Changepassword = () => {
   const navigation = useNavigation();
@@ -19,7 +20,9 @@ const Changepassword = () => {
 
   const handleChagePass = () => {
     if (Object.is(mat_khau_moi, pass)) {
-      dispatch(changePass({id_user: id, mat_khau_cu, mat_khau_moi, navigation}));
+      dispatch(
+        changePass({id_user: id, mat_khau_cu, mat_khau_moi, navigation}),
+      );
     }
   };
   return (
@@ -29,6 +32,13 @@ const Changepassword = () => {
                 <Text style={styles.thd}>Đổi Mật Khẩu </Text>
                 <View></View>
             </View> */}
+      <Header 
+        headerText="Đổi Mật Khẩu" 
+        rightComponent={true} 
+        containerStyle={{backgroundColor: '#fff',margin:-24,
+      borderBottomWidth:0.6,borderBottomColor:'gray'
+    }}
+       />
 
       <View>
         <Text style={styles.t1}>Mật Hiện Tại </Text>
