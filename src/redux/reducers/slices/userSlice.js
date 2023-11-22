@@ -148,6 +148,23 @@ export const userSlice = createSlice({
       state.notifications = [];
       ToastAndroid.show('Đã xảy ra lỗi nhận thông báo!', ToastAndroid.SHORT);
     },
+    getChangeStatusReadNotification: (state, action) => {
+      // const updatedNotifications = state.notifications.map(item => {
+      //   if (item._id === action.payload._id) {
+      //     return {
+      //       ...item,
+      //       isRead: true,
+      //     };
+      //   }
+      //   return item;
+      // });
+
+      // state.notifications = updatedNotifications;
+      // console.log('updatedNotifications', updatedNotifications);
+      // if (state.countNotification > 0) {
+      //   state.countNotification = state.countNotification - 1;
+      // }
+    },
   },
 });
 
@@ -176,7 +193,8 @@ export const {
   getNotificationRequest,
   getNotificationSuccess,
   getIncreaseCountNotificationByRemote,
-  clearNotificationCounter
+  clearNotificationCounter,
+  getChangeStatusReadNotification,
 } = userSlice.actions;
 
 export default userSlice.reducer;

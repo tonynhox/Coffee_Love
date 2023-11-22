@@ -91,13 +91,18 @@ const LichSu = () => {
   const DaGiaoItem = ({item, id}) => {
     // check đã hủy hàng hay chưa
     const isCanceled = item.ma_trang_thai == trang_thai_don_hang.da_huy;
+    const isDanhGia = item.ma_trang_thai == trang_thai_don_hang.da_danh_gia;
 
     return (
       <View style={styles.itemContainer}>
         {/* Hinh anh, ten, so luong, size, dia chi */}
         <View style={styles.imageAndDescribeContainer}>
           <Image
-            source={{uri: item.san_pham[0].hinh_anh_sp||'https://i.stack.imgur.com/y9DpT.jpg'}}
+            source={{
+              uri:
+                item.san_pham[0].hinh_anh_sp ||
+                'https://i.stack.imgur.com/y9DpT.jpg',
+            }}
             style={styles.imageProduct}
           />
 
@@ -145,15 +150,30 @@ const LichSu = () => {
         <View style={styles.saiSotContainer}>
           {isCanceled || (
             <>
-              <Text style={styles.textSaiSot}>
-                Xin hãy đánh giá để chúng tôi có thêm động lực và cải thiện sản
-                phẩm
-              </Text>
-              <TouchableOpacity
-                style={styles.buttonCancel}
-                onPress={() => toggleModal(item._id)}>
-                <Text style={styles.textHuyDon}>Đánh giá</Text>
-              </TouchableOpacity>
+              {isDanhGia ? (
+                <Text style={styles.textCamOn}>
+                  Cảm ơn bạn đã đánh giá sản phẩm
+                </Text>
+              ) : (
+                <Text style={[styles.textSaiSot,]}>
+                  Xin hãy đánh giá để chúng tôi có thêm động lực và cải thiện
+                  sản phẩm
+                </Text>
+              )}
+              {!isDanhGia ? (
+                <TouchableOpacity
+                  style={styles.buttonCancel}
+                  onPress={() => toggleModal(item._id)}>
+                  <Text style={styles.textHuyDon}>Đánh giá</Text>
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity
+                  style={[styles.buttonCancel, {backgroundColor: '#F1C385'}]}
+                  disabled={true}
+                  onPress={() => toggleModal(item._id)}>
+                  <Text style={styles.textHuyDon}>Đã đánh giá</Text>
+                </TouchableOpacity>
+              )}
             </>
           )}
         </View>
@@ -308,6 +328,12 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: '#2F2E2E',
     width: '80%',
+  },
+  textCamOn: {
+    fontWeight: '400',
+    fontSize: 13,
+    color: '#2F2E2E',
+    // width: '80%',
   },
   textGiaBan: {
     fontWeight: '400',

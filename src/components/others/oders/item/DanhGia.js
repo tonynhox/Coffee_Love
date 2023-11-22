@@ -62,12 +62,17 @@ const DanhGia = () => {
 
   const DanhGiaItem = ({item, id}) => {
     const so_sao = item.so_sao;
+    const isDanhGia = item.ma_trang_thai === 4;
     return (
       <View style={styles.itemContainer}>
         {/* Hinh anh, ten, so luong, size, dia chi */}
         <View style={styles.imageAndDescribeContainer}>
           <Image
-            source={{uri: item.san_pham[0].hinh_anh_sp||'https://i.stack.imgur.com/y9DpT.jpg'}}
+            source={{
+              uri:
+                item.san_pham[0].hinh_anh_sp ||
+                'https://i.stack.imgur.com/y9DpT.jpg',
+            }}
             style={styles.imageProduct}
           />
 
@@ -100,18 +105,32 @@ const DanhGia = () => {
 
         {/* Gia tien va so luong */}
 
-        {/* Thanh tien */}
-        <View style={styles.thanhTienContainer}>
-          <Text style={styles.textDanhGia}>Đánh giá: </Text>
-          <Text style={styles.textNoiDung}>{item.danh_gia}</Text>
-        </View>
-        {/* Thanh tien */}
-        <View style={[styles.thanhTienContainer, {paddingBottom: 5}]}>
-          <Text style={styles.textDanhGia}>Phản hồi: </Text>
-          <Text style={styles.textNoiDung}>
-            Cảm ơn bạn đã sử dụng và phản hồi dịch vụ của Coffee.Love
-          </Text>
-        </View>
+        {isDanhGia ? (
+          <>
+          <View style={[styles.thanhTienContainer, {justifyContent:'space-between'}]}>
+              <Text style={styles.textDanhGia}>Bạn vẫn chưa đánh giá đơn hàng này </Text>
+              <TouchableOpacity
+              style={styles.btnDanhGia}
+              >
+              <Text style={styles.textBtnDanhGia}>Đánh giá</Text>
+              </TouchableOpacity>
+            </View></>
+        ) : (
+          <>
+            {/* Thanh tien */}
+            <View style={styles.thanhTienContainer}>
+              <Text style={styles.textDanhGia}>Đánh giá: </Text>
+              <Text style={styles.textNoiDung}>{item.danh_gia}</Text>
+            </View>
+            {/* Thanh tien */}
+            <View style={[styles.thanhTienContainer, {paddingBottom: 5}]}>
+              <Text style={styles.textDanhGia}>Phản hồi: </Text>
+              <Text style={styles.textNoiDung}>
+                Cảm ơn bạn đã sử dụng và phản hồi dịch vụ của Coffee.Love
+              </Text>
+            </View>
+          </>
+        )}
 
         {/* Neu co sai sot */}
         {/* <View style={styles.saiSotContainer}>
@@ -212,6 +231,11 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontSize: 15,
     color: '#EA5015',
+  },
+  textBtnDanhGia:{
+      fontWeight: '500',
+      fontSize: 14,
+      color: 'white',
   },
   textNoiDung: {
     fontWeight: '500',
@@ -340,5 +364,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 2,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  btnDanhGia: {
+    backgroundColor: '#D97700',
+    borderRadius: 6,
+    paddingHorizontal: 10,
+    paddingVertical: 2,
   },
 });

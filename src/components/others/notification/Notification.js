@@ -13,7 +13,8 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {styles} from './styles';
 import Header from '../../../utils/Header';
 import {useDispatch, useSelector} from 'react-redux';
-import {getNotificationRequest} from '../../../redux/reducers/slices/userSlice';
+import {getChangeStatusReadNotification, getNotificationRequest} from '../../../redux/reducers/slices/userSlice';
+import { useIsFocused } from '@react-navigation/native';
 
 const Notification = ({navigation}) => {
   const dispatch = useDispatch();
@@ -28,8 +29,22 @@ const Notification = ({navigation}) => {
     fetchNotification();
   }, []);
 
-  const navigateToSpecificScreen = ({title, type, id_product}) => {
-    console.log('TITLE: ', type);
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    if (isFocused) {
+      const fetchNotification = () => {
+        dispatch(getNotificationRequest({id_user: user.user.id_user}));
+      };
+  
+      fetchNotification();
+    }
+  }, [isFocused]);
+
+  const navigateToSpecificScreen = ({_id, type, id_product}) => {
+
+    dispatch(getChangeStatusReadNotification({_id: _id}))
+
     if (type === 'NewProduct') {
       navigation.navigate('ProductDetail', {id: id_product});
     }
@@ -47,7 +62,7 @@ const Notification = ({navigation}) => {
         activeOpacity={0.9}
         onPress={() =>
           navigateToSpecificScreen({
-            title: item.title,
+            _id: item._id,
             type: item.type,
             id_product: item.id_product,
           })
@@ -56,8 +71,8 @@ const Notification = ({navigation}) => {
           <Image source={{uri: item.image}} style={styles.imgit} />
 
           <View style={styles.contentContainer}>
-            <Text style={styles.textTitle}>{isIdOrder}</Text>
-            <Text style={styles.t}>{item.message}</Text>
+            <Text style={!item.isRead ? styles.textTitle : styles.textTitleRead}>{isIdOrder}</Text>
+            <Text style={!item.isRead ? styles.t : styles.tRead}>{item.message}</Text>
           </View>
         </View>
       </TouchableOpacity>

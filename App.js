@@ -13,6 +13,7 @@ import ModalHuyDonHang from './src/components/others/oders/item/ModalHuyDonHang'
 import ModalDanhGia from './src/components/others/oders/item/ModalDanhGia';
 import ModalVongQuayMayMan from './src/components/others/wheelOfFortune/ModelVongQuayMayMan';
 import NotificationHandler from './src/notification/NotificationHandler';
+import SearchLoadingPlaceholder from './src/components/others/loading/SearchLoadingPlaceholder';
 export const navigationRef = createNavigationContainerRef();
 
 const App = () => {

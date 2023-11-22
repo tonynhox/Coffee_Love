@@ -112,7 +112,7 @@ const Search = () => {
       .replace(/\s+/g, ''); // Remove spaces
 
     dispatch(getSearchFetch({normalizedSearchTerm, navigation}));
-    navigation.navigate('SearchSuccess', {ten_san_pham: item});
+    navigation.navigate('SearchSuccess', {search: item});
   };
 
   const handleTextInputFocused = () => {
@@ -253,7 +253,7 @@ const Search = () => {
           <TextInput
             placeholderTextColor={'#CC9F68'}
             style={styles.input}
-            color={'black'}
+            color={'white'}
             placeholder="Tìm kiếm..."
             value={search}
             onFocus={() => {

@@ -44,12 +44,18 @@ const donHangSlice = createSlice({
           maTrangThai === trang_thai_don_hang.dang_giao
         ) {
           dangGiaoArray.push(item);
-        } else if (
+        }
+        if (
           maTrangThai === trang_thai_don_hang.da_huy ||
-          maTrangThai === trang_thai_don_hang.da_giao
+          maTrangThai === trang_thai_don_hang.da_giao ||
+          maTrangThai === trang_thai_don_hang.da_danh_gia
         ) {
           lichSuArray.push(item);
-        } else if (maTrangThai === trang_thai_don_hang.da_danh_gia) {
+        }
+        if (
+          maTrangThai === trang_thai_don_hang.da_danh_gia ||
+          maTrangThai === trang_thai_don_hang.da_giao
+        ) {
           danhGiaArray.push(item);
         }
 
@@ -60,7 +66,7 @@ const donHangSlice = createSlice({
         if (counterProcess === action.payload.result.length) {
           state.dataDangGiao = dangGiaoArray.reverse();
           state.dataDanhGia = danhGiaArray.reverse();
-          state.dataLichSu = lichSuArray;
+          state.dataLichSu = lichSuArray.reverse();
           state.isLoading = false;
           state.isThayDoiTrangThaiDonHangLoading = false;
         }
@@ -111,6 +117,7 @@ const donHangSlice = createSlice({
       state.isDanhGiaLoading = true;
     },
 
+    //===============================
     getDanhGiaSuccess: (state, action) => {
       if (action.payload.result) {
         state.dataLichSu = state.dataLichSu.filter(item => {

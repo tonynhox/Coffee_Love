@@ -12,6 +12,16 @@ export const styles = StyleSheet.create({
     // borderWidth: 0.5,
     borderColor: 'black',
   },
+  itemContainerRead:{
+    flex: 1,
+    marginHorizontal: 10,
+    marginVertical: 7,
+    backgroundColor: 'rgba(0,0,0,0.1)',
+    // elevation: 1,
+    // borderRadius: 10,
+    // borderWidth: 0.5,
+    borderColor: 'black',
+  },
   container: {
     flex: 1,
     backgroundColor: 'white',
@@ -59,10 +69,22 @@ export const styles = StyleSheet.create({
     fontWeight: '400',
     marginTop: 5
   },
+  tRead:{
+    color: 'rgba(0,0,0,0.5)',
+    fontSize: 13,
+    fontWeight: '400',
+    marginTop: 5
+  
+  },
   textTitle: {
     fontSize: 15,
     fontWeight: '500',
     color: '#000',
+  },
+  textTitleRead: {
+    fontSize: 15,
+    fontWeight: '500',
+    color: 'rgba(0,0,0,0.5)',
   },
   contentContainer: {
     marginLeft: 10,

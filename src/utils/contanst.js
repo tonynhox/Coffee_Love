@@ -1,3 +1,5 @@
+import { StatusBar } from "react-native";
+
 export const BACKGROUND_BUTTON_COLOR = '#D97700';
 export const BACKGROUND_BUTTON_COLOR_GRAY = '#D9D9D9';
 
@@ -70,3 +72,6 @@ export const pick_image_options = {
   thu_vien: 0,
   camera: 1,
 };
+
+
+const statusBarHeight = StatusBar.currentHeight;
