@@ -16,6 +16,7 @@ import {
   setIDSanPham,
   setOpenBottomSheet,
 } from '../../../../redux/reducers/slices/utilSlice';
+import SearchLoadingPlaceholder from '../../../others/loading/SearchLoadingPlaceholder';
 const Menu = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -70,7 +71,7 @@ const Menu = () => {
   };
   //aaaaaaaaaaaaaaaaaaa
   return isLoading ? (
-    <Text>Loading...</Text>
+    <SearchLoadingPlaceholder/>
   ) : (
     <View>
       <Text

@@ -15,6 +15,7 @@ import {
   LINEAR_1,
   LINEAR_2,
   LINEAR_3,
+  statusBarHeight,
 } from '../../../utils/contanst';
 import Fuse from 'fuse.js';
 import {useNavigation} from '@react-navigation/native';
@@ -155,7 +156,6 @@ const Search = () => {
   const dataPd = useSelector(state => state.products.data);
   const dataSPM = dataPd.slice(0, 4);
   const renderSanPhamMoi = ({item}) => {
-    // console.log('item: ', item);
 
     return (
       /* hinh anh ten san pham, sao */
@@ -353,6 +353,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 10,
+    paddingTop: statusBarHeight
     // backgroundColor: HEADER_COLOR,
   },
   arrowBack: {

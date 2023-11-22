@@ -129,6 +129,7 @@ const donHangSlice = createSlice({
           }
         });
 
+        console.log("DANH GIA SAN PHAM THANH CONG")
         state.isDanhGiaLoading = false;
         ToastAndroid.show(
           'Cảm ơn bạn đã đánh giá sản phẩm của Coffee.Love',
@@ -138,7 +139,7 @@ const donHangSlice = createSlice({
     },
 
     getDanhGiaFail: (state, action) => {
-      console.log('THAT BAI', action.payload);
+      console.log('THAT BAI KHI DANH GIA SAN PHAM', action.payload);
       state.isDanhGiaLoading = false;
       ToastAndroid.show('Opps, có lỗi xảy ra rồi bạn ơi', ToastAndroid.SHORT);
     },

@@ -78,7 +78,7 @@ const BottomDanhGia = ({isVisible, onClose}) => {
           </View>
           {/* thoi gian danh gia */}
           <Text style={styles.textThoiGianDanhGia}>
-            {moment(item.ngay_danh_gia).format('DD-MM-YYYY HH:mm')}
+            {moment(item.ngay_danh_gia).utc().format('DD-MM-YYYY HH:mm')}
           </Text>
           {/* separate line */}
           <View style={styles.separateLine} />

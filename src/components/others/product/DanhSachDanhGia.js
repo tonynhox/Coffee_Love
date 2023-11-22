@@ -9,10 +9,13 @@ import {
 } from 'react-native';
 import React from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome6';
-import {BACKGROUND_BUTTON_COLOR} from '../../../utils/contanst';
-import moment from 'moment';
+import {
+  BACKGROUND_BUTTON_COLOR,
+  vietnamTimeZone,
+} from '../../../utils/contanst';
 import {lamTronSo} from '../../../utils/lamTronSo';
 import {useSelector} from 'react-redux';
+import moment from 'moment';
 
 const DanhSachDanhGia = ({onOpenDanhGia}) => {
   const data = useSelector(state => state.chi_tiet_san_pham.data);
@@ -57,7 +60,7 @@ const DanhSachDanhGia = ({onOpenDanhGia}) => {
           </View>
           {/* thoi gian danh gia */}
           <Text style={styles.textThoiGianDanhGia}>
-            {moment(item.ngay_danh_gia).format('DD-MM-YYYY HH:mm')}
+            {moment(item.ngay_danh_gia).utc().format('DD/MM/YYYY HH:mm')}
           </Text>
           {/* separate line */}
           <View style={styles.separateLine} />
@@ -137,13 +140,16 @@ const DanhSachDanhGia = ({onOpenDanhGia}) => {
         renderItem={renderChiTietDanhGia}
         keyExtractor={item => item.id}
       /> */}
-      {[...data.danh_gia].reverse().slice(0, 3).map(item => {
-        return (
-          <View key={item._id}>
-            <RenderChiTietDanhGia item={item} />
-          </View>
-        );
-      })}
+      {[...data.danh_gia]
+        .reverse()
+        .slice(0, 3)
+        .map(item => {
+          return (
+            <View key={item._id}>
+              <RenderChiTietDanhGia item={item} />
+            </View>
+          );
+        })}
     </View>
   );
 };

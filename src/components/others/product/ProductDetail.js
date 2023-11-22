@@ -277,12 +277,12 @@ const ProductDetail = props => {
                   <TouchableOpacity
                     style={styles.buttonMuaSanPham}
                     onPress={() => {
-                      if(user?.id_user)
-                        setIsOpen(true)
+                      if (user?.id_user) setIsOpen(true);
                       else
-                        navigation.navigate('UserNavigation', {screen: 'Login'});
-                      
-                      }}>
+                        navigation.navigate('UserNavigation', {
+                          screen: 'Login',
+                        });
+                    }}>
                     <Text style={styles.textMua}>Mua</Text>
                     <Icon name="cart-shopping" size={15} color={'white'} />
                   </TouchableOpacity>

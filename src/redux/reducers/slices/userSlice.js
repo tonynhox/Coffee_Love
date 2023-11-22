@@ -149,22 +149,28 @@ export const userSlice = createSlice({
       ToastAndroid.show('Đã xảy ra lỗi nhận thông báo!', ToastAndroid.SHORT);
     },
     getChangeStatusReadNotification: (state, action) => {
-      // const updatedNotifications = state.notifications.map(item => {
-      //   if (item._id === action.payload._id) {
-      //     return {
-      //       ...item,
-      //       isRead: true,
-      //     };
-      //   }
-      //   return item;
-      // });
+      const updatedNotifications = state.notifications.map(item => {
+        if (item._id === action.payload._id) {
+          return {
+            ...item,
+            isRead: true,
+          };
+        }
+        return item;
+      });
 
-      // state.notifications = updatedNotifications;
-      // console.log('updatedNotifications', updatedNotifications);
-      // if (state.countNotification > 0) {
-      //   state.countNotification = state.countNotification - 1;
-      // }
+      state.notifications = updatedNotifications;
+      console.log('updatedNotifications', updatedNotifications);
+      if (state.countNotification > 0) {
+        state.countNotification = state.countNotification - 1;
+      }
     },
+    getChangeStatusReadNotificationSuccess: (state, action) =>{
+      console.log("XEM THONG BAO THANH CONG")
+    },
+    getChangeStatusReadNotificationFail: (state, action) =>{
+      console.log("XEM THONG BAO THAT BAI")
+    }
   },
 });
 
@@ -195,6 +201,8 @@ export const {
   getIncreaseCountNotificationByRemote,
   clearNotificationCounter,
   getChangeStatusReadNotification,
+  getChangeStatusReadNotificationSuccess,
+  getChangeStatusReadNotificationFail,
 } = userSlice.actions;
 
 export default userSlice.reducer;

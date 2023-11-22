@@ -6,6 +6,7 @@ import {useNavigation} from '@react-navigation/native';
 import Swiper from 'react-native-swiper';
 import {useSelector} from 'react-redux';
 import { lamTronSo } from '../../../../utils/lamTronSo';
+import TopOrderLoadingPlaceholder from '../../../others/loading/TopOrderLoadingPlaceholder';
 
 //slide top order
 const TopOrder = () => {
@@ -13,7 +14,7 @@ const TopOrder = () => {
   const data = useSelector(state => state.topOrders.data);
   const isLoading = useSelector(state => state.topOrders.isLoading);
   return isLoading&&data ? (
-    <Text>Loading...</Text>
+    <TopOrderLoadingPlaceholder/>
   ) : (
     <Swiper style={{height: 140}} showsPagination={false} autoplay={true}>
       {data?.map((item, index) => {

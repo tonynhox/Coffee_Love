@@ -9,7 +9,6 @@ import {useSelector} from 'react-redux';
 function* Search(action) {
   try {
     const {item, navigation} = action.payload;
-    console.log("ITEM SEARCH SAGA: ", item)
     const response = yield call(() =>
       instance.get(`api/san-pham/tim-kiem-san-pham/${item}`),
     );

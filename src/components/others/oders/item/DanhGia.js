@@ -18,7 +18,11 @@ import {
   BACKGROUND_BUTTON_COLOR,
   color_don_hang,
 } from '../../../../utils/contanst';
-import {getDonHangRequest} from '../../../../redux/reducers/slices/donHangSlice';
+import {
+  getDanhGiaRequest,
+  getDonHangRequest,
+} from '../../../../redux/reducers/slices/donHangSlice';
+import ModalDanhGia from './ModalDanhGia';
 
 const DanhGia = () => {
   const navigation = useNavigation();
@@ -45,11 +49,30 @@ const DanhGia = () => {
     }, 1000);
   }, []);
 
-  const [listHeight, setListHeight] = useState(null); // State to store the height of the FlatList
+  // danh gia
+  const isDanhGiaLoading = useSelector(
+    state => state.don_hang.isDanhGiaLoading,
+  );
+  const user = useSelector(state => state.users.user);
 
-  const calculateListHeight = event => {
-    setListHeight(event.nativeEvent.layout.height);
+  const [isVisible, setIsVisible] = useState({isVisible: false, id: ''});
+  const toggleModal = id => {
+    setIsVisible({isVisible: !isVisible.isVisible, id: id});
   };
+  const sendRate = data => {
+    const newData = {
+      id_don_hang: data.id_don_hang,
+      so_sao: data.so_sao,
+      danh_gia: data.danh_gia,
+      hinh_anh_danh_gia: data.hinh_anh_danh_gia,
+      email: user.email,
+      ten_user: user.ho_ten,
+      hinh_anh_user: user.avatar,
+    };
+    dispatch(getDanhGiaRequest(newData));
+  };
+
+  //===========
 
   const RateStar = ({item, index, sao}) => {
     const selected = sao >= item.id ? true : false;
@@ -82,7 +105,7 @@ const DanhGia = () => {
               <Text style={styles.textName}>{item.dia_chi.nguoi_nhan}</Text>
 
               {/* <Text style={styles.textSoLuong}>Đánh giá</Text> */}
-              <View onLayout={calculateListHeight}>
+              <View>
                 <FlatList
                   horizontal={true}
                   data={dataRateStar}
@@ -107,14 +130,21 @@ const DanhGia = () => {
 
         {isDanhGia ? (
           <>
-          <View style={[styles.thanhTienContainer, {justifyContent:'space-between'}]}>
-              <Text style={styles.textDanhGia}>Bạn vẫn chưa đánh giá đơn hàng này </Text>
+            <View
+              style={[
+                styles.thanhTienContainer,
+                {justifyContent: 'space-between'},
+              ]}>
+              <Text style={styles.textDanhGia}>
+                Bạn vẫn chưa đánh giá đơn hàng này{' '}
+              </Text>
               <TouchableOpacity
-              style={styles.btnDanhGia}
-              >
-              <Text style={styles.textBtnDanhGia}>Đánh giá</Text>
+                style={styles.btnDanhGia}
+                onPress={() => toggleModal(item._id)}>
+                <Text style={styles.textBtnDanhGia}>Đánh giá</Text>
               </TouchableOpacity>
-            </View></>
+            </View>
+          </>
         ) : (
           <>
             {/* Thanh tien */}
@@ -152,16 +182,39 @@ const DanhGia = () => {
           {data.length === 0 ? (
             <Text style={styles.textKhongCoDuLieu}>Không có đánh giá</Text>
           ) : (
-            <FlatList
-              style={{marginVertical: 3}}
-              data={data}
-              renderItem={DanhGiaItem}
-              keyExtractor={(item, index) => index.toString()}
-              // ItemSeparatorComponent={() => <View style={{height: 10}} />}
-              refreshControl={
-                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-              }
-            />
+            <>
+              <FlatList
+                style={{marginVertical: 3}}
+                data={data}
+                renderItem={DanhGiaItem}
+                keyExtractor={(item, index) => index.toString()}
+                // ItemSeparatorComponent={() => <View style={{height: 10}} />}
+                refreshControl={
+                  <RefreshControl
+                    refreshing={refreshing}
+                    onRefresh={onRefresh}
+                  />
+                }
+              />
+
+              {isDanhGiaLoading && (
+                <View style={styles.thayDoiLoading}>
+                  <ActivityIndicator
+                    size="large"
+                    color={BACKGROUND_BUTTON_COLOR}
+                  />
+                </View>
+              )}
+
+              <ModalDanhGia
+                isVisible={isVisible}
+                onCancel={toggleModal}
+                sendRate={data => {
+                  setIsVisible({isVisible: !isVisible.isVisible, id: ''});
+                  sendRate(data);
+                }}
+              />
+            </>
           )}
         </>
       )}
@@ -232,10 +285,10 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: '#EA5015',
   },
-  textBtnDanhGia:{
-      fontWeight: '500',
-      fontSize: 14,
-      color: 'white',
+  textBtnDanhGia: {
+    fontWeight: '500',
+    fontSize: 14,
+    color: 'white',
   },
   textNoiDung: {
     fontWeight: '500',
@@ -370,5 +423,12 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     paddingHorizontal: 10,
     paddingVertical: 2,
+  },
+  thayDoiLoading: {
+    position: 'absolute',
+    top: '35%',
+    left: 0,
+    bottom: 0,
+    right: 0,
   },
 });

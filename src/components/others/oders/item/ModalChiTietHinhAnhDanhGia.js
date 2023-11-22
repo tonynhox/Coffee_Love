@@ -53,7 +53,7 @@ const ModalChiTietHinhAnhDanhGia = ({
       animationOutTiming={0}>
       <View style={styles.container}>
         <>
-          {/* {data[currentIndex] && (
+          {data[currentIndex] && (
             <>
               <View
                 style={{
@@ -62,7 +62,7 @@ const ModalChiTietHinhAnhDanhGia = ({
                 }}>
                 <Image
                   source={{
-                    uri: data[currentIndex].uri,
+                    uri: data[currentIndex]?.uri,
                   }}
                   style={{
                     width: '80%',
@@ -70,12 +70,10 @@ const ModalChiTietHinhAnhDanhGia = ({
                     resizeMode: 'contain',
                     alignSelf: 'center',
                   }}
-                />P
+                />
               </View>
-
-              
             </>
-          )} */}
+          )}
         </>
       </View>
 
@@ -161,7 +159,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 5,
     justifyContent: 'center',
-    alignItems:'center'
+    alignItems: 'center',
   },
   textIndex: {
     fontSize: 16,

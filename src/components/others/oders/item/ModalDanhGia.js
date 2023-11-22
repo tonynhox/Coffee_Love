@@ -401,8 +401,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 3,
     paddingVertical: 7,
     height: 100,
-    backgroundColor:'#FDE8D3',
-    color:'black'
+    backgroundColor: '#FDE8D3',
+    color: 'black',
   },
   textThemHinhAnh: {
     fontSize: 14,
@@ -455,7 +455,7 @@ const styles = StyleSheet.create({
     paddingTop: 5,
   },
   loadingUploadImage: {
-    width: '100%',
+    width: Dimensions.get('window').width,
     height: '100%',
     backgroundColor: 'rgba(180, 180, 180, 0.5)',
     position: 'absolute',

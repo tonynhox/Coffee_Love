@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {BACKGROUND_BUTTON_COLOR} from '../../../../utils/contanst';
+import {BACKGROUND_BUTTON_COLOR, statusBarHeight} from '../../../../utils/contanst';
 
 export const styles = StyleSheet.create({
   container: {
@@ -288,6 +288,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+    marginTop: statusBarHeight
   },
   giaTienVaMuaContainer: {
     flexDirection: 'row',

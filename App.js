@@ -14,6 +14,7 @@ import ModalDanhGia from './src/components/others/oders/item/ModalDanhGia';
 import ModalVongQuayMayMan from './src/components/others/wheelOfFortune/ModelVongQuayMayMan';
 import NotificationHandler from './src/notification/NotificationHandler';
 import SearchLoadingPlaceholder from './src/components/others/loading/SearchLoadingPlaceholder';
+import TopOrderLoadingPlaceholder from './src/components/others/loading/TopOrderLoadingPlaceholder';
 export const navigationRef = createNavigationContainerRef();
 
 const App = () => {

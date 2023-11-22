@@ -74,4 +74,6 @@ export const pick_image_options = {
 };
 
 
-const statusBarHeight = StatusBar.currentHeight;
+export const statusBarHeight = StatusBar.currentHeight;
+
+export const vietnamTimeZone = 'Asia/Ho_Chi_Minh';

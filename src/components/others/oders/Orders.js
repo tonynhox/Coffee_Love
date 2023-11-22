@@ -1,13 +1,13 @@
 import React, {useState, useEffect} from 'react';
 import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import {ActivityIndicator, StyleSheet, Text, View} from 'react-native';
+import {ActivityIndicator, StatusBar, StyleSheet, Text, View} from 'react-native';
 import DangGiao from './item/DangGiao';
 import LichSu from './item/LichSu';
 import DanhGia from './item/DanhGia';
 import Header from '../../../utils/Header';
 import {useDispatch, useSelector} from 'react-redux';
-import {BACKGROUND_BUTTON_COLOR} from '../../../utils/contanst';
+import {BACKGROUND_BUTTON_COLOR, statusBarHeight} from '../../../utils/contanst';
 import {getDonHangRequest} from '../../../redux/reducers/slices/donHangSlice';
 import OrderLoadingPlaceholder from '../loading/OrderLoadingPlaceholder';
 
@@ -35,7 +35,7 @@ const Orders = () => {
         </View>
       ) : (
         <>
-          <View style={{width: '100%'}}>
+          <View style={{width: '100%', paddingTop: statusBarHeight}}>
             <Header
               containerStyle={{backgroundColor: '#fff', height: 50}}
               rightComponent={true}

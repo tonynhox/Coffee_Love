@@ -11,6 +11,8 @@ import {
   getAddAddressSuccess,
   getNotificationSuccess,
   getNotificationFail,
+  getChangeStatusReadNotificationSuccess,
+  getChangeStatusReadNotificationFail,
 } from '../../reducers/slices/userSlice';
 import instance from '../../../axios/instance';
 import Header from '../../../utils/Header';
@@ -258,6 +260,7 @@ function* WorkAddAddress(action) {
   }
 }
 
+// notification
 function* getNotificationAsync(action) {
   try {
     console.log('ID USER: ', action.payload.id_user);
@@ -274,6 +277,24 @@ function* getNotificationAsync(action) {
   } catch (error) {
     console.log('error get notification for specific account', error);
     yield put(getNotificationFail());
+  }
+}
+
+function* getChangeStatusReadNotification(action) {
+  try {
+    const response = yield call(() =>
+      instance.post('users/da-xem-thong-bao', {
+        id_user: action.payload.id_user,
+        id_notification: action.payload.id_notification,
+      }),
+    );
+    if (response.data.trang_thai) {
+      yield put(getChangeStatusReadNotificationSuccess());
+    } else {
+      yield put(getChangeStatusReadNotificationFail());
+    }
+  } catch (error) {
+    console.log('error change status read notification', error);
   }
 }
 
@@ -299,6 +320,8 @@ function* userSaga() {
   yield takeLatest('users/getAddAddress', WorkAddAddress);
 
   yield takeLatest('users/getNotificationRequest', getNotificationAsync);
+
+  yield takeLatest('users/getChangeStatusReadNotification', getChangeStatusReadNotification)
 }
 
 export default userSaga;
