@@ -23,17 +23,81 @@ import VoucherCart from '../others/cartPayment/VoucherCart';
 import StoreCoffee from '../others/storeCoffee/StoreCoffee';
 import MapAddAddress from '../others/addAddress/MapAddAddress';
 import VisionCamera from '../others/oders/item/VisionCamera';
+import NotificationHandler from '../../notification/NotificationHandler';
+
+import PushNotification from 'react-native-push-notification';
+import PushNotificationIOS from '@react-native-community/push-notification-ios';
+import messaging from '@react-native-firebase/messaging';
+
 // add other navigation functions that you need and export them
 const Stack = createNativeStackNavigator();
 
 const AppNavigation = props => {
+  const navigation = props.navigation;
   // const dispatch = useDispatch();
 
   //get api khi vào app
+  PushNotification.configure({
+    onNotification: function (notification) {
+      console.log('NOTIFICATION:', notification);
 
+      if (notification.userInteraction) {
+        if (notification.data.screen === 'ProductDetail') {
+          navigation.navigate('ProductDetail', {id: notification.data.id});
+        }
+        if (notification.data.screen === 'OrderDelivering') {
+          navigation.navigate('OrderDetail', {
+            id_don_hang: notification.data.id,
+          });
+        }
+      }
+
+      notification.finish(PushNotificationIOS.FetchResult.NoData);
+    },
+
+    // ... other configurations
+  });
+
+  useEffect(() => {
+    // Assume a message-notification contains a "type" property in the data payload of the screen to open
+    messaging().onNotificationOpenedApp(remoteMessage => {
+      console.log(
+        'Notification caused app to open from background state:',
+        remoteMessage.notification,
+      );
+
+      if (remoteMessage.data.type === 'ProductDetail') {
+        navigation.navigate('ProductDetail', {id: remoteMessage.data.id});
+      }
+      if (
+        remoteMessage.data.type === 'OrderDelivering' ||
+        remoteMessage.data.type === 'OrderArrived'
+      ) {
+        navigation.navigate('OrderDetail', {
+          id_don_hang: remoteMessage.data.id,
+        });
+      }
+    });
+
+    // Check whether an initial notification is available
+    messaging()
+      .getInitialNotification()
+      .then(remoteMessage => {
+        if (remoteMessage) {
+          console.log(
+            'Notification caused app to open from quit state:',
+            remoteMessage.notification,
+          );
+          // setInitialRoute(remoteMessage.data.type); // e.g. "Settings"
+        }
+        // setLoading(false);
+      });
+  }, []);
 
   return (
     <>
+      <NotificationHandler />
+
       <Stack.Navigator
         useNativeDriver={true}
         screenOptions={{
@@ -230,7 +294,6 @@ const AppNavigation = props => {
           }}
         />
       </Stack.Navigator>
-
     </>
   );
 };

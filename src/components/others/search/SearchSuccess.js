@@ -28,9 +28,9 @@ const SearchSuccess = ({route}) => {
   const search = route.params.search;
   const [searchData, setSearchData] = useState(search);
 
-  useEffect(() =>{
-    setSearchData(search)
-  }, [search])
+  useEffect(() => {
+    setSearchData(search);
+  }, [search]);
 
   const showAlert = () => {
     Alert.alert(
@@ -132,7 +132,7 @@ const SearchSuccess = ({route}) => {
             <>
               <View style={styles.container}>
                 <FlatList
-                  data={data}
+                  data={[...data].reverse()}
                   columnWrapperStyle={{justifyContent: 'space-between'}}
                   numColumns={2}
                   renderItem={renderItem}

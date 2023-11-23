@@ -21,7 +21,7 @@ const App = () => {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <NotificationHandler />
+        {/* <NotificationHandler /> */}
         {/* <BottomSheetDanhSachCuaHang /> */}
         <ManHinhCHao />
 

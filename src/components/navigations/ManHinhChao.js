@@ -16,31 +16,32 @@ import {
 } from '../../redux/reducers/slices/userSlice';
 import {getVoucherFetch} from '../../redux/reducers/slices/voucherSlide';
 import {getScoreFetch} from '../../redux/reducers/slices/scoreSlide';
-import { getLocationStoreFetch } from '../../redux/reducers/slices/locationMapSlice';
+import {getLocationStoreFetch} from '../../redux/reducers/slices/locationMapSlice';
 import {getFavoriteRequest} from '../../redux/reducers/slices/favoriteSlice';
 import {getDataToppingRequest} from '../../redux/reducers/slices/toppingSlice';
 import {StatusBar} from 'react-native';
-import { setCurrentDeviceToken } from '../../redux/reducers/slices/deviceTokenSlice';
-import { useNavigation } from '@react-navigation/native';
+import {setCurrentDeviceToken} from '../../redux/reducers/slices/deviceTokenSlice';
+import {useNavigation} from '@react-navigation/native';
+import messaging from '@react-native-firebase/messaging';
 const Stack = createNativeStackNavigator();
 
 const ManHinh = () => {
   const navigation = useNavigation();
   StatusBar.setTranslucent(true);
   StatusBar.setBackgroundColor('transparent');
-  StatusBar.setBarStyle("dark-content");
+  StatusBar.setBarStyle('dark-content');
   //check vao app lan dau
   const getDataUserLocal = async () => {
     // if (navigationRef.isReady()) {
-      const data = await Storage.getItem('init');
-      //nếu null thì chuyển sang user rồi lưu vô local
-      //ko null thì sang main
-      if (data === null) {
-        Storage.setItem('init', 'true');
-        navigation.navigate('AppNavigation', {screen: 'UserNavigation'});
-      } else {
-        navigation.navigate('AppNavigation', {screen: 'MainNavigation'});
-      }
+    const data = await Storage.getItem('init');
+    //nếu null thì chuyển sang user rồi lưu vô local
+    //ko null thì sang main
+    if (data === null) {
+      Storage.setItem('init', 'true');
+      navigation.navigate('AppNavigation', {screen: 'UserNavigation'});
+    } else {
+      navigation.navigate('AppNavigation', {screen: 'MainNavigation'});
+    }
     // }
   };
 
@@ -70,7 +71,6 @@ const ManHinh = () => {
       // dispatch(getScoreFetch());
       dispatch(getFavoriteRequest({id_user: user}));
       dispatch(getNotificationRequest({id_user: user}));
-
     }
   };
 
@@ -79,6 +79,46 @@ const ManHinh = () => {
       //call api xong thì chuyển màn hình
       getDataUserLocal();
     });
+  }, []);
+
+  useEffect(() => {
+    // Assume a message-notification contains a "type" property in the data payload of the screen to open
+    messaging().onNotificationOpenedApp(remoteMessage => {
+      console.log(
+        'Notification caused app to open from background state:',
+        remoteMessage.notification,
+      );
+
+      if (remoteMessage.data.type === 'ProductDetail') {
+        navigation.navigate('AppNavigation', {
+          screen: 'ProductDetail',
+          params: {id: remoteMessage.data.id},
+        });
+      }
+      if (
+        remoteMessage.data.type === 'OrderDelivering' ||
+        remoteMessage.data.type === 'OrderArrived'
+      ) {
+        navigation.navigate('AppNavigation', {
+          screen: 'OrderDetail',
+          params: {id_don_hang: remoteMessage.data.id},
+        });
+      }
+    });
+
+    // Check whether an initial notification is available
+    messaging()
+      .getInitialNotification()
+      .then(remoteMessage => {
+        if (remoteMessage) {
+          console.log(
+            'Notification caused app to open from quit state:',
+            remoteMessage.notification,
+          );
+          // setInitialRoute(remoteMessage.data.type); // e.g. "Settings"
+        }
+        // setLoading(false);
+      });
   }, []);
 
   return (

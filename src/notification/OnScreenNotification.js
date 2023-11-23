@@ -50,9 +50,12 @@ const OnScreenNotification = ({value}) => {
       //   timeoutAfter: null, // (optional) Specifies a duration in milliseconds after which this notification should be canceled, if it is not already canceled, default: null
 
       //   messageId: 'google:message_id', // (optional) added as `message_id` to intent extras so opening push notification can find data stored by @react-native-firebase/messaging module.
-
+      data: {
+        id: value.data?.idDonHang,
+        screen: value.data?.type
+      },
       //   actions: ['Yes', 'No'], // (Android only) See the doc for notification actions to know more
-      //   invokeApp: true, // (optional) This enable click on actions to bring back the application to foreground or stay in background, default: true
+      invokeApp: true, // (optional) This enable click on actions to bring back the application to foreground or stay in background, default: true
 
       /* iOS only properties */
       //   category: '', // (optional) default: empty string
