@@ -53,13 +53,15 @@ function* fetchThayDoiTrangThaiDonHangAsync(action) {
     //   'api/don-hang/cap-nhat-trang-thai',
     //   {id_don_hang: id_don_hang, ma_trang_thai: ma_trang_thai},
     // );
-    const response = yield call(
-      () => instance.post,
-      'api/don-hang/cap-nhat-trang-thai',
-      {id_don_hang: id_don_hang, ma_trang_thai: ma_trang_thai},
+    const response = yield call(() =>
+      instance.post('api/don-hang/cap-nhat-trang-thai', {
+        id_don_hang: id_don_hang,
+        ma_trang_thai: ma_trang_thai,
+      }),
     );
-    if (response.data.result == false) {
-      yield put(getThayDoiFail(response.message));
+    console.log('RESPONSE: ', response.data);
+    if (response.data.status == false) {
+      yield put(getThayDoiFail(response.data.message));
     }
     yield put(getThayDoiSuccess(response.data));
   } catch (error) {

@@ -178,11 +178,11 @@ const OrderDetail = () => {
             <ScrollView style={styles.container}>
               <View style={styles.theoDoiDonHangContainer}>
                 <TheoDoiDonHang
-                  maTrangThai={data.ma_trang_thai}
-                  thoiGianDatHang={data.ngay_cap_nhat_1}
-                  thoiGianXacNhan={data.ngay_cap_nhat_2}
-                  thoiGianDangGiao={data.ngay_cap_nhat_3}
-                  thoiGianHoanThanh={data.ngay_cap_nhat_4}
+                  maTrangThai={data?.ma_trang_thai}
+                  thoiGianDatHang={data?.ngay_cap_nhat_1}
+                  thoiGianXacNhan={data?.ngay_cap_nhat_2}
+                  thoiGianDangGiao={data?.ngay_cap_nhat_3}
+                  thoiGianHoanThanh={data?.ngay_cap_nhat_4}
                 />
               </View>
 
@@ -223,7 +223,7 @@ const OrderDetail = () => {
                     style={{paddingHorizontal: 5}}
                   />
                   <Text style={styles.textThongTin}>
-                    Số điện thoại: {data.dia_chi.so_dien_thoai}
+                    Số điện thoại: {data?.dia_chi?.so_dien_thoai}
                   </Text>
                 </View>
 
@@ -241,7 +241,7 @@ const OrderDetail = () => {
                     style={styles.textThongTin}
                     numberOfLines={2}
                     ellipsizeMode="tail">
-                    Địa chỉ: {data.dia_chi.ten_dia_chi}
+                    Địa chỉ: {data?.dia_chi?.ten_dia_chi}
                   </Text>
                 </View>
               </View>
@@ -255,7 +255,7 @@ const OrderDetail = () => {
                 <FlatList
                   marginTop={10}
                   scrollEnabled={false}
-                  data={data.san_pham}
+                  data={data?.san_pham}
                   renderItem={({item, index}) => (
                     <RenderOrderItem
                       item={item}
@@ -267,7 +267,7 @@ const OrderDetail = () => {
                   keyExtractor={item => item._id}
                 />
                 <Text style={[styles.textTongSanPham, {marginTop: 10}]}>
-                  Tổng sản phẩm: {data.tong_san_pham}
+                  Tổng sản phẩm: {data?.tong_san_pham}
                 </Text>
               </View>
 
@@ -294,7 +294,7 @@ const OrderDetail = () => {
                     <Text style={styles.textPhiGiaoHang}>Phí giao hàng</Text>
                   </View>
                   <Text style={styles.textPhiGiaoHang}>
-                    {formatCurrency(data.phi_van_chuyen)}
+                    {formatCurrency(data?.phi_van_chuyen)}
                   </Text>
                 </View>
 
@@ -310,7 +310,7 @@ const OrderDetail = () => {
                   <Text style={styles.textPhiGiaoHang}>Giảm giá</Text>
                     </View>
                   <Text style={styles.textPhiGiaoHang}>
-                    -{formatCurrency(data.giam_gia)}
+                    -{formatCurrency(data?.giam_gia)}
                   </Text>
                 </View>
               </View>
@@ -322,14 +322,14 @@ const OrderDetail = () => {
               <View style={styles.tongTienContainer}>
                 <Text style={styles.textTongTien}>Tổng</Text>
                 <Text style={styles.textTongTien}>
-                  {formatCurrency(data.thanh_tien)}
+                  {formatCurrency(data?.thanh_tien)}
                 </Text>
               </View>
 
               {/* Hinh thuc thanh toan */}
               <View>
                 <Text style={styles.textThanhToanKhiNhanHang}>
-                  {data.thanh_toan.trang_thai ==
+                  {data?.thanh_toan?.trang_thai ==
                   trang_thai_thanh_toan.chua_thanh_toan
                     ? '(Thanh toán khi nhận hàng)'
                     : '(Đã thanh toán)'}
@@ -344,7 +344,7 @@ const OrderDetail = () => {
                 <Text style={styles.textChuThich}>Chú thích</Text>
                 {/* chu thich view */}
                 <View style={styles.chuThichContainer}>
-                  <Text style={styles.textLoiNhan}>{data.ghi_chu}</Text>
+                  <Text style={styles.textLoiNhan}>{data?.ghi_chu}</Text>
                 </View>
               </View>
             </ScrollView>
