@@ -33,7 +33,7 @@ const DanhGia = () => {
   const id_user = useSelector(state => state.users.user.id_user);
 
   const dataRateStar = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5}];
-  const [start, setStart] = useState(4);
+  const [start, setStart] = useState(5);
 
   const fetchDonHang = () => {
     dispatch(getDonHangRequest({id_user: id_user}));

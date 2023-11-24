@@ -32,8 +32,10 @@ import {ToastAndroid} from 'react-native';
 const ModalDanhGia = ({isVisible, onCancel, sendRate}) => {
   const dispatch = useDispatch();
 
+  console.log('ok');
+
   const dataRateStar = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5}];
-  const [start, setStart] = useState(4);
+  const [start, setStart] = useState(5);
   const [nhanXet, setNhanXet] = useState('');
 
   //modal chọn thư hiện hay camera
@@ -155,7 +157,7 @@ const ModalDanhGia = ({isVisible, onCancel, sendRate}) => {
   };
 
   const clearAll = () => {
-    setStart(4);
+    setStart(5);
     setNhanXet('');
     setCameraValue({isVisible: false, value: []});
     setCurrentId(-1);

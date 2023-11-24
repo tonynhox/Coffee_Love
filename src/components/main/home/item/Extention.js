@@ -1,24 +1,49 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {styles} from '../styles';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {ScrollView} from 'react-native-gesture-handler';
+import {useNavigation} from '@react-navigation/native';
+import {useSelector} from 'react-redux';
 
 const Extention = () => {
+  const navigation = useNavigation();
+  const user = useSelector(state => state.users.user);
   return (
-    <View style={styles.cardExtention}>
-      <View style={styles.itemExtention}>
-        <Icon name="qrcode-scan" size={30} color="#D89543" />
-        <Text style={styles.txtItem}>Tại bàn</Text>
-      </View>
-      <View style={styles.itemExtention}>
-        <Icon name="moped-electric" size={30} color="#D89543" />
+    <ScrollView
+      showsHorizontalScrollIndicator={false}
+      horizontal={true}
+      style={styles.cardExtention}>
+      <TouchableOpacity
+        onPress={() => navigation.navigate('Categories')}
+        style={styles.itemExtention}>
+        <Icon name="moped-electric" size={32} color="#D89543" />
         <Text style={styles.txtItem}>Tận nhà</Text>
-      </View>
-      <View style={styles.itemExtention}>
-        <Icon name="diamond-stone" size={30} color="#D89543" />
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() =>           user
+          ? navigation.navigate('AllScore')
+          : navigation.navigate('UserNavigation', {screen: 'Login'})
+      }
+        style={styles.itemExtention}>
+        <Icon name="diamond-stone" size={32} color="#D89543" />
         <Text style={styles.txtItem}>Đổi điểm</Text>
-      </View>
-    </View>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() =>
+          user
+            ? navigation.navigate('Orders')
+            : navigation.navigate('UserNavigation', {screen: 'Login'})
+        }
+        style={styles.itemExtention}>
+        <Icon name="text-box-outline" size={32} color="#D89543" />
+        <Text style={styles.txtItem}>Đơn hàng </Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.itemExtention}>
+        <Icon name="heart" size={32} color="#D89543" />
+        <Text style={styles.txtItem}>Yêu thích </Text>
+      </TouchableOpacity>
+    </ScrollView>
   );
 };
 

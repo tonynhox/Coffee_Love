@@ -16,13 +16,16 @@ export const styles = StyleSheet.create({
   itemExtention: {
     alignItems: 'center',
     flexDirection: 'column',
+    // marginRight:60
+    paddingHorizontal: 24,
+    paddingVertical: 12,
   },
   cardExtention: {
     backgroundColor: '#fff',
-    borderRadius: 10,
-    paddingVertical: 10,
+    // borderRadius: 10,
+    // paddingVertical: 10,
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    // justifyContent: 'space-around',
     borderWidth: 0.6,
     borderColor: 'lightgray',
     marginVertical: 20,

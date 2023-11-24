@@ -7,6 +7,9 @@ import {
   Alert,
   LayoutAnimation,
   Image,
+  NativeModules,
+  NativeEventEmitter,
+  LogBox
 } from 'react-native';
 import React, {
   useEffect,
@@ -33,6 +36,16 @@ import {useNavigation} from '@react-navigation/native';
 import {setUseVoucher} from '../../../redux/reducers/slices/voucherSlide';
 import {getPaymentFetch} from '../../../redux/reducers/slices/cartPaymentSlice';
 
+import CryptoJS from 'crypto-js';
+
+LogBox.ignoreLogs(['new NativeEventEmitter']); // Ignore log notification by message
+LogBox.ignoreAllLogs(); //Ignore all log notifications
+
+const { PayZaloBridge } = NativeModules;
+
+const payZaloBridgeEmitter = new NativeEventEmitter(PayZaloBridge);
+
+
 const CartPayment = forwardRef(({setPrice}, ref) => {
   const navigation = useNavigation();
   const cart = useSelector(state => state.cartPayment.cart);
@@ -53,6 +66,10 @@ const CartPayment = forwardRef(({setPrice}, ref) => {
   const locationDefault = useSelector(
     state => state.locationMap.locationDefault,
   );
+  //token ma thanh toan khi thanh toan online
+  const [ma_thanh_toan, setMaThanhToan] = useState('');
+  const [token, setToken] = useState('');
+  const [returncode, setReturnCode] = useState('');
 
   const dispatchGiaoHang = async () => {
     dispatch(
@@ -197,9 +214,103 @@ const CartPayment = forwardRef(({setPrice}, ref) => {
 
   useImperativeHandle(ref, () => ({
     open() {
-      handlePayment();
+      if (hinhThucThanhToan.state == 1) {
+        //zalopay
+        //tạo đơn hàng, rồi chuyển sang thanh toán
+        createOrder();
+      } else if (hinhThucThanhToan.state == 2) {
+        //momo
+        //tạo đơn hàng, rồi chuyển sang thanh toán
+      } else {
+        handlePayment();
+      }
     },
   }));
+
+  useEffect(() => {
+    if(token&&hinhThucThanhToan.state==1){
+      payOrder();
+    }
+  }
+  , [token]);
+
+  //zalopay tạo đơn hàng
+  const getCurrentDateYYMMDD= ()=> {
+    const todayDate = new Date().toISOString().slice(2, 10);
+    return todayDate.split('-').join('');
+  }
+  const createOrder = async () => {
+    const apptransid = getCurrentDateYYMMDD() + '_' + new Date().getTime();
+    const appid = 2553;
+    const amount = parseInt(tongSanPham);
+    const appuser = 'ZaloPayDemo';
+    const apptime = new Date().getTime();
+    const embeddata = '{}';
+    const item = '[]';
+    const description = 'CoffeeLove - Thanh toán đơn hàng #' + apptransid;
+    const hmacInput = appid + '|' + apptransid + '|' + appuser + '|' + amount + '|' + apptime + '|' + embeddata + '|' + item;
+    const mac = CryptoJS.HmacSHA256(hmacInput, 'PcY4iZIKFCIdgZvA6ueMcMHHUbRLYjPL');
+
+    const order = {
+      app_id: appid,
+      app_user: appuser,
+      app_time: apptime,
+      amount: amount,
+      app_trans_id: apptransid,
+      embed_data: embeddata,
+      item: item,
+      description: description,
+      mac: mac,
+    };
+
+    console.log(order);
+
+    const formBody = Object.keys(order)
+      .map((key) => encodeURIComponent(key) + '=' + encodeURIComponent(order[key]))
+      .join('&');
+
+    try {
+      const response = await fetch('https://sb-openapi.zalopay.vn/v2/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+        },
+        body: formBody,
+      });
+
+      const resJson = await response.json();
+      setToken(resJson.zp_trans_token);
+      setReturnCode(resJson.return_code);
+    } catch (error) {
+      console.log('error ', error);
+    }
+  }
+
+  //chuyển qua app zalopay
+  const payOrder = () => {
+    const payZP = NativeModules.PayZaloBridge;
+    payZP.payOrder(token);
+  }
+
+  //từ zalopay back về
+  useEffect(() => {
+    const subscription = payZaloBridgeEmitter.addListener(
+      'EventPayZalo',
+      (data) => {
+        console.log('data ', data.returnCode);
+        if (data.returnCode == 1) {
+          // alert('Pay success!');
+          console.log('Pay ok!');
+
+          handlePayment();
+        } else {
+          console.log('Pay error!');
+        }
+      }
+    );
+
+    return () => subscription.remove();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -231,12 +342,18 @@ const CartPayment = forwardRef(({setPrice}, ref) => {
 
       {/* separate line */}
       <View
-        style={{borderWidth: 0.6, borderColor: 'lightgray', marginTop: 10,marginBottom:6}}
+        style={{
+          borderWidth: 0.6,
+          borderColor: 'lightgray',
+          marginTop: 10,
+          marginBottom: 6,
+        }}
       />
 
-      <View style={{flexDirection:'row',flex:1}}>
+      <View style={{flexDirection: 'row', flex: 1}}>
         <View style={styles.caseDiaChi}>
-          <Text style={[styles.txtCaseDiaChi,{fontWeight:'600',fontSize:15}]}>
+          <Text
+            style={[styles.txtCaseDiaChi, {fontWeight: '600', fontSize: 15}]}>
             {myLocation?.nguoi_nhan || user?.ho_ten || 'Chưa có họ tên'}
           </Text>
           <Text style={styles.txtCaseDiaChi}>
@@ -245,16 +362,23 @@ const CartPayment = forwardRef(({setPrice}, ref) => {
               'Chưa có số điện thoại'}
           </Text>
         </View>
-        <View style={{width:0.5,height:'90%',borderWidth:0.6,borderColor:'lightgray'}} />
+        <View
+          style={{
+            width: 0.5,
+            height: '90%',
+            borderWidth: 0.6,
+            borderColor: 'lightgray',
+          }}
+        />
 
         <TouchableOpacity
           onPress={() => {
             navigation.push('StoreCoffee');
           }}
-          style={[styles.caseDiaChi]}> 
+          style={[styles.caseDiaChi]}>
           <View style={{marginLeft: 6}}>
             <Text
-              style={[styles.txtCaseDiaChi, {fontWeight:'600',fontSize:15}]}
+              style={[styles.txtCaseDiaChi, {fontWeight: '600', fontSize: 15}]}
               numberOfLines={1}
               ellipsizeMode="tail">
               {/* Địa chỉ: {diaChi?.so_nha}, {diaChi?.tinh} */}
@@ -265,8 +389,7 @@ const CartPayment = forwardRef(({setPrice}, ref) => {
               style={[styles.txtCaseDiaChi]}
               numberOfLines={2}
               ellipsizeMode="tail">
-              {
-                locationDefault?.dia_chi || 'Chưa có địa chỉ cửa hàng'}
+              {locationDefault?.dia_chi || 'Chưa có địa chỉ cửa hàng'}
             </Text>
           </View>
         </TouchableOpacity>
@@ -540,7 +663,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     // justifyContent: 'flex-start',
     padding: 12,
-    borderRadius:16,
+    borderRadius: 16,
     // marginTop: 20,
   },
   txtCaseDiaChi: {
@@ -548,13 +671,13 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   caseDiaChi: {
-    flex:0.5,
-    borderBottomWidth:1,
-    borderColor:'#a7a7a7',
-    borderStyle:'dashed',
-    marginHorizontal:6,
-    paddingBottom:10,
-    // justifyContent:'center',  
+    flex: 0.5,
+    borderBottomWidth: 1,
+    borderColor: '#a7a7a7',
+    borderStyle: 'dashed',
+    marginHorizontal: 6,
+    paddingBottom: 10,
+    // justifyContent:'center',
   },
   thongTinDiaChiContainer: {
     flexDirection: 'column',

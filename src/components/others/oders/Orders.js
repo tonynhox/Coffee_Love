@@ -35,9 +35,9 @@ const Orders = () => {
         </View>
       ) : (
         <>
-          <View style={{width: '100%', paddingTop: statusBarHeight}}>
+          <View style={{width: '100%'}}>
             <Header
-              containerStyle={{backgroundColor: '#fff', height: 50}}
+              containerStyle={{backgroundColor: '#fff', height: 80}}
               rightComponent={true}
               headerText="Chi tiết đơn mua"
             />
