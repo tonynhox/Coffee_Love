@@ -3,6 +3,7 @@ import React from 'react';
 import {styles} from './styles';
 import {useSelector, useDispatch} from 'react-redux';
 import {getChangeScoreFetch} from '../../../redux/reducers/slices/scoreSlide';
+import Header from '../../../utils/Header';
 
 const AllScore = () => {
   const data = useSelector(state => state.scores.score);
@@ -58,16 +59,22 @@ const AllScore = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <FlatList
-        
-        data={data}
-        columnWrapperStyle={{justifyContent: 'space-between'}}
-        numColumns={2}
-        renderItem={renderItem}
-        keyExtractor={item => item._id}
+    <>
+      <Header 
+        headerText="Đổi điểm" 
+        rightComponent={true}
+        containerStyle={{backgroundColor: '#fff', height: 70}}
       />
-    </View>
+      <View style={styles.container}>
+        <FlatList
+          data={data}
+          columnWrapperStyle={{justifyContent: 'space-between'}}
+          numColumns={2}
+          renderItem={renderItem}
+          keyExtractor={item => item._id}
+        />
+      </View>
+    </>
   );
 };
 

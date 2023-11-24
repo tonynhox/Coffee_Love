@@ -3,19 +3,20 @@ import {BACKGROUND_BUTTON_COLOR} from '../../../utils/contanst';
 
 export const editProfileStyle = StyleSheet.create({
   container: {
-    flex: 1,
-    flexDirection: 'column',
+    // flexDirection: 'column',
     // justifyContent:'center',
-    alignItems: 'center',
-    margin: 5,
+    // alignItems: 'center',
+    marginHorizontal: 20,
+    paddingBottom: 20,
   },
   imageProfile: {
     width: 230,
     height: 200,
     marginVertical: 40,
+    alignSelf: 'center',
   },
   inputContainer: {
-    width: '95%',
+    width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
     borderColor: BACKGROUND_BUTTON_COLOR,
@@ -54,6 +55,7 @@ export const editProfileStyle = StyleSheet.create({
     marginBottom: 10,
     // position: 'absolute',
     bottom: 10,
+    alignSelf: 'center',
   },
   textSaveProfile: {
     fontSize: 20,
