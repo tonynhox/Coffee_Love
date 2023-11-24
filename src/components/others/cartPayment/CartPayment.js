@@ -598,12 +598,11 @@ const CartPayment = forwardRef(({setPrice}, ref) => {
             <View style={styles.separateLine} />
 
             {/* Momo */}
-            <TouchableOpacity
+            {/* <TouchableOpacity
               style={styles.phiGiaoHangContainer}
               onPress={() =>
                 changeHinhThucThanhToan(hinh_thuc_thanh_toan.momo.state)
               }>
-              {/* <Text style={styles.textPhiGiaoHang}>15.000₫</Text> */}
               <View style={{flexDirection: 'row', alignItems: 'center'}}>
                 <Image
                   source={require('../../../assets/images/momo.png')}
@@ -615,11 +614,10 @@ const CartPayment = forwardRef(({setPrice}, ref) => {
                 </Text>
               </View>
 
-              {/* <Text style={styles.textPhiGiaoHang}>15.000₫</Text> */}
               {hinhThucThanhToan.state === hinh_thuc_thanh_toan.momo.state ? (
                 <Icon name="check" size={20} color="green" />
               ) : null}
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
         )}
       </View>
