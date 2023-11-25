@@ -16,6 +16,7 @@ import {
   setOpenBottomSheet,
 } from '../../../redux/reducers/slices/utilSlice';
 import { RenderTopping } from './item/RenderTopping';
+import { formatCurrency } from '../../../utils/formatCurrency';
 
 const RenderOrderItem = ({item}) => {
   const dispatch = useDispatch();
@@ -45,15 +46,15 @@ const RenderOrderItem = ({item}) => {
                 {item.giam_gia != 0 ? (
                   <>
                     <Text style={[styles.textTien, styles.amount]}>
-                      {item.gia}
+                      {formatCurrency(item.gia)}
                     </Text>
                     <Text style={[styles.textTien, styles.textGiaSale]}>
-                      {item.gia_da_giam}
+                      {formatCurrency(item.gia_da_giam)}
                     </Text>
                   </>
                 ) : (
                   <Text style={[styles.textTien, styles.textGiaSale]}>
-                    {item.gia}
+                    {formatCurrency(item.gia)}
                   </Text>
                 )}
                 {/* <Text style={styles.textGiaSale}>{item.gia}₫</Text>  */}
