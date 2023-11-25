@@ -121,17 +121,33 @@ const donHangSlice = createSlice({
     //===============================
     getDanhGiaSuccess: (state, action) => {
       if (action.payload.result) {
-        state.dataLichSu = state.dataLichSu.filter(item => {
-          if (item._id !== action.payload.result._id) {
-            return true; // Keep the item in the filtered array
-          } else {
-            state.dataDanhGia = [action.payload.result, ...state.dataDanhGia];
-            return false; // Exclude this item from the filtered array
+        const updatedItemId = action.payload.result._id;
+
+        // Update state.dataLichSu
+        state.dataLichSu = state.dataLichSu.map(item => {
+          if (item._id === updatedItemId) {
+            // Replace the old object with the new one
+            return action.payload.result;
           }
+          return item;
         });
 
+        // Update state.dataDanhGia
+        state.dataDanhGia = state.dataDanhGia.map(item => {
+          if (item._id === updatedItemId) {
+            // Replace the old object with the new one
+            return action.payload.result;
+          }
+          return item;
+        });
+
+        // Log success message
         console.log('DANH GIA SAN PHAM THANH CONG');
+
+        // Update loading state
         state.isDanhGiaLoading = false;
+
+        // Show a toast message
         ToastAndroid.show(
           'Cảm ơn bạn đã đánh giá sản phẩm của Coffee.Love',
           ToastAndroid.SHORT,

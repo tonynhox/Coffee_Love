@@ -2,7 +2,7 @@ import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import React, {useEffect} from 'react';
 import PushNotification from 'react-native-push-notification';
 
-const MY_CHANNEL_ID = 'new';
+const MY_CHANNEL_ID = 'newest';
 const MY_CHANNEL_NAME = 'My channel name';
 
 const OnScreenNotification = ({value}) => {

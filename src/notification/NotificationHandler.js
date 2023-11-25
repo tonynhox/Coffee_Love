@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View, Alert, Modal} from 'react-native';
+import {StyleSheet, Text, View, Alert, Modal, Linking} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {PermissionsAndroid} from 'react-native';
 import messaging from '@react-native-firebase/messaging';
@@ -12,6 +12,7 @@ import ModalNotification from './ModalNotification';
 import OnScreenNotification from './OnScreenNotification';
 import ModalDanhGiaNotification from './notificationDanhGiaSanPham/ModalDanhGiaNotification';
 import {getIncreaseCountNotificationByRemote} from '../redux/reducers/slices/userSlice';
+import {check, request, PERMISSIONS, RESULTS} from 'react-native-permissions';
 
 const NotificationHandler = () => {
   const dispatch = useDispatch();
@@ -46,9 +47,32 @@ const NotificationHandler = () => {
   }, []);
 
   useEffect(() => {
-    PermissionsAndroid.request(
-      PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS,
-    );
+    const requestPermission = async () => {
+      
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS,
+          {
+            title: 'Cool Photo App Needs Notification Permission',
+            message:
+              'Cool Photo App needs access to your notifications ' +
+              'so you can know when you have new photos.',
+            buttonNeutral: 'Ask Me Later',
+            buttonNegative: 'Cancel',
+            buttonPositive: 'OK',
+          },
+        );
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          console.log('Notification permission granted');
+        } else {
+          console.log('Notification PERMISSIONS DENIED');
+        }
+      } catch (err) {
+        console.warn(err);
+      }
+
+    };
+    requestPermission();
 
     waitingForToken();
   }, []);

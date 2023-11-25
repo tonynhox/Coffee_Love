@@ -34,6 +34,7 @@ import {formatCurrency} from '../../utils/formatCurrency';
 import {getHistoryScoreFetch} from '../../redux/reducers/slices/historyScoreSlide';
 import {findNearestCoordinate, sortStore} from '../others/map4D/tinhKhoangCach';
 import {getDeviceTokenRequest} from '../../redux/reducers/slices/deviceTokenSlice';
+import {check, request, PERMISSIONS, RESULTS} from 'react-native-permissions';
 
 const Tab = createBottomTabNavigator();
 
@@ -59,6 +60,9 @@ const MainNavigation = () => {
     }
   };
 
+
+ 
+
   const user = useSelector(state => state.users?.user);
   const device_token = useSelector(state => state.device_token?.deviceToken);
 
@@ -78,7 +82,7 @@ const MainNavigation = () => {
         }),
       );
     }
-  }, [user?.device_token]);
+  }, [device_token]);
 
   useEffect(() => {
     getCurrentPosition();

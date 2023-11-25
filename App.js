@@ -1,4 +1,4 @@
-import {View, Text, StyleSheet, TextInput} from 'react-native';
+import {View, Text, StyleSheet, TextInput, PermissionsAndroid} from 'react-native';
 import React, {useEffect} from 'react';
 
 import {Provider} from 'react-redux';
@@ -18,6 +18,7 @@ import TopOrderLoadingPlaceholder from './src/components/others/loading/TopOrder
 export const navigationRef = createNavigationContainerRef();
 
 const App = () => {
+
   return (
     <Provider store={store}>
       <NavigationContainer>

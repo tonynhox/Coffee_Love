@@ -195,6 +195,7 @@ const CartPayment = forwardRef(({setPrice}, ref) => {
             so_luong: item.so_luong,
             gia: item.gia_da_giam,
             topping: item.topping,
+            hinh_anh_sp: 'https://icdn.dantri.com.vn/thumb_w/640/2021/03/04/vi-ca-phe-den-het-nhu-vi-cuoc-songdocx-1614866315610.png'
           };
         }),
         ghi_chu: ghiChu,
