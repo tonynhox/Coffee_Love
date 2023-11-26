@@ -9,7 +9,7 @@ import {
   Image,
   NativeModules,
   NativeEventEmitter,
-  LogBox
+  LogBox,
 } from 'react-native';
 import React, {
   useEffect,
@@ -27,7 +27,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useDispatch, useSelector} from 'react-redux';
 import {formatCurrency} from '../../../utils/formatCurrency';
 import {findNearestCoordinate} from '../map4D/tinhKhoangCach';
-import { 
+import {
   getLocationRouteFetch,
   getRouteCartFetch,
 } from '../../../redux/reducers/slices/locationMapSlice';
@@ -41,10 +41,9 @@ import CryptoJS from 'crypto-js';
 LogBox.ignoreLogs(['new NativeEventEmitter']); // Ignore log notification by message
 LogBox.ignoreAllLogs(); //Ignore all log notifications
 
-const { PayZaloBridge } = NativeModules;
+const {PayZaloBridge} = NativeModules;
 
 const payZaloBridgeEmitter = new NativeEventEmitter(PayZaloBridge);
-
 
 const CartPayment = forwardRef(({setPrice}, ref) => {
   const navigation = useNavigation();
@@ -229,17 +228,16 @@ const CartPayment = forwardRef(({setPrice}, ref) => {
   }));
 
   useEffect(() => {
-    if(token&&hinhThucThanhToan.state==1){
+    if (token && hinhThucThanhToan.state == 1) {
       payOrder();
     }
-  }
-  , [token]);
+  }, [token]);
 
   //zalopay tạo đơn hàng
-  const getCurrentDateYYMMDD= ()=> {
+  const getCurrentDateYYMMDD = () => {
     const todayDate = new Date().toISOString().slice(2, 10);
     return todayDate.split('-').join('');
-  }
+  };
   const createOrder = async () => {
     const apptransid = getCurrentDateYYMMDD() + '_' + new Date().getTime();
     const appid = 2553;
@@ -249,8 +247,24 @@ const CartPayment = forwardRef(({setPrice}, ref) => {
     const embeddata = '{}';
     const item = '[]';
     const description = 'CoffeeLove - Thanh toán đơn hàng #' + apptransid;
-    const hmacInput = appid + '|' + apptransid + '|' + appuser + '|' + amount + '|' + apptime + '|' + embeddata + '|' + item;
-    const mac = CryptoJS.HmacSHA256(hmacInput, 'PcY4iZIKFCIdgZvA6ueMcMHHUbRLYjPL');
+    const hmacInput =
+      appid +
+      '|' +
+      apptransid +
+      '|' +
+      appuser +
+      '|' +
+      amount +
+      '|' +
+      apptime +
+      '|' +
+      embeddata +
+      '|' +
+      item;
+    const mac = CryptoJS.HmacSHA256(
+      hmacInput,
+      'PcY4iZIKFCIdgZvA6ueMcMHHUbRLYjPL',
+    );
 
     const order = {
       app_id: appid,
@@ -267,7 +281,9 @@ const CartPayment = forwardRef(({setPrice}, ref) => {
     console.log(order);
 
     const formBody = Object.keys(order)
-      .map((key) => encodeURIComponent(key) + '=' + encodeURIComponent(order[key]))
+      .map(
+        key => encodeURIComponent(key) + '=' + encodeURIComponent(order[key]),
+      )
       .join('&');
 
     try {
@@ -285,33 +301,35 @@ const CartPayment = forwardRef(({setPrice}, ref) => {
     } catch (error) {
       console.log('error ', error);
     }
-  }
+  };
 
   //chuyển qua app zalopay
   const payOrder = () => {
     const payZP = NativeModules.PayZaloBridge;
     payZP.payOrder(token);
-  }
+  };
 
   //từ zalopay back về
   useEffect(() => {
-    const subscription = payZaloBridgeEmitter.addListener(
-      'EventPayZalo',
-      (data) => {
-        console.log('data ', data.returnCode);
-        if (data.returnCode == 1) {
-          // alert('Pay success!');
-          console.log('Pay ok!');
+    if (token) {
+      const subscription = payZaloBridgeEmitter.addListener(
+        'EventPayZalo',
+        data => {
+          console.log('data ', data.returnCode);
+          if (data.returnCode == 1) {
+            // alert('Pay success!');
+            console.log('Pay ok!');
 
-          handlePayment();
-        } else {
-          console.log('Pay error!');
-        }
-      }
-    );
+            handlePayment();
+          } else {
+            console.log('Pay error!');
+          }
+        },
+      );
 
-    return () => subscription.remove();
-  }, []);
+      return () => subscription.remove();
+    }
+  }, [token]);
 
   return (
     <View style={styles.container}>
