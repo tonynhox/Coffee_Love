@@ -7,6 +7,7 @@ import {
   ScrollView,
   TouchableOpacity,
   ImageBackground,
+  Alert,
 } from 'react-native';
 import React from 'react';
 import {styles} from './styles';
@@ -87,7 +88,15 @@ const ListVoucher = () => {
 
   const RenderItem2 = ({item}) => {
     return (
-      <View style={styles.cardFL}>
+      <TouchableOpacity 
+      onPress={() => {
+        Alert.alert(`${item.ten_voucher}`, `Bạn thật sự muốn đổi?`, [
+          {text: 'Hủy'},
+          {text: 'Đồng ý', onPress: () => handleChangeScore(item)},
+
+        ]);
+      }}
+        style={styles.cardFL}>
         <View>
           <Image
             style={styles.img}
@@ -103,7 +112,7 @@ const ListVoucher = () => {
             <Text style={styles.txt}>Điểm</Text>
           </View>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
 

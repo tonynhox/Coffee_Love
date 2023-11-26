@@ -230,7 +230,7 @@ const DangGiao = () => {
   );
 };
 
-export default DangGiao;
+export default React.memo(DangGiao);
 
 const styles = StyleSheet.create({
   container: {

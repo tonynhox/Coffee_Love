@@ -1,4 +1,4 @@
-import {Text, View, Image, FlatList, TouchableOpacity} from 'react-native';
+import {Text, View, Image, FlatList, TouchableOpacity, Alert} from 'react-native';
 import React from 'react';
 import {styles} from './styles';
 import {useSelector, useDispatch} from 'react-redux';
@@ -35,7 +35,11 @@ const AllScore = () => {
       <TouchableOpacity
         style={styles.cardProduct}
         onPress={() => {
-          handleChangeScore(item);
+          Alert.alert(`${ten_voucher}`, `Bạn thật sự muốn đổi?`, [
+            {text: 'Hủy'},
+            {text: 'Đồng ý', onPress: () => handleChangeScore(item)},
+
+          ]);
         }}>
         <View style={styles.cardImg}>
           <Image

@@ -27,7 +27,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useDispatch, useSelector} from 'react-redux';
 import {formatCurrency} from '../../../utils/formatCurrency';
 import {findNearestCoordinate} from '../map4D/tinhKhoangCach';
-import {
+import { 
   getLocationRouteFetch,
   getRouteCartFetch,
 } from '../../../redux/reducers/slices/locationMapSlice';
@@ -195,7 +195,7 @@ const CartPayment = forwardRef(({setPrice}, ref) => {
             so_luong: item.so_luong,
             gia: item.gia_da_giam,
             topping: item.topping,
-            hinh_anh_sp: 'https://icdn.dantri.com.vn/thumb_w/640/2021/03/04/vi-ca-phe-den-het-nhu-vi-cuoc-songdocx-1614866315610.png'
+            hinh_anh_sp: item.hinh_anh_sp[0].hinh_anh_sp,
           };
         }),
         ghi_chu: ghiChu,

@@ -463,6 +463,8 @@ const BottomMuaSanPhamCategories = ({isOpenBottom}) => {
                       gia: handeSelectedSize().gia,
                       so_luong: quantity,
                       topping: handleSelectedTopping(),
+                      hinh_anh_sp: dataChiTietSanPham.hinh_anh_sp[0].hinh_anh_sp,
+
                     })
                   }>
                   <Text style={styles.textMuaNgay}>

@@ -23,7 +23,7 @@ import {getDataToppingRequest} from '../../../redux/reducers/slices/toppingSlice
 
 const BottomMuaSanPham = ({isOpen, onChangeOpen, data, handleNavigate}) => {
   const dispatch = useDispatch();
-
+  // console.log('data -------------', data);
   const isLoading = useSelector(state => state.topping.isLoading);
   const dataToppingFetch = useSelector(state => state.topping.data);
   const user = useSelector(state => state.users.user);
@@ -35,7 +35,7 @@ const BottomMuaSanPham = ({isOpen, onChangeOpen, data, handleNavigate}) => {
   //tinhtong
   useEffect(() => {
     setTotal((giaSP + giaTopping) * quantity);
-  }, [giaSP, giaTopping,quantity]);
+  }, [giaSP, giaTopping, quantity]);
 
   useEffect(() => {
     if (isOpen) {
@@ -65,7 +65,6 @@ const BottomMuaSanPham = ({isOpen, onChangeOpen, data, handleNavigate}) => {
     getToppingRequest();
   }, []);
 
-
   const handleTangSoLuong = () => {
     setQuantity(quantity + 1);
   };
@@ -80,31 +79,33 @@ const BottomMuaSanPham = ({isOpen, onChangeOpen, data, handleNavigate}) => {
   const [dataSize, setDataSize] = useState(data.size);
 
   //huy
-  const handleChangeSize = (id) => {
+  const handleChangeSize = id => {
     // Lấy ra size hiện tại đã được chọn
-    const currentSelectedSize = dataSize.find((item) => item.isSelected);
-  
+    const currentSelectedSize = dataSize.find(item => item.isSelected);
+
     // Tìm ra size mới dựa trên id
-    const newSize = dataSize.find((item) => item._id === id);
-  
+    const newSize = dataSize.find(item => item._id === id);
+
     // Kiểm tra nếu size mới khác size hiện tại
     if (currentSelectedSize !== newSize) {
       // Loại bỏ isSelected cho size hiện tại
       if (currentSelectedSize) {
-        setDataSize((prevState) =>
-          prevState.map((item) =>
-            item._id === currentSelectedSize._id ? { ...item, isSelected: false } : item
-          )
+        setDataSize(prevState =>
+          prevState.map(item =>
+            item._id === currentSelectedSize._id
+              ? {...item, isSelected: false}
+              : item,
+          ),
         );
       }
-  
+
       // Cập nhật isSelected cho size mới
-      setDataSize((prevState) =>
-        prevState.map((item) =>
-          item._id === id ? { ...item, isSelected: true } : item
-        )
+      setDataSize(prevState =>
+        prevState.map(item =>
+          item._id === id ? {...item, isSelected: true} : item,
+        ),
       );
-  
+
       if (currentSelectedSize) {
         // const priceDifference = (newSize.gia - currentSelectedSize.gia);
         // setTotal(total => total + priceDifference);
@@ -128,7 +129,7 @@ const BottomMuaSanPham = ({isOpen, onChangeOpen, data, handleNavigate}) => {
   //     });
   //   });
   // };
-  
+
   const handleChangeTopping = id => {
     setDataTopping(prevState => {
       return prevState.map(item => {
@@ -174,32 +175,32 @@ const BottomMuaSanPham = ({isOpen, onChangeOpen, data, handleNavigate}) => {
     // const gia = item.gia-defaultgia;
 
     return (
-        <TouchableOpacity
-          key={item._id}
-          style={styles.toppingContainer}
-          onPress={() => handleChangeSize(item._id)}>
-          <Text style={styles.textTopping}>{item.ten_size}</Text>
-          <View style={styles.tienToppingContainer}>
-            {item.giam_gia != 0 ? (
-              <>
-                <Text style={styles.textGiaTien}>{formatCurrency(item.gia)}</Text>
-                <Text style={styles.textTien}>
-                  {' '}
-                  {formatCurrency(item.gia_da_giam)}{' '}
-                </Text>
-              </>
-            ) : (
-              <Text style={styles.textTien}>+{formatCurrency(item.gia)}</Text>
-            )}
-  
-            <Icon
-              style={styles.toppingChecked}
-              name={item.isSelected ? 'circle-dot' : 'circle'}
-              size={20}
-              color={BACKGROUND_BUTTON_COLOR}
-            />
-          </View>
-        </TouchableOpacity>
+      <TouchableOpacity
+        key={item._id}
+        style={styles.toppingContainer}
+        onPress={() => handleChangeSize(item._id)}>
+        <Text style={styles.textTopping}>{item.ten_size}</Text>
+        <View style={styles.tienToppingContainer}>
+          {item.giam_gia != 0 ? (
+            <>
+              <Text style={styles.textGiaTien}>{formatCurrency(item.gia)}</Text>
+              <Text style={styles.textTien}>
+                {' '}
+                {formatCurrency(item.gia_da_giam)}{' '}
+              </Text>
+            </>
+          ) : (
+            <Text style={styles.textTien}>+{formatCurrency(item.gia)}</Text>
+          )}
+
+          <Icon
+            style={styles.toppingChecked}
+            name={item.isSelected ? 'circle-dot' : 'circle'}
+            size={20}
+            color={BACKGROUND_BUTTON_COLOR}
+          />
+        </View>
+      </TouchableOpacity>
     );
   };
 
@@ -333,6 +334,7 @@ const BottomMuaSanPham = ({isOpen, onChangeOpen, data, handleNavigate}) => {
                 gia: handeSelectedSize().gia,
                 so_luong: quantity,
                 topping: handleSelectedTopping(),
+                hinh_anh_sp: data.hinh_anh_sp[0].hinh_anh_sp,
               })
             }>
             <Text style={styles.textMuaNgay}>

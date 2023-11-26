@@ -232,7 +232,7 @@ const LichSu = () => {
   );
 };
 
-export default LichSu;
+export default React.memo(LichSu);
 
 const styles = StyleSheet.create({
   container: {
