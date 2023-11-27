@@ -72,7 +72,7 @@ export const styles = StyleSheet.create({
   tRead:{
     color: 'rgba(0,0,0,0.5)',
     fontSize: 13,
-    fontWeight: '400',
+    fontWeight: '300',
     marginTop: 5
   
   },
@@ -83,7 +83,7 @@ export const styles = StyleSheet.create({
   },
   textTitleRead: {
     fontSize: 15,
-    fontWeight: '500',
+    fontWeight: '300',
     color: 'rgba(0,0,0,0.5)',
   },
   contentContainer: {

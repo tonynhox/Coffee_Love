@@ -13,11 +13,16 @@ import {BACKGROUND_BUTTON_COLOR} from '../../../utils/contanst';
 import Header from '../../../utils/Header';
 import {useDispatch, useSelector} from 'react-redux';
 import {editUser} from '../../../redux/reducers/slices/userSlice';
-import { ScrollView } from 'react-native-virtualized-view';
+import {ScrollView} from 'react-native-virtualized-view';
 
 const EditProfile = () => {
   const user = useSelector(state => state.users.user);
   const [dataTemp, setdataTemp] = useState(user);
+  const [errorStatus, setErrorStatus] = useState({
+    ten: false,
+    email: false,
+    sdt: false,
+  });
 
   // const [ten, setTen] = useState(user.ho_ten);
   // const [ava, setAva] = useState(user.avatar);//twj ghi
@@ -34,16 +39,66 @@ const EditProfile = () => {
   const dispatch = useDispatch();
 
   const handleEdit = () => {
-    dispatch(
-      // editUser({
-      //   id_user: id,
-      //   ho_ten: ten,
-      //   avatar: ava,
-      //   email: mail,
-      //   so_dien_thoai: sdt,
-      // }),
-      editUser(dataTemp), //ok
-    );
+    const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}$/;
+    const phoneRegex = /^0[0-9]{8,10}$/;
+    console.log('REGEX NUMBER: ', phoneRegex.test(dataTemp.so_dien_thoai));
+
+    let hasError = false;
+    let isTen = false;
+    let isEmail = false;
+    let isSdt = false;
+
+    if (dataTemp.ho_ten === '') {
+      isTen = true;
+      hasError = true;
+    } else {
+      isTen = false;
+      hasError = false;
+    }
+    if (dataTemp.email === '' || !emailRegex.test(dataTemp.email)) {
+      isEmail = true;
+      hasError = true;
+    } else {
+      isEmail = false;
+      hasError = false;
+    }
+    if (
+      dataTemp.so_dien_thoai === '' ||
+      !phoneRegex.test(dataTemp.so_dien_thoai)
+    ) {
+      isSdt = true;
+      hasError = true;
+    } else {
+      isSdt = false;
+      hasError = false;
+    }
+
+    if (hasError) {
+      setErrorStatus({
+        ten: isTen,
+        email: isEmail,
+        sdt: isSdt,
+      });
+
+      return;
+    }
+
+    setErrorStatus({
+      ten: false,
+      email: false,
+      sdt: false,
+    });
+    console.log('DISPATCH');
+    // dispatch(
+    //   // editUser({
+    //   //   id_user: id,
+    //   //   ho_ten: ten,
+    //   //   avatar: ava,
+    //   //   email: mail,
+    //   //   so_dien_thoai: sdt,
+    //   // }),
+    //   editUser(dataTemp), //ok
+    // );
   };
 
   return (
@@ -57,11 +112,10 @@ const EditProfile = () => {
         }}
         rightComponent={true}
       />
-      <ScrollView 
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={editProfileStyle.container}
-        // style={editProfileStyle.container}
-        >
+      <View
+        // showsVerticalScrollIndicator={false}
+        // contentContainerStyle={editProfileStyle.container}
+        style={editProfileStyle.container}>
         {/* Image avatar */}
 
         <Image
@@ -72,11 +126,21 @@ const EditProfile = () => {
         {/* input name view */}
         <View style={editProfileStyle.textInputContainer}>
           <Text style={editProfileStyle.textLableInput}>Tên</Text>
-          <View style={editProfileStyle.inputContainer}>
+          {errorStatus.ten && (
+            <Text style={editProfileStyle.textLableInputWrong}>
+              Tên không được để trống
+            </Text>
+          )}
+          <View
+            style={
+              !errorStatus.ten
+                ? editProfileStyle.inputContainer
+                : editProfileStyle.inputContainerWrong
+            }>
             <TextInput
               style={editProfileStyle.input}
-              onChangeText={text => setdataTemp({...dataTemp, ho_ten: text})}
-              value={dataTemp.ho_ten} //ghi tiep
+              onChangeText={text => setdataTemp({...dataTemp, ho_ten: text})} // ghi tieeps
+              value={dataTemp.ho_ten}
               placeholderTextColor="#999"
             />
             <Icon
@@ -91,7 +155,18 @@ const EditProfile = () => {
         {/* input Email view */}
         <View style={editProfileStyle.textInputContainer}>
           <Text style={editProfileStyle.textLableInput}>E-mail</Text>
-          <View style={editProfileStyle.inputContainer}>
+
+          {errorStatus.email && (
+            <Text style={editProfileStyle.textLableInputWrong}>
+              E-mail sai định dạng
+            </Text>
+          )}
+          <View
+            style={
+              !errorStatus.email
+                ? editProfileStyle.inputContainer
+                : editProfileStyle.inputContainerWrong
+            }>
             <TextInput
               style={editProfileStyle.input}
               onChangeText={text => setdataTemp({...dataTemp, email: text})} // ghi tieeps
@@ -110,12 +185,24 @@ const EditProfile = () => {
         {/* input Email view */}
         <View style={editProfileStyle.textInputContainer}>
           <Text style={editProfileStyle.textLableInput}>Số điện thoại</Text>
-          <View style={editProfileStyle.inputContainer}>
+
+          {errorStatus.sdt && (
+            <Text style={editProfileStyle.textLableInputWrong}>
+              Số điện thoại không đúng định dạng (10 số)
+            </Text>
+          )}
+          <View
+            style={
+              !errorStatus.sdt
+                ? editProfileStyle.inputContainer
+                : editProfileStyle.inputContainerWrong
+            }>
             <TextInput
               style={editProfileStyle.input}
               onChangeText={text =>
                 setdataTemp({...dataTemp, so_dien_thoai: text})
               }
+              keyboardType="numeric"
               value={dataTemp.so_dien_thoai}
               placeholderTextColor="#999"
             />
@@ -134,7 +221,7 @@ const EditProfile = () => {
           style={editProfileStyle.buttonSaveProfile}>
           <Text style={editProfileStyle.textSaveProfile}>Đặt Lại Hồ Sơ</Text>
         </TouchableOpacity>
-      </ScrollView>
+      </View>
     </>
   );
 };

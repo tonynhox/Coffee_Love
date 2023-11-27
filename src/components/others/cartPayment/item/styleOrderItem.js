@@ -5,11 +5,9 @@ export const styles = StyleSheet.create({
 
 
   imageTopping: {
-    width: 30,
-    height: 30,
-    resizeMode: 'contain',
-    marginHorizontal: 10,
+    
     marginVertical: 5,
+    marginRight: 10,
   },
 
 

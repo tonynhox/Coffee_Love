@@ -2,13 +2,17 @@ import {Text, View, Image} from 'react-native';
 import {styles} from './styleOrderItem';
 import React from 'react';
 import { formatCurrency } from '../../../utils/formatCurrency';
+import Icon from 'react-native-vector-icons/FontAwesome6';
 
 export const RenderTopping = React.memo(({item, index}) => {
   return (
     <View style={styles.toppingContainer}>
-      <Image
-        source={require('../../../assets/images/americano.png')}
-        style={[styles.imageTopping, {marginLeft: 60}]}
+         <Icon
+         name="award"
+         size={20}
+         color="#E78307"
+         style={[styles.imageTopping, {marginLeft: 80}]}
+    
       />
 
       {/* thong tin san pham */}

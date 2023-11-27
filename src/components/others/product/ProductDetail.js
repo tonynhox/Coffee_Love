@@ -35,7 +35,7 @@ const ProductDetail = props => {
   const {navigation, route} = props;
   const id = route?.params?.id;
 
-  const dataSanPhamDeXuat = useSelector(state => state.products.data);
+  const dataSanPhamDeXuat = useSelector(state => state.categories.data);
 
   const dispatch = useDispatch();
   const dataChiTietSanPham = useSelector(state => state.chi_tiet_san_pham.data);
@@ -44,6 +44,13 @@ const ProductDetail = props => {
 
   //data favorite
   const dataFavorite = useSelector(state => state.favorite.data);
+
+  // san pham de xuat cung the loai
+  const dataSanPhamDeXuatCungTheLoaiIndex = dataSanPhamDeXuat.findIndex(
+    item =>
+      item.ten_loai_san_pham ==
+      dataChiTietSanPham?.loai_san_pham[0]?.ten_loai_san_pham,
+  );
 
   // call chi tiet san pham
   useEffect(() => {
@@ -216,7 +223,13 @@ const ProductDetail = props => {
                     return (
                       <TouchableOpacity
                         style={styles.danhMucContainer}
-                        key={index}>
+                        key={index}
+                        onPress={() =>
+                          navigation.navigate('MainNavigation', {
+                            screen: 'Categories',
+                            params: {index: dataSanPhamDeXuatCungTheLoaiIndex},
+                          })
+                        }>
                         <Icon
                           name="mug-saucer"
                           solid
@@ -304,7 +317,10 @@ const ProductDetail = props => {
               <View style={styles.sanPhamDeXuatContainer}>
                 <Text style={styles.textMoTa}>Đề xuất</Text>
                 <FlatList
-                  data={dataSanPhamDeXuat}
+                  data={
+                    dataSanPhamDeXuat[dataSanPhamDeXuatCungTheLoaiIndex]
+                      .san_pham
+                  }
                   renderItem={renderSanPhamDeXuat}
                   horizontal={true}
                   keyExtractor={item => item._id}

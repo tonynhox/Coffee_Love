@@ -22,7 +22,7 @@ const Categories = () => {
   };
 
   const renderItem = (item, index) => {
-    const {ten_loai_san_pham,hinh_anh} = item;
+    const {ten_loai_san_pham, hinh_anh} = item;
 
     if (index === 7 || ten_loai_san_pham === 'Xem Them') {
       return (
@@ -62,7 +62,7 @@ const Categories = () => {
     const {ten_loai_san_pham, san_pham} = item;
     categoryPositions.push(index);
     return (
-      <View 
+      <View
         style={{marginVertical: 16, borderRadius: 10}}
         key={ten_loai_san_pham}>
         <Text style={{color: '#000', fontWeight: '500', fontSize: 18}}>
@@ -178,7 +178,6 @@ const Styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 60,
-
   },
 
   card: {

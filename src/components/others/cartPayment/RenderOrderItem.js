@@ -15,8 +15,8 @@ import {
   setItemGioHang,
   setOpenBottomSheet,
 } from '../../../redux/reducers/slices/utilSlice';
-import { RenderTopping } from './item/RenderTopping';
-import { formatCurrency } from '../../../utils/formatCurrency';
+import {RenderTopping} from './item/RenderTopping';
+import {formatCurrency} from '../../../utils/formatCurrency';
 
 const RenderOrderItem = ({item}) => {
   const dispatch = useDispatch();
@@ -32,7 +32,7 @@ const RenderOrderItem = ({item}) => {
         {/* Image va thong tin san pham */}
         <View style={styles.sanPhamContainer}>
           <Image
-            source={require('../../../assets/images/americano.png')}
+            source={{uri: item.hinh_anh_sp[0].hinh_anh_sp}}
             style={styles.imageSanPham}
           />
 
@@ -70,9 +70,8 @@ const RenderOrderItem = ({item}) => {
       </TouchableOpacity>
       {item.topping.length == 0 ? null : (
         <View>
-          <Text style={[styles.textSize,{marginLeft: 80,marginTop:-4}]}>
-            topping
-          </Text>
+          {/* <Text style={[styles.textSize, {marginLeft: 80, marginTop: -4}]}>
+          </Text> */}
           {item.topping.map((item, index) => (
             <View key={index}>
               <RenderTopping item={item} index={index} />

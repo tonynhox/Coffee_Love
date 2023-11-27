@@ -1,4 +1,4 @@
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import React, {useEffect, useRef, useState} from 'react';
 import {
   View,
@@ -19,6 +19,7 @@ import {
 } from '../../../redux/reducers/slices/utilSlice';
 import Header from '../../../utils/Header';
 import ModalAllCategories from './ModalAllCategories';
+import { formatCurrency } from '../../../utils/formatCurrency';
 
 const CategoriesText = ({openBottomMuaHang}) => {
   const [isVisible, setIsVisible] = useState(false); // Sử dụng hàm setIsVisible để đóng modal
@@ -36,6 +37,17 @@ const CategoriesText = ({openBottomMuaHang}) => {
   const ref = useRef(null);
   const navigation = useNavigation();
   const [index, setIndex] = useState(-1);
+
+  const route = useRoute();
+  const indexFromProduct = route?.params?.index;
+
+  useEffect(() => {
+    if (!isNaN(indexFromProduct)) {
+      setTimeout(() => {
+        setIndex(indexFromProduct);
+      }, 1000);
+    }
+  }, [indexFromProduct]);
 
   //thay đổi tên danh mục ở header
   const [headerText, setHeaderText] = useState('Danh mục');
@@ -69,7 +81,7 @@ const CategoriesText = ({openBottomMuaHang}) => {
 
     if (index === 7 || ten_loai_san_pham === 'Xem Them') {
       return (
-        <TouchableOpacity 
+        <TouchableOpacity
           onPress={() => setIsVisible(true)}
           style={Styles.card}>
           <View
@@ -171,7 +183,7 @@ const CategoriesText = ({openBottomMuaHang}) => {
         <TouchableOpacity
           onPress={
             () => {
-              if(user) {
+              if (user) {
                 dispatch(setIDSanPham(item._id));
                 dispatch(setOpenBottomSheet(true));
               } else {
@@ -212,7 +224,7 @@ const CategoriesText = ({openBottomMuaHang}) => {
             {ten_san_pham}
           </Text>
           <Text style={{fontSize: 15, fontWeight: '400', color: '#000'}}>
-            {size[1]?.gia}đ
+            {formatCurrency(size[1]?.gia)}
           </Text>
         </View>
       </TouchableOpacity>
@@ -226,7 +238,7 @@ const CategoriesText = ({openBottomMuaHang}) => {
   });
 
   return (
-    <View style={{flex: 1,backgroundColor:'#fff'}}>
+    <View style={{flex: 1, backgroundColor: '#fff'}}>
       <Animated.View
         style={[
           Styles.header,
@@ -243,8 +255,7 @@ const CategoriesText = ({openBottomMuaHang}) => {
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
-              }}
-            >
+              }}>
               <Icon name="view-grid" style={{fontSize: 18, color: '#000'}} />
               <Text
                 style={{
@@ -252,8 +263,9 @@ const CategoriesText = ({openBottomMuaHang}) => {
                   fontSize: 18,
                   fontWeight: '600',
                   color: '#000',
-                }}
-              >{headerText}</Text>
+                }}>
+                {headerText}
+              </Text>
             </View>
           }
           containerStyle={{
@@ -261,8 +273,8 @@ const CategoriesText = ({openBottomMuaHang}) => {
             borderBottomWidth: 0.6,
             borderBottomColor: '#ddd',
             position: 'absolute',
-            paddingTop: StatusBar.currentHeight*0.8,
-            paddingBottom:-10,
+            paddingTop: StatusBar.currentHeight * 0.8,
+            paddingBottom: -10,
             paddingHorizontal: 16,
             margin: 0,
             top: 0,
@@ -277,7 +289,6 @@ const CategoriesText = ({openBottomMuaHang}) => {
           {useNativeDriver: false},
         )}
         onViewableItemsChanged={onViewableItemsChanged.current}
-
         contentContainerStyle={{
           paddingHorizontal: 16,
           paddingTop: 70,
@@ -288,7 +299,7 @@ const CategoriesText = ({openBottomMuaHang}) => {
         renderItem={({item, index}) => renderCategory(item, index)}
         keyExtractor={(item, index) => index.toString()}
       />
-      <ModalAllCategories 
+      <ModalAllCategories
         data={bigData}
         isVisible={isVisible}
         setIndex={setIndex}

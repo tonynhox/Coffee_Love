@@ -35,6 +35,7 @@ import {giaGiaoHang} from '../map4D/tinhGiaGiaoHang';
 import {useNavigation} from '@react-navigation/native';
 import {setUseVoucher} from '../../../redux/reducers/slices/voucherSlide';
 import {getPaymentFetch} from '../../../redux/reducers/slices/cartPaymentSlice';
+import IconF from 'react-native-vector-icons/FontAwesome6';
 
 import CryptoJS from 'crypto-js';
 
@@ -335,16 +336,25 @@ const CartPayment = forwardRef(({setPrice}, ref) => {
     <View style={styles.container}>
       {/* separate line */}
 
+      <View style={{justifyContent: 'center', alignItems: 'center'}}>
+        <IconF
+          name="chevron-down"
+          size={25}
+          color="#F65C09"
+          style={{paddingVertical: 7}}
+          alignSeft="center"
+        />
+      </View>
+
       {/* Dia chi giao hang */}
       <TouchableOpacity
         onPress={() => {
           navigation.push('MyAddress', {isCart: true});
         }}
         style={styles.thongTinDiaChiContainer}>
-        <View style={{position: 'absolute', top: 30, right: 0}}>
-          {/* <Text style={styles.textDonHang}>Đổi</Text> */}
-          {/* <Icon name="chevron-right" size={30} color="black" /> */}
-        </View>
+        {/* <View style={{position: 'absolute', top: 30, right: 0}}>
+        </View> */}
+
         <Text style={styles.textThongTinDiaChi}>
           Thông tin - địa chỉ giao hàng
         </Text>

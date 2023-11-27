@@ -6,7 +6,7 @@ export const editProfileStyle = StyleSheet.create({
     // flexDirection: 'column',
     // justifyContent:'center',
     // alignItems: 'center',
-    marginHorizontal: 20,
+    paddingHorizontal: 10,
     paddingBottom: 20,
   },
   imageProfile: {
@@ -25,6 +25,15 @@ export const editProfileStyle = StyleSheet.create({
     paddingHorizontal: 10,
     borderWidth: 1.5,
   },
+  inputContainerWrong: {
+    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderColor: '#FF0900',
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    borderWidth: 2.5,
+  },
   icon: {
     marginRight: 10,
   },
@@ -38,6 +47,12 @@ export const editProfileStyle = StyleSheet.create({
     fontWeight: 'bold',
     color: 'black',
     marginBottom: 5,
+  },
+  textLableInputWrong: {
+    fontSize: 14,
+    fontWeight: '400',
+    color: 'red',
+    fontStyle: 'italic',
   },
   textInputContainer: {
     flexDirection: 'column',

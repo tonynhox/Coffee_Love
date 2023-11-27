@@ -1,13 +1,16 @@
 import {Text, View, Image} from 'react-native';
 import {styles} from './styleOrderItem';
 import React from 'react';
-import { formatCurrency } from '../../../../utils/formatCurrency';
+import {formatCurrency} from '../../../../utils/formatCurrency';
+import Icon from 'react-native-vector-icons/FontAwesome6';
 
 export const RenderTopping = React.memo(({item, index}) => {
   return (
     <View style={styles.toppingContainer}>
-      <Image
-        source={require('../../../../assets/images/americano.png')}
+      <Icon
+        name="award"
+        size={20}
+        color="#E78307"
         style={[styles.imageTopping, {marginLeft: 80}]}
       />
 
@@ -19,7 +22,9 @@ export const RenderTopping = React.memo(({item, index}) => {
           <Text style={styles.textTenTopping}>{item.ten_topping}</Text>
           {/* Gia */}
           <View style={styles.giaTienContainer}>
-            <Text style={styles.textGiaTopping}>{formatCurrency(item.gia)}</Text>
+            <Text style={[styles.textGiaTopping, {color:'#E47404'}]}>
+              {formatCurrency(item.gia)}
+            </Text>
           </View>
         </View>
       </View>

@@ -67,10 +67,12 @@ const MainNavigation = () => {
   const device_token = useSelector(state => state.device_token?.deviceToken);
 
   useEffect(() => {
+    console.log("DEVICE TOKEN IS NONE: ", device_token)
     if (
-      device_token !== user?.device_token &&
-      user?.device_token !== undefined
+      device_token !== user?.device_token && 
+      device_token !== "none"
     ) {
+      console.log("UPLOADING DEVICE TOKEN", device_token)
       dispatch(
         getDeviceTokenRequest({
           id_user: user.id_user,

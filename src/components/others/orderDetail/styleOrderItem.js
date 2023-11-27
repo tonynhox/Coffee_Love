@@ -30,11 +30,8 @@ export const styles = StyleSheet.create({
     marginVertical: 5,
   },
   imageTopping: {
-    width: 30,
-    height: 30,
-    resizeMode: 'contain',
-    marginHorizontal: 10,
     marginVertical: 5,
+    marginRight: 10,
   },
 
   textTenSanPham: {
@@ -96,7 +93,7 @@ export const styles = StyleSheet.create({
   },
   textGiaTopping: {
     fontSize: 13,
-    color: 'gray',
+    color: '#F4700B',
     fontWeight: '400',
     marginLeft: 10,
   },

@@ -72,7 +72,7 @@ const BottomSheetDanhSachCuaHang = ({isVisible, onClose}) => {
             style={styles.textDiaChi}>
             {item.dia_chi}
           </Text>
-          <Text style={styles.textLocation}>Cách bạn 10km</Text>
+          {/* <Text style={styles.textLocation}>Cách bạn 10km</Text> */}
         </View>
       </TouchableOpacity>
     );

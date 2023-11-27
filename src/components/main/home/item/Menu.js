@@ -17,6 +17,7 @@ import {
   setOpenBottomSheet,
 } from '../../../../redux/reducers/slices/utilSlice';
 import SearchLoadingPlaceholder from '../../../others/loading/SearchLoadingPlaceholder';
+import { formatCurrency } from '../../../../utils/formatCurrency';
 const Menu = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -47,7 +48,7 @@ const Menu = () => {
             </Text>
           </View>
           <View style={styles.cardItemBottom}>
-            <Text style={styles.txtTitle}>{size[1]?.gia}</Text>
+            <Text style={styles.txtTitle}>{formatCurrency(size[1]?.gia)}</Text>
             <TouchableOpacity
               onPress={() => {
                 if (user) {
@@ -71,7 +72,7 @@ const Menu = () => {
   };
   //aaaaaaaaaaaaaaaaaaa
   return isLoading ? (
-    <SearchLoadingPlaceholder/>
+    <SearchLoadingPlaceholder />
   ) : (
     <View>
       <Text

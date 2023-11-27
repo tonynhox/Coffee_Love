@@ -55,49 +55,6 @@ const Search = () => {
     }
   };
 
-  const dataTimKiem = [
-    {id: 1, text: 'coffee', category: 'drink'},
-    {id: 2, text: 'americano', category: 'drink'},
-    {id: 3, text: 'latte', category: 'drink'},
-    {id: 4, text: 'cappuccino', category: 'drink'},
-    {id: 5, text: 'espresso', category: 'drink'},
-    {id: 6, text: 'mocha', category: 'drink'},
-    {id: 7, text: 'macchiato', category: 'drink'},
-    {id: 8, text: 'iced coffee', category: 'drink'},
-    {id: 9, text: 'cold brew', category: 'drink'},
-    {id: 10, text: 'frappuccino', category: 'drink'},
-    {id: 11, text: 'chai latte', category: 'drink'},
-    {id: 12, text: 'matcha latte', category: 'drink'},
-    {id: 13, text: 'green tea', category: 'drink'},
-    {id: 14, text: 'black tea', category: 'drink'},
-    {id: 15, text: 'herbal tea', category: 'drink'},
-    {id: 16, text: 'oolong tea', category: 'drink'},
-    {id: 17, text: 'bubble tea', category: 'drink'},
-    {id: 18, text: 'smoothie', category: 'drink'},
-    {id: 19, text: 'juice', category: 'drink'},
-    {id: 20, text: 'lemonade', category: 'drink'},
-    {id: 21, text: 'soda', category: 'drink'},
-    {id: 22, text: 'water', category: 'drink'},
-    {id: 23, text: 'milk', category: 'drink'},
-    {id: 24, text: 'soy milk', category: 'drink'},
-    {id: 25, text: 'almond milk', category: 'drink'},
-    {id: 26, text: 'oat milk', category: 'drink'},
-    {id: 27, text: 'whipped cream', category: 'topping'},
-    {id: 28, text: 'caramel', category: 'topping'},
-    {id: 29, text: 'chocolate', category: 'topping'},
-    {id: 30, text: 'vanilla', category: 'topping'},
-    {id: 31, text: 'croissant', category: 'food'},
-    {id: 32, text: 'bagel', category: 'food'},
-    {id: 33, text: 'muffin', category: 'food'},
-    {id: 34, text: 'scone', category: 'food'},
-    {id: 35, text: 'sandwich', category: 'food'},
-    {id: 36, text: 'salad', category: 'food'},
-    {id: 37, text: 'soup', category: 'food'},
-    {id: 38, text: 'pancake', category: 'food'},
-    {id: 39, text: 'waffle', category: 'food'},
-    {id: 40, text: 'french toast', category: 'food'},
-  ];
-
   const [search, setSearch] = React.useState('');
   const [filteredData, setFilteredData] = React.useState(allProducts);
   const [isSearchFocused, setIsSearchFocused] = useState(false);
@@ -156,7 +113,6 @@ const Search = () => {
   const dataPd = useSelector(state => state.products.data);
   const dataSPM = dataPd.slice(0, 4);
   const renderSanPhamMoi = ({item}) => {
-
     return (
       /* hinh anh ten san pham, sao */
       <TouchableOpacity
@@ -215,7 +171,7 @@ const Search = () => {
   };
 
   const options = {
-    keys: ['ten_san_pham', 'loai_san_pham.ten_loai_san_pham', 'mo_ta'],
+    keys: ['ten_san_pham', 'loai_san_pham.ten_loai_san_pham'],
     threshold: 0.2, // Adjust the threshold based on your desired level of matching
   };
 
@@ -230,12 +186,32 @@ const Search = () => {
       .replace(/[\u0300-\u036f]/g, '') // Remove diacritics
       .replace(/\s+/g, ''); // Remove spaces
 
+    const normalizedData = allProducts.map(item => {
+      const normalizedItem = {...item};
+      normalizedItem.ten_san_pham = item.ten_san_pham
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '') // Remove diacritics
+        .replace(/\s+/g, ''); // Remove spaces
+      if (item.loai_san_pham.length > 0) {
+        normalizedItem.loai_san_pham[0].ten_loai_san_pham =
+          item.loai_san_pham[0]?.ten_loai_san_pham
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '') // Remove diacritics
+            .replace(/\s+/g, ''); // Remove spaces
+      }
+      return normalizedItem;
+    });
+
     setSearch(textSearch);
-    const fuse = new Fuse(allProducts, options);
+    const fuse = new Fuse(normalizedData, options);
     const filteredItems = fuse.search(normalizedSearchTerm);
     const searchItems = filteredItems.map(item => item.item);
 
-    setFilteredData(searchItems);
+    const matchItemArray = allProducts.filter(value =>
+      searchItems.map(item => item._id).includes(value._id),
+    );
+
+    setFilteredData(matchItemArray);
   };
 
   return (
@@ -353,7 +329,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 10,
-    paddingTop: statusBarHeight
+    paddingTop: statusBarHeight,
     // backgroundColor: HEADER_COLOR,
   },
   arrowBack: {
