@@ -88,14 +88,13 @@ const ListVoucher = () => {
 
   const RenderItem2 = ({item}) => {
     return (
-      <TouchableOpacity 
-      onPress={() => {
-        Alert.alert(`${item.ten_voucher}`, `Bạn thật sự muốn đổi?`, [
-          {text: 'Hủy'},
-          {text: 'Đồng ý', onPress: () => handleChangeScore(item)},
-
-        ]);
-      }}
+      <TouchableOpacity
+        onPress={() => {
+          Alert.alert(`${item.ten_voucher}`, `Bạn thật sự muốn đổi?`, [
+            {text: 'Hủy'},
+            {text: 'Đồng ý', onPress: () => handleChangeScore(item)},
+          ]);
+        }}
         style={styles.cardFL}>
         <View>
           <Image
@@ -127,44 +126,43 @@ const ListVoucher = () => {
         colors={colorCartTV(user?.diem_thanh_vien).colorCard}>
         {/* <View style={styles.fistCard}> */}
 
-          <Text style={[styles.txtfc, {fontSize: 20, fontWeight: '600'}]}>
-            Ưu đãi
+        <Text style={[styles.txtfc, {fontSize: 20, fontWeight: '600'}]}>
+          Ưu đãi
+        </Text>
+        <Text
+          style={[
+            styles.txtfc,
+            {marginVertical: 10, fontSize: 27, fontWeight: '700'},
+          ]}>
+          {user?.hang_thanh_vien}
+        </Text>
+        <View style={styles.txtfc2}>
+          <Text style={[styles.txtfc, {fontSize: 15}]}>
+            {user?.tich_diem} Điểm
           </Text>
-          <Text
-            style={[
-              styles.txtfc,
-              {marginVertical: 10, fontSize: 27, fontWeight: '700'},
-            ]}>
-            {user?.hang_thanh_vien}
-          </Text>
-          <View style={styles.txtfc2}>
-            <Text style={[styles.txtfc, {fontSize: 15}]}>
-              {user?.tich_diem} Điểm
-            </Text>
-            <View style={styles.btnvc}>
-              <Icon
-                name="ticket-percent-outline"
-                style={[{color: '#e77300', fontSize: 20}]}
-              />
-              <Text style={styles.txtfc3}>Voucher của tôi</Text>
-            </View>
+          <View style={styles.btnvc}>
+            <Icon
+              name="ticket-percent-outline"
+              style={[{color: '#e77300', fontSize: 20}]}
+            />
+            <Text style={styles.txtfc3}>Voucher của tôi</Text>
           </View>
-          <View style={styles.cardRowfc}>
-            <BarcodeGenerator height={60} ma_khach_hang={user?.ma_khach_hang} />
-            {/* <Icon name="barcode" style={styles.barcode} />
+        </View>
+        <View style={styles.cardRowfc}>
+          <BarcodeGenerator height={60} ma_khach_hang={user?.ma_khach_hang} />
+          {/* <Icon name="barcode" style={styles.barcode} />
           <Text style={styles.txtfc4}>1234565</Text> */}
-          </View>
-          <Text style={[styles.txtfc, {fontSize: 12, marginTop: 10}]}>
-            Còn 100 điểm nữa bạn sẻ thăng hạng
-          </Text>
-          <Text style={[styles.txtfc, {fontSize: 12}]}>
-            Đổi quà không ảnh hưởng tới việc thăng hạng của bạn
-          </Text>
-          <Text style={[styles.txtfc, {fontSize: 12}]}>
-            Hãy dùng điểm để đổi ưu đãi nhé
-          </Text>
-          {/* </View> */}
-      
+        </View>
+        <Text style={[styles.txtfc, {fontSize: 12, marginTop: 10}]}>
+          Còn 100 điểm nữa bạn sẻ thăng hạng
+        </Text>
+        <Text style={[styles.txtfc, {fontSize: 12}]}>
+          Đổi quà không ảnh hưởng tới việc thăng hạng của bạn
+        </Text>
+        <Text style={[styles.txtfc, {fontSize: 12}]}>
+          Hãy dùng điểm để đổi ưu đãi nhé
+        </Text>
+        {/* </View> */}
       </LinearGradient>
 
       <View style={styles.card}>
@@ -178,7 +176,9 @@ const ListVoucher = () => {
             />
             <Text style={styles.txtExtention}>Vòng quay </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.cardExtention}>
+          <TouchableOpacity
+            style={styles.cardExtention}
+            onPress={() => navigation.navigate('VoucherCart')}>
             <Icon
               name="gift-outline"
               style={[styles.icon, {color: '#FF4500', fontSize: 26}]}

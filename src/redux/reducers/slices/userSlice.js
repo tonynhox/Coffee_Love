@@ -88,6 +88,7 @@ export const userSlice = createSlice({
         ho_ten: action.payload.ho_ten,
         so_dien_thoai: action.payload.so_dien_thoai,
         email: action.payload.email,
+        avatar: action.payload.avatar,
       };
       ToastAndroid.show('Chỉnh sửa thành công', ToastAndroid.SHORT);
     },

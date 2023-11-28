@@ -216,7 +216,7 @@ const BottomMuaSanPham = ({isOpen, onChangeOpen, data, handleNavigate}) => {
           <Text style={styles.textTien}>+{formatCurrency(item.gia)}</Text>
           <Icon
             style={styles.toppingChecked}
-            name={item.isSelected ? 'circle-dot' : 'circle'}
+            name={item.isSelected ? 'square-check' : 'square'}
             size={20}
             color={BACKGROUND_BUTTON_COLOR}
           />

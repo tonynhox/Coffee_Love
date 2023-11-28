@@ -88,13 +88,13 @@ const BottomMuaSanPhamCategories = ({isOpenBottom}) => {
 
       if (itemGioHang.topping.length > 0) {
         let giaToppingTemp = 0;
-      
+
         // Create a map of topping names to their prices
         const toppingPricesMap = {};
         dataTopping.forEach(item => {
           toppingPricesMap[item.ten_topping] = item.gia;
         });
-      
+
         // Calculate the total price of selected toppings
         itemGioHang.topping.forEach(itemTopping => {
           const toppingPrice = toppingPricesMap[itemTopping.ten_topping];
@@ -102,7 +102,7 @@ const BottomMuaSanPhamCategories = ({isOpenBottom}) => {
             giaToppingTemp += toppingPrice;
           }
         });
-      
+
         // Update dataTopping to mark selected toppings
         setDataTopping(prevState => {
           return prevState.map(item => {
@@ -111,15 +111,14 @@ const BottomMuaSanPhamCategories = ({isOpenBottom}) => {
                 itemTopping => itemTopping.ten_topping === item.ten_topping,
               )
             ) {
-              return { ...item, isSelected: true };
+              return {...item, isSelected: true};
             }
             return item;
           });
         });
-      
+
         setGiaTopping(giaToppingTemp);
       }
-      
     } else if (dataChiTietSP) {
       setDataChiTietSanPham(dataChiTietSP);
     }
@@ -325,7 +324,7 @@ const BottomMuaSanPhamCategories = ({isOpenBottom}) => {
           <Text style={styles.textTien}>+{formatCurrency(item.gia)}</Text>
           <Icon
             style={styles.toppingChecked}
-            name={item.isSelected ? 'circle-dot' : 'circle'}
+            name={item.isSelected ? 'square-check' : 'square'}
             size={20}
             color={BACKGROUND_BUTTON_COLOR}
           />
@@ -463,8 +462,8 @@ const BottomMuaSanPhamCategories = ({isOpenBottom}) => {
                       gia: handeSelectedSize().gia,
                       so_luong: quantity,
                       topping: handleSelectedTopping(),
-                      hinh_anh_sp: dataChiTietSanPham.hinh_anh_sp[0].hinh_anh_sp,
-
+                      hinh_anh_sp:
+                        dataChiTietSanPham.hinh_anh_sp[0].hinh_anh_sp,
                     })
                   }>
                   <Text style={styles.textMuaNgay}>

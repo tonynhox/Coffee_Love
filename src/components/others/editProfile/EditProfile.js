@@ -5,15 +5,22 @@ import {
   Image,
   TextInput,
   TouchableOpacity,
+  KeyboardAvoidingView,
+  Dimensions,
+  ActivityIndicator,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {editProfileStyle} from './editProfileStyle';
 import Icon from 'react-native-vector-icons/FontAwesome6';
-import {BACKGROUND_BUTTON_COLOR} from '../../../utils/contanst';
+import {BACKGROUND_BUTTON_COLOR, BUCKET_NAME} from '../../../utils/contanst';
 import Header from '../../../utils/Header';
 import {useDispatch, useSelector} from 'react-redux';
 import {editUser} from '../../../redux/reducers/slices/userSlice';
 import {ScrollView} from 'react-native-virtualized-view';
+import ImagePicker from 'react-native-image-crop-picker';
+import uuid from 'react-native-uuid';
+import VisionCamera from '../oders/item/VisionCamera';
+import {Storage} from 'aws-amplify';
 
 const EditProfile = () => {
   const user = useSelector(state => state.users.user);
@@ -24,56 +31,44 @@ const EditProfile = () => {
     sdt: false,
   });
 
-  // const [ten, setTen] = useState(user.ho_ten);
-  // const [ava, setAva] = useState(user.avatar);//twj ghi
-  // const [mail, setMail] = useState(user.email);
-  // const [sdt, setSdt] = useState(user.so_dien_thoai);// xuoosng duwois swar laij choox value
+  let avatarUrl = user.avatar;
 
-  // co 2 cach lam
-  //1 la lam nhu cach tren nhung trong
-  //store ko viet lai nen no ko thay doi o giao dien
-  // 2 la thay doi truc tiep trong store, gio tao lam cach 2 nho xem cho ki
   const isLoading = useSelector(state => state.users.isLoading);
   const id = user.id_user;
 
   const dispatch = useDispatch();
 
-  const handleEdit = () => {
+  const handleEdit = async () => {
+    const s3AvatarUrl = await uploadImagesToS3();
+
     const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}$/;
     const phoneRegex = /^0[0-9]{8,10}$/;
     console.log('REGEX NUMBER: ', phoneRegex.test(dataTemp.so_dien_thoai));
 
-    let hasError = false;
+    let hasErrorTen = false;
+    let hasErrorEmail = false;
+    let hasErrorSdt = false;
     let isTen = false;
     let isEmail = false;
     let isSdt = false;
 
     if (dataTemp.ho_ten === '') {
       isTen = true;
-      hasError = true;
-    } else {
-      isTen = false;
-      hasError = false;
+      hasErrorTen = true;
     }
     if (dataTemp.email === '' || !emailRegex.test(dataTemp.email)) {
       isEmail = true;
-      hasError = true;
-    } else {
-      isEmail = false;
-      hasError = false;
+      hasErrorEmail = true;
     }
     if (
       dataTemp.so_dien_thoai === '' ||
       !phoneRegex.test(dataTemp.so_dien_thoai)
     ) {
       isSdt = true;
-      hasError = true;
-    } else {
-      isSdt = false;
-      hasError = false;
+      hasErrorSdt = true;
     }
 
-    if (hasError) {
+    if (hasErrorTen || hasErrorEmail || hasErrorSdt) {
       setErrorStatus({
         ten: isTen,
         email: isEmail,
@@ -88,17 +83,98 @@ const EditProfile = () => {
       email: false,
       sdt: false,
     });
-    console.log('DISPATCH');
-    // dispatch(
-    //   // editUser({
-    //   //   id_user: id,
-    //   //   ho_ten: ten,
-    //   //   avatar: ava,
-    //   //   email: mail,
-    //   //   so_dien_thoai: sdt,
-    //   // }),
-    //   editUser(dataTemp), //ok
-    // );
+    // console.log('DISPATCH ', {...dataTemp, avatar: s3AvatarUrl});
+    dispatch(
+      editUser({...dataTemp, avatar: s3AvatarUrl}), //ok
+    );
+  };
+
+  useEffect(() => {
+    setCameraValue(prevCameraValue => ({
+      isVisible: false,
+      value: {id: '', uri: user.avatar},
+    }));
+
+    avatarUrl = user.avatar;
+  }, [user]);
+
+  const [cameraValue, setCameraValue] = useState({
+    isVisible: false,
+    value: {id: '', uri: user.avatar},
+  });
+
+  // chon anh tu thu vien
+  const handleImageFromLibrary = () => {
+    ImagePicker.openPicker({
+      multiple: false,
+    })
+      .then(images => {
+        console.log("IMAGE FROM LIBRARY: ", images);
+        const newArray = {
+          id: uuid.v4(), // Assuming you have the uuid library
+          uri: images.path,
+        };
+        setCameraValue(prevCameraValue => ({
+          isVisible: false,
+          value: newArray,
+        }));
+      })
+      .catch(error => {
+        console.log('ERROR SELECTING IMAGE: ', error);
+      });
+  };
+
+  // mo camera len
+  const handleTakePicture = () => {
+    setCameraValue(prevCameraValue => ({
+      isVisible: true,
+      value: prevCameraValue.value,
+    }));
+  };
+
+  // da chup anh
+  const handleTakingPhoto = ({isVisible, value}) => {
+    setCameraValue(prevCameraValue => ({
+      isVisible: false,
+      value: {
+        id: uuid.v4(),
+        uri: value,
+      },
+    }));
+  };
+
+  const [isUploading, setIsUploading] = useState(false);
+  // up ảnh lên s3
+  const uploadImagesToS3 = async () => {
+    try {
+      const photo = cameraValue.value;
+      const response = await fetch(photo.uri);
+      const blob = await response.blob();
+      const result = await Storage.put(uuid.v4(), blob, {
+        contentType: 'image/jpeg',
+        level: 'public',
+        bucket: BUCKET_NAME,
+      });
+
+      console.log('Image uploaded successfully', result.key);
+      const s3Link = `https://${BUCKET_NAME}.s3.ap-southeast-1.amazonaws.com/public/${result.key}`;
+      avatarUrl = s3Link;
+
+      // Now, you have the key for the uploaded image.
+      console.log('Uploaded image key:', s3Link);
+      return s3Link;
+    } catch (error) {
+      console.log('ERROR UPLOADING FILES: ', error);
+      ToastAndroid.show('Đã xảy ra lỗi khi gửi ảnh đi!', ToastAndroid.SHORT);
+      return user.avatar;
+    }
+  };
+
+  const onCloseCamera = () => {
+    setCameraValue(prevCameraValue => ({
+      isVisible: false,
+      value: prevCameraValue.value,
+    }));
   };
 
   return (
@@ -112,16 +188,32 @@ const EditProfile = () => {
         }}
         rightComponent={true}
       />
-      <View
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         // showsVerticalScrollIndicator={false}
         // contentContainerStyle={editProfileStyle.container}
         style={editProfileStyle.container}>
         {/* Image avatar */}
 
-        <Image
-          source={require('../../../assets/images/avatar.png')}
-          style={editProfileStyle.imageProfile}
-        />
+        <View style={{marginVertical: 40}}>
+          <Image
+            source={{uri: cameraValue.value.uri}}
+            style={editProfileStyle.imageProfile}></Image>
+          <Icon
+            name="photo-film"
+            size={30}
+            color={BACKGROUND_BUTTON_COLOR}
+            style={editProfileStyle.library}
+            onPress={handleImageFromLibrary}
+          />
+          <Icon
+            name="camera"
+            size={30}
+            color={BACKGROUND_BUTTON_COLOR}
+            style={editProfileStyle.camera}
+            onPress={handleTakePicture}
+          />
+        </View>
 
         {/* input name view */}
         <View style={editProfileStyle.textInputContainer}>
@@ -221,7 +313,29 @@ const EditProfile = () => {
           style={editProfileStyle.buttonSaveProfile}>
           <Text style={editProfileStyle.textSaveProfile}>Đặt Lại Hồ Sơ</Text>
         </TouchableOpacity>
-      </View>
+
+        {isLoading && (
+          <View
+            style={{
+              position: 'absolute',
+              height: Dimensions.get('window').height,
+              width: Dimensions.get('window').width,
+              backgroundColor: 'rgba(255, 255, 255, 0.4)',
+            }}>
+            <ActivityIndicator
+              size="large"
+              color="#FF6200"
+              style={{marginTop: Dimensions.get('screen').height / 2}}
+            />
+          </View>
+        )}
+      </KeyboardAvoidingView>
+
+      <VisionCamera
+        isVisible={cameraValue.isVisible}
+        onTakingPhoto={handleTakingPhoto}
+        onClose={onCloseCamera}
+      />
     </>
   );
 };

@@ -10,9 +10,10 @@ export const editProfileStyle = StyleSheet.create({
     paddingBottom: 20,
   },
   imageProfile: {
-    width: 230,
+    width: 200,
     height: 200,
-    marginVertical: 40,
+    // marginVertical: 40,
+    borderRadius: 100,
     alignSelf: 'center',
   },
   inputContainer: {
@@ -79,5 +80,20 @@ export const editProfileStyle = StyleSheet.create({
     letterSpacing: 0.3,
     textAlign: 'center',
     color: 'white',
+  },
+  camera: {
+    position: 'absolute',
+    bottom: 0,
+    right: '25%',
+    borderRadius: 50,
+    padding: 5,
+  },
+  library: {
+    position: 'absolute',
+    bottom: 0,
+    left: '25%',
+    borderRadius: 50,
+    backgroundColor:'transparent',
+    padding: 5,
   },
 });
