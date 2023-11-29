@@ -5,6 +5,7 @@ import Storage from '../../../utils/Storage';
 const initialState = {
   user: null,
   isLoading: false,
+  isChangeUserLoading: false,
   isLogin: false,
   notifications: [],
   isNotificationLoading: true,
@@ -78,11 +79,11 @@ export const userSlice = createSlice({
     },
 
     editUser: state => {
-      state.isLoading = true;
+      state.isChangeUserLoading = true;
     },
 
     editUserSuccess: (state, action) => {
-      state.isLoading = false;
+      state.isChangeUserLoading = false;
       state.user = {
         ...state.user,
         ho_ten: action.payload.ho_ten,
@@ -93,7 +94,7 @@ export const userSlice = createSlice({
       ToastAndroid.show('Chỉnh sửa thành công', ToastAndroid.SHORT);
     },
     getAddAddress: state => {
-      state.isLoading = true;
+      state.isChangeUserLoading = true;
     },
     getAddAddressSuccess: (state, action) => {
       const {user} = state;

@@ -69,7 +69,7 @@ const Search = () => {
       .replace(/[\u0300-\u036f]/g, '') // Remove diacritics
       .replace(/\s+/g, ''); // Remove spaces
 
-    dispatch(getSearchFetch({normalizedSearchTerm, navigation}));
+    dispatch(getSearchFetch({search: normalizedSearchTerm}));
     navigation.navigate('SearchSuccess', {search: item});
   };
 

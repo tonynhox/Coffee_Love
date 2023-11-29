@@ -33,7 +33,7 @@ const EditProfile = () => {
 
   let avatarUrl = user.avatar;
 
-  const isLoading = useSelector(state => state.users.isLoading);
+  const isLoading = useSelector(state => state.users.isChangeUserLoading);
   const id = user.id_user;
 
   const dispatch = useDispatch();
@@ -109,7 +109,7 @@ const EditProfile = () => {
       multiple: false,
     })
       .then(images => {
-        console.log("IMAGE FROM LIBRARY: ", images);
+        console.log('IMAGE FROM LIBRARY: ', images);
         const newArray = {
           id: uuid.v4(), // Assuming you have the uuid library
           uri: images.path,

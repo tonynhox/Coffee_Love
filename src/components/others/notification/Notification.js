@@ -75,7 +75,7 @@ const Notification = ({navigation}) => {
             id_product: item.id_product,
           })
         }>
-        <View style={styles.vtit}>
+        <View style={!item.isRead ? styles.vtit : styles.vtitRead}>
           <Image source={{uri: item.image}} style={styles.imgit} />
 
           <View style={styles.contentContainer}>

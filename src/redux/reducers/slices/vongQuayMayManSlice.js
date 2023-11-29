@@ -21,7 +21,13 @@ const vongQuayMayManSlice = createSlice({
     getVongQuayMayManSuccess: (state, action) => {
       state.isLoading = false;
       state.data = action.payload.result;
-      state.dataLabel = action.payload.result.map(item => item.diem);
+      state.dataLabel = action.payload.result.map(item => {
+        if (item.diem != 0) {
+          return item.diem;
+        } else {
+          return 'Voucher';
+        }
+      });
       console.log('LABEL', state.dataLabel);
     },
     getVongQuayMayManFail: (state, action) => {
@@ -49,7 +55,7 @@ const vongQuayMayManSlice = createSlice({
       state.nhanThuong = true;
     },
     getThemDiemChoUserSuccess: (state, action) => {
-      console.log("THEM DIEM THANH CONG: ", action.payload.message)
+      console.log('THEM DIEM THANH CONG: ', action.payload.message);
       state.nhanThuong = false;
       state.quayThanhCong = false;
       state.nhanThuongThanhCong = true;
@@ -63,7 +69,7 @@ const vongQuayMayManSlice = createSlice({
     // nhan thuong
     getNhanThuongThanhCong: (state, action) => {
       state.nhanThuongThanhCong = false;
-    }
+    },
   },
 });
 
@@ -82,7 +88,7 @@ export const {
   getThemDiemChoUserSuccess,
 
   // nhan thuong
-  getNhanThuongThanhCong
+  getNhanThuongThanhCong,
 } = vongQuayMayManSlice.actions;
 
 export default vongQuayMayManSlice.reducer;

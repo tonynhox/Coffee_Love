@@ -12,7 +12,7 @@ export const styles = StyleSheet.create({
     // borderWidth: 0.5,
     borderColor: 'black',
   },
-  itemContainerRead:{
+  itemContainerRead: {
     flex: 1,
     marginHorizontal: 10,
     marginVertical: 7,
@@ -54,6 +54,11 @@ export const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     flexDirection: 'row',
   },
+  vtitRead: {
+    justifyContent: 'flex-start',
+    flexDirection: 'row',
+    backgroundColor: 'rgba(255,255,255,0.9)',
+  },
   vt: {
     margin: 10,
   },
@@ -67,14 +72,13 @@ export const styles = StyleSheet.create({
     color: '#000',
     fontSize: 13,
     fontWeight: '400',
-    marginTop: 5
+    marginTop: 5,
   },
-  tRead:{
-    color: 'rgba(0,0,0,0.5)',
+  tRead: {
+    color: 'rgba(0,0,0,0.3)',
     fontSize: 13,
     fontWeight: '300',
-    marginTop: 5
-  
+    marginTop: 5,
   },
   textTitle: {
     fontSize: 15,
@@ -84,7 +88,7 @@ export const styles = StyleSheet.create({
   textTitleRead: {
     fontSize: 15,
     fontWeight: '300',
-    color: 'rgba(0,0,0,0.5)',
+    color: 'rgba(0,0,0,0.3)',
   },
   contentContainer: {
     marginLeft: 10,
