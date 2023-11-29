@@ -34,7 +34,7 @@ const BottomSheetDanhSachCuaHang = ({isVisible, onClose}) => {
   const bottomSheetRef = useRef(null);
 
   // variables
-  const snapPoints = useMemo(() => ['10%', '50%'], []);
+  const snapPoints = useMemo(() => ['10%', '40%'], []);
 
   // callbacks
   const handleSheetChanges = useCallback(index => {

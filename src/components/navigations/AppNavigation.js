@@ -267,7 +267,7 @@ const AppNavigation = props => {
           component={VoucherCart}
           options={{
             presentation: 'modal',
-            headerShown: true,
+            // headerShown: true,
             animationTypeForReplace: 'push',
             animation: 'slide_from_right',
           }}
@@ -277,7 +277,7 @@ const AppNavigation = props => {
           component={StoreCoffee}
           options={{
             presentation: 'modal',
-            headerShown: true,
+            // headerShown: true,
             animationTypeForReplace: 'push',
             animation: 'slide_from_right',
           }}
