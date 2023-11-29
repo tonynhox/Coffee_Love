@@ -15,6 +15,7 @@ import ModalVongQuayMayMan from './src/components/others/wheelOfFortune/ModelVon
 import NotificationHandler from './src/notification/NotificationHandler';
 import SearchLoadingPlaceholder from './src/components/others/loading/SearchLoadingPlaceholder';
 import TopOrderLoadingPlaceholder from './src/components/others/loading/TopOrderLoadingPlaceholder';
+import Favorite from './src/components/main/profile/item/Favorite';
 export const navigationRef = createNavigationContainerRef();
 
 const App = () => {

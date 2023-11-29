@@ -4,7 +4,9 @@ import {code_trang_thai_yeu_thich} from '../../../utils/contanst';
 
 const initialState = {
   data: [],
+  dataFavorite: [],
   trang_thai_yeu_thich: false,
+  isLoading: true,
 };
 
 const favoriteSlice = createSlice({
@@ -16,13 +18,20 @@ const favoriteSlice = createSlice({
       const onlyId = action.payload.result.map(item => ({_id: item._id}));
       console.log('FAVORITE', onlyId);
       state.data = onlyId;
+
+      state.dataFavorite = action.payload.result.map(item => ({
+        ...item,
+        isLike: true,
+      }));
     },
     getFavoriteFail: (state, action) => {
       state.favorites = [];
     },
 
     // đổi trạng thái yêu thích
-    getChangeFavoriteRequest: (state, action) => {},
+    getChangeFavoriteRequest: (state, action) => {
+      state.isLoading = true;
+    },
     getChangeFavoriteSuccess: (state, action) => {
       console.log('FAVORITE CHANGE', action.payload.result);
       if (action.payload.result == code_trang_thai_yeu_thich.them_yeu_thich) {
@@ -30,8 +39,25 @@ const favoriteSlice = createSlice({
       } else {
         state.trang_thai_yeu_thich = false;
       }
+
+      state.dataFavorite = state.dataFavorite.map(item => {
+        if (item._id == action.payload.id_san_pham) {
+          if (
+            action.payload.result == code_trang_thai_yeu_thich.them_yeu_thich
+          ) {
+            return {...item, isLike: true};
+          }
+          return {...item, isLike: false};
+        }
+        return item;
+      });
+
+      state.isLoading = false;
     },
-    getChangeFavoriteFail: (state, action) => {},
+    getChangeFavoriteFail: (state, action) => {
+      state.isLoading = false;
+      ToastAndroid.show(action.payload, ToastAndroid.SHORT);
+    },
 
     getAddFavoriteSuccess: (state, action) => {
       if (action.payload.result == code_trang_thai_yeu_thich.them_yeu_thich) {
@@ -41,7 +67,6 @@ const favoriteSlice = createSlice({
           item => item._id != action.payload.id_san_pham,
         );
       }
-
     },
     clearFavorite: (state, action) => {
       state.data = [];

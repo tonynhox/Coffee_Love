@@ -28,6 +28,7 @@ import NotificationHandler from '../../notification/NotificationHandler';
 import PushNotification from 'react-native-push-notification';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import messaging from '@react-native-firebase/messaging';
+import Favorite from '../main/profile/item/Favorite';
 
 // add other navigation functions that you need and export them
 const Stack = createNativeStackNavigator();
@@ -293,6 +294,18 @@ const AppNavigation = props => {
             // animation: 'slide_from_right',
           }}
         />
+        <Stack.Screen
+          name="Favorite"
+          component={Favorite}
+          // options={{
+          //   title: 'Chọn địa chỉ',
+          //   headerShown: true,
+          //   presentation: 'modal',
+          //   animationTypeForReplace: 'push',
+          //   // animation: 'slide_from_right',
+          // }}
+        />
+        
       </Stack.Navigator>
     </>
   );

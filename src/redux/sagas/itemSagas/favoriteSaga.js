@@ -15,13 +15,13 @@ function* fetchFavoriteItemsSaga(action) {
     const response = yield call(() =>
       instance.get(`api/favorite/lay-danh-sach-san-pham-yeu-thich/${id_user}`),
     );
-    if (response.data == null) {
-      yield put(getFavoriteFail());
+    if (!response.data.status) {
+      yield put(getFavoriteFail(response.data.message));
     } else {
       yield put(getFavoriteSuccess(response.data));
     }
   } catch (error) {
-    yield put(getFavoriteFail());
+    yield put(getFavoriteFail(error.message));
   }
 }
 

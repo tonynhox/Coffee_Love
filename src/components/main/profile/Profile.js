@@ -10,19 +10,23 @@ import {
 } from 'react-native';
 import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import IconF from 'react-native-vector-icons/FontAwesome6';
 import {styles} from './styles';
 import Header from '../../../utils/Header';
 import {useDispatch, useSelector} from 'react-redux';
 import {appReducer} from '../../../redux/reducers/rootReducer';
 import Storage from '../../../utils/Storage';
-import {LoginSuccess, clearNotificationCounter} from '../../../redux/reducers/slices/userSlice';
+import {
+  LoginSuccess,
+  clearNotificationCounter,
+} from '../../../redux/reducers/slices/userSlice';
 import {clearFavorite} from '../../../redux/reducers/slices/favoriteSlice';
 import {
   getDeleteCartSuccess,
   setDataPayment,
 } from '../../../redux/reducers/slices/cartPaymentSlice';
-import { KEY_SEARCH_HISTORY } from '../../../utils/contanst';
-import { getDeviceTokenRequest } from '../../../redux/reducers/slices/deviceTokenSlice';
+import {KEY_SEARCH_HISTORY} from '../../../utils/contanst';
+import {getDeviceTokenRequest} from '../../../redux/reducers/slices/deviceTokenSlice';
 
 const Profile = ({navigation}) => {
   const dispatch = useDispatch();
@@ -71,12 +75,12 @@ const Profile = ({navigation}) => {
             </TouchableOpacity>
           </View>
           <View style={styles.cardRow}>
-            <TouchableOpacity style={styles.cardExtention}>
-              <Icon
-                name="clipboard-file-outline"
-                style={[styles.icon, {color: 'green', fontSize: 26}]}
+            <TouchableOpacity style={styles.cardExtention} onPress={() => navigation.navigate("Favorite")}>
+              <IconF
+                name="heart"
+                style={[styles.icon, {color: 'red', fontSize: 26}]}
               />
-              <Text style={styles.txtExtention}>Chính sách</Text>
+              <Text style={styles.txtExtention}>Yêu thích</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.cardExtention}>
               <Icon
@@ -189,10 +193,10 @@ const Profile = ({navigation}) => {
                           device_token: '',
                         }),
                       );
-                      dispatch(clearNotificationCounter())
+                      dispatch(clearNotificationCounter());
                       Storage.removeToken();
                       Storage.removeItem('id_user');
-                      Storage.removeItem(KEY_SEARCH_HISTORY)
+                      Storage.removeItem(KEY_SEARCH_HISTORY);
                     },
                   },
                 ]);

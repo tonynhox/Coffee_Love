@@ -35,6 +35,7 @@ import {getHistoryScoreFetch} from '../../redux/reducers/slices/historyScoreSlid
 import {findNearestCoordinate, sortStore} from '../others/map4D/tinhKhoangCach';
 import {getDeviceTokenRequest} from '../../redux/reducers/slices/deviceTokenSlice';
 import {check, request, PERMISSIONS, RESULTS} from 'react-native-permissions';
+import Favorite from '../main/profile/item/Favorite';
 
 const Tab = createBottomTabNavigator();
 
@@ -251,6 +252,7 @@ const MainNavigation = () => {
               tabBarLabel: 'Profile',
             }}
           />
+        
         </Tab.Navigator>
       </View>
 
