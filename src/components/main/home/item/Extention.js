@@ -21,10 +21,11 @@ const Extention = () => {
         <Text style={styles.txtItem}>Tận nhà</Text>
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={() =>           user
-          ? navigation.navigate('AllScore')
-          : navigation.navigate('UserNavigation', {screen: 'Login'})
-      }
+        onPress={() =>
+          user
+            ? navigation.navigate('AllScore')
+            : navigation.navigate('UserNavigation', {screen: 'Login'})
+        }
         style={styles.itemExtention}>
         <Icon name="diamond-stone" size={32} color="#D89543" />
         <Text style={styles.txtItem}>Đổi điểm</Text>
@@ -39,7 +40,9 @@ const Extention = () => {
         <Icon name="text-box-outline" size={32} color="#D89543" />
         <Text style={styles.txtItem}>Đơn hàng </Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.itemExtention}>
+      <TouchableOpacity
+        style={styles.itemExtention}
+        onPress={() => navigation.navigate('Favorite')}>
         <Icon name="heart" size={32} color="#D89543" />
         <Text style={styles.txtItem}>Yêu thích </Text>
       </TouchableOpacity>

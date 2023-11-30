@@ -7,7 +7,7 @@ import {
   Dimensions,
   StatusBar,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {styles} from './styles';
 import Header from '../../../utils/Header';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -17,17 +17,45 @@ import {ScrollView} from 'react-native-virtualized-view';
 import CardUser from './item/CardUser';
 import Extention from './item/Extention';
 import {useNavigation} from '@react-navigation/native';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
+import {getDeviceTokenRequest} from '../../../redux/reducers/slices/deviceTokenSlice';
+import {getNotificationRequest} from '../../../redux/reducers/slices/userSlice';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 const Home = () => {
+  const dispatch = useDispatch();
   const [scrollY] = useState(new Animated.Value(0));
   const navigation = useNavigation();
 
   const user = useSelector(state => state.users?.user);
-  const countNotification = useSelector(state => state.users?.countNotification)
+  const countNotification = useSelector(
+    state => state.users?.countNotification,
+  );
+
+  const device_token = useSelector(state => state.device_token?.deviceToken);
+
+  useEffect(() => {
+    console.log('DEVICE TOKEN IS NONE: ', device_token);
+    if (device_token !== user?.device_token && device_token !== 'none') {
+      console.log('UPLOADING DEVICE TOKEN', device_token);
+      dispatch(
+        getDeviceTokenRequest({
+          id_user: user.id_user,
+          ho_ten: user.ho_ten,
+          avatar: user.avatar,
+          email: user.email,
+          so_dien_thoai: user.so_dien_thoai,
+          device_token: device_token,
+        }),
+      );
+    }
+  }, [device_token]);
+
+  useEffect(() => {
+    dispatch(getNotificationRequest({id_user: user.id_user}));
+  }, []);
 
   const HeaderName = () => {
     return (
@@ -72,11 +100,13 @@ const Home = () => {
               height: 'auto',
               width: 'auto',
               paddingHorizontal: 4,
-              paddingVertical:2,
+              paddingVertical: 2,
               borderRadius: 70,
               backgroundColor: '#F66634',
             }}>
-            <Text style={{color: 'white', fontWeight: 'bold',fontSize:10}}>{countNotification}</Text>
+            <Text style={{color: 'white', fontWeight: 'bold', fontSize: 10}}>
+              {countNotification}
+            </Text>
           </View>
         </TouchableOpacity>
       </View>
@@ -122,7 +152,6 @@ const Home = () => {
           {useNativeDriver: false}, // Sử dụng driver không dựa vào native (không sử dụng bằng true)
         )}
         contentContainerStyle={{
-
           paddingBottom: 60,
         }}
         style={styles.container}>

@@ -75,14 +75,14 @@ const SearchSuccess = ({route}) => {
             <Text style={styles.txtTitle}>
               {item.size[1] && formatCurrency(item.size[1]?.gia)}
             </Text>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               style={{
                 borderRadius: 100,
                 backgroundColor: '#df7a00',
                 padding: 5,
               }}>
               <Icon name="plus" style={{fontSize: 20, color: '#fff'}} />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
         </View>
       </TouchableOpacity>

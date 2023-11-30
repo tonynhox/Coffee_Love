@@ -18,9 +18,10 @@ import vi from 'moment/locale/vi';
 import {setUseVoucher} from '../../../redux/reducers/slices/voucherSlide';
 import {useNavigation} from '@react-navigation/native';
 import Header from '../../../utils/Header';
+import Icon from 'react-native-vector-icons/FontAwesome6';
+
 moment.updateLocale('vi', vi);
 const VoucherCart = () => {
-  ;
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const allVoucher = useSelector(
@@ -28,8 +29,11 @@ const VoucherCart = () => {
   );
 
   const RenderItem = ({item}) => {
+    const isExpired = moment(item.ngay_ket_thuc).isBefore(moment());
+
     return (
       <TouchableOpacity
+        disabled={isExpired}
         onPress={() => {
           Alert.alert(item.ten_voucher, item.mo_ta, [
             {
@@ -47,29 +51,46 @@ const VoucherCart = () => {
           ]);
         }}
         style={styles.cardFL}>
-        <View>
-          <Image
-            style={styles.img}
-            source={require('../../../assets/images/bg_voucher.png')}
+        <View style={{justifyContent: 'center'}}>
+          <Icon
+            name="gifts"
+            size={35}
+            color={isExpired ? '#F7D1A7' : '#DA7825'}
+            style={styles.giftIcon}
           />
-          <Text style={styles.centeredText}>Coffee{'\n'}Love</Text>
+          {/* <Text style={styles.centeredText}>Coffee{'\n'}Love</Text> */}
         </View>
         <View style={styles.imgView}>
-          <Text style={styles.txtTitleFL}>{item.ten_voucher}</Text>
+          <Text
+            style={[
+              styles.txtTitleFL,
+              {color: isExpired ? '#989898' : 'black'},
+            ]}>
+            {item.ten_voucher}
+          </Text>
           {/* <Text style={styles.txt}>{item.ma_voucher}</Text> */}
-          <Text numberOfLines={2} style={styles.txt}>{item.mo_ta}</Text>
-          <Text style={styles.txt}>
+          <Text
+            numberOfLines={2}
+            style={[styles.txt, {color: isExpired ? '#989898' : 'black'}]}>
+            {item.mo_ta}
+          </Text>
+          <Text style={[styles.txt, {color: isExpired ? '#989898' : 'black'}]}>
             Sử dụng đến: {moment(item.ngay_ket_thuc).format('[ngày] LL')}
           </Text>
         </View>
+        {isExpired && (
+          <View style={styles.hetHanContainer}>
+            <Text style={styles.textHetHan}>Hết hạn</Text>
+          </View>
+        )}
       </TouchableOpacity>
     );
   };
 
   return (
     <>
-      <Header 
-        headerText="Danh sách voucher" 
+      <Header
+        headerText="Danh sách voucher"
         containerStyle={{
           // justifyContent: 'flex-start',
           backgroundColor: 'white',

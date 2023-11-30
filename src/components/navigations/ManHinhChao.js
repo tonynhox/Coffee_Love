@@ -70,7 +70,6 @@ const ManHinh = () => {
       // dispatch(getVoucherFetch({id_user:user}));
       // dispatch(getScoreFetch());
       dispatch(getFavoriteRequest({id_user: user}));
-      dispatch(getNotificationRequest({id_user: user}));
     }
   };
 

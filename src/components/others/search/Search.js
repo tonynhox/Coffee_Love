@@ -235,6 +235,7 @@ const Search = () => {
             onFocus={() => {
               handleTextInputFocused();
             }}
+            onSubmitEditing={() => {handleSearch(search)}}
             onChangeText={text => handleSearch(text)}
           />
 
