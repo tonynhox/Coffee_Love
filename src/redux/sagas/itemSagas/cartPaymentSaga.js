@@ -7,7 +7,7 @@ import {
   getDeleteCartSuccess,
   getPaymentSuccess,
 } from '../../reducers/slices/cartPaymentSlice';
-import { setOpenBottomSheet } from '../../reducers/slices/utilSlice';
+import { setItemGioHang, setOpenBottomSheet } from '../../reducers/slices/utilSlice';
 import { setUseVoucher } from '../../reducers/slices/voucherSlide';
 
 function* WorkercartPayment(action) {
@@ -67,6 +67,7 @@ function* WorkerUpdateCartPayment(action) {
         navigation.goBack();
       }else{
         dispatch(setOpenBottomSheet(false));
+        dispatch(setItemGioHang(null));
       }
       
       yield put(getAddCartPaymentSuccess(result.result.san_pham));
