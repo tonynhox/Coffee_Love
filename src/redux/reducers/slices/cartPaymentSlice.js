@@ -48,7 +48,7 @@ export const cartPaymentSlice = createSlice({
       state.cart.price = 0;
       data.forEach((item, index) => {
         state.cart.quantity += item.so_luong;
-        state.cart.price += item.gia_da_giam * state.cart.quantity;
+        state.cart.price += item.gia_da_giam * item.so_luong;
         item.topping.forEach(toping => {
           state.cart.price += (toping?.gia || 0) * state.cart.quantity;
           console.log('state.cart.price', toping?.gia );
