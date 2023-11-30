@@ -23,6 +23,7 @@ export const styles = StyleSheet.create({
   },
   imgView: {
     marginLeft: 5,
+    flex:1
   },
   txtB: {
     fontSize: 12,

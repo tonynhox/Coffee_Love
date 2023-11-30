@@ -121,6 +121,10 @@ const Home = () => {
           [{nativeEvent: {contentOffset: {y: scrollY}}}],
           {useNativeDriver: false}, // Sử dụng driver không dựa vào native (không sử dụng bằng true)
         )}
+        contentContainerStyle={{
+
+          paddingBottom: 60,
+        }}
         style={styles.container}>
         <CardUser user={user} />
         <Extention />

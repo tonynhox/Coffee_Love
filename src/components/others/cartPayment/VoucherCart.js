@@ -7,6 +7,7 @@ import {
   Image,
   Alert,
   ToastAndroid,
+  StatusBar,
 } from 'react-native';
 import React from 'react';
 import {styles} from './style/styleVoucherCart';
@@ -16,8 +17,10 @@ import moment from 'moment';
 import vi from 'moment/locale/vi';
 import {setUseVoucher} from '../../../redux/reducers/slices/voucherSlide';
 import {useNavigation} from '@react-navigation/native';
+import Header from '../../../utils/Header';
 moment.updateLocale('vi', vi);
 const VoucherCart = () => {
+  ;
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const allVoucher = useSelector(
@@ -54,7 +57,7 @@ const VoucherCart = () => {
         <View style={styles.imgView}>
           <Text style={styles.txtTitleFL}>{item.ten_voucher}</Text>
           {/* <Text style={styles.txt}>{item.ma_voucher}</Text> */}
-          <Text style={styles.txt}>{item.mo_ta}</Text>
+          <Text numberOfLines={2} style={styles.txt}>{item.mo_ta}</Text>
           <Text style={styles.txt}>
             Sử dụng đến: {moment(item.ngay_ket_thuc).format('[ngày] LL')}
           </Text>
@@ -64,12 +67,25 @@ const VoucherCart = () => {
   };
 
   return (
-    <FlatList
-      style={styles.container}
-      data={allVoucher}
-      renderItem={RenderItem}
-      keyExtractor={item => item._id}
-    />
+    <>
+      <Header 
+        headerText="Danh sách voucher" 
+        containerStyle={{
+          // justifyContent: 'flex-start',
+          backgroundColor: 'white',
+          paddingBottom: -10,
+          borderBottomWidth: 0.4,
+          borderBottomColor: '#b3b3b3',
+        }}
+        rightComponent={true}
+      />
+      <FlatList
+        style={styles.container}
+        data={allVoucher}
+        renderItem={RenderItem}
+        keyExtractor={item => item._id}
+      />
+    </>
   );
 };
 

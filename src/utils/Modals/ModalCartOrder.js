@@ -7,6 +7,7 @@ import {
   Button,
   Dimensions,
   TouchableOpacity,
+  StatusBar,
 } from 'react-native';
 import Modal from 'react-native-modal';
 import OrderDetail from '../../components/others/orderDetail/OrderDetail';
@@ -134,10 +135,12 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     marginHorizontal: 0,
     marginBottom: 0,
+  
   },
   scrollableModal: {
     // flex: 0.96,
     flex: 1,
+    marginTop: StatusBar.currentHeight/2,
   },
   scrollableModalContent1: {
     height: 200,

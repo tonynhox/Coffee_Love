@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
@@ -15,6 +15,8 @@ export const styles = StyleSheet.create({
   text: {
     fontSize: 16,
     color: '#000',
+    flexWrap: 'wrap',
+    // maxWidth: '99.95%',
   },
   cart: {
     flexDirection: 'row',
@@ -23,6 +25,9 @@ export const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 6,
   },
-  cartText:{justifyContent: 'center', paddingLeft: 10},
-
+  cartText: {
+    justifyContent: 'center',
+    flex: 1,
+    paddingLeft: 10
+  },
 });

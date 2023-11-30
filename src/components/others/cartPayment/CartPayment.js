@@ -38,6 +38,7 @@ import {getPaymentFetch} from '../../../redux/reducers/slices/cartPaymentSlice';
 import IconF from 'react-native-vector-icons/FontAwesome6';
 
 import CryptoJS from 'crypto-js';
+import ModalEditIn4 from './ModalEditIn4';
 
 LogBox.ignoreLogs(['new NativeEventEmitter']); // Ignore log notification by message
 LogBox.ignoreAllLogs(); //Ignore all log notifications
@@ -52,7 +53,16 @@ const CartPayment = forwardRef(({setPrice}, ref) => {
   const dispatch = useDispatch();
   const diaChi = useSelector(state => state.locationMap.data.address);
   const user = useSelector(state => state.users.user);
+
   const data = useSelector(state => state.cartPayment.data);
+
+  //edit in4
+  const [in4, setIn4] = useState({
+    ho_ten: '',
+    so_dien_thoai: '',
+  });
+  //modal edit in4
+  const [isModalVisibleIn4, setIsModalVisibleIn4] = useState(false);
   //tổng giá sản phẩm
   const [tongSanPham, setTongSanPham] = useState(0);
   //voucher đã chọn sử dụng
@@ -182,10 +192,13 @@ const CartPayment = forwardRef(({setPrice}, ref) => {
         loai_don_hang: 'order Online',
         dia_chi: {
           ten_dia_chi: diaChi,
-          so_dien_thoai: myLocation?.so_dien_thoai || user?.so_dien_thoai,
+          so_dien_thoai:
+            in4.so_dien_thoai ||
+            myLocation?.so_dien_thoai ||
+            user?.so_dien_thoai,
           so_nha: '',
           tinh: '',
-          nguoi_nhan: myLocation?.nguoi_nhan || user?.ho_ten,
+          nguoi_nhan: in4.ho_ten || myLocation?.nguoi_nhan || user?.ho_ten,
         },
         san_pham: data.map(item => {
           return {
@@ -230,7 +243,26 @@ const CartPayment = forwardRef(({setPrice}, ref) => {
 
   useEffect(() => {
     if (token && hinhThucThanhToan.state == 1) {
+      //thread
+      const subscription = payZaloBridgeEmitter.addListener(
+        'EventPayZalo',
+        data => {
+          console.log('data ', data.returnCode);
+          if (data.returnCode == 1) {
+            // alert('Pay success!');
+            console.log('Pay ok!');
+
+            handlePayment();
+          } else {
+            console.log('data ', data.returnCode);
+          }
+        },
+      );
+
+      //call zalopay
       payOrder();
+
+      return () => subscription.remove();
     }
   }, [token]);
 
@@ -239,6 +271,7 @@ const CartPayment = forwardRef(({setPrice}, ref) => {
     const todayDate = new Date().toISOString().slice(2, 10);
     return todayDate.split('-').join('');
   };
+
   const createOrder = async () => {
     const apptransid = getCurrentDateYYMMDD() + '_' + new Date().getTime();
     const appid = 2553;
@@ -279,8 +312,6 @@ const CartPayment = forwardRef(({setPrice}, ref) => {
       mac: mac,
     };
 
-    console.log(order);
-
     const formBody = Object.keys(order)
       .map(
         key => encodeURIComponent(key) + '=' + encodeURIComponent(order[key]),
@@ -298,6 +329,7 @@ const CartPayment = forwardRef(({setPrice}, ref) => {
 
       const resJson = await response.json();
       setToken(resJson.zp_trans_token);
+
       setReturnCode(resJson.return_code);
     } catch (error) {
       console.log('error ', error);
@@ -311,26 +343,11 @@ const CartPayment = forwardRef(({setPrice}, ref) => {
   };
 
   //từ zalopay back về
-  useEffect(() => {
-    if (token) {
-      const subscription = payZaloBridgeEmitter.addListener(
-        'EventPayZalo',
-        data => {
-          console.log('data ', data.returnCode);
-          if (data.returnCode == 1) {
-            // alert('Pay success!');
-            console.log('Pay ok!');
+  // useEffect(() => {
+  //   if (token) {
 
-            handlePayment();
-          } else {
-            console.log('Pay error!');
-          }
-        },
-      );
-
-      return () => subscription.remove();
-    }
-  }, [token]);
+  //   }
+  // }, [token]);
 
   return (
     <View style={styles.container}>
@@ -380,17 +397,25 @@ const CartPayment = forwardRef(({setPrice}, ref) => {
       />
 
       <View style={{flexDirection: 'row', flex: 1}}>
-        <View style={styles.caseDiaChi}>
+        <TouchableOpacity
+          onPress={() => {
+            setIsModalVisibleIn4(true);
+          }}
+          style={styles.caseDiaChi}>
           <Text
             style={[styles.txtCaseDiaChi, {fontWeight: '600', fontSize: 15}]}>
-            {myLocation?.nguoi_nhan || user?.ho_ten || 'Chưa có họ tên'}
+            {in4.ho_ten ||
+              myLocation?.nguoi_nhan ||
+              user?.ho_ten ||
+              'Chưa có họ tên'}
           </Text>
           <Text style={styles.txtCaseDiaChi}>
-            {myLocation.so_dien_thoai ||
+            {in4.so_dien_thoai ||
+              myLocation.so_dien_thoai ||
               user?.so_dien_thoai ||
               'Chưa có số điện thoại'}
           </Text>
-        </View>
+        </TouchableOpacity>
         <View
           style={{
             width: 0.5,
@@ -677,6 +702,19 @@ const CartPayment = forwardRef(({setPrice}, ref) => {
           />
         </View>
       </View>
+      <ModalEditIn4
+        in4={{
+            ho_ten: in4.ho_ten || myLocation?.nguoi_nhan || user?.ho_ten ,
+            so_dien_thoai:
+              in4.so_dien_thoai ||
+              myLocation?.so_dien_thoai ||
+              user?.so_dien_thoai,
+          
+        }}
+        setIn4={setIn4}
+        isVisible={isModalVisibleIn4}
+        setIsVisible={setIsModalVisibleIn4}
+      />
     </View>
   );
 });

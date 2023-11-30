@@ -12,6 +12,7 @@ import {
   Alert,
 } from 'react-native';
 
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import PropsWheelOfFortune from './item/PropsWheelOfFortune';
 import {useDispatch, useSelector} from 'react-redux';
 import {
@@ -20,6 +21,7 @@ import {
   getVongQuayMayManRequest,
 } from '../../../redux/reducers/slices/vongQuayMayManSlice';
 import ModelVongQuayMayMan from './ModelVongQuayMayMan';
+import { useNavigation } from '@react-navigation/native';
 
 // const participants = [
 //   '%10',
@@ -35,7 +37,7 @@ import ModelVongQuayMayMan from './ModelVongQuayMayMan';
 
 const WheelOfFortune = () => {
   const dispatch = useDispatch();
-
+  const navigation = useNavigation();
   const isLoading = useSelector(state => state.vong_quay_may_man.isLoading);
   const chuanBiQuay = useSelector(state => state.vong_quay_may_man.chuanBiQuay);
   const participants = useSelector(state => state.vong_quay_may_man.dataLabel);
@@ -112,8 +114,19 @@ const WheelOfFortune = () => {
         </View>
       ) : (
         <>
-          <View style={{alignItems: 'center'}}>
-            <Text style={styles.txtTitle}>Lucky Love Coffee</Text>
+          <View style={{alignItems: 'center',justifyContent:'center'}}>
+            <View style={{flexDirection: 'row'}}>
+              <TouchableOpacity
+                style={{
+                  left:-32,
+                  alignItems: 'center',
+                }}
+                onPress={() => navigation.goBack()}>
+                <Icon name="chevron-left" style={[styles.txtTitle,{fontSize: 40, color: 'black'}]} />
+              </TouchableOpacity>
+
+              <Text style={styles.txtTitle}>Lucky Love Coffee</Text>
+            </View>
             <View style={{}}>
               <View activeOpacity={0.6} style={{transform: [{scale: 0.9}]}}>
                 <PropsWheelOfFortune
@@ -204,8 +217,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 2,
     elevation: 5,
-
-    textAlign: 'center',
     marginTop: 50,
   },
   container: {
