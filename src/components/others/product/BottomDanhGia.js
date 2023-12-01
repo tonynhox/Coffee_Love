@@ -1,18 +1,14 @@
 import React, {useCallback, useMemo, useRef, useEffect} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  FlatList,
-  Dimensions,
-} from 'react-native';
+import {View, Text, StyleSheet, FlatList, Dimensions} from 'react-native';
 import BottomSheet, {BottomSheetFlatList} from '@gorhom/bottom-sheet';
 import {BACKGROUND_BUTTON_COLOR} from '../../../utils/contanst';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome6';
 import moment from 'moment';
 import {useSelector} from 'react-redux';
+import Image from 'react-native-fast-image';
+import ImageProgress from 'react-native-image-progress';
+import {CircleSnail} from 'react-native-progress';
 
 const BottomDanhGia = ({isVisible, onClose}) => {
   const data = useSelector(state => state.chi_tiet_san_pham.data.danh_gia);
@@ -41,7 +37,16 @@ const BottomDanhGia = ({isVisible, onClose}) => {
   const renderHinhAnhDanhGia = ({item}) => {
     return (
       <View style={{paddingRight: 7}}>
-        <Image source={{uri: item.ten_hinh_anh}} style={styles.imageDanhGia} />
+        <ImageProgress
+          source={{uri: item.ten_hinh_anh}}
+          style={styles.imageDanhGia}
+          indicator={CircleSnail}
+          indicatorProps={{
+            size: 20,
+            color: 'rgba(255, 165, 0, 1)',
+            unfilledColor: 'rgba(200, 200, 200, 0.2)',
+          }}
+        />
       </View>
     );
   };
@@ -193,6 +198,8 @@ const styles = StyleSheet.create({
     height: 100,
     width: 100,
     resizeMode: 'contain',
+    borderColor: 'gray',
+    borderWidth: 0.2
   },
   chiTietDanGiaContainer: {
     flexDirection: 'row',

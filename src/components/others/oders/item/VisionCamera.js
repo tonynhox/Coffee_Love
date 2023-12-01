@@ -14,9 +14,10 @@ import {useDispatch} from 'react-redux';
 import {getSetPhotoPath} from '../../../../redux/reducers/slices/cameraSlice';
 import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/FontAwesome6';
+import RNFS from 'react-native-fs';
+import {resizeImage} from '../../../../utils/resizeImage';
 
 const VisionCamera = ({isVisible, onTakingPhoto, onClose}) => {
-
   const cameraPermission = Camera.requestCameraPermission();
   useEffect(() => {
     cameraPermission.then(res => {
@@ -35,7 +36,8 @@ const VisionCamera = ({isVisible, onTakingPhoto, onClose}) => {
   const takingPhoto = async () => {
     if (camera.current == null) return;
     const photo = await camera.current.takePhoto();
-    onTakingPhoto({isVisible: false, value: `file://${photo.path}`});
+    const resizePhoto = await resizeImage(`file://${photo.path}`);
+    onTakingPhoto({isVisible: false, value: resizePhoto});
   };
 
   const switchCamera = () => {
@@ -56,8 +58,9 @@ const VisionCamera = ({isVisible, onTakingPhoto, onClose}) => {
       animationOutTiming={0}
       isVisible={true}
       style={{margin: 0}}
-      onBackButtonPress={()=>{onClose}}
-      >
+      onBackButtonPress={() => {
+        onClose;
+      }}>
       <Camera
         style={StyleSheet.absoluteFill}
         device={selectedDevice}
@@ -80,9 +83,7 @@ const VisionCamera = ({isVisible, onTakingPhoto, onClose}) => {
       </TouchableOpacity>
 
       {/* nut X thoat camera */}
-      <TouchableOpacity
-        style={styles.btnXCamera}
-        onPress={() => onClose()}>
+      <TouchableOpacity style={styles.btnXCamera} onPress={() => onClose()}>
         <Icon name="xmark" size={30} color={'white'} />
       </TouchableOpacity>
     </Modal>

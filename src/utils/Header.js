@@ -19,6 +19,7 @@ const Header = props => {
   } = props;
 
   const countNotification = useSelector(state => state.users?.countNotification)
+  const user = useSelector(state => state.users?.user)
 
 
   const renderLeftIcon = () => {
@@ -70,7 +71,9 @@ const Header = props => {
         <TouchableOpacity
           style={{marginRight: 16}}
           onPress={() => {
-            navigation.navigate('Notification');
+            user
+            ? navigation.navigate('Notification')
+            : navigation.navigate('UserNavigation', {screen: 'Login'})
           }}>
           <Icon
             name="bell-outline"

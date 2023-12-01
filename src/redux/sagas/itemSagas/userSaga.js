@@ -70,11 +70,13 @@ function* WorkerUser(action) {
 
 function* SignUp(action) {
   try {
-    const {tai_khoan, mat_khau, ho_ten, navigation} = action.payload;
+    const {tai_khoan, mat_khau, ho_ten, sdt, email, navigation} = action.payload;
     const payload = {
       tai_khoan: tai_khoan,
       mat_khau: mat_khau,
       ho_ten: ho_ten,
+      so_dien_thoai: sdt,
+      email: email,
     };
 
     //api
@@ -90,7 +92,7 @@ function* SignUp(action) {
     }
   } catch (error) {
     console.log('error', error);
-    yield put(getUserFail('Lỗi kết nối'));
+    yield put(getUserFail('Lỗi'));
   }
 }
 

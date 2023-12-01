@@ -7,6 +7,9 @@ import {
   ScrollView,
   TouchableOpacity,
   Alert,
+  KeyboardAvoidingView,
+  ActivityIndicator,
+  Dimensions,
 } from 'react-native';
 import React, {useState} from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -21,14 +24,44 @@ const SignUp = () => {
   const [tai_khoan, setTai_khoan] = useState('');
   const [mat_khau, setMat_khau] = useState('');
   const [ho_ten, setHo_ten] = useState('');
+  const [sdt, setSdt] = useState('');
+  const [email, setEmail] = useState('');
 
   const isLoading = useSelector(state => state.users.isLoading);
 
   const dispatch = useDispatch();
   const showAlert = () => {
     Alert.alert(
-      'Không Được Rổng!',
+      'Không Được Rỗng!',
       'Vui lòng nhập đầy đủ thông tin',
+      [
+        {
+          text: 'Đồng ý',
+          onPress: () => console.log('Đã đồng ý'),
+        },
+      ],
+      {cancelable: false},
+    );
+  };
+  // so dien thoai khong dung
+  const showAlertPhone = () => {
+    Alert.alert(
+      'Sai số điện thoại!',
+      'Vui lòng nhập đúng số điện thoại',
+      [
+        {
+          text: 'Đồng ý',
+          onPress: () => console.log('Đã đồng ý'),
+        },
+      ],
+      {cancelable: false},
+    );
+  };
+  // email khong khong dung
+  const showAlertEmail = () => {
+    Alert.alert(
+      'Sai Email!',
+      'Vui lòng nhập đúng email',
       [
         {
           text: 'Đồng ý',
@@ -40,17 +73,33 @@ const SignUp = () => {
   };
 
   const handleSignUp = () => {
-    if (tai_khoan === '' || mat_khau === '' || ho_ten === '') {
+    const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}$/;
+    const phoneRegex = /^0[0-9]{8,10}$/;
+
+    if (
+      tai_khoan === '' ||
+      mat_khau === '' ||
+      ho_ten === '' ||
+      sdt === '' ||
+      email === ''
+    ) {
       showAlert();
+    } else if (phoneRegex.test(sdt) === false) {
+      showAlertPhone();
+    } else if (emailRegex.test(email) === false) {
+      showAlertEmail();
     } else {
-      dispatch(getRegister({tai_khoan, mat_khau, ho_ten, navigation}));
+      dispatch(getRegister({tai_khoan, mat_khau, ho_ten, sdt, email, navigation}));
     }
   };
 
   const [showPassword, setShowPassword] = React.useState(false);
+  const keyboardVerticalOffset = Platform.OS === 'ios' ? 40 : 0;
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView
+      style={styles.container}
+      keyboardVerticalOffset={keyboardVerticalOffset}>
       {/* <View style={styles.container2}> */}
       <Header
         headerText={'Đăng ký'}
@@ -68,7 +117,7 @@ const SignUp = () => {
         style={styles.img}
       />
 
-      <View style={styles.v3}>
+      <ScrollView style={styles.v3}>
         <View style={styles.marginTopInput}>
           <Text style={styles.t1}>Họ Tên</Text>
           <TextInput
@@ -107,6 +156,30 @@ const SignUp = () => {
           </View>
         </View>
 
+        {/* so dien thoai */}
+        <View style={styles.marginTopInput}>
+          <Text style={styles.t1}>Số điện thoại </Text>
+          <View style={styles.vp}>
+            <TextInput
+              onChangeText={text => setSdt(text)}
+              value={sdt}
+              style={styles.tip1}
+            />
+          </View>
+        </View>
+
+        {/* email  */}
+        <View style={styles.marginTopInput}>
+          <Text style={styles.t1}>Email </Text>
+          <View style={styles.vp}>
+            <TextInput
+              onChangeText={text => setEmail(text)}
+              value={email}
+              style={styles.tip1}
+            />
+          </View>
+        </View>
+
         <TouchableOpacity
           onPress={() => {
             handleSignUp();
@@ -125,12 +198,23 @@ const SignUp = () => {
 
         <View style={styles.txtlg}>
           <Text style={styles.t5}>Bạn đã có tài khoản? </Text>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('Login')}>
             <Text style={styles.tlg}> Đăng nhập</Text>
           </TouchableOpacity>
         </View>
-      </View>
-    </View>
+      </ScrollView>
+
+      {/* loading view */}
+      {isLoading ? (
+        <View style={styles.loading}>
+          <ActivityIndicator
+            size="large"
+            color="#F76208"
+            style={{marginTop: Dimensions.get('screen').height / 2}}
+          />
+        </View>
+      ) : null}
+    </KeyboardAvoidingView>
   );
 };
 

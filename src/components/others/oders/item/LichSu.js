@@ -1,7 +1,6 @@
 import {
   ActivityIndicator,
   FlatList,
-  Image,
   SafeAreaView,
   StyleSheet,
   Text,
@@ -10,7 +9,7 @@ import {
   RefreshControl,
 } from 'react-native';
 import React, {useState, useCallback} from 'react';
-
+import Image from 'react-native-fast-image';
 import Icon from 'react-native-vector-icons/FontAwesome6';
 import {useNavigation} from '@react-navigation/native';
 import {formatCurrency} from '../../../../utils/formatCurrency';

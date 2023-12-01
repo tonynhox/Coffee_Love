@@ -2,12 +2,12 @@ import {
   StyleSheet,
   Text,
   View,
-  Image,
   TextInput,
   TouchableOpacity,
   KeyboardAvoidingView,
   Dimensions,
   ActivityIndicator,
+  Image
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {editProfileStyle} from './editProfileStyle';
@@ -21,6 +21,9 @@ import ImagePicker from 'react-native-image-crop-picker';
 import uuid from 'react-native-uuid';
 import VisionCamera from '../oders/item/VisionCamera';
 import {Storage} from 'aws-amplify';
+import ImageProgress from 'react-native-image-progress';
+import {CircleSnail} from 'react-native-progress';
+import { resizeImage } from '../../../utils/resizeImage';
 
 const EditProfile = () => {
   const user = useSelector(state => state.users.user);
@@ -39,7 +42,6 @@ const EditProfile = () => {
   const dispatch = useDispatch();
 
   const handleEdit = async () => {
-    const s3AvatarUrl = await uploadImagesToS3();
 
     const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}$/;
     const phoneRegex = /^0[0-9]{8,10}$/;
@@ -83,6 +85,9 @@ const EditProfile = () => {
       email: false,
       sdt: false,
     });
+
+    const s3AvatarUrl = await uploadImagesToS3();
+
     // console.log('DISPATCH ', {...dataTemp, avatar: s3AvatarUrl});
     dispatch(
       editUser({...dataTemp, avatar: s3AvatarUrl}), //ok
@@ -108,11 +113,12 @@ const EditProfile = () => {
     ImagePicker.openPicker({
       multiple: false,
     })
-      .then(images => {
+      .then(async images => {
         console.log('IMAGE FROM LIBRARY: ', images);
+        const resize = await resizeImage(images.path);
         const newArray = {
           id: uuid.v4(), // Assuming you have the uuid library
-          uri: images.path,
+          uri: resize,
         };
         setCameraValue(prevCameraValue => ({
           isVisible: false,
@@ -196,9 +202,27 @@ const EditProfile = () => {
         {/* Image avatar */}
 
         <View style={{marginVertical: 40}}>
-          <Image
-            source={{uri: cameraValue.value.uri}}
-            style={editProfileStyle.imageProfile}></Image>
+          {/* <View
+            style={{
+              borderRadius: 100,
+              borderWidth: 0.3,
+              borderColor: '#F68509',
+              width: 200,
+              height: 200,
+              alignSelf:'center',
+            }}> */}
+            <Image
+            
+              source={{uri: cameraValue.value.uri}}
+              style={[editProfileStyle.imageProfile]}
+              // indicator={CircleSnail}
+              // indicatorProps={{
+              //   size: 20,
+              //   color: 'rgba(255, 165, 0, 1)',
+              //   unfilledColor: 'rgba(200, 200, 200, 0.2)',
+              // }}
+            />
+          {/* </View> */}
           <Icon
             name="photo-film"
             size={30}

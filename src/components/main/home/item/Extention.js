@@ -42,7 +42,9 @@ const Extention = () => {
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.itemExtention}
-        onPress={() => navigation.navigate('Favorite')}>
+        onPress={() => user
+          ? navigation.navigate('Favorite')
+          : navigation.navigate('UserNavigation', {screen: 'Login'})}>
         <Icon name="heart" size={32} color="#D89543" />
         <Text style={styles.txtItem}>Yêu thích </Text>
       </TouchableOpacity>

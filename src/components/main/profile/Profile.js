@@ -75,7 +75,13 @@ const Profile = ({navigation}) => {
             </TouchableOpacity>
           </View>
           <View style={styles.cardRow}>
-            <TouchableOpacity style={styles.cardExtention} onPress={() => navigation.navigate("Favorite")}>
+            <TouchableOpacity
+              style={styles.cardExtention}
+              onPress={() =>
+                user
+                  ? navigation.navigate('Favorite')
+                  : navigation.navigate('UserNavigation', {screen: 'Login'})
+              }>
               <IconF
                 name="heart"
                 style={[styles.icon, {color: 'red', fontSize: 26}]}

@@ -28,6 +28,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 import {Storage} from 'aws-amplify';
 import {ACCESS_KEY_ID, SECRET_ACCESS_KEY} from '../../../../PrivateKey';
 import {ToastAndroid} from 'react-native';
+import {resizeImage} from '../../../../utils/resizeImage';
 
 const ModalDanhGia = ({isVisible, onCancel, sendRate}) => {
   const dispatch = useDispatch();
@@ -68,18 +69,23 @@ const ModalDanhGia = ({isVisible, onCancel, sendRate}) => {
   };
 
   // chon anh tu thu vien
-  const handleImageFromLibrary = () => {
+  const handleImageFromLibrary = async () => {
     setValueChoosingModal({isVisible: false, value: ''});
     setCurrentOptions(null);
     ImagePicker.openPicker({
       multiple: true,
     })
-      .then(images => {
+      .then(async images => {
         console.log(images);
-        const newArray = images.map(item => ({
-          id: uuid.v4(), // Assuming you have the uuid library
-          uri: item.path,
-        }));
+        const newArray = await Promise.all(
+          images.map(async item => {
+            const resize = await resizeImage(item.path);
+            return {
+              id: uuid.v4(), // Assuming you have the uuid library
+              uri: resize,
+            };
+          }),
+        );
         setCameraValue(prevCameraValue => ({
           isVisible: false,
           value: [...prevCameraValue.value, ...newArray],

@@ -39,23 +39,28 @@ const Home = () => {
   useEffect(() => {
     console.log('DEVICE TOKEN IS NONE: ', device_token);
     if (device_token !== user?.device_token && device_token !== 'none') {
-      console.log('UPLOADING DEVICE TOKEN', device_token);
-      dispatch(
-        getDeviceTokenRequest({
-          id_user: user.id_user,
-          ho_ten: user.ho_ten,
-          avatar: user.avatar,
-          email: user.email,
-          so_dien_thoai: user.so_dien_thoai,
-          device_token: device_token,
-        }),
-      );
+      console.log('UPLOADING DEVICE TOKEN', user);
+      if (user != null) {
+        console.log('USER00000000000:', user);
+        dispatch(
+          getDeviceTokenRequest({
+            id_user: user?.id_user,
+            ho_ten: user?.ho_ten,
+            avatar: user?.avatar,
+            email: user?.email,
+            so_dien_thoai: user?.so_dien_thoai,
+            device_token: device_token,
+          }),
+        );
+      }
     }
   }, [device_token]);
 
   useEffect(() => {
-    dispatch(getNotificationRequest({id_user: user.id_user}));
-  }, []);
+    if (user) {
+      dispatch(getNotificationRequest({id_user: user.id_user}));
+    }
+  }, [user]);
 
   const HeaderName = () => {
     return (
@@ -89,7 +94,9 @@ const Home = () => {
             marginLeft: 8,
           }}
           onPress={() => {
-            navigation.navigate('Notification');
+            user
+                ? navigation.navigate('Notification')
+                : navigation.navigate('UserNavigation', {screen: 'Login'})
           }}>
           <Icon name="bell-outline" style={[{fontSize: 25, color: 'black'}]} />
           <View

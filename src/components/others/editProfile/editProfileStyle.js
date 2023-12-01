@@ -12,9 +12,11 @@ export const editProfileStyle = StyleSheet.create({
   imageProfile: {
     width: 200,
     height: 200,
+    alignSelf: 'center',
     // marginVertical: 40,
     borderRadius: 100,
-    alignSelf: 'center',
+    borderWidth: 0.3,
+    borderColor: '#F68509',
   },
   inputContainer: {
     width: '100%',
@@ -93,7 +95,7 @@ export const editProfileStyle = StyleSheet.create({
     bottom: 0,
     left: '25%',
     borderRadius: 50,
-    backgroundColor:'transparent',
+    backgroundColor: 'transparent',
     padding: 5,
   },
 });

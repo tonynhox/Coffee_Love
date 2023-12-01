@@ -134,6 +134,22 @@ const Favorite = ({navigation}) => {
                   }}>
                   Không có sản phẩm yêu thích
                 </Text>
+
+                <TouchableOpacity
+                  style={{
+                    marginTop: 20,
+                    backgroundColor: '#E3850C',
+                    paddingHorizontal: 20,
+                    paddingVertical: 10,
+                    borderRadius: 10,
+                    elevation: 3,
+                  }}
+                  onPress={() => navigation.navigate('Home')}>
+                  <Text
+                    style={{fontSize: 16, fontWeight: '500', color: 'white'}}>
+                    Khám phá
+                  </Text>
+                </TouchableOpacity>
               </View>
             ) : (
               <>

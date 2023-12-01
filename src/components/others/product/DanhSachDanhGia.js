@@ -3,7 +3,6 @@ import {
   Text,
   View,
   FlatList,
-  Image,
   TouchableOpacity,
   Dimensions,
 } from 'react-native';
@@ -16,6 +15,9 @@ import {
 import {lamTronSo} from '../../../utils/lamTronSo';
 import {useSelector} from 'react-redux';
 import moment from 'moment';
+import ImageProgress from 'react-native-image-progress';
+import {CircleSnail} from 'react-native-progress';
+import Image from 'react-native-fast-image';
 
 const DanhSachDanhGia = ({onOpenDanhGia}) => {
   const data = useSelector(state => state.chi_tiet_san_pham.data);
@@ -23,7 +25,16 @@ const DanhSachDanhGia = ({onOpenDanhGia}) => {
   const renderHinhAnhDanhGia = ({item}) => {
     return (
       <View style={{paddingRight: 7}}>
-        <Image source={{uri: item.ten_hinh_anh}} style={styles.imageDanhGia} />
+        <ImageProgress
+          source={{uri: item.ten_hinh_anh}}
+          style={styles.imageDanhGia}
+          indicator={CircleSnail}
+          indicatorProps={{
+            size: 20,
+            color: 'rgba(255, 165, 0, 1)',
+            unfilledColor: 'rgba(200, 200, 200, 0.2)',
+          }}
+        />
       </View>
     );
   };
@@ -208,6 +219,8 @@ const styles = StyleSheet.create({
     height: 100,
     width: 100,
     resizeMode: 'contain',
+    borderColor: 'gray',
+    borderWidth: 0.2,
   },
   chiTietDanGiaContainer: {
     flexDirection: 'row',

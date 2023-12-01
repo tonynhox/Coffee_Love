@@ -61,32 +61,6 @@ const MainNavigation = () => {
     }
   };
 
-
- 
-
-  const user = useSelector(state => state.users?.user);
-  const device_token = useSelector(state => state.device_token?.deviceToken);
-
-  useEffect(() => {
-    console.log("DEVICE TOKEN IS NONE: ", device_token)
-    if (
-      device_token !== user?.device_token && 
-      device_token !== "none"
-    ) {
-      console.log("UPLOADING DEVICE TOKEN", device_token)
-      dispatch(
-        getDeviceTokenRequest({
-          id_user: user.id_user,
-          ho_ten: user.ho_ten,
-          avatar: user.avatar,
-          email: user.email,
-          so_dien_thoai: user.so_dien_thoai,
-          device_token: device_token,
-        }),
-      );
-    }
-  }, [device_token]);
-
   useEffect(() => {
     getCurrentPosition();
   }, []);

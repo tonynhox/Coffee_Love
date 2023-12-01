@@ -1,16 +1,16 @@
 import {
   ActivityIndicator,
   FlatList,
-  Image,
   RefreshControl,
   SafeAreaView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
+  ScrollView,
 } from 'react-native';
 import React, {useState} from 'react';
-
+import Image from 'react-native-fast-image'
 import Icon from 'react-native-vector-icons/FontAwesome6';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
@@ -23,6 +23,8 @@ import {
   getDonHangRequest,
 } from '../../../../redux/reducers/slices/donHangSlice';
 import ModalDanhGia from './ModalDanhGia';
+import ImageProgress from 'react-native-image-progress';
+import ProgressBar, {CircleSnail } from 'react-native-progress/Bar';
 
 const DanhGia = () => {
   const navigation = useNavigation();
@@ -86,10 +88,16 @@ const DanhGia = () => {
   const DanhGiaItem = ({item, id}) => {
     const so_sao = item.so_sao;
     const isDanhGia = item.ma_trang_thai === 4;
+
+    //_id , ten_hinh_anh
     return (
       <View style={styles.itemContainer}>
         {/* Hinh anh, ten, so luong, size, dia chi */}
-        <View style={styles.imageAndDescribeContainer}>
+        <TouchableOpacity
+          style={styles.imageAndDescribeContainer}
+          onPress={() =>
+            navigation.navigate('OrderDetail', {id_don_hang: item._id})
+          }>
           <Image
             source={{
               uri:
@@ -119,12 +127,11 @@ const DanhGia = () => {
             <View>
               <Text style={styles.textLocation}>
                 SL: {item.tong_san_pham}
-                {'   '}Size: {item.san_pham[0].size} {'  '}{' '}
                 {item.dia_chi.so_nha}{' '}
               </Text>
             </View>
           </View>
-        </View>
+        </TouchableOpacity>
 
         {/* Gia tien va so luong */}
 
@@ -154,10 +161,24 @@ const DanhGia = () => {
             </View>
             {/* Thanh tien */}
             <View style={[styles.thanhTienContainer, {paddingBottom: 5}]}>
-              <Text style={styles.textDanhGia}>Phản hồi: </Text>
-              <Text style={styles.textNoiDung}>
-                Cảm ơn bạn đã sử dụng và phản hồi dịch vụ của Coffee.Love
-              </Text>
+              <Text style={styles.textDanhGia}>Hình ảnh: </Text>
+              <ScrollView horizontal>
+                {item.hinh_anh_danh_gia.map((item, index) => {
+                  return (
+                    <ImageProgress
+                      source={{uri: item.ten_hinh_anh}}
+                      indicator={CircleSnail}
+                      indicatorProps={{
+                        size: 20,
+                        borderWidth: 0,
+                        color: 'rgba(255, 165, 0, 1)',
+                        unfilledColor: 'rgba(200, 200, 200, 0.2)',
+                      }}
+                      style={styles.imageDanhGia}
+                    />
+                  );
+                })}
+              </ScrollView>
             </View>
           </>
         )}
@@ -430,5 +451,14 @@ const styles = StyleSheet.create({
     left: 0,
     bottom: 0,
     right: 0,
+  },
+  imageDanhGia: {
+    width: 80,
+    height: 80,
+    resizeMode: 'contain',
+    marginRight: 5,
+    borderRadius: 5,
+    borderWidth: 0.2,
+    borderColor: 'gray',
   },
 });
