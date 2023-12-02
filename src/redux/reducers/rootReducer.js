@@ -23,6 +23,8 @@ import vongQuayMayManSlice from './slices/vongQuayMayManSlice';
 
 import deviceTokenSlice from './slices/deviceTokenSlice';
 import cameraSlice from './slices/cameraSlice';
+import dailyProductSlice from './slices/dailyProductSlice';
+import newProductSlice from './slices/newProductSlice';
 
 const rootReducer = combineReducers({
   users: userSlice,
@@ -44,6 +46,9 @@ const rootReducer = combineReducers({
   vong_quay_may_man: vongQuayMayManSlice,
   device_token: deviceTokenSlice,
   camera: cameraSlice,
+  dailyProducts: dailyProductSlice,
+  newProducts: newProductSlice,
+  
 });
 
 export default rootReducer;
