@@ -44,7 +44,11 @@ const DanhSachDanhGia = ({onOpenDanhGia}) => {
       /* avatar & content */
       <View style={styles.chiTietDanGiaContainer}>
         <Image
-          source={require('../../../assets/images/avatar.png')}
+          source={{
+            uri:
+              item.hinh_anh_user ||
+              'https://public-coffeelove.s3.ap-southeast-1.amazonaws.com/public/blank-profile-picture-973460_1280.png',
+          }}
           style={styles.avatar}
         />
         {/* ten, so sao, noi dung, hinh anh */}
@@ -213,6 +217,7 @@ const styles = StyleSheet.create({
     height: 50,
     width: 50,
     borderRadius: 25,
+    borderWidth: 0.5,
     marginHorizontal: 10,
   },
   imageDanhGia: {

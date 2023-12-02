@@ -3,7 +3,8 @@ import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import BottomSheet, {BottomSheetFlatList} from '@gorhom/bottom-sheet';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {useDispatch, useSelector} from 'react-redux';
-import { setCameraChoose } from '../../../redux/reducers/slices/utilSlice';
+import {setCameraChoose} from '../../../redux/reducers/slices/utilSlice';
+import Icon from 'react-native-vector-icons/FontAwesome6';
 
 const BottomSheetDanhSachCuaHang = ({isVisible, onClose}) => {
   const data = useSelector(state => state.locationMap.toaDoCuaHang);
@@ -16,17 +17,19 @@ const BottomSheetDanhSachCuaHang = ({isVisible, onClose}) => {
     }
   }, [isVisible]);
 
-  const chonChiNhanh = async (item) => {
+  const chonChiNhanh = async item => {
     console.log('item', item);
-    await dispath(setCameraChoose({
-      center: {
-        latitude: parseFloat(item.location.x),
-        longitude: parseFloat(item.location.y),
-      },
-      zoom: 15,
-      tilt: 0,
-      bearing: 0,
-    }));
+    await dispath(
+      setCameraChoose({
+        center: {
+          latitude: parseFloat(item.location.x),
+          longitude: parseFloat(item.location.y),
+        },
+        zoom: 15,
+        tilt: 0,
+        bearing: 0,
+      }),
+    );
     onClose();
   };
 
@@ -44,23 +47,12 @@ const BottomSheetDanhSachCuaHang = ({isVisible, onClose}) => {
   }, []);
 
   const renderChiNhanh = ({item}) => {
-
     return (
       <TouchableOpacity
         style={styles.itemContainer}
         onPress={() => chonChiNhanh(item)}>
         {/* hinh anh chi nhanh + thong tin chi nhanh */}
-        <Image
-          source={{
-            uri: 'https://fastly.picsum.photos/id/955/300/300.jpg?hmac=b_4KF2rcgCANzZzs37HTt-7WtQ3fxG_zOFI2JUPhOQw',
-          }}
-          style={{
-            width: 70,
-            height: 70,
-            resizeMode: 'contain',
-            borderRadius: 10,
-          }}
-        />
+        <Icon name="house" size={30} color="#F77F08" style={{marginLeft: 10}}/>
         {/* blank */}
         <View style={styles.blank} />
         {/* Tên chi nhánh, địa chỉ, vị trí */}
@@ -137,14 +129,17 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     paddingVertical: 10,
+    color: 'black',
   },
   textChiNhanh: {
     fontSize: 15,
     fontWeight: '500',
+    color: 'black',
   },
   textDiaChi: {
     fontSize: 14,
     fontWeight: '400',
+    color: 'black',
   },
   textLocation: {
     fontSize: 14,

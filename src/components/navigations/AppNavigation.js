@@ -95,6 +95,30 @@ const AppNavigation = props => {
       });
   }, []);
 
+  // useEffect(() => {
+  //   // Assume a message-notification contains a "type" property in the data payload of the screen to open
+  //   messaging().onNotificationOpenedApp(remoteMessage => {
+  //     console.log(
+  //       'Notification caused app to open from background state:',
+  //       remoteMessage.notification,
+  //     );
+  //     navigation.navigate('ProductDetail', {id: '6527c4093f0f8812b90f715b'});
+  //   });
+
+  //   // Check whether an initial notification is available
+  //   messaging()
+  //     .getInitialNotification()
+  //     .then(remoteMessage => {
+  //       if (remoteMessage) {
+  //         console.log(
+  //           'Notification caused app to open from quit state:',
+  //           remoteMessage.notification,
+  //         );
+  //         // setInitialRoute(remoteMessage.data.type); // e.g. "Settings"
+  //       }
+  //     });
+  // }, []);
+
   return (
     <>
       <NotificationHandler />
@@ -305,7 +329,6 @@ const AppNavigation = props => {
           //   // animation: 'slide_from_right',
           // }}
         />
-        
       </Stack.Navigator>
     </>
   );

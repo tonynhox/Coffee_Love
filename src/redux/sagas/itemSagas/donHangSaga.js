@@ -73,9 +73,11 @@ function* fetchDanhGiaDonHangAsync(action) {
   try {
     const value = action.payload;
     console.log('value', value);
-    const response = yield call(instance.post, `api/don-hang/danh-gia`, value);
+    const response = yield call(() =>
+      instance.post(`api/don-hang/danh-gia`, value),
+    );
     if (response.data.status == false) {
-      yield put(getDanhGiaFail(response.data));
+      yield put(getDanhGiaFail(response.data.message));
     }
     yield put(getDanhGiaSuccess(response.data));
   } catch (error) {
