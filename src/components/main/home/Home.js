@@ -21,6 +21,8 @@ import {useDispatch, useSelector} from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import {getDeviceTokenRequest} from '../../../redux/reducers/slices/deviceTokenSlice';
 import {getNotificationRequest} from '../../../redux/reducers/slices/userSlice';
+import DailyProduct from './item/DailyProduct';
+import NewProduct from './item/NewProduct';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
@@ -158,6 +160,8 @@ const Home = () => {
         <CardUser user={user} />
         <Extention />
         <TopOrder />
+        <DailyProduct />
+        <NewProduct />
         <Menu />
       </ScrollView>
     </View>

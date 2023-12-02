@@ -16,7 +16,8 @@ import historyScoreSaga from './itemSagas/historyScoreSaga';
 import searchSaga from './itemSagas/searchSaga';
 import vongQuayMayManSaga from './itemSagas/vongQuayMayManSaga';
 import deviceTokenSaga from './itemSagas/deviceTokenSaga';
-
+import dailyProductSaga from './itemSagas/dailyProductSaga';
+import newProductSaga from './itemSagas/newProductSaga';
 export default function* rootSaga() {
   yield all([
     userSaga(),
@@ -36,5 +37,7 @@ export default function* rootSaga() {
     searchSaga(),
     vongQuayMayManSaga(),
     deviceTokenSaga(),
+    dailyProductSaga(),
+    newProductSaga(),
   ]);
 }
