@@ -148,6 +148,7 @@ export const userSlice = createSlice({
     getNotificationFail: (state, action) => {
       state.isNotificationLoading = false;
       state.notifications = [];
+      console.log("LOI THONG BAO: ", action.payload)
       ToastAndroid.show('Đã xảy ra lỗi nhận thông báo!', ToastAndroid.SHORT);
     },
     getChangeStatusReadNotification: (state, action) => {

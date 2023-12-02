@@ -238,8 +238,9 @@ const OrderDetail = () => {
                   />
 
                   <Text
-                    style={styles.textThongTin}
+                    style={[styles.textThongTin,]}
                     numberOfLines={2}
+                    width="90%"
                     ellipsizeMode="tail">
                     Địa chỉ: {data?.dia_chi?.ten_dia_chi}
                   </Text>

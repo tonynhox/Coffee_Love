@@ -274,11 +274,11 @@ function* getNotificationAsync(action) {
     if (response.data.trang_thai) {
       yield put(getNotificationSuccess(response.data.data));
     } else {
-      yield put(getNotificationFail());
+      yield put(getNotificationFail(response.data.message));
     }
   } catch (error) {
     console.log('error get notification for specific account', error);
-    yield put(getNotificationFail());
+    yield put(getNotificationFail(error.message));
   }
 }
 
