@@ -349,7 +349,7 @@ const BottomMuaSanPhamCategories = ({isOpenBottom}) => {
         <>
           {dataChiTietSanPham == undefined || dataChiTietSanPham == null ? (
             <View style={{flex: 1, justifyContent: 'center'}}>
-              <Text style={styles.textDa}>Không có sản phẩm</Text>
+              <Text style={[styles.textDa, {alignSelf:'center'}]}>Không có sản phẩm</Text>
             </View>
           ) : (
             <>

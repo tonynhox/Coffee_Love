@@ -18,8 +18,9 @@ import {
 import {RenderTopping} from './item/RenderTopping';
 import {formatCurrency} from '../../../utils/formatCurrency';
 
-const RenderOrderItem = ({item}) => {
+const RenderOrderItem = ({item, index}) => {
   const dispatch = useDispatch();
+  const isBold = index % 2 == 0
   return (
     <>
       <TouchableOpacity
@@ -28,7 +29,7 @@ const RenderOrderItem = ({item}) => {
           dispatch(setItemGioHang(item));
           dispatch(setOpenBottomSheet(true));
         }}
-        style={styles.container}>
+        style={!isBold ? styles.container : styles.containerBold}>
         {/* Image va thong tin san pham */}
         <View style={styles.sanPhamContainer}>
           <Image
@@ -67,7 +68,6 @@ const RenderOrderItem = ({item}) => {
             <Text style={styles.textSize}>size: {item.size}</Text>
           </View>
         </View>
-      </TouchableOpacity>
       {item.topping.length == 0 ? null : (
         <View>
           {/* <Text style={[styles.textSize, {marginLeft: 80, marginTop: -4}]}>
@@ -79,6 +79,7 @@ const RenderOrderItem = ({item}) => {
           ))}
         </View>
       )}
+      </TouchableOpacity>
     </>
   );
 };
@@ -89,6 +90,24 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+    borderWidth: 0.4,
+    borderColor:'#F4690B',
+    borderRadius: 7,
+    marginBottom: 5,
+    paddingRight: 10,
+    paddingBottom: 5,
+    backgroundColor:'#FEF7F1'
+  },
+  containerBold: {
+    flex: 1,
+    backgroundColor: '#fff',
+    borderWidth: 0.4,
+    borderColor:'#F4690B',
+    borderRadius: 7,
+    marginBottom: 5,
+    paddingRight: 10,
+    paddingBottom: 5,
+    backgroundColor:'#FFFEFD'
   },
   imageSanPham: {
     width: 60,
