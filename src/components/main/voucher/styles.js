@@ -1,6 +1,10 @@
 import {StatusBar, StyleSheet, Text, View} from 'react-native';
 
 export const styles = StyleSheet.create({
+  giftIcon: {
+    paddingHorizontal: 15,
+    alignSelf: 'center',
+  },
   txtall: {
     // width: 100,
     paddingHorizontal: 10,
@@ -81,6 +85,7 @@ export const styles = StyleSheet.create({
     borderColor: '#00FF66',
     borderWidth: 1,
     borderStyle: 'solid',
+    marginRight: 4,
   },
   card: {
     margin: 24,
@@ -144,7 +149,10 @@ export const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   imgView: {
-    marginLeft: 14,
+    marginLeft: 6,
+    flex: 1,
+    paddingVertical: 10,
+
   },
   txtB: {
     fontSize: 12,
@@ -158,13 +166,14 @@ export const styles = StyleSheet.create({
     color: '#000',
     fontWeight: '300',
     flexWrap: 'wrap',
+    flex: 1,
   },
   txtTitleFL: {
     fontSize: 16,
     fontWeight: 'bold',
     color: '#000',
-    marginBottom: 6,
-    marginTop: 5,
+    // marginBottom: 6,
+    // marginTop: 5,
   },
   cardFL: {
     backgroundColor: '#fff',

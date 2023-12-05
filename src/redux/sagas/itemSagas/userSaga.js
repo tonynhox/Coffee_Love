@@ -251,10 +251,12 @@ function* WorkAddAddress(action) {
     );
 
     if (response.data.trang_thai) {
-      yield put(getAddAddressSuccess(payload));
+      yield put(getAddAddressSuccess(response.data.dia_chi));
+
+      // console.log(response.data.dia_chi);
       navigation.goBack();
     } else {
-      yield put(getUserFail('Cap nhat that bai'));
+      yield put(getUserFail(response.data.message));
     }
   } catch (error) {
     console.log('error', error);

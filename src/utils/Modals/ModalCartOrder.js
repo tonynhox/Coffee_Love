@@ -8,6 +8,7 @@ import {
   Dimensions,
   TouchableOpacity,
   StatusBar,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import Modal from 'react-native-modal';
 import OrderDetail from '../../components/others/orderDetail/OrderDetail';
@@ -16,7 +17,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import BottomMuaSanPhamCategories from '../../components/main/categories/BottomMuaSanPhamCategories';
 import {setIsVisibleModalCart} from '../../redux/reducers/slices/utilSlice';
 import {formatCurrency} from '../formatCurrency';
-
+import IconF from 'react-native-vector-icons/FontAwesome';
 const {height} = Dimensions.get('window');
 const ModalCartOrder = () => {
   // const {isVisible, setIsVisible} = props;
@@ -60,7 +61,7 @@ const ModalCartOrder = () => {
     <Modal
       testID={'modal'}
       coverScreen={false}
-      zIndex={1000}
+      // zIndex={1000}
       isVisible={isVisibleModalCart}
       onSwipeComplete={closeModal}
       swipeDirection={['down']}
@@ -71,11 +72,21 @@ const ModalCartOrder = () => {
       propagateSwipe={true}
       style={styles.modal}>
       <View style={styles.scrollableModal}>
+              {/* separate line */}
+
+      <View style={{justifyContent: 'center', alignItems: 'center'}}>
+        <IconF
+          name="chevron-down"
+          size={25}
+          color="#F65C09"
+          style={{paddingVertical: 7}}
+          alignSeft="center"
+        />
+      </View>
         <ScrollView
           style={{
             backgroundColor: 'white',
-            borderTopLeftRadius: 20,
-            borderTopRightRadius: 20,
+
           }}
           ref={scrollViewRef}
           onScroll={handleOnScroll}
@@ -141,6 +152,9 @@ const styles = StyleSheet.create({
     // flex: 0.96,
     flex: 1,
     marginTop: StatusBar.currentHeight/2,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    backgroundColor: 'white',
   },
   scrollableModalContent1: {
     height: 200,

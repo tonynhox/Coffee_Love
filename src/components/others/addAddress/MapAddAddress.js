@@ -11,6 +11,7 @@ import ListAddress from './ListAddress';
 const MapAddAddress = () => {
   const route = useRoute();
   const isCart = route.params?.isCart || false;
+  const isEdit = route.params?.isEdit || false;
   const myLocation = useSelector(state => state.locationMap?.myLocation);
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -70,7 +71,7 @@ const MapAddAddress = () => {
     </View>
 
       <View style={{flex:0.3,backgroundColor:'white'}}>
-          <ListAddress isCart={isCart}/>
+          <ListAddress isCart={isCart} isEdit={isEdit} />
       </View>
   </>
 

@@ -23,7 +23,9 @@ export const styles = StyleSheet.create({
   },
   imgView: {
     marginLeft: 5,
-    flex:1
+    paddingVertical: 10,
+    flex:1,
+    // justifyContent: 'space-around',
   },
   txtB: {
     fontSize: 12,
@@ -37,14 +39,14 @@ export const styles = StyleSheet.create({
     color: '#000',
     fontWeight: '400',
     flexWrap: 'wrap',
-    paddingBottom: 10,
+    // paddingBottom: 10,
   },
   txtTitleFL: {
     fontSize: 16,
     fontWeight: 'bold',
     color: '#000',
-    marginBottom: 6,
-    marginTop: 5,
+    // marginBottom: 6,
+    // marginTop: 5,
   },
   cardFL: {
     backgroundColor: '#fff',

@@ -19,7 +19,7 @@ export const addAddressStyle = StyleSheet.create({
     borderRadius: 6,
     backgroundColor: 'white',
     paddingHorizontal: 10,
-    marginTop: 12,
+    // marginTop: 12,
   },
   textThongTin: {
     fontWeight: '500',

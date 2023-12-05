@@ -23,7 +23,6 @@ export const voucherSlide = createSlice({
     },
     setUseVoucher: (state, action) => {
       state.useVoucher = action.payload;
-      console.log('store của voucher', state.useVoucher);
     },
     //error
     getVoucherFail: (state, action) => {

@@ -12,10 +12,11 @@ const MyAddress = () => {
   const navigation = useNavigation();
   const route = useRoute();
   const isCart = route.params?.isCart || false;
+  const isEdit = route.params?.isEdit || false;
   const diachi = useSelector(state => state.users?.user?.dia_chi);
   const dispatch = useDispatch();
+
   const renderItemAddress = ({item, index}) => {
-    console.log('item', item);
     return (
       <TouchableOpacity
         onPress={() => {
@@ -29,6 +30,8 @@ const MyAddress = () => {
               }),
             ),
               navigation.goBack();
+          } else {
+            navigation.navigate('EditAddress', {dataItem: item});
           }
         }}
         style={myAddressStyle.containerItem}>
@@ -112,8 +115,7 @@ const MyAddress = () => {
           rightComponent={
             <TouchableOpacity
               onPress={() => navigation.navigate('AddAddress')}
-              style={{marginRight: 16}}
-              >
+              style={{marginRight: 16}}>
               <Icon
                 name="circle-plus"
                 size={25}

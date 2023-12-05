@@ -25,7 +25,7 @@ const VoucherCart = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const allVoucher = useSelector(
-    state => state.vouchers.voucher.VoucherHieuLuc,
+    state => state.vouchers.voucher?.VoucherHieuLuc,
   );
 
   const RenderItem = ({item}) => {
@@ -45,6 +45,7 @@ const VoucherCart = () => {
               text: 'Xác nhận',
               onPress: () => {
                 dispatch(setUseVoucher(item));
+                console.log('item', item);
                 navigation.pop();
               },
             },
@@ -71,18 +72,21 @@ const VoucherCart = () => {
           {/* <Text style={styles.txt}>{item.ma_voucher}</Text> */}
           <Text
             numberOfLines={2}
-            style={[styles.txt, {color: isExpired ? '#989898' : 'black'}]}>
+            style={[
+              styles.txt,
+              {color: isExpired ? '#989898' : 'black', paddingVertical: 4},
+            ]}>
             {item.mo_ta}
           </Text>
           <Text style={[styles.txt, {color: isExpired ? '#989898' : 'black'}]}>
             Sử dụng đến: {moment(item.ngay_ket_thuc).format('[ngày] LL')}
           </Text>
         </View>
-        {isExpired && (
+        {/* {isExpired && (
           <View style={styles.hetHanContainer}>
             <Text style={styles.textHetHan}>Hết hạn</Text>
           </View>
-        )}
+        )} */}
       </TouchableOpacity>
     );
   };

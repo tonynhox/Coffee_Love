@@ -34,6 +34,7 @@
     "react": "18.2.0",
     "react-native": "0.72.5",
     "react-native-dialog": "^9.3.0",
+    "react-native-exit-app": "^2.0.0",
     "react-native-fast-image": "^8.6.3",
     "react-native-fs": "^2.20.0",
     "react-native-geolocation-service": "^5.3.1",

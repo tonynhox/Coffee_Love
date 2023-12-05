@@ -10,6 +10,7 @@ import {
   NativeModules,
   NativeEventEmitter,
   LogBox,
+  ToastAndroid,
 } from 'react-native';
 import React, {
   useEffect,
@@ -111,6 +112,7 @@ const CartPayment = forwardRef(({setPrice}, ref) => {
     }
   }, [routeCart]);
 
+
   //Đóng lại do tốn tiền quá
   useEffect(() => {
     if (locationDefault) dispatchGiaoHang();
@@ -119,6 +121,7 @@ const CartPayment = forwardRef(({setPrice}, ref) => {
   //tính giá` sale
   useEffect(() => {
     if (sales) {
+      console.log('sales', sales);
       switch (sales.status) {
         case 1:
           setSale(priceShip * -1);
@@ -129,9 +132,13 @@ const CartPayment = forwardRef(({setPrice}, ref) => {
         case 3:
           setSale(cart?.price * (sales.giam_gia / 100) * -1);
           break;
+          case 0:
+            setSale(0);
+            ToastAndroid.show('Voucher đã hết hạn', ToastAndroid.SHORT);
+            break;
         default:
-          console.log('không có sale');
           setSale(0);
+
           break;
       }
     }
@@ -351,17 +358,7 @@ const CartPayment = forwardRef(({setPrice}, ref) => {
 
   return (
     <View style={styles.container}>
-      {/* separate line */}
 
-      <View style={{justifyContent: 'center', alignItems: 'center'}}>
-        <IconF
-          name="chevron-down"
-          size={25}
-          color="#F65C09"
-          style={{paddingVertical: 7}}
-          alignSeft="center"
-        />
-      </View>
 
       {/* Dia chi giao hang */}
       <TouchableOpacity

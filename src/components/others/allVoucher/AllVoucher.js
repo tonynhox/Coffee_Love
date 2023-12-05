@@ -11,7 +11,7 @@ import {styles} from './styles';
 import {useSelector} from 'react-redux';
 import moment from 'moment';
 import Header from '../../../utils/Header';
-
+import Icon from 'react-native-vector-icons/FontAwesome6';
 const AllVoucher = () => {
   const allVoucher = useSelector(
     state => state.vouchers.voucher.VoucherHieuLuc,
@@ -25,18 +25,22 @@ const AllVoucher = () => {
   const RenderItem = ({item}) => {
     return (
       <View style={styles.cardFL}>
-        <View>
-          <Image
-            style={styles.img}
-            source={require('../../../assets/images/bg_voucher.png')}
+        <View style={{justifyContent: 'center'}}>
+          <Icon
+            name="gifts"
+            size={35}
+            color={'#DA7825'}
+            style={styles.giftIcon}
           />
-          <Text style={styles.centeredText}>Coffee{'\n'}Love</Text>
+          {/* <Text style={styles.centeredText}>Coffee{'\n'}Love</Text> */}
         </View>
         <View style={styles.imgView}>
           <Text style={styles.txtTitleFL}>{item.ten_voucher}</Text>
           {/* <Text style={styles.txt}>{item.ma_voucher}</Text> */}
           <Text style={styles.txt}>{item.mo_ta}</Text>
-          <Text style={styles.txt}>Sử dụng đến: {moment(item.ngay_ket_thuc).format('LLLL')}</Text>
+          <Text style={styles.txt}>
+            Sử dụng đến: {moment(item.ngay_ket_thuc).format('LLLL')}
+          </Text>
         </View>
       </View>
     );

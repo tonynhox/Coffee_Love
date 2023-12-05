@@ -24,6 +24,7 @@ import {Storage} from 'aws-amplify';
 import ImageProgress from 'react-native-image-progress';
 import {CircleSnail} from 'react-native-progress';
 import { resizeImage } from '../../../utils/resizeImage';
+import Loading from '../../../utils/Loading';
 
 const EditProfile = () => {
   const user = useSelector(state => state.users.user);
@@ -339,19 +340,7 @@ const EditProfile = () => {
         </TouchableOpacity>
 
         {isLoading && (
-          <View
-            style={{
-              position: 'absolute',
-              height: Dimensions.get('window').height,
-              width: Dimensions.get('window').width,
-              backgroundColor: 'rgba(255, 255, 255, 0.4)',
-            }}>
-            <ActivityIndicator
-              size="large"
-              color="#FF6200"
-              style={{marginTop: Dimensions.get('screen').height / 2}}
-            />
-          </View>
+          <Loading />
         )}
       </KeyboardAvoidingView>
 

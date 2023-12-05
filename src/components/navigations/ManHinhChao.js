@@ -40,9 +40,9 @@ const ManHinh = () => {
     //ko null thì sang main
     if (data === null) {
       Storage.setItem('init', 'true');
-      navigation.navigate('AppNavigation', {screen: 'UserNavigation'});
+      navigation.replace('AppNavigation', {screen: 'UserNavigation'});
     } else {
-      navigation.navigate('AppNavigation', {screen: 'MainNavigation'});
+      navigation.replace('AppNavigation', {screen: 'MainNavigation'});
     }
     // }
   };
@@ -68,7 +68,6 @@ const ManHinh = () => {
     const token = await Storage.getItem('token');
     const user = await Storage.getItem('id_user');
     if (token !== null && user !== null) {
-      console.log('token nè', user);
       dispatch(LoginSuccess({data: {token: token, id_user: user}}));
       dispatch(getOneUserFetch({id_user: user}));
       // dispatch(getVoucherFetch({id_user:user}));

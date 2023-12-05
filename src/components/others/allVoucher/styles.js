@@ -23,6 +23,9 @@ export const styles = StyleSheet.create({
   },
   imgView: {
     marginLeft: 5,
+    paddingVertical: 10,
+    flex:1,
+    // justifyContent: 'space-around',
   },
   txtB: {
     fontSize: 12,
@@ -34,15 +37,16 @@ export const styles = StyleSheet.create({
   txt: {
     fontSize: 12,
     color: '#000',
-    fontWeight: '300',
+    fontWeight: '400',
     flexWrap: 'wrap',
+    // paddingBottom: 10,
   },
   txtTitleFL: {
     fontSize: 16,
     fontWeight: 'bold',
     color: '#000',
-    marginBottom: 6,
-    marginTop: 5,
+    // marginBottom: 6,
+    // marginTop: 5,
   },
   cardFL: {
     backgroundColor: '#fff',
@@ -61,7 +65,7 @@ export const styles = StyleSheet.create({
   },
 
   img: {
-    height: 80,
+    height: 100,
     resizeMode: 'contain',
     width: 90,
     marginLeft: -6,
@@ -70,4 +74,22 @@ export const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#f3f3f3',
   },
+  giftIcon: {
+    paddingHorizontal: 15,
+    alignSelf: 'center',
+  },
+  hetHanContainer: {
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    backgroundColor: 'rgba(246, 89, 9, 0.9)',
+    borderTopRightRadius: 10,
+    borderBottomLeftRadius: 10,
+    padding: 7,
+  },
+  textHetHan:{
+    color: '#fff',
+    fontSize: 12,
+    fontWeight: 'bold',
+  }
 });

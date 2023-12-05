@@ -19,6 +19,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import ListVoucherNotLG from './ListVoucherNotLG';
 import {getHistoryScoreFetch} from '../../../redux/reducers/slices/historyScoreSlide';
 import moment from 'moment';
+import Icon6 from 'react-native-vector-icons/FontAwesome6';
 const colorCartTV = number => {
   switch (true) {
     case number < 200:
@@ -68,18 +69,23 @@ const ListVoucher = () => {
   const RenderItem = ({item}) => {
     return (
       <View style={styles.cardFL}>
-        <View>
-          <Image
-            style={styles.img}
-            source={require('../../../assets/images/bg_voucher.png')}
+        <View style={{justifyContent: 'center'}}>
+          <Icon6
+            name="gifts"
+            size={35}
+            color={'#DA7825'}
+            style={styles.giftIcon}
           />
-          <Text style={styles.centeredText}>Coffee{'\n'}Love</Text>
+          {/* <Text style={styles.centeredText}>Coffee{'\n'}Love</Text> */}
         </View>
         <View style={styles.imgView}>
           <Text style={styles.txtTitleFL}>{item.ten_voucher}</Text>
-          <Text style={styles.txt}>{item.mo_ta}</Text>
+          {/* <Text style={styles.txt}>{item.ma_voucher}</Text> */}
+          <Text style={[styles.txt,{
+            paddingVertical: 4
+          }]}>{item.mo_ta}</Text>
           <Text style={styles.txt}>
-            Sử dụng đến {moment(item.ngay_ket_thuc).format('L')}
+            Sử dụng đến: {moment(item.ngay_ket_thuc).format('LLLL')}
           </Text>
         </View>
       </View>
@@ -140,13 +146,15 @@ const ListVoucher = () => {
           <Text style={[styles.txtfc, {fontSize: 15}]}>
             {user?.tich_diem} Điểm
           </Text>
-          <View style={styles.btnvc}>
+          <TouchableOpacity 
+          onPress={() => navigation.navigate('AllVoucher')}
+            style={styles.btnvc}>
             <Icon
               name="ticket-percent-outline"
               style={[{color: '#e77300', fontSize: 20}]}
             />
             <Text style={styles.txtfc3}>Voucher của tôi</Text>
-          </View>
+          </TouchableOpacity>
         </View>
         <View style={styles.cardRowfc}>
           <BarcodeGenerator height={60} ma_khach_hang={user?.ma_khach_hang} />
@@ -178,7 +186,7 @@ const ListVoucher = () => {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.cardExtention}
-            onPress={() => navigation.navigate('VoucherCart')}>
+            onPress={() => navigation.navigate('AllScore')}>
             <Icon
               name="gift-outline"
               style={[styles.icon, {color: '#FF4500', fontSize: 26}]}

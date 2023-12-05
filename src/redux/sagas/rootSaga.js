@@ -18,6 +18,8 @@ import vongQuayMayManSaga from './itemSagas/vongQuayMayManSaga';
 import deviceTokenSaga from './itemSagas/deviceTokenSaga';
 import dailyProductSaga from './itemSagas/dailyProductSaga';
 import newProductSaga from './itemSagas/newProductSaga';
+import editAddressSaga from './itemSagas/editAddressSaga';
+
 export default function* rootSaga() {
   yield all([
     userSaga(),
@@ -39,5 +41,6 @@ export default function* rootSaga() {
     deviceTokenSaga(),
     dailyProductSaga(),
     newProductSaga(),
+    editAddressSaga(),
   ]);
 }

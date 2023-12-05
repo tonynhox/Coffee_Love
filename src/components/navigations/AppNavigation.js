@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {NavigationContainer, useFocusEffect} from '@react-navigation/native';
+import {BackHandler, Alert} from 'react-native';
+import ExitApp from 'react-native-exit-app';
 
 import MainNavigation from './MainNavigation';
 import UserNavigation from './UserNavigation';
@@ -29,6 +31,7 @@ import PushNotification from 'react-native-push-notification';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import messaging from '@react-native-firebase/messaging';
 import Favorite from '../main/profile/item/Favorite';
+import EditAddress from '../others/addAddress/EditAddress';
 
 // add other navigation functions that you need and export them
 const Stack = createNativeStackNavigator();
@@ -58,6 +61,31 @@ const AppNavigation = props => {
 
     // ... other configurations
   });
+
+  //even exit app
+  // useEffect(() => {
+  //   const backHandler = BackHandler.addEventListener(
+  //     'hardwareBackPress',
+  //     handleBackPress,
+  //   );
+
+  //   return () => {
+  //     backHandler.remove();
+  //   };
+  // }, []);
+  const handleBackPress = () => {
+    // Hiển thị cảnh báo xác nhận thoát ứng dụng
+    // Alert.alert(
+    //   'Thoát ứng dụng',
+    //   'Bạn có chắc chắn muốn thoát ứng dụng?',
+    //   [
+    //     {text: 'Cancel', onPress: () => {}, style: 'cancel'},
+    //     {text: 'OK', onPress: () => ExitApp.exitApp()},
+    //   ],
+    //   {cancelable: false},
+    // );
+    return true;
+  };
 
   useEffect(() => {
     // Assume a message-notification contains a "type" property in the data payload of the screen to open
@@ -236,6 +264,15 @@ const AppNavigation = props => {
         <Stack.Screen
           name="AddAddress"
           component={AddAddress}
+          options={{
+            presentation: 'modal',
+            // animationTypeForReplace: 'push',
+            animation: 'fade',
+          }}
+        />
+        <Stack.Screen
+          name="EditAddress"
+          component={EditAddress}
           options={{
             presentation: 'modal',
             // animationTypeForReplace: 'push',

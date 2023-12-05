@@ -6,6 +6,7 @@ const initialState = {
   user: null,
   isLoading: false,
   isChangeUserLoading: false,
+  isLoadingAddAddress: false,
   isLogin: false,
   notifications: [],
   isNotificationLoading: true,
@@ -94,20 +95,17 @@ export const userSlice = createSlice({
       ToastAndroid.show('Chỉnh sửa thành công', ToastAndroid.SHORT);
     },
     getAddAddress: state => {
-      state.isChangeUserLoading = true;
+      state.isLoadingAddAddress = true;
     },
     getAddAddressSuccess: (state, action) => {
+      state.isLoadingAddAddress = false;
       const {user} = state;
       const updatedUser = {
         ...user,
-        dia_chi: [...user.dia_chi, action.payload],
+        dia_chi: action.payload,
       };
 
-      return {
-        ...state,
-        isLoading: false,
-        user: updatedUser,
-      };
+      state.user = updatedUser;
     },
     //error
     getUserFail: (state, action) => {

@@ -26,6 +26,8 @@ import cameraSlice from './slices/cameraSlice';
 import dailyProductSlice from './slices/dailyProductSlice';
 import newProductSlice from './slices/newProductSlice';
 
+
+import editAddressSlice from './slices/editAddressSlice';
 const rootReducer = combineReducers({
   users: userSlice,
   categories: categoriesSlice,
@@ -48,7 +50,7 @@ const rootReducer = combineReducers({
   camera: cameraSlice,
   dailyProducts: dailyProductSlice,
   newProducts: newProductSlice,
-  
+  editAddress: editAddressSlice,
 });
 
 export default rootReducer;
