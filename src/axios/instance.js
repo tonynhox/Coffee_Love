@@ -1,9 +1,13 @@
 import axios from 'axios';
 import Storage from '../utils/Storage';
+import { Alert } from 'react-native';
 
 const instance = axios.create({
   baseURL: 'https://coffee.thaihoa.software/',
 });
+
+//time request
+instance.defaults.timeout = 10000;
 
 instance.interceptors.request.use(
   async config => {
