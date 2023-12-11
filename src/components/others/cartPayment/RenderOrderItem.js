@@ -120,6 +120,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: 'black',
     fontWeight: '500',
+    flex: 1,
   },
   textSoLuong: {
     fontSize: 15,
@@ -169,6 +170,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     width: 'auto',
+    flex: 1,
   },
   sizeContainer: {
     flexDirection: 'row',

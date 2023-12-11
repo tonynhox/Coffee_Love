@@ -6,6 +6,7 @@ import {
   View,
   Dimensions,
   StatusBar,
+  RefreshControl,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {styles} from './styles';
@@ -23,6 +24,13 @@ import {getDeviceTokenRequest} from '../../../redux/reducers/slices/deviceTokenS
 import {getNotificationRequest} from '../../../redux/reducers/slices/userSlice';
 import DailyProduct from './item/DailyProduct';
 import NewProduct from './item/NewProduct';
+import {getCategoryFetch} from '../../../redux/reducers/slices/categoriesSlice';
+import {getTopOrderFetch} from '../../../redux/reducers/slices/topOrderSlice';
+import {getProductAllFetch} from '../../../redux/reducers/slices/productSlice';
+import {getLocationStoreFetch} from '../../../redux/reducers/slices/locationMapSlice';
+import {getDataToppingRequest} from '../../../redux/reducers/slices/toppingSlice';
+import {getDailyProduct} from '../../../redux/reducers/slices/dailyProductSlice';
+import {getNewProduct} from '../../../redux/reducers/slices/newProductSlice';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
@@ -97,8 +105,8 @@ const Home = () => {
           }}
           onPress={() => {
             user
-                ? navigation.navigate('Notification')
-                : navigation.navigate('UserNavigation', {screen: 'Login'})
+              ? navigation.navigate('Notification')
+              : navigation.navigate('UserNavigation', {screen: 'Login'});
           }}>
           <Icon name="bell-outline" style={[{fontSize: 25, color: 'black'}]} />
           <View
@@ -128,6 +136,22 @@ const Home = () => {
     extrapolate: 'clamp', // Giữ giá trị trong khoảng inputRange
   });
 
+  const [refreshing, setRefreshing] = useState(false);
+
+  const fetchDonHang = () => {
+    setRefreshing(true);
+    Promise.all([
+      dispatch(getCategoryFetch()),
+      dispatch(getTopOrderFetch()),
+      dispatch(getProductAllFetch()),
+      dispatch(getLocationStoreFetch()),
+      dispatch(getDataToppingRequest()),
+      dispatch(getDailyProduct()),
+      dispatch(getNewProduct()),
+    ]).then(() => {
+      setRefreshing(false);
+    });
+  };
   return (
     <View style={{flex: 1}}>
       <Animated.View
@@ -155,6 +179,12 @@ const Home = () => {
       />
 
       <ScrollView
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={() => fetchDonHang()}
+          />
+        }
         showsVerticalScrollIndicator={false}
         onScroll={Animated.event(
           [{nativeEvent: {contentOffset: {y: scrollY}}}],

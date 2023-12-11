@@ -27,7 +27,7 @@ import {
 } from '../../../redux/reducers/slices/cartPaymentSlice';
 import {KEY_SEARCH_HISTORY} from '../../../utils/contanst';
 import {getDeviceTokenRequest} from '../../../redux/reducers/slices/deviceTokenSlice';
-
+import RNRestart from 'react-native-restart';
 const Profile = ({navigation}) => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.users.user);
@@ -186,23 +186,25 @@ const Profile = ({navigation}) => {
                   {
                     text: 'Xác nhận',
                     onPress: () => {
-                      dispatch(LoginSuccess(''));
-                      dispatch(clearFavorite());
-                      dispatch(getDeleteCartSuccess());
-                      dispatch(
-                        getDeviceTokenRequest({
-                          id_user: user.id_user,
-                          ho_ten: user.ho_ten,
-                          avatar: user.avatar,
-                          email: user.email,
-                          so_dien_thoai: user.so_dien_thoai,
-                          device_token: '',
-                        }),
-                      );
-                      dispatch(clearNotificationCounter());
                       Storage.removeToken();
                       Storage.removeItem('id_user');
                       Storage.removeItem(KEY_SEARCH_HISTORY);
+                      RNRestart.restart();
+                      // dispatch(LoginSuccess(''));
+                      // dispatch(clearFavorite());
+                      // dispatch(getDeleteCartSuccess());
+                      // dispatch(
+                      //   getDeviceTokenRequest({
+                      //     id_user: user.id_user,
+                      //     ho_ten: user.ho_ten,
+                      //     avatar: user.avatar,
+                      //     email: user.email,
+                      //     so_dien_thoai: user.so_dien_thoai,
+                      //     device_token: '',
+                      //   }),
+                      // );
+                      dispatch(clearNotificationCounter());
+
                     },
                   },
                 ]);

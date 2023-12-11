@@ -319,7 +319,7 @@ const ProductDetail = props => {
                 <FlatList
                   data={
                     dataSanPhamDeXuat[dataSanPhamDeXuatCungTheLoaiIndex]
-                      .san_pham
+                      ?.san_pham
                   }
                   renderItem={renderSanPhamDeXuat}
                   horizontal={true}

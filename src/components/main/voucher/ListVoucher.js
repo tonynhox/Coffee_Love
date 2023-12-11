@@ -62,9 +62,9 @@ const ListVoucher = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const allVoucher = useSelector(
-    state => state.vouchers.voucher.VoucherHieuLuc,
-  ).slice(0, 4);
-  const dataScore = useSelector(state => state.scores.score).slice(0, 4);
+    state => state.vouchers?.voucher?.VoucherHieuLuc,
+  );
+  const dataScore = useSelector(state => state?.scores?.score);
 
   const RenderItem = ({item}) => {
     return (
@@ -227,7 +227,7 @@ const ListVoucher = () => {
       <FlatList
         scrollEnabled={false}
         style={styles.flatList}
-        data={allVoucher}
+        data={[...allVoucher].slice(0, 4)}
         renderItem={RenderItem}
         keyExtractor={item => item._id}
       />
@@ -241,7 +241,7 @@ const ListVoucher = () => {
       <FlatList
         scrollEnabled={false}
         style={styles.flatList}
-        data={dataScore}
+        data={[...dataScore].slice(0, 4)}
         renderItem={RenderItem2}
         keyExtractor={item => item._id}
       />

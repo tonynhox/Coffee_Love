@@ -9,6 +9,7 @@ function* getDailyProduct(action) {
     const response = yield call(() =>
       instance.get('api/san-pham/danh-sach-san-pham-giam-gia'),
     );
+    console.log('response dailyProduct', response);
     if (response.data.success) {
       yield put(getDailyProductSuccess(response.data.data));
     } else {

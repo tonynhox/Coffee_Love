@@ -23,8 +23,8 @@ import {StatusBar} from 'react-native';
 import {setCurrentDeviceToken} from '../../redux/reducers/slices/deviceTokenSlice';
 import {useNavigation} from '@react-navigation/native';
 import messaging from '@react-native-firebase/messaging';
-import { getDailyProduct } from '../../redux/reducers/slices/dailyProductSlice';
-import { getNewProduct } from '../../redux/reducers/slices/newProductSlice';
+import {getDailyProduct} from '../../redux/reducers/slices/dailyProductSlice';
+import {getNewProduct} from '../../redux/reducers/slices/newProductSlice';
 const Stack = createNativeStackNavigator();
 
 const ManHinh = () => {

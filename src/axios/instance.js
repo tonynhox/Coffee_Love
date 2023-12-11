@@ -1,6 +1,7 @@
 import axios from 'axios';
 import Storage from '../utils/Storage';
 import { Alert } from 'react-native';
+import RNRestart from 'react-native-restart';
 
 const instance = axios.create({
   baseURL: 'https://coffee.thaihoa.software/',
@@ -18,7 +19,7 @@ instance.interceptors.request.use(
       }
       return config;
     } catch (error) {
-      //   console.error("AXIOS:", error);
+        console.error("AXIOS:", error);
       return Promise.reject(error);
     }
   },
@@ -45,6 +46,10 @@ instance.interceptors.response.use(
             // Dispatch the logOut action using the store's dispatch function
             // store.dispatch(logOut());
             Storage.removeToken();
+            Storage.removeItem('id_user');
+            // RNRestart.Restart();
+            RNRestart.restart();
+
           },
         },
       ]);

@@ -35,20 +35,32 @@ export const locationMapSlice = createSlice({
     },
 
     getLocationStoreSuccess: (state, action) => {
-      // while(!state.myLocation.latitude){
-      //   console.log('wait');
+      const ham = () => {
+        const sortStoreTemp = sortStore(
+          {
+            latitude: state?.myLocation.latitude,
+            longitude: state?.myLocation.longitude,
+          },
+          action.payload,
+        );
+
+        state.toaDoCuaHang = sortStoreTemp;
+        state.locationDefault = sortStoreTemp[0];
+        state.isLoading = false;
+      };
+
+      ham();
+
+      // // Check if state.myLocation exists
+      // if (state.myLocation?.latitude && state.myLocation?.longitude) {
+      //   // Your existing logic for sorting the stores
+      // } else {
+      //   // setTimeout(() => {
+      //   //   ham();
+      //   // }, 1000);
       // }
-      const sortStoreTemp = sortStore(
-        (origin = {
-          latitude: state.myLocation.latitude,
-          longitude: state.myLocation.longitude,
-        }),
-        (data = action.payload),
-      );
-      state.toaDoCuaHang = sortStoreTemp;
-      state.locationDefault = sortStoreTemp[0];
-      state.isLoading = false;
     },
+
     setMyLocation: (state, action) => {
       state.myLocation = action.payload;
     },

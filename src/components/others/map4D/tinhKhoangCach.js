@@ -55,6 +55,7 @@ export function sortStore(origin, data) {
 //       ),
 //     };
 //   });
+    console.log('origin',origin);
     data = data.map(item => {
         return {
             ...item,

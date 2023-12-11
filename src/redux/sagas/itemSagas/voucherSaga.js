@@ -18,7 +18,7 @@ function* getVoucher(action) {
       yield put(getVoucherFail(response.data.message));
     }
   } catch (error) {
-    console.log('error get 1 user', error);
+    console.log('error get voucher user', error);
     yield put(getVoucherFail('Lỗi kết nối'));
   }
 }

@@ -19,7 +19,7 @@ function* getScore(action) {
       yield put(getScoreFail(response.data.message));
     }
   } catch (error) {
-    console.log('error get 1 user', error);
+    console.log('error get score user', error);
     yield put(getScoreFail('Lỗi kết nối'));
   }
 }
