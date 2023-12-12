@@ -15,6 +15,7 @@ import Header from '../../../utils/Header';
 import {useDispatch, useSelector} from 'react-redux';
 import {getOtp} from '../../../redux/reducers/slices/userSlice';
 import {useNavigation} from '@react-navigation/native';
+import Loading from '../../../utils/Loading';
 
 const Forgotpassword = () => {
   const navigation = useNavigation();
@@ -23,80 +24,106 @@ const Forgotpassword = () => {
   const isLoading = useSelector(state => state.users.isLoading);
 
   const dispatch = useDispatch();
-
-  const showAlert = () => {
-    Alert.alert(
-      'Không Được Rổng!',
-      'Vui lòng nhập đầy đủ thông tin',
-      [
-        {
-          text: 'Đồng ý',
-          onPress: () => console.log('Đã đồng ý'),
-        },
-      ],
-      {cancelable: false},
-    );
+  const [errorStatus, setErrorStatus] = useState({
+    email: {
+      trang_thai: false,
+      message: '',
+    },
+  });
+  const updateErrorStatus = (field, status, message) => {
+    setErrorStatus(prev => ({
+      ...prev,
+      [field]: {
+        trang_thai: status,
+        message: message,
+      },
+    }));
+  };
+  const ErrorMessage = ({status, message}) => {
+    return status ? <Text style={{color: 'red'}}>{message}</Text> : null;
   };
 
   const handleSendOtp = () => {
-    if (email === '') {
-      showAlert();
+    const checkEmail = '^[a-zA-Z0-9]+@(?:[a-zA-Z0-9]+.)+[A-Za-z]+$';
+    if (email.match(checkEmail)) {
+      dispatch(getOtp({email: email, navigation: navigation}));
     } else {
-      dispatch(getOtp({email, navigation}));
+      updateErrorStatus('email', true, 'Email không hợp lệ');
     }
   };
 
-  return isLoading ? (
-    <ActivityIndicator size="large" color="#0000ff" />
-  ) : (
-    <View style={styles.container}>
-      {/* <View style={styles.navhd}>
+  return (
+    <>
+      <Header
+        headerText="Quên mật khẩu"
+        headerStyle={{
+          // backgroundColor: 'white',
+          color: 'black',
+          fontWeight: 'bold',
+          fontSize: 28,
+        }}
+        containerStyle={{
+          // justifyContent: 'flex-start',
+          // backgroundColor: 'white',
+          paddingBottom: -10,
+        }}
+        rightComponent={true}
+      />
+      <View style={styles.container}>
+        {/* <View style={styles.navhd}>
                 <Icon name='chevron-left' style={styles.iconhd} />
                 <Text style={styles.thd}>Forgot Pasword</Text>
                 <View></View>
             </View> */}
-      <Header
-        headerText={'Forgot Pasword'}
-        headerStyle={{fontSize: 28, fontWeight: 'bold'}}
-        rightComponent={<Text></Text>}
-      />
-      <Text style={styles.tem}>Nhập Email</Text>
-      <TextInput
-        onChangeText={text => setEmail(text)}
-        value={email}
-        style={styles.tip}
-      />
+        {isLoading && <Loading />}
 
-      <TouchableOpacity>
-        <Text style={styles.t}>Trở lại đăng Ký </Text>
-      </TouchableOpacity>
+        <Text style={styles.tem}>Nhập Email</Text>
+        <ErrorMessage
+          status={errorStatus.email.trang_thai}
+          message={errorStatus.email.message}
+        />
+        <TextInput
+          onChangeText={text => setEmail(text)}
+          value={email}
+          style={[styles.tip,{
+            borderColor: errorStatus.email.trang_thai ? 'red' : 'black',
+          }]}
+        />
 
-      <TouchableOpacity
-        onPress={() => {
-          handleSendOtp();
-        }}
-        style={styles.btn1}>
-        <Text style={styles.txtbtn1}>Xác nhận </Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('SignUp');
+          }}>
+          <Text style={styles.t}>Trở về đăng Ký </Text>
+        </TouchableOpacity>
 
-      <Text style={styles.tor}>Hoặc</Text>
+        <TouchableOpacity
+          onPress={() => {
+            handleSendOtp();
+          }}
+          style={styles.btn1}>
+          <Text style={styles.txtbtn1}>Xác nhận </Text>
+        </TouchableOpacity>
 
-      <View style={styles.vic}>
-        <Icon name="google" style={styles.icongg} />
-        <Icon name="apple" style={styles.iconap} />
-        <Icon name="facebook" style={styles.iconfb} />
+        <Text style={styles.tor}>Hoặc</Text>
+
+        <View style={styles.vic}>
+          <Icon name="google" style={styles.icongg} />
+          <Icon name="apple" style={styles.iconap} />
+          <Icon name="facebook" style={styles.iconfb} />
+        </View>
+
+        <Text style={styles.t}>Bạn đã có tài khoản </Text>
+
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('Login');
+          }}
+          style={styles.btn1}>
+          <Text style={styles.txtbtn1}>Đăng Nhập </Text>
+        </TouchableOpacity>
       </View>
-
-      <Text style={styles.t}>Bạn đã có tài khoản </Text>
-
-      <TouchableOpacity
-        onPress={() => {
-          navigation.navigate('Login');
-        }}
-        style={styles.btn1}>
-        <Text style={styles.txtbtn1}>Đăng Nhập </Text>
-      </TouchableOpacity>
-    </View>
+    </>
   );
 };
 

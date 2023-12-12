@@ -2,7 +2,7 @@ import {Image, StyleSheet, Text, View} from 'react-native';
 import React, {useEffect} from 'react';
 import {MFMapView} from 'react-native-map4d-map';
 import {useDispatch, useSelector} from 'react-redux';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 import {fetchNearbySearch} from 'react-native-map4d-services';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { setListAddress } from '../../../redux/reducers/slices/utilSlice';
@@ -66,7 +66,7 @@ const MapAddAddress = () => {
           bottom: 34,
           justifyContent: 'center',
         }}>
-        <Icon name="pin" size={40} color="red" />
+        <Icon name="map-pin" size={40} color="#ff8d01" />
       </View>
     </View>
 

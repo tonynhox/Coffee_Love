@@ -7,6 +7,7 @@ import {
   KeyboardAvoidingView,
   Dimensions,
   ActivityIndicator,
+  ScrollView,
   Image
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
@@ -16,7 +17,6 @@ import {BACKGROUND_BUTTON_COLOR, BUCKET_NAME} from '../../../utils/contanst';
 import Header from '../../../utils/Header';
 import {useDispatch, useSelector} from 'react-redux';
 import {editUser} from '../../../redux/reducers/slices/userSlice';
-import {ScrollView} from 'react-native-virtualized-view';
 import ImagePicker from 'react-native-image-crop-picker';
 import uuid from 'react-native-uuid';
 import VisionCamera from '../oders/item/VisionCamera';
@@ -195,11 +195,12 @@ const EditProfile = () => {
         }}
         rightComponent={true}
       />
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        // showsVerticalScrollIndicator={false}
-        // contentContainerStyle={editProfileStyle.container}
-        style={editProfileStyle.container}>
+      <ScrollView
+        // behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={editProfileStyle.container}
+        // style={editProfileStyle.container}
+        >
         {/* Image avatar */}
 
         <View style={{marginVertical: 40}}>
@@ -342,7 +343,7 @@ const EditProfile = () => {
         {isLoading && (
           <Loading />
         )}
-      </KeyboardAvoidingView>
+      </ScrollView>
 
       <VisionCamera
         isVisible={cameraValue.isVisible}

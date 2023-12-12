@@ -467,7 +467,7 @@ const BottomMuaSanPhamCategories = ({isOpenBottom}) => {
                     })
                   }>
                   <Text style={styles.textMuaNgay}>
-                    Thêm ({formatCurrency(total)})
+                    {!itemGioHang?'Thêm':'Cập nhật'} ({formatCurrency(total)})
                   </Text>
                 </TouchableOpacity>
               </View>

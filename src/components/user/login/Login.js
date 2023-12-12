@@ -14,6 +14,7 @@ import {styles} from './styles';
 import Header from '../../../utils/Header';
 import {useDispatch, useSelector} from 'react-redux';
 import {getUserFetch} from '../../../redux/reducers/slices/userSlice';
+import Loading from '../../../utils/Loading';
 
 const Login = ({navigation}) => {
   const [tai_khoan, setTai_khoan] = useState('hoa123');
@@ -33,7 +34,7 @@ const Login = ({navigation}) => {
           onPress: () => console.log('Đã đồng ý'),
         },
       ],
-      { cancelable: false }
+      {cancelable: false},
     );
   };
 
@@ -47,10 +48,9 @@ const Login = ({navigation}) => {
 
   const [showPassword, setShowPassword] = React.useState(false);
 
-  return user.isLoading ? (
-    <ActivityIndicator size="large" color="#0000ff" />
-  ) : (
+  return (
     <View style={styles.container}>
+      {user.isLoading && <Loading />}
       <View>
         {/* <View style={styles.hd}>
           <Icon name='chevron-left' style={styles.icon} />

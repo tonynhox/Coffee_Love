@@ -64,7 +64,7 @@ const Home = () => {
         );
       }
     }
-  }, [device_token]);
+  }, [device_token,user]);
 
   useEffect(() => {
     if (user) {

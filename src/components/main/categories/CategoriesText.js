@@ -68,7 +68,7 @@ const CategoriesText = ({openBottomMuaHang}) => {
       ref.current.scrollToIndex({
         animated: true,
         index: index + 2,
-        viewOffset: -0.5,
+        viewOffset: 10,
       });
   }, [index]);
 

@@ -155,6 +155,7 @@ function* ChangePassOtp(action) {
       mat_khau: mat_khau,
     };
 
+    console.log('payload', payload);
     //api
     const response = yield call(() =>
       instance.post('users/doi-mat-khau-otp', payload),

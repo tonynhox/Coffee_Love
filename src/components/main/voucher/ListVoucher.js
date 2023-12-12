@@ -20,6 +20,7 @@ import ListVoucherNotLG from './ListVoucherNotLG';
 import {getHistoryScoreFetch} from '../../../redux/reducers/slices/historyScoreSlide';
 import moment from 'moment';
 import Icon6 from 'react-native-vector-icons/FontAwesome6';
+import { getChangeScoreFetch } from '../../../redux/reducers/slices/scoreSlide';
 const colorCartTV = number => {
   switch (true) {
     case number < 200:
@@ -89,6 +90,20 @@ const ListVoucher = () => {
           </Text>
         </View>
       </View>
+    );
+  };
+
+  const handleChangeScore = item => {
+    const {diem, _id, ten_voucher, gia_tri, ngay_ket_thuc} = item;
+    dispatch(
+      getChangeScoreFetch({
+        id_user: user.id_user,
+        so_diem: diem,
+        id_voucher: _id,
+        ten_voucher: ten_voucher,
+        gia_tri: gia_tri,
+        ngay_ket_thuc: ngay_ket_thuc,
+      }),
     );
   };
 
