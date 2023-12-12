@@ -162,7 +162,7 @@ const Search = () => {
       <TouchableOpacity
         style={styles.timKiemContainer}
         onPress={() => {
-          handleChonSanPham({item: name});
+          navigation.navigate('ProductDetail', {id: item._id})
         }}>
         <Icon name={'magnifying-glass'} size={18} color="gray" />
         <Text style={styles.textLichSuTimKiem}>{name}</Text>
@@ -235,7 +235,7 @@ const Search = () => {
             onFocus={() => {
               handleTextInputFocused();
             }}
-            onSubmitEditing={() => {handleSearch(search)}}
+            onSubmitEditing={() => handleChonSanPham({item: search})}
             onChangeText={text => handleSearch(text)}
           />
 

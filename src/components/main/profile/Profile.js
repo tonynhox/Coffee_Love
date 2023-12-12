@@ -28,9 +28,20 @@ import {
 import {KEY_SEARCH_HISTORY} from '../../../utils/contanst';
 import {getDeviceTokenRequest} from '../../../redux/reducers/slices/deviceTokenSlice';
 import RNRestart from 'react-native-restart';
+import messaging from '@react-native-firebase/messaging';
+
 const Profile = ({navigation}) => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.users.user);
+
+  const unsubscribeTopic = async () => {
+    try {
+      await messaging().unsubscribeFromTopic('new_product');
+      console.log('UNSUBSCRIBE TOPIC SUCCESS')
+    } catch (error) {
+      console.log('ERROR UNSUBSCRIBE TOPIC', error);
+    }
+  };
 
   return (
     <>
@@ -185,7 +196,7 @@ const Profile = ({navigation}) => {
                   },
                   {
                     text: 'Xác nhận',
-                    onPress: () => {
+                    onPress: async () => {
                       Storage.removeToken();
                       Storage.removeItem('id_user');
                       Storage.removeItem(KEY_SEARCH_HISTORY);
@@ -204,7 +215,7 @@ const Profile = ({navigation}) => {
                       //   }),
                       // );
                       dispatch(clearNotificationCounter());
-
+                      // await unsubscribeTopic();
                     },
                   },
                 ]);

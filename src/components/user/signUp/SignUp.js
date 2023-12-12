@@ -89,7 +89,9 @@ const SignUp = () => {
     } else if (emailRegex.test(email) === false) {
       showAlertEmail();
     } else {
-      dispatch(getRegister({tai_khoan, mat_khau, ho_ten, sdt, email, navigation}));
+      dispatch(
+        getRegister({tai_khoan, mat_khau, ho_ten, sdt, email, navigation}),
+      );
     }
   };
 
@@ -121,6 +123,8 @@ const SignUp = () => {
         <View style={styles.marginTopInput}>
           <Text style={styles.t1}>Họ Tên</Text>
           <TextInput
+            color={'black'}
+            placeholderTextColor={'black'}
             onChangeText={text => setHo_ten(text)}
             value={ho_ten}
             style={styles.tip1}
@@ -130,6 +134,8 @@ const SignUp = () => {
         <View style={styles.marginTopInput}>
           <Text style={styles.t1}>Tên Đăng Nhập</Text>
           <TextInput
+            color={'black'}
+            placeholderTextColor={'black'}
             onChangeText={text => setTai_khoan(text)}
             value={tai_khoan}
             style={styles.tip1}
@@ -140,6 +146,8 @@ const SignUp = () => {
           <Text style={styles.t1}>Mật Khẩu </Text>
           <View style={styles.vp}>
             <TextInput
+              color={'black'}
+              placeholderTextColor={'black'}
               onChangeText={text => setMat_khau(text)}
               value={mat_khau}
               secureTextEntry={!showPassword}
@@ -161,6 +169,8 @@ const SignUp = () => {
           <Text style={styles.t1}>Số điện thoại </Text>
           <View style={styles.vp}>
             <TextInput
+              color={'black'}
+              placeholderTextColor={'black'}
               onChangeText={text => setSdt(text)}
               value={sdt}
               style={styles.tip1}
@@ -173,6 +183,8 @@ const SignUp = () => {
           <Text style={styles.t1}>Email </Text>
           <View style={styles.vp}>
             <TextInput
+              color={'black'}
+              placeholderTextColor={'black'}
               onChangeText={text => setEmail(text)}
               value={email}
               style={styles.tip1}

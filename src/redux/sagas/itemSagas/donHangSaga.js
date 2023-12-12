@@ -90,7 +90,7 @@ function* fetchDanhGiaDonHangAsync(action) {
 function* re_checkTrangThaiDonHangAsync(action) {
   //nếu đang giao, đã giao, đã hủy, đã đánh giá thì ko cần check
 
-  const dieu_kien_dung = trang_thai_don_hang.da_giao;
+  const dieu_kien_dung = trang_thai_don_hang.da_giao ;
   let dieu_kien_hien_tai = '';
   let data;
   const id_don_hang = action.payload.id_don_hang;
@@ -98,12 +98,13 @@ function* re_checkTrangThaiDonHangAsync(action) {
     id_don_hang == trang_thai_don_hang.da_huy ||
     id_don_hang == trang_thai_don_hang.da_danh_gia
   ) {
+    console.log("KHONG CAN CHECK")
     return;
   }
 
   // nếu status hiện tại là đã đặt, đang xác nhận, đang giao hàng thì check liên tục
   // nếu == 4 (đã giao thành công) thì dừng
-  while (dieu_kien_dung != dieu_kien_hien_tai) {
+  while (  dieu_kien_dung != dieu_kien_hien_tai) {
     try {
       const response = yield call(
         instance.get,
@@ -116,7 +117,8 @@ function* re_checkTrangThaiDonHangAsync(action) {
         break;
       } else if (
         dieu_kien_hien_tai == trang_thai_don_hang.dang_giao ||
-        dieu_kien_hien_tai == trang_thai_don_hang.da_xac_nhan
+        dieu_kien_hien_tai == trang_thai_don_hang.da_xac_nhan ||
+        dieu_kien_hien_tai == trang_thai_don_hang.da_huy
       ) {
         yield put(getChiTietDonHangSuccess(data));
       }
