@@ -5,6 +5,7 @@ import {
   Pressable,
   TextInput,
   Alert,
+  TouchableOpacity,
 } from 'react-native';
 import React, {useState} from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -51,6 +52,10 @@ const Newpassword = props => {
       }
     }
   };
+
+  const [showPassword, setShowPassword] = React.useState(false);
+  const [showPassword2, setShowPassword2] = React.useState(false);
+
   return (
     <View style={styles.container}>
       {/* <View style={styles.navhd}>
@@ -68,21 +73,31 @@ const Newpassword = props => {
         <Text style={styles.t1}>Mật Khẩu Mới </Text>
         <View style={styles.vp}>
           <TextInput
+            secureTextEntry={!showPassword}
             onChangeText={text => setMat_khau(text)}
             value={mat_khau.toString()}
             style={styles.tip1}
           />
-          <Icon name="lock-outline" style={styles.icon} />
+          <TouchableOpacity
+            style={styles.icon}
+            onPress={() => setShowPassword(!showPassword)}>
+            <Icon name={showPassword ? 'eye' : 'eye-off'} style={styles.icon} />
+          </TouchableOpacity>
         </View>
 
         <Text style={styles.t2}>Nhập Lại Mật Khẩu </Text>
         <View style={styles.vp}>
           <TextInput
+            secureTextEntry={!showPassword2}
             onChangeText={text => setPass(text)}
             value={pass.toString()}
             style={styles.tip1}
           />
-          <Icon name="lock-outline" style={styles.icon} />
+          <TouchableOpacity
+            style={styles.icon}
+            onPress={() => setShowPassword2(!showPassword2)}>
+            <Icon name={showPassword2 ? 'eye' : 'eye-off'} style={styles.icon} />
+          </TouchableOpacity>
         </View>
       </View>
 

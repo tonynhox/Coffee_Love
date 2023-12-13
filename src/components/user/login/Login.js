@@ -18,7 +18,7 @@ import Loading from '../../../utils/Loading';
 
 const Login = ({navigation}) => {
   const [tai_khoan, setTai_khoan] = useState('hoa123');
-  const [mat_khau, setMat_khau] = useState('1234');
+  const [mat_khau, setMat_khau] = useState('123');
 
   const user = useSelector(state => state.users);
 
