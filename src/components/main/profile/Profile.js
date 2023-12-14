@@ -20,7 +20,7 @@ import {
   LoginSuccess,
   clearNotificationCounter,
 } from '../../../redux/reducers/slices/userSlice';
-import {clearFavorite} from '../../../redux/reducers/slices/favoriteSlice';
+import {clearFavorite, getFavoriteRequest} from '../../../redux/reducers/slices/favoriteSlice';
 import {
   getDeleteCartSuccess,
   setDataPayment,
@@ -88,11 +88,14 @@ const Profile = ({navigation}) => {
           <View style={styles.cardRow}>
             <TouchableOpacity
               style={styles.cardExtention}
-              onPress={() =>
-                user
-                  ? navigation.navigate('Favorite')
-                  : navigation.navigate('UserNavigation', {screen: 'Login'})
-              }>
+              onPress={() => {
+                if (user) {
+                  dispatch(getFavoriteRequest({id_user: user?.id_user}));
+                  navigation.navigate('Favorite');
+                } else {
+                  navigation.navigate('UserNavigation', {screen: 'Login'});
+                }
+              }}>
               <IconF
                 name="heart"
                 style={[styles.icon, {color: 'red', fontSize: 26}]}
