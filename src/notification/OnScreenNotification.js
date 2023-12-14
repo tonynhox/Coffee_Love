@@ -24,9 +24,9 @@ const OnScreenNotification = ({value}) => {
       ticker: 'My Notification Ticker', // (optional)
       //   showWhen: true, // (optional) default: true
       //   autoCancel: true, // (optional) default: true
-      //   largeIcon: 'ic_launcher', // (optional) default: "ic_launcher". Use "" for no large icon.
+      largeIcon: 'ic_notification', // (optional) default: "ic_launcher". Use "" for no large icon.
       largeIconUrl: value.data.image, // (optional) default: undefined
-      // smallIcon: value.notification.android.imageUrl, // (optional) default: "ic_notification" with fallback for "ic_launcher". Use "" for default small icon.
+      smallIcon: 'ic_notification', // (optional) default: "ic_notification" with fallback for "ic_launcher". Use "" for default small icon.
       bigText: value.data.bigText, // abc là sản phẩm mới nhất đó, thử ngay nhé
       subText: 'mới', // (optional) default: none
       // bigPictureUrl: value.data.image, // (optional) default: undefined
@@ -52,7 +52,7 @@ const OnScreenNotification = ({value}) => {
       //   messageId: 'google:message_id', // (optional) added as `message_id` to intent extras so opening push notification can find data stored by @react-native-firebase/messaging module.
       data: {
         id: value.data?.idDonHang,
-        screen: value.data?.type
+        screen: value.data?.type,
       },
       //   actions: ['Yes', 'No'], // (Android only) See the doc for notification actions to know more
       invokeApp: true, // (optional) This enable click on actions to bring back the application to foreground or stay in background, default: true
@@ -91,6 +91,11 @@ const OnScreenNotification = ({value}) => {
     },
     created => console.log(`createChannel returned '${created}'`), // (optional) callback returns whether the channel was created, false means it already existed.
   );
+
+  PushNotification.configure({
+    largeIcon: 'ic_notification',
+    smallIcon: 'ic_notification',
+  });
 
   return <></>;
 };

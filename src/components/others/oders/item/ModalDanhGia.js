@@ -260,12 +260,27 @@ const ModalDanhGia = ({isVisible, onCancel, sendRate}) => {
 
             {/* View rate sao */}
             <View style={styles.listStarContainer}>
-              <FlatList
+              {/* <FlatList
+              style={{backgroundColor: 'blue'}}
                 horizontal={true}
                 data={dataRateStar}
                 renderItem={rateStar}
                 keyExtractor={(item, index) => index.toString()}
-              />
+              /> */}
+              {dataRateStar.map(item => {
+                return (
+                  <TouchableOpacity
+                    style={styles.startContainer}
+                    onPress={() => setStart(item.id)}>
+                    <Icon
+                      solid={start >= item.id ? true : false}
+                      name="star"
+                      size={28}
+                      color="#E98001"
+                    />
+                  </TouchableOpacity>
+                );
+              })}
             </View>
 
             {/* View input text  nhan xet*/}
@@ -374,6 +389,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingVertical: 15,
+    alignSelf: 'center',
   },
   textDanhGia: {
     fontSize: 18,

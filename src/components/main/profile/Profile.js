@@ -37,7 +37,7 @@ const Profile = ({navigation}) => {
   const unsubscribeTopic = async () => {
     try {
       await messaging().unsubscribeFromTopic('new_product');
-      console.log('UNSUBSCRIBE TOPIC SUCCESS')
+      console.log('UNSUBSCRIBE TOPIC SUCCESS');
     } catch (error) {
       console.log('ERROR UNSUBSCRIBE TOPIC', error);
     }
@@ -197,6 +197,8 @@ const Profile = ({navigation}) => {
                   {
                     text: 'Xác nhận',
                     onPress: async () => {
+                      await unsubscribeTopic();
+
                       Storage.removeToken();
                       Storage.removeItem('id_user');
                       Storage.removeItem(KEY_SEARCH_HISTORY);
@@ -215,7 +217,6 @@ const Profile = ({navigation}) => {
                       //   }),
                       // );
                       dispatch(clearNotificationCounter());
-                      // await unsubscribeTopic();
                     },
                   },
                 ]);
