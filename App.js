@@ -16,6 +16,7 @@ import NotificationHandler from './src/notification/NotificationHandler';
 import SearchLoadingPlaceholder from './src/components/others/loading/SearchLoadingPlaceholder';
 import TopOrderLoadingPlaceholder from './src/components/others/loading/TopOrderLoadingPlaceholder';
 import Favorite from './src/components/main/profile/item/Favorite';
+import Changepassword from './src/components/others/changepassword/Changepassword';
 export const navigationRef = createNavigationContainerRef();
 
 const App = () => {
