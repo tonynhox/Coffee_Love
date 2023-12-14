@@ -73,6 +73,8 @@ const Login = ({navigation}) => {
         <View style={styles.marginTopInput}>
           <Text style={styles.t1}>Tên Đăng Nhập</Text>
           <TextInput
+           color={'black'}
+           placeholderTextColor={'black'}
             onChangeText={text => setTai_khoan(text)}
             value={tai_khoan.toString()}
             style={styles.tip1}
@@ -83,6 +85,8 @@ const Login = ({navigation}) => {
           <Text style={styles.t1}>Mật Khẩu </Text>
           <View style={styles.vp}>
             <TextInput
+             color={'black'}
+             placeholderTextColor={'black'}
               secureTextEntry={!showPassword}
               onChangeText={text => setMat_khau(text)}
               value={mat_khau}

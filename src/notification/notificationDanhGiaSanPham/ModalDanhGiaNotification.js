@@ -267,12 +267,13 @@ const ModalDanhGiaNotification = ({value}) => {
 
             {/* View rate sao */}
             <View style={styles.listStarContainer}>
-              <FlatList
+              {/* <FlatList
                 horizontal={true}
                 data={dataRateStar}
                 renderItem={rateStar}
                 keyExtractor={(item, index) => index.toString()}
-              />
+              /> */}
+              {dataRateStar.map(item => rateStar({item}))}
             </View>
 
             {/* View input text  nhan xet*/}
@@ -384,6 +385,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingVertical: 15,
+    alignSelf: 'center',
   },
   textDanhGia: {
     fontSize: 18,
