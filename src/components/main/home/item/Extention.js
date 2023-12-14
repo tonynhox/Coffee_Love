@@ -4,11 +4,13 @@ import {styles} from '../styles';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {ScrollView} from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import { getFavoriteRequest } from '../../../../redux/reducers/slices/favoriteSlice';
 
 const Extention = () => {
   const navigation = useNavigation();
   const user = useSelector(state => state.users.user);
+  const dispatch = useDispatch();
   return (
     <ScrollView
       showsHorizontalScrollIndicator={false}
@@ -42,9 +44,15 @@ const Extention = () => {
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.itemExtention}
-        onPress={() => user
-          ? navigation.navigate('Favorite')
-          : navigation.navigate('UserNavigation', {screen: 'Login'})}>
+        onPress={() => {
+
+          if(user){
+            dispatch(getFavoriteRequest({id_user: user?.id_user}));
+            navigation.navigate('Favorite');
+          }else{
+            navigation.navigate('UserNavigation', {screen: 'Login'});
+          }
+        }}>
         <Icon name="heart" size={32} color="#D89543" />
         <Text style={styles.txtItem}>Yêu thích </Text>
       </TouchableOpacity>

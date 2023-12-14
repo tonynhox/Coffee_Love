@@ -1,7 +1,7 @@
 import React, {useCallback, useMemo, useRef, useEffect} from 'react';
 import {View, Text, StyleSheet, FlatList, Dimensions} from 'react-native';
 import BottomSheet, {BottomSheetFlatList} from '@gorhom/bottom-sheet';
-import {BACKGROUND_BUTTON_COLOR} from '../../../utils/contanst';
+import {BACKGROUND_BUTTON_COLOR, statusBarHeight} from '../../../utils/contanst';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome6';
 import moment from 'moment';
@@ -9,6 +9,8 @@ import {useSelector} from 'react-redux';
 import Image from 'react-native-fast-image';
 import ImageProgress from 'react-native-image-progress';
 import {CircleSnail} from 'react-native-progress';
+
+const {width, height} = Dimensions.get('window');
 
 const BottomDanhGia = ({isVisible, onClose}) => {
   const data = useSelector(state => state.chi_tiet_san_pham.data.danh_gia);
@@ -25,7 +27,7 @@ const BottomDanhGia = ({isVisible, onClose}) => {
   const bottomSheetDanhGiaRef = useRef(null);
 
   // variables
-  const snapPoints = useMemo(() => ['60%'], []);
+  const snapPoints = useMemo(() => [height- statusBarHeight], []);
 
   // callbacks
   const handleSheetChanges = useCallback(index => {

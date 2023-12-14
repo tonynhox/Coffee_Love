@@ -112,7 +112,7 @@ const MarkerStore = props => {
               // });
             }}
             icon={{
-              uri: require('../../../assets/images/img_cafe.png'),
+              uri: require('../../../assets/images/store_bg.jpg'),
               width: 25,
               height: 25,
             }}

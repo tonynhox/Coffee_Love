@@ -227,6 +227,7 @@ const CartPayment = forwardRef(({setPrice}, ref) => {
           ma_thanh_toan: '',
           trang_thai: hinhThucThanhToan.state,
         },
+        id_voucher: sales?._id,
         navigation: navigation,
         dispatch: dispatch,
       }),
@@ -566,8 +567,7 @@ const CartPayment = forwardRef(({setPrice}, ref) => {
               <Icon name="cash" size={20} color="green" />
             ) : (
               <>
-                {hinhThucThanhToan.state ===
-                hinh_thuc_thanh_toan.zalopay.state ? (
+                {hinhThucThanhToan.state === hinh_thuc_thanh_toan.zalopay.state ? (
                   <Image
                     source={require('../../../assets/images/zalopay.png')}
                     style={styles.zalopay}

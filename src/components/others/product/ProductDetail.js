@@ -91,8 +91,9 @@ const ProductDetail = props => {
       getChangeFavoriteRequest({
         id_user: user.id_user,
         id_san_pham: dataChiTietSanPham._id,
-      }),
+      })
     );
+    
   };
 
   // useEffect(() => {

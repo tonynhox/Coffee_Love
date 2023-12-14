@@ -13,7 +13,9 @@ const favoriteSlice = createSlice({
   name: 'favorite',
   initialState,
   reducers: {
-    getFavoriteRequest: (state, action) => {},
+    getFavoriteRequest: (state, action) => {
+      state.isLoading = true;
+    },
     getFavoriteSuccess: (state, action) => {
       const onlyId = action.payload.result.map(item => ({_id: item._id}));
       console.log('FAVORITE', onlyId);
@@ -23,9 +25,11 @@ const favoriteSlice = createSlice({
         ...item,
         isLike: true,
       }));
+      state.isLoading = false;
     },
     getFavoriteFail: (state, action) => {
       state.favorites = [];
+      state.isLoading = false;
     },
 
     // đổi trạng thái yêu thích

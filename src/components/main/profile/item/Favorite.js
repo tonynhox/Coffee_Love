@@ -15,22 +15,24 @@ import {
   getChangeFavoriteRequest,
   getFavoriteRequest,
 } from '../../../../redux/reducers/slices/favoriteSlice';
+import Loading from '../../../../utils/Loading';
+import { useIsFocused } from '@react-navigation/native';
 
 const Favorite = ({navigation}) => {
   const dispatch = useDispatch();
 
   const data = useSelector(state => state.favorite.dataFavorite);
   const user = useSelector(state => state.users.user);
+  const isLoading = useSelector(state => state.favorite.isLoading);
 
-  const fetchFavorite = () => {
-    dispatch(getFavoriteRequest({id_user: user?.id_user}));
-  };
+  // const fetchFavorite = () => {
+  //   dispatch(getFavoriteRequest({id_user: user?.id_user}));
+  // };
 
-  useEffect(() => {
-    fetchFavorite();
-  }, []);
+  // useEffect(() => {
+  //   fetchFavorite();
+  // }, []);
 
-  const isLoading = false;
 
   const changeTrangThaiYeuThich = ({id_user, id_san_pham}) => {
     dispatch(getChangeFavoriteRequest({id_user, id_san_pham}));
@@ -88,6 +90,7 @@ const Favorite = ({navigation}) => {
               id_user: user?.id_user,
               id_san_pham: item._id,
             });
+            
           }}>
           <Icon name="heart" solid={item.isLike} size={30} color="#E95300" />
         </TouchableOpacity>
@@ -116,7 +119,7 @@ const Favorite = ({navigation}) => {
         rightComponent={true}></Header>
 
       <>
-        {isLoading ? null : (
+        {isLoading ? <Loading/> : (
           <>
             {data.length == 0 ? (
               <View
@@ -152,13 +155,11 @@ const Favorite = ({navigation}) => {
                 </TouchableOpacity>
               </View>
             ) : (
-              <>
                 <FlatList
                   data={data}
                   renderItem={renderFavorite}
                   keyExtractor={item => item._id}
                 />
-              </>
             )}
           </>
         )}

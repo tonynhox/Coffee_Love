@@ -7,12 +7,14 @@ import {
   getDeleteCartSuccess,
   getPaymentSuccess,
 } from '../../reducers/slices/cartPaymentSlice';
-import { setItemGioHang, setOpenBottomSheet } from '../../reducers/slices/utilSlice';
-import { setUseVoucher } from '../../reducers/slices/voucherSlide';
+import {
+  setItemGioHang,
+  setOpenBottomSheet,
+} from '../../reducers/slices/utilSlice';
+import {setUseVoucher} from '../../reducers/slices/voucherSlide';
 
 function* WorkercartPayment(action) {
   try {
-
     const {id_user} = action.payload;
     const response = yield call(() =>
       instance.get(`api/gio-hang/lay-danh-sach-gio-hang/${id_user}`),
@@ -31,19 +33,19 @@ function* WorkercartPayment(action) {
 
 function* WorkerAddCartPayment(action) {
   try {
-    const {data,navigation,dispatch} = action.payload;
+    const {data, navigation, dispatch} = action.payload;
 
     const response = yield call(() =>
-      instance.post(`api/gio-hang/them-gio-hang`,data),
+      instance.post(`api/gio-hang/them-gio-hang`, data),
     );
     const result = response.data;
     if (result.status) {
-      if(navigation){
+      if (navigation) {
         navigation.goBack();
-      }else{
+      } else {
         dispatch(setOpenBottomSheet(false));
       }
-      
+
       yield put(getAddCartPaymentSuccess(result.result.san_pham));
     } else {
       yield put(getCartPaymentFail(result.message));
@@ -56,20 +58,20 @@ function* WorkerAddCartPayment(action) {
 
 function* WorkerUpdateCartPayment(action) {
   try {
-    const {data,navigation,dispatch} = action.payload;
+    const {data, navigation, dispatch} = action.payload;
 
     const response = yield call(() =>
-      instance.post(`api/gio-hang/cap-nhat-gio-hang`,data),
+      instance.post(`api/gio-hang/cap-nhat-gio-hang`, data),
     );
     const result = response.data;
     if (result.status) {
-      if(navigation){
+      if (navigation) {
         navigation.goBack();
-      }else{
+      } else {
         dispatch(setOpenBottomSheet(false));
         dispatch(setItemGioHang(null));
       }
-      
+
       yield put(getAddCartPaymentSuccess(result.result.san_pham));
     } else {
       yield put(getCartPaymentFail(result.message));
@@ -82,21 +84,19 @@ function* WorkerUpdateCartPayment(action) {
 
 function* WorkerDeleteCartPayment(action) {
   try {
-    const {data,navigation,dispatch} = action.payload;
+    const {data, navigation, dispatch} = action.payload;
 
     const response = yield call(() =>
-      instance.post(`api/gio-hang/xoa-gio-hang`,data),
+      instance.post(`api/gio-hang/xoa-gio-hang`, data),
     );
     const result = response.data;
     if (result.status) {
-      if(navigation){
+      if (navigation) {
         navigation.goBack();
-      }else{
+      } else {
         dispatch(setOpenBottomSheet(false));
       }
-      yield WorkercartPayment({payload:{id_user: data.id_user}})
-
-      
+      yield WorkercartPayment({payload: {id_user: data.id_user}});
     } else {
       yield put(getCartPaymentFail(result.message));
     }
@@ -108,17 +108,29 @@ function* WorkerDeleteCartPayment(action) {
 
 function* WorkerPayment(action) {
   try {
-    const {navigation,id_user,dispatch} = action.payload;
+    const {navigation, id_user, dispatch, id_voucher} = action.payload;
 
     const response = yield call(() =>
-      instance.post(`api/don-hang/them-don-hang`,action.payload),
+      instance.post(`api/don-hang/them-don-hang`, action.payload),
     );
     const result = response.data;
     if (result.status) {
       yield put(getPaymentSuccess());
       yield DeleteAllCart({payload: {id_user: id_user}});
+
       dispatch(setUseVoucher(null));
-      navigation.navigate('OrderDetail',{id_don_hang: result.result._id});
+      navigation.navigate('OrderDetail', {id_don_hang: result.result._id});
+
+      const usevoucher=  yield call(() =>
+        instance.post(`api/voucher/su-dung-voucher`, {
+          id_user: id_user,
+          id_voucher: id_voucher,
+        }),
+      );
+      // if(usevoucher.data.status){
+        dispatch(getVoucherFetch({id_user: id_user}));
+      // }
+
     } else {
       yield put(getCartPaymentFail(result.message));
     }
@@ -132,32 +144,36 @@ function* DeleteAllCart(action) {
   try {
     const {id_user} = action.payload;
     const response = yield call(() =>
-      instance.get(`https://coffee.thaihoa.software/api/gio-hang/xoa-gio-hang/${id_user}`),
+      instance.get(
+        `https://coffee.thaihoa.software/api/gio-hang/xoa-gio-hang/${id_user}`,
+      ),
     );
     const result = response.data;
     if (result.status) {
       yield put(getDeleteCartSuccess());
-      
-    } 
+    }
   } catch (error) {
     console.log('error', error);
     yield put(getCartPaymentFail('Lỗi kết nối'));
   }
 }
 
-
 function* cartPaymentSaga() {
   yield takeEvery('cartPayment/getCartPaymentFetch', WorkercartPayment);
 
   yield takeEvery('cartPayment/getAddCartPaymentFetch', WorkerAddCartPayment);
 
-  yield takeEvery('cartPayment/getUpdateCartPaymentFetch', WorkerUpdateCartPayment);
+  yield takeEvery(
+    'cartPayment/getUpdateCartPaymentFetch',
+    WorkerUpdateCartPayment,
+  );
 
-  yield takeEvery('cartPayment/getDeleteCartPaymentFetch', WorkerDeleteCartPayment);
+  yield takeEvery(
+    'cartPayment/getDeleteCartPaymentFetch',
+    WorkerDeleteCartPayment,
+  );
 
   yield takeEvery('cartPayment/getPaymentFetch', WorkerPayment);
-
-
 }
 
 export default cartPaymentSaga;

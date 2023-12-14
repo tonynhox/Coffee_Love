@@ -76,9 +76,10 @@ const MyAddress = () => {
 
         {/* View button sua */}
         <View style={myAddressStyle.containerButtonChange}>
-          <TouchableOpacity style={myAddressStyle.changeButtonContainer}>
-            <Text style={myAddressStyle.textChange}>Sửa</Text>
-          </TouchableOpacity>
+          {/* <TouchableOpacity style={myAddressStyle.changeButtonContainer}>
+          </TouchableOpacity> */}
+          <Text style={myAddressStyle.textChange}>Sửa</Text>
+
         </View>
       </TouchableOpacity>
     );

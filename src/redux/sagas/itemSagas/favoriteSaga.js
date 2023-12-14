@@ -28,7 +28,7 @@ function* fetchFavoriteItemsSaga(action) {
 function* fetchChangeFavoriteSaga(action) {
   try {
     const {id_user, id_san_pham} = action.payload;
-  console.log("DATA CHANGE FAVORITE", id_user, id_san_pham)
+
     const response = yield call(() =>
       instance.post(`api/favorite/them-danh-sach-yeu-thich`, {
         id_user,
@@ -40,6 +40,9 @@ function* fetchChangeFavoriteSaga(action) {
     } else {
       yield put(getChangeFavoriteSuccess(response.data));
       yield put(getAddFavoriteSuccess(response.data));
+      // yield put(getFavoriteRequest({id_user}));
+      // yield fetchFavoriteItemsSaga({payload: {id_user: id_user}});
+
     }
   } catch (error) {
     yield put(getChangeFavoriteFail());
