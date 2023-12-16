@@ -54,7 +54,7 @@ const SearchSuccess = ({route}) => {
         <View style={styles.cardImg}>
           <Image
             style={styles.imgProduct}
-            source={{uri: item.hinh_anh_sp[0].hinh_anh_sp}}
+            source={{uri: item?.hinh_anh_sp[0]?.hinh_anh_sp}}
           />
         </View>
         <View style={styles.cardBottom}>
@@ -132,6 +132,7 @@ const SearchSuccess = ({route}) => {
             <>
               <View style={styles.container}>
                 <FlatList
+                  showsVerticalScrollIndicator={false}
                   data={[...data].reverse()}
                   columnWrapperStyle={{justifyContent: 'space-between'}}
                   numColumns={2}

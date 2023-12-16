@@ -270,7 +270,7 @@ const EditAddress = props => {
         </View>
 
         {/* Textinput sdt */}
-        <View style={addAddressStyle.inputContainer}>
+        {/* <View style={addAddressStyle.inputContainer}>
           <TextInput
             value={guide}
             onChangeText={setGuide}
@@ -279,7 +279,7 @@ const EditAddress = props => {
             placeholderTextColor="#999"
           />
           <Icon name="location-dot" size={20} color={BACKGROUND_BUTTON_COLOR} />
-        </View>
+        </View> */}
 
         {/* Dat mac dinh */}
         {/* <View style={addAddressStyle.defaultLocationContainer}>

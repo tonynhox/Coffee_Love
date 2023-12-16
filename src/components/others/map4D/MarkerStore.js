@@ -113,8 +113,8 @@ const MarkerStore = props => {
             }}
             icon={{
               uri: require('../../../assets/images/store_bg.jpg'),
-              width: 25,
-              height: 25,
+              width: 30,
+              height: 30,
             }}
             coordinate={{
               latitude: parseFloat(item.location.x),
