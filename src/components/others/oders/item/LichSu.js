@@ -82,6 +82,8 @@ const LichSu = () => {
         return 'Đã giao hàng';
       case 5:
         return 'Đã đánh giá';
+      case 6:
+        return 'Đã đặt hàng tại quầy';
       default:
         return 'Đang xử lý';
     }
@@ -91,6 +93,7 @@ const LichSu = () => {
     // check đã hủy hàng hay chưa
     const isCanceled = item.ma_trang_thai == trang_thai_don_hang.da_huy;
     const isDanhGia = item.ma_trang_thai == trang_thai_don_hang.da_danh_gia;
+    const isOrderTaiQuay = item.ma_trang_thai == trang_thai_don_hang.order_tai_quay;
 
     return (
       <View style={styles.itemContainer}>

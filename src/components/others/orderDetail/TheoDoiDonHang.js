@@ -42,7 +42,7 @@ const TheoDoiDonHang = ({
   const dang_giao_hang = maTrangThai === trang_thai_don_hang.dang_giao;
   const da_giao_hang = maTrangThai === trang_thai_don_hang.da_giao;
   const da_danh_gia = maTrangThai === trang_thai_don_hang.da_danh_gia;
-
+  const order_tai_quay = maTrangThai === trang_thai_don_hang.order_tai_quay;
 
   const transition = {
     duration: 250, // You can adjust the duration as needed
@@ -70,6 +70,10 @@ const TheoDoiDonHang = ({
       {da_huy ? (
         <View style={styles.container}>
           <Text style={styles.textDaHuy}>Đã hủy</Text>
+        </View>
+      ) : order_tai_quay ? (
+        <View style={styles.container}>
+          <Text style={styles.textDaHuy}>Đã đặt hàng tại quầy</Text>
         </View>
       ) : (
         <>

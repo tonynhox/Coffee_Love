@@ -48,7 +48,8 @@ const donHangSlice = createSlice({
         if (
           maTrangThai === trang_thai_don_hang.da_huy ||
           maTrangThai === trang_thai_don_hang.da_giao ||
-          maTrangThai === trang_thai_don_hang.da_danh_gia
+          maTrangThai === trang_thai_don_hang.da_danh_gia ||
+          maTrangThai === trang_thai_don_hang.order_tai_quay
         ) {
           lichSuArray.push(item);
         }

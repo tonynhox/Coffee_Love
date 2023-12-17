@@ -59,6 +59,21 @@ const colorCartTV = number => {
   }
 };
 
+const scoreUp = number => {
+  switch (true) {
+    case number < 200:
+      return 200 - number;
+    case number < 500:
+      return 500 - number;
+    case number < 1000:
+      return 1000 - number;
+    case number < 2000:
+      return 2000 - number;
+    default:
+      return 0;
+  }
+};
+
 const ListVoucher = () => {
   const user = useSelector(state => state.users?.user);
   const dispatch = useDispatch();
@@ -194,7 +209,7 @@ const ListVoucher = () => {
           <Text style={styles.txtfc4}>1234565</Text> */}
         </View>
         <Text style={[styles.txtfc, {fontSize: 12, marginTop: 10}]}>
-          Còn 100 điểm nữa bạn sẻ thăng hạng
+        Còn {scoreUp(user.diem_thanh_vien)} điểm nữa bạn sẻ thăng hạng
         </Text>
         <Text style={[styles.txtfc, {fontSize: 12}]}>
           Đổi quà không ảnh hưởng tới việc thăng hạng của bạn

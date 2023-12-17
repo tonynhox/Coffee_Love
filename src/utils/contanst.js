@@ -24,6 +24,7 @@ export const trang_thai_don_hang = {
   dang_giao: 3,
   da_giao: 4,
   da_danh_gia: 5,
+  order_tai_quay: 6,
 };
 
 export const style_text_khong_co_du_lieu = {
