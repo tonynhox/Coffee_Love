@@ -103,7 +103,7 @@ const Search = () => {
         </View>
 
         <View style={styles.top1Container}>
-          <Text style={styles.textTop1}>1</Text>
+          {/* <Text style={styles.textTop1}>1</Text> */}
           <Icon name="crown" solid size={11} color={LINEAR_3} />
         </View>
       </TouchableOpacity>
@@ -162,7 +162,7 @@ const Search = () => {
       <TouchableOpacity
         style={styles.timKiemContainer}
         onPress={() => {
-          navigation.navigate('ProductDetail', {id: item._id})
+          navigation.navigate('ProductDetail', {id: item._id});
         }}>
         <Icon name={'magnifying-glass'} size={18} color="gray" />
         <Text style={styles.textLichSuTimKiem}>{name}</Text>

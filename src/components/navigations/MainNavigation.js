@@ -114,6 +114,7 @@ const MainNavigation = () => {
           screenOptions={({route}) => ({
             headerShown: false,
             tabBarActiveTintColor: '#FF8C00',
+
             tabBarIcon: ({focused}) => {
               if (route.name == 'Home') {
                 if (!focused) {
@@ -189,7 +190,7 @@ const MainNavigation = () => {
               presentation: 'modal',
               animationTypeForReplace: 'push',
               animation: 'slide_from_right',
-              tabBarLabel: 'Home',
+              tabBarLabel: 'Trang chủ',
             }}
           />
           <Tab.Screen
@@ -199,7 +200,7 @@ const MainNavigation = () => {
               presentation: 'modal',
               animationTypeForReplace: 'push',
               animation: 'slide_from_right',
-              tabBarLabel: 'Categories',
+              tabBarLabel: 'Danh mục',
             }}
           />
           <Tab.Screen
@@ -209,7 +210,7 @@ const MainNavigation = () => {
               presentation: 'modal',
               animationTypeForReplace: 'push',
               animation: 'slide_from_right',
-              tabBarLabel: 'ListStore',
+              tabBarLabel: 'Cửa hàng',
             }}
           />
           <Tab.Screen
@@ -223,7 +224,7 @@ const MainNavigation = () => {
             name="Profile"
             component={Profile}
             options={{
-              tabBarLabel: 'Profile',
+              tabBarLabel: 'Bạn',
             }}
           />
         

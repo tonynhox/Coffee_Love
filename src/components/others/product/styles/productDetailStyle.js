@@ -100,7 +100,8 @@ export const styles = StyleSheet.create({
     color: '#404040',
     fontWeight: '400',
     paddingVertical: 2,
-    width: 400,
+    flex: 1,
+    marginHorizontal: 10
   },
   textSize: {
     fontSize: 16,

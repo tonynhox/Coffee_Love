@@ -21,7 +21,7 @@ import {getHistoryScoreFetch} from '../../../redux/reducers/slices/historyScoreS
 import moment from 'moment';
 import Icon6 from 'react-native-vector-icons/FontAwesome6';
 import {getChangeScoreFetch} from '../../../redux/reducers/slices/scoreSlide';
-import { getVoucherFetch } from '../../../redux/reducers/slices/voucherSlide';
+import {getVoucherFetch} from '../../../redux/reducers/slices/voucherSlide';
 const colorCartTV = number => {
   switch (true) {
     case number < 200:
@@ -71,7 +71,7 @@ const ListVoucher = () => {
   const isFocused = useIsFocused();
 
   useEffect(() => {
-    if (isFocused&&user.id_user) {
+    if (isFocused && user?.id_user) {
       dispatch(getVoucherFetch({id_user: user.id_user}));
     }
   }, [isFocused]);
@@ -135,9 +135,11 @@ const ListVoucher = () => {
         <View>
           <Image
             style={styles.img}
-            source={require('../../../assets/images/mochi.jpg')}
+            source={{
+              uri: 'https://public-coffeelove.s3.ap-southeast-1.amazonaws.com/public/Untitled+design+(1).png',
+            }}
           />
-          <Text style={styles.centeredText}>Coffee{'\n'}Love</Text>
+          {/* <Text style={styles.centeredText}>Coffee{'\n'}Love</Text> */}
         </View>
         <View style={styles.imgView}>
           <Text style={styles.txtTitleFL}>{item.ten_voucher}</Text>

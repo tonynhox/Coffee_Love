@@ -44,9 +44,9 @@ const AllScore = () => {
         <View style={styles.cardImg}>
           <Image
             style={styles.imgProduct}
-            source={require('../../../assets/images/mochi.jpg')}
+            source={{uri: 'https://public-coffeelove.s3.ap-southeast-1.amazonaws.com/public/Untitled+design+(1).png'}}
           />
-          <Text style={styles.centeredText}>Coffee{'\n'}Love</Text>
+          {/* <Text style={styles.centeredText}>Coffee{'\n'}Love</Text> */}
         </View>
         <View style={styles.cardBottom}>
           <View style={styles.CardItemMid}>

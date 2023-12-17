@@ -266,11 +266,11 @@ const ProductDetail = props => {
                   {dataChiTietSanPham.size[2].giam_gia == 0 ? null : (
                     <View style={styles.giaTienContainer}>
                       <Text style={[styles.textTien, styles.amount]}>
-                        {formatCurrency(dataChiTietSanPham.size[2].giam_gia)}
+                        {formatCurrency(dataChiTietSanPham.size[2].gia)}
                       </Text>
                       <Text style={styles.dash}>-</Text>
                       <Text style={[styles.textTien, styles.amount]}>
-                        {formatCurrency(dataChiTietSanPham.size[0].giam_gia)}
+                        {formatCurrency(dataChiTietSanPham.size[0].gia)}
                       </Text>
                     </View>
                   )}
@@ -278,11 +278,11 @@ const ProductDetail = props => {
                   {/* tien hien tai */}
                   <View style={styles.giaTienContainer}>
                     <Text style={styles.textSale}>
-                      {formatCurrency(dataChiTietSanPham.size[2].gia)}
+                      {formatCurrency(dataChiTietSanPham.size[2].gia_da_giam)}
                     </Text>
                     <Text style={styles.dash}>-</Text>
                     <Text style={styles.textSale}>
-                      {formatCurrency(dataChiTietSanPham.size[0].gia)}
+                      {formatCurrency(dataChiTietSanPham.size[0].gia_da_giam)}
                     </Text>
                   </View>
                 </View>

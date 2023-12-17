@@ -111,7 +111,7 @@ export const userSlice = createSlice({
     getUserFail: (state, action) => {
       state.isLoading = false;
       console.log('action.payload user faile', action.payload);
-      ToastAndroid.show(action.payload, ToastAndroid.SHORT);
+      // ToastAndroid.show(action.payload, ToastAndroid.SHORT);
     },
 
     //vong quay may man
@@ -147,7 +147,7 @@ export const userSlice = createSlice({
       state.isNotificationLoading = false;
       state.notifications = [];
       console.log("LOI THONG BAO: ", action.payload)
-      ToastAndroid.show('Đã xảy ra lỗi nhận thông báo!', ToastAndroid.SHORT);
+      // ToastAndroid.show('Đã xảy ra lỗi nhận thông báo!', ToastAndroid.SHORT);
     },
     getChangeStatusReadNotification: (state, action) => {
       const updatedNotifications = state.notifications.map(item => {

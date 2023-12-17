@@ -238,7 +238,7 @@ const OrderDetail = () => {
                   />
 
                   <Text
-                    style={[styles.textThongTin,]}
+                    style={[styles.textThongTin]}
                     numberOfLines={2}
                     width="90%"
                     ellipsizeMode="tail">
@@ -301,17 +301,45 @@ const OrderDetail = () => {
 
                 {/* phi giam gia container */}
                 <View style={[styles.phiGiaoHangContainer, {marginTop: 5}]}>
-                <View
+                  <View
                     style={{
                       flexDirection: 'row',
                       justifyContent: 'center',
                       alignItems: 'center',
                     }}>
-                      <Icon name="circle-dollar-to-slot" size={15} color={BACKGROUND_BUTTON_COLOR} solid style={{paddingHorizontal: 5}}/>
-                  <Text style={styles.textPhiGiaoHang}>Giảm giá</Text>
-                    </View>
+                    <Icon
+                      name="circle-dollar-to-slot"
+                      size={15}
+                      color={BACKGROUND_BUTTON_COLOR}
+                      solid
+                      style={{paddingHorizontal: 5}}
+                    />
+                    <Text style={styles.textPhiGiaoHang}>Giảm giá</Text>
+                  </View>
                   <Text style={styles.textPhiGiaoHang}>
                     -{formatCurrency(data?.giam_gia)}
+                  </Text>
+                </View>
+
+                {/* Diem tich luy container */}
+                <View style={[styles.phiGiaoHangContainer, {marginTop: 5}]}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}>
+                    <Icon
+                      name="gift"
+                      size={15}
+                      color={BACKGROUND_BUTTON_COLOR}
+                      solid
+                      style={{paddingHorizontal: 5}}
+                    />
+                    <Text style={styles.textPhiGiaoHang}>Điểm</Text>
+                  </View>
+                  <Text style={styles.textPhiGiaoHang}>
+                    {data?.so_diem_tich_luy} điểm
                   </Text>
                 </View>
               </View>

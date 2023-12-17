@@ -7,8 +7,9 @@ import {
   TouchableOpacity,
   Alert,
   StatusBar,
+  ActivityIndicator,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconF from 'react-native-vector-icons/FontAwesome6';
 import {styles} from './styles';
@@ -20,19 +21,24 @@ import {
   LoginSuccess,
   clearNotificationCounter,
 } from '../../../redux/reducers/slices/userSlice';
-import {clearFavorite, getFavoriteRequest} from '../../../redux/reducers/slices/favoriteSlice';
+import {
+  clearFavorite,
+  getFavoriteRequest,
+} from '../../../redux/reducers/slices/favoriteSlice';
 import {
   getDeleteCartSuccess,
   setDataPayment,
 } from '../../../redux/reducers/slices/cartPaymentSlice';
-import {KEY_SEARCH_HISTORY} from '../../../utils/contanst';
+import {KEY_SEARCH_HISTORY, color_don_hang} from '../../../utils/contanst';
 import {getDeviceTokenRequest} from '../../../redux/reducers/slices/deviceTokenSlice';
 import RNRestart from 'react-native-restart';
 import messaging from '@react-native-firebase/messaging';
+import instance from '../../../axios/instance';
 
 const Profile = ({navigation}) => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.users.user);
+  const [isLoadingLogout, setIsLoadingLogout] = useState(false);
 
   const unsubscribeTopic = async () => {
     try {
@@ -40,6 +46,31 @@ const Profile = ({navigation}) => {
       console.log('UNSUBSCRIBE TOPIC SUCCESS');
     } catch (error) {
       console.log('ERROR UNSUBSCRIBE TOPIC', error);
+    }
+  };
+
+  const logOut = async () => {
+    console.log("LOGOUT ONGOING")
+    try {
+      const response = await instance.post('users/sua-user', {
+        id_user: user.id_user,
+        ho_ten: user.ho_ten,
+        avatar: user.avatar,
+        email: user.email,
+        so_dien_thoai: user.so_dien_thoai,
+        device_token: '',
+      });
+
+      if (response.status === 200) {
+        console.log('LOGOUT SUCCESS');
+        setIsLoadingLogout(false);
+      } else {
+        console.log('LOGOUT FAIL FROM ELSE');
+        setIsLoadingLogout(false);
+      }
+    } catch (error) {
+      console.log('ERROR LOGOUT FROM CATCHING', error);
+      setIsLoadingLogout(false);
     }
   };
 
@@ -200,8 +231,9 @@ const Profile = ({navigation}) => {
                   {
                     text: 'Xác nhận',
                     onPress: async () => {
+                      setIsLoadingLogout(true);
                       await unsubscribeTopic();
-
+                      await logOut();
                       Storage.removeToken();
                       Storage.removeItem('id_user');
                       Storage.removeItem(KEY_SEARCH_HISTORY);
@@ -245,6 +277,12 @@ const Profile = ({navigation}) => {
             </TouchableOpacity>
           )}
         </View>
+
+        {isLoadingLogout && (
+          <View style={{position: 'absolute', top: '45%', left: '45%'}}>
+            <ActivityIndicator size="large" color={'#E98001'} />
+          </View>
+        )}
       </ScrollView>
     </>
   );

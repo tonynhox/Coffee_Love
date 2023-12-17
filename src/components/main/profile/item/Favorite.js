@@ -65,7 +65,7 @@ const Favorite = ({navigation}) => {
         onPress={() => navigateToProductDetail({id: item._id})}>
         <View style={{flexDirection: 'row'}}>
           <Image
-            source={{uri: item.hinh_anh_sp[0].hinh_anh_sp}}
+            source={{uri: item?.hinh_anh_sp[0]?.hinh_anh_sp}}
             style={{
               width: 50,
               height: 50,

@@ -17,8 +17,8 @@ import {getUserFetch} from '../../../redux/reducers/slices/userSlice';
 import Loading from '../../../utils/Loading';
 
 const Login = ({navigation}) => {
-  const [tai_khoan, setTai_khoan] = useState('hoa123');
-  const [mat_khau, setMat_khau] = useState('123');
+  const [tai_khoan, setTai_khoan] = useState('');
+  const [mat_khau, setMat_khau] = useState('');
 
   const user = useSelector(state => state.users);
 
@@ -73,8 +73,8 @@ const Login = ({navigation}) => {
         <View style={styles.marginTopInput}>
           <Text style={styles.t1}>Tên Đăng Nhập</Text>
           <TextInput
-           color={'black'}
-           placeholderTextColor={'black'}
+            color={'black'}
+            placeholderTextColor={'black'}
             onChangeText={text => setTai_khoan(text)}
             value={tai_khoan.toString()}
             style={styles.tip1}
@@ -85,8 +85,8 @@ const Login = ({navigation}) => {
           <Text style={styles.t1}>Mật Khẩu </Text>
           <View style={styles.vp}>
             <TextInput
-             color={'black'}
-             placeholderTextColor={'black'}
+              color={'black'}
+              placeholderTextColor={'black'}
               secureTextEntry={!showPassword}
               onChangeText={text => setMat_khau(text)}
               value={mat_khau}

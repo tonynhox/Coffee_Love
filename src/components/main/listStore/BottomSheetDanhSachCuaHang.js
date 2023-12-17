@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
   tenChiNhanhDiaChiViTriContainer: {
     height: 70,
     flexDirection: 'column',
-    justifyContent: 'space-between',
+    justifyContent: 'space-evenly',
     alignItems: 'flex-start',
   },
 });
