@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StatusBar, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
 export const styles = StyleSheet.create({
@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
     kip: {
         position: 'absolute',
         right: 6,
-        top: 16,
+        top: StatusBar.currentHeight ,
         alignItems:'center',
         flexDirection: 'row',
         

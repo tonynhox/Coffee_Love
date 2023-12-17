@@ -31,7 +31,7 @@ const Newpassword = props => {
 
   const showAlert = () => {
     Alert.alert(
-      'Không Được Rổng!',
+      'Không Được Rỗng!',
       'Vui lòng nhập đầy đủ thông tin',
       [
         {

@@ -21,6 +21,7 @@ import CategoriesText from '../main/categories/CategoriesText';
 import Geolocation from 'react-native-geolocation-service';
 import {
   getLocationMapFetch,
+  getLocationStoreFetch,
   getLocationStoreSuccess,
   setMyLocation,
 } from '../../redux/reducers/slices/locationMapSlice';
@@ -73,6 +74,9 @@ const MainNavigation = () => {
           lat: position?.latitude,
         }),
       );
+
+      //hên xui
+      dispatch(getLocationStoreFetch());
     }
   }, [position]);
   // end vị trí hiện tại
