@@ -9,18 +9,19 @@ import {
   ImageBackground,
   Alert,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {styles} from './styles';
 import {useDispatch, useSelector} from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {useNavigation} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import BarcodeGenerator from '../home/item/barcode/BarcodeGenerator';
 import LinearGradient from 'react-native-linear-gradient';
 import ListVoucherNotLG from './ListVoucherNotLG';
 import {getHistoryScoreFetch} from '../../../redux/reducers/slices/historyScoreSlide';
 import moment from 'moment';
 import Icon6 from 'react-native-vector-icons/FontAwesome6';
-import { getChangeScoreFetch } from '../../../redux/reducers/slices/scoreSlide';
+import {getChangeScoreFetch} from '../../../redux/reducers/slices/scoreSlide';
+import { getVoucherFetch } from '../../../redux/reducers/slices/voucherSlide';
 const colorCartTV = number => {
   switch (true) {
     case number < 200:
@@ -67,6 +68,14 @@ const ListVoucher = () => {
   );
   const dataScore = useSelector(state => state?.scores?.score);
 
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    if (isFocused&&user.id_user) {
+      dispatch(getVoucherFetch({id_user: user.id_user}));
+    }
+  }, [isFocused]);
+
   const RenderItem = ({item}) => {
     return (
       <View style={styles.cardFL}>
@@ -82,9 +91,15 @@ const ListVoucher = () => {
         <View style={styles.imgView}>
           <Text style={styles.txtTitleFL}>{item.ten_voucher}</Text>
           {/* <Text style={styles.txt}>{item.ma_voucher}</Text> */}
-          <Text style={[styles.txt,{
-            paddingVertical: 4
-          }]}>{item.mo_ta}</Text>
+          <Text
+            style={[
+              styles.txt,
+              {
+                paddingVertical: 4,
+              },
+            ]}>
+            {item.mo_ta}
+          </Text>
           <Text style={styles.txt}>
             Sử dụng đến: {moment(item.ngay_ket_thuc).format('LLLL')}
           </Text>
@@ -161,8 +176,8 @@ const ListVoucher = () => {
           <Text style={[styles.txtfc, {fontSize: 15}]}>
             {user?.tich_diem} Điểm
           </Text>
-          <TouchableOpacity 
-          onPress={() => navigation.navigate('AllVoucher')}
+          <TouchableOpacity
+            onPress={() => navigation.navigate('AllVoucher')}
             style={styles.btnvc}>
             <Icon
               name="ticket-percent-outline"
@@ -242,7 +257,7 @@ const ListVoucher = () => {
       <FlatList
         scrollEnabled={false}
         style={styles.flatList}
-        data={[...allVoucher].slice(0, 4)}
+        data={[...allVoucher]?.slice(0, 4)}
         renderItem={RenderItem}
         keyExtractor={item => item._id}
       />
@@ -256,7 +271,7 @@ const ListVoucher = () => {
       <FlatList
         scrollEnabled={false}
         style={styles.flatList}
-        data={[...dataScore].slice(0, 4)}
+        data={[...dataScore]?.slice(0, 4)}
         renderItem={RenderItem2}
         keyExtractor={item => item._id}
       />

@@ -52,7 +52,7 @@ const BottomSheetDanhSachCuaHang = ({isVisible, onClose}) => {
         style={styles.itemContainer}
         onPress={() => chonChiNhanh(item)}>
         {/* hinh anh chi nhanh + thong tin chi nhanh */}
-        <Icon name="house" size={30} color="#F77F08" style={{marginLeft: 10}}/>
+        <Icon name="house" size={30} color="#F77F08" style={{marginLeft: 10}} />
         {/* blank */}
         <View style={styles.blank} />
         {/* Tên chi nhánh, địa chỉ, vị trí */}
@@ -71,7 +71,7 @@ const BottomSheetDanhSachCuaHang = ({isVisible, onClose}) => {
   };
 
   // renders
-  return (
+  return data.length == 0 ? null : (
     <BottomSheet
       ref={bottomSheetRef}
       enablePanDownToClose={true}

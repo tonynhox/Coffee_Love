@@ -50,8 +50,7 @@ const Home = () => {
     console.log('DEVICE TOKEN IS NONE: ', device_token);
     if (device_token !== user?.device_token && device_token !== 'none') {
       console.log('UPLOADING DEVICE TOKEN', user);
-      if (user != null) {
-        console.log('USER00000000000:', user);
+      if (user) {
         dispatch(
           getDeviceTokenRequest({
             id_user: user?.id_user,

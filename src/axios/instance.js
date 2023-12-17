@@ -28,17 +28,14 @@ instance.interceptors.request.use(
   //     return Promise.reject(error);
   //   },
 );
-
+let isRefreshing = false;
 instance.interceptors.response.use(
   response => {
     return response;
   },
   async error => {
-    if (error.response && error.response.status === 401) {
-      console.log(
-        'AXIOS Response Interceptor Error - 401 Unauthorized:',
-        error,
-      );
+    if (error.response && error.response.status === 401 && !isRefreshing) {
+      isRefreshing = true;
       Alert.alert('Đã hết phiên đăng nhập!', 'Vui lòng đăng nhập lại', [
         {
           text: 'ok',
