@@ -44,7 +44,7 @@ const Forgotpassword = () => {
   };
 
   const handleSendOtp = () => {
-    const checkEmail = '^[a-zA-Z0-9]+@(?:[a-zA-Z0-9]+.)+[A-Za-z]+$';
+    const checkEmail = '/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/';
     if (email.match(checkEmail)) {
       dispatch(getOtp({email: email, navigation: navigation}));
     } else {
