@@ -49,6 +49,7 @@ const MainNavigation = () => {
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
       );
+
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
         Geolocation.getCurrentPosition(
           pos => {
@@ -56,6 +57,9 @@ const MainNavigation = () => {
           },
           error =>
             Alert.alert('GetCurrentPosition Error', JSON.stringify(error)),
+            {
+              forceLocationManager: false
+            }
           // {enableHighAccuracy: true,}
         );
       }

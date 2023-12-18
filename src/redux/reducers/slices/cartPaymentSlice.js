@@ -50,11 +50,11 @@ export const cartPaymentSlice = createSlice({
         state.cart.quantity += item.so_luong;
         state.cart.price += item.gia_da_giam * item.so_luong;
         item.topping.forEach(toping => {
-          state.cart.price += (toping?.gia || 0) * state.cart.quantity;
-          console.log('state.cart.price', toping?.gia );
-
+          console.log('result cart', state.cart.price);
+          state.cart.price += (toping?.gia || 0) * item.so_luong;
         });
       });
+      
     },
     getAddCartPaymentFetch: (state, action) => {
       state.isLoading = true;
@@ -71,7 +71,7 @@ export const cartPaymentSlice = createSlice({
         state.cart.quantity += item.so_luong;
         state.cart.price += item.gia_da_giam * item.so_luong;
         item.topping.forEach(toping => {
-          state.cart.price += toping?.gia || 0 * item.so_luong;
+          state.cart.price += (toping?.gia || 0) * item.so_luong;
         });
       });
     },
@@ -92,7 +92,7 @@ export const cartPaymentSlice = createSlice({
         state.cart.quantity += item.so_luong;
         state.cart.price += item.gia_da_giam * item.so_luong;
         item.topping.forEach(toping => {
-          state.cart.price += toping?.gia || 0 * item.so_luong;
+          state.cart.price += (toping?.gia || 0) * item.so_luong;
         });
       });
     },

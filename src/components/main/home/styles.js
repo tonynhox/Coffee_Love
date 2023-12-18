@@ -117,14 +117,15 @@ export const styles = StyleSheet.create({
     // marginHorizontal:24,
     backgroundColor: '#fff',
     borderRadius: 10,
-    elevation: 4,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 10,
+      height: 1,
     },
-    shadowRadius: 10,
-    shadowOpacity: 0.51,
+    shadowOpacity: 0.20,
+    shadowRadius: 1.41,
+    
+    elevation: 2,
   },
   imgProduct: {
     height: '100%',
