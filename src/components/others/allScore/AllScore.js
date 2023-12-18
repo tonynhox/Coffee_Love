@@ -71,6 +71,7 @@ const AllScore = () => {
       />
       <View style={styles.container}>
         <FlatList
+          showsVerticalScrollIndicator={false}
           data={data}
           columnWrapperStyle={{justifyContent: 'space-between'}}
           numColumns={2}
