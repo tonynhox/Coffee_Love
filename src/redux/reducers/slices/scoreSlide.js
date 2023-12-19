@@ -3,7 +3,7 @@ import {ToastAndroid} from 'react-native';
 import Storage from '../../../utils/Storage';
 //state
 const initialState = {
-  score: {},
+  score: [],
   isLoading: false,
 };
 

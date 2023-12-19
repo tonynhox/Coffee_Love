@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import moment from 'moment';
 import Header from '../../../utils/Header';
 
+
 const ScoreHistory = () => {
 
   const historyScore = useSelector(state => state.historyScores.historyScore);
@@ -23,7 +24,7 @@ const ScoreHistory = () => {
     return (
       <View style={styles.cardScore}>
         <View>
-          <Text style={styles.datetimetxt}>{moment(ngay_doi).format('HH:ss - L')}</Text>
+          <Text style={styles.datetimetxt}>{moment.utc(ngay_doi).format('HH:mm - L')}</Text>
           <Text style={styles.txtname}>{ten_doi_diem}</Text>
         </View>
         <Text style={
@@ -47,7 +48,7 @@ const ScoreHistory = () => {
           }
         />
         <FlatList
-          data={historyScore}
+          data={[...historyScore].reverse()}
           renderItem={renderItem}
           keyExtractor={item => item._id}
         />

@@ -82,7 +82,7 @@ const ListVoucher = () => {
   const navigation = useNavigation();
   const allVoucher = useSelector(
     state => state.vouchers?.voucher?.VoucherHieuLuc,
-  );
+  )||[];
   const dataScore = useSelector(state => state?.scores?.score);
 
   const isFocused = useIsFocused();

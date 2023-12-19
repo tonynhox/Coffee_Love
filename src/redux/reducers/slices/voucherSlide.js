@@ -3,7 +3,7 @@ import {ToastAndroid} from 'react-native';
 import Storage from '../../../utils/Storage';
 //state
 const initialState = {
-  voucher: {},
+  voucher: [],
   useVoucher: {},
   isLoading: false,
 };
