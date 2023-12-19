@@ -201,13 +201,14 @@ function* ChangePass(action) {
 
 function* EditUser(action) {
   try {
-    const {id_user, ho_ten, avatar, email, so_dien_thoai} = action.payload;
+    const {id_user, ho_ten, avatar, email, so_dien_thoai, device_token} = action.payload;
     const payload = {
       id_user: id_user,
       ho_ten: ho_ten,
       avatar: avatar,
       email: email,
       so_dien_thoai: so_dien_thoai,
+      device_token: device_token,
     };
 
     //api
@@ -216,7 +217,7 @@ function* EditUser(action) {
     if (response.data.trang_thai) {
       yield put(editUserSuccess(payload));
     } else {
-      yield put(getUserFail('Cap nhat that bai'));
+      yield put(getUserFail(response.data.message));
     }
   } catch (error) {
     console.log('error', error);

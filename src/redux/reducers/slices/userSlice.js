@@ -110,6 +110,7 @@ export const userSlice = createSlice({
     //error
     getUserFail: (state, action) => {
       state.isLoading = false;
+      state.isChangeUserLoading = false;
       console.log('action.payload user faile', action.payload);
       // ToastAndroid.show(action.payload, ToastAndroid.SHORT);
     },
