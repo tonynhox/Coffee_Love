@@ -1,3 +1,0 @@
-export const ACCESS_KEY_ID = 'AKIAQU2DARM5RIQTC7OW'
-
-export const SECRET_ACCESS_KEY = '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'
